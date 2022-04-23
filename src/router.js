@@ -11,6 +11,10 @@ const router = createRouter({
             component: DashboardPage,
         },
         {
+            path: '/upload',
+            component: () => import('./pages/upload/UploadFilesPage.vue'),
+        },
+        {
             path: '/dashboard',
             component: DashboardPage,
         },

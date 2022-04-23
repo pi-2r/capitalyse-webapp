@@ -76,6 +76,14 @@ button:hover {
 
 }
 
+.secondary {
+    background-color: transparent;
+    color: var(--clr-blue);
+    border: none;
+    border: 2px solid var(--clr-blue);
+    box-shadow: none;
+    
+}
 
 
 </style>

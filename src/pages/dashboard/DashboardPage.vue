@@ -6,8 +6,8 @@
 
         <section class="cardsContainer">
             <ResultCard title="Total Deposits" :resultValue="0" to="/dashboard/deposits" btnText="My Deposits"/>
-            <ResultCard title="Total Transaction Fees" :resultValue="0" to="/" btnText="Fees and Costs"/>
-            <ResultCard title="Total Trading Volume" :resultValue="0" to="/" btnText="Trading Details"/>
+            <ResultCard title="Total Transaction Fees" :resultValue="0" to="/dashboard/deposits" btnText="Fees and Costs"/>
+            <ResultCard title="Total Trading Volume" :resultValue="0" to="/dashboard/deposits" btnText="Trading Details"/>
         </section>
         
     </section>

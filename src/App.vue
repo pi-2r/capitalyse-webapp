@@ -1,20 +1,22 @@
 <template>
+
     <Header></Header>
     <main class="container">
         <router-view></router-view>
     </main>
-    <Footer></Footer>
+
+    <!-- <Footer></Footer> -->
 </template>
 
 <script>
 import Header from './components/layout/Header.vue';
-import Footer from './components/layout/Footer.vue';
+// import Footer from './components/layout/Footer.vue';
 
 export default {
   name: 'App',
   components: {
     Header,
-    Footer
+    // Footer
   }
 }
 </script>
@@ -70,6 +72,12 @@ input {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+}
+
+.material-design-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .greenNumber {

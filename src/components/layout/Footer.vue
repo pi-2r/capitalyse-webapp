@@ -2,7 +2,7 @@
     <section class="footerContainer">
         <section class="footerWrapper">
             <h3>DeGiro Analytics</h3>
-            <p>All rights reserved</p>
+            <p>Footer</p>
         </section>
     </section>
 </template>
