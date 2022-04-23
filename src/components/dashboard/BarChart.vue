@@ -19,6 +19,7 @@ export default {
   components: { Bar },
   props: {
     chartData: {
+      required: true,
       type: Object,
       default: () => {
         return {
@@ -43,7 +44,6 @@ export default {
       type: Object,
       default: () => {
         return {
-            
             scales: {
                 xAxes: {
                 display: true,
@@ -78,17 +78,17 @@ export default {
       },
     },
     height: {
+      required: false,
       type: Number,
       default: 300
     },
     width: {
+      required: false,
       type: Number,
       default: 400
     }
   },
-  data() {       
-            
-  }, 
+  
   
 }
 </script>

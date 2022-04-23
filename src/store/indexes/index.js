@@ -12,9 +12,16 @@ export default {
                     currencyIndex: 7,
                     productIndex: 3,
                 },
+                deposits: {
+                    searchIndex: 5,
+                    depositIndex: 8,
+                },
                 transactions: {
-                    
-                }
+                    searchIndex: 14,
+                },
+                tradingVolume: {
+                    searchIndex: 16,
+                },
             },
         };
     },

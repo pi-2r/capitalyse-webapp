@@ -2,7 +2,7 @@
     <button v-if="!link" :class="mode">
         <slot></slot>
     </button>
-    <router-link v-else :to="to" :class="mode">
+    <router-link v-else :to="to" class="link" :class="mode">
         <slot></slot>
     </router-link>
 </template>
@@ -28,7 +28,7 @@ export default {
 
 <style scoped>
 
-button {
+button,a{
     padding: var(--btn-padding);
     font-size: var(--btn-font-size);
     font-weight: var(--btn-font-weight);
@@ -41,6 +41,10 @@ button {
     border-radius: var(--btn-radius);
     user-select: none;
 } 
+
+a {
+    user-select: none;
+}
 
 
 button:hover {
@@ -72,8 +76,10 @@ button:hover {
 }
 
 .link {
-    outline: 1px solid rgb(106, 176, 255);
-
+    border: 2px solid rgb(106, 176, 255);
+    background-color: transparent;
+    color: var(--clr-blue);
+    text-decoration: none;
 }
 
 .secondary {

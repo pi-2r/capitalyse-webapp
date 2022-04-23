@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 
+
 import authModule from "./auth/index.js";
 import filesModule from "./files/index.js";
 import dictModule from "./dictionary/index.js";

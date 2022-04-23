@@ -1,15 +1,14 @@
 <template>
     <div class="cardContainer">
-        <section class="cardContent">
+        <section :class="[{cardContentNoBtn : !withBtn},{cardContent : withBtn}]">
                 <h2>{{ title }}</h2>
                 <p class="cardText">
-                    <span class="resultValue">
+                    <span class="resultValue" :class="[{redNumber : isNegative}]">
                         €{{ resultValue }}
                     </span>
                 </p>
-
         </section>
-        <section class="cardBtnSection">
+        <section class="cardBtnSection" v-if="withBtn">
             <Button class="card link" link :to="to">{{ btnText }}</Button>
         </section>
     </div>
@@ -18,13 +17,16 @@
 <script>
 export default {
     props: {
+        withBtn: {
+            type: Boolean,
+            default: false,
+        },
         title: {
             type: String,
             default: 'Title',
         },
         resultValue:
         {
-            type: Number,
             default: 0,
         },
         to: {
@@ -36,7 +38,11 @@ export default {
             default: 'View Details',
         },
     },
-
+    computed: {
+        isNegative() {
+            return this.resultValue < 0;
+        }
+    }
 
 }
 </script>
@@ -60,6 +66,13 @@ export default {
     flex-direction: column;
 }
 
+.cardContentNoBtn {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
 .cardText {
     margin-bottom: 0.5rem;
 }
@@ -68,5 +81,10 @@ export default {
     padding: 1rem;
     padding-top: 0;
 }
+
+.redNumber {
+    color: var(--clr-red);
+}
+
 
 </style>

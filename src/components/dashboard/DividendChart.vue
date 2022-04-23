@@ -62,7 +62,6 @@ export default {
         return {
             isLoading: false,
             selectedTimeFrame: 'All Time',
-            totalDividends: 0,
             dividendsArray: [],
             dataHolder: [],
             labelsHolder: [],
@@ -102,17 +101,26 @@ export default {
         data() {
             return this.$store.getters['files/accountFile'];
         },
-     
+        totalDividends() {
+            let total = 0;
+            for(let i = 0; i < this.dividendsArray.length; i++) {
+                total += this.dividendsArray[i].divAmt;
+                
+            }
+            total = total.toFixed(2)
+            return total;
+        },
+        isThereData() {
+            return this.data;
+        }
     },
     methods: {
         timeFrameChange(e) {
-            this.selectedTimeFrame = e.target.innerText;
+            this.selectedTimeFrame = e.target.innerText
             this.data ? this.getDividends() : null;
             this.timeFrameDataUpdate();
         },
         getDividends() {
-            let timeFrame = this.selectedTimeFrame;
-            console.log(timeFrame);
             const data = this.data;
             const dateIndex = this.indexes.dateIndex;
             const searchIndex = this.indexes.searchIndex;
@@ -194,14 +202,12 @@ export default {
 
                 // find date in dividendsArray, if found add to chart
                 for (let x = 0; x < this.dividendsArray.length; x++) {
-                    console.log(this.dividendsArray[x].divAmt);
                     let dateFromArray = this.dividendsArray[x].date.split("-");
                     let newDateFromArray = new Date(dateFromArray[1], dateFromArray[0] -1).toLocaleDateString();
 
                     if (date === newDateFromArray) {
                         found = true;
                         let dividend = this.dividendsArray[x].divAmt;
-                        console.log(dividend);
                         this.dataHolder.push(dividend);
                     } 
                 }
@@ -257,7 +263,6 @@ export default {
             // timeframes other than All-time
             if (this.selectedTimeFrame === this.timeFrameOptions.yearToDate) {
                 this.setYearToDateData();
-                console.log('ytd');
             } else if (this.selectedTimeFrame === this.timeFrameOptions.oneYear) {
                 this.setOneYearData();
             }
@@ -356,10 +361,12 @@ export default {
             }   
             return date;
         },
-        beforeMount() {
+    },
+    mounted() {
+        if(this.isThereData) {
             this.getDividends();
         }
-    },
+    }
   
 }
 </script>
@@ -430,6 +437,7 @@ export default {
     border-radius: 0px;
     border-top-left-radius: var(--btn-radius);
     border-top-right-radius: var(--btn-radius);
+    user-select: none;
 }
 
 

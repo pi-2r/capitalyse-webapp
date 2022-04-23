@@ -53,6 +53,8 @@
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import CheckMarkIcon from 'vue-material-design-icons/CheckDecagram.vue';
 
+// import { addCSVData } from '@/firebase';
+
 export default {
     components: {
         CloseIcon,
@@ -78,10 +80,17 @@ export default {
     methods: {
         submitForm() {
             if(this.transactionsFile && this.accountFile) {
-                this.$store.dispatch('files/setFiles', {
+                this.$store.dispatch('files/removeCSVData', {
+                    transactionsFile: this.transactionsFile,
+                    accountFile: this.accountFile
+                })
+
+                this.$store.dispatch('files/sendCSVData', {
                     transactionsFile: this.transactionsFile,
                     accountFile: this.accountFile
                 });
+
+
                 this.$router.push('/dashboard');
             } else {
                 console.log('Please upload both files modal');
@@ -137,6 +146,12 @@ export default {
 </script>
 
 <style scoped>
+.container {
+    margin: 0 auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
 .fileValid {
     color: var(--clr-green);
 }
@@ -247,4 +262,35 @@ input[type="submit"] {
         flex-direction: row;
     }
 }
+
+@media screen and (min-width: 400px) {
+    
+
+    .container {
+        max-width: 95%;
+    }
+    
+}
+
+
+@media screen and (min-width: 650px) {
+    .cardsContainer {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .container {
+        max-width: 90%;
+    }
+}
+
+@media screen and (min-width: 1050px) {
+    .cardsContainer {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .container {
+        max-width: 1000px;
+    }
+}
+    
 </style>

@@ -1,7 +1,7 @@
 <template>
 
-    <Header></Header>
-    <main class="container">
+    <!-- <Header></Header> -->
+    <main>
         <router-view></router-view>
     </main>
 
@@ -9,14 +9,17 @@
 </template>
 
 <script>
-import Header from './components/layout/Header.vue';
+// import Header from './components/layout/Header.vue';
 // import Footer from './components/layout/Footer.vue';
 
 export default {
   name: 'App',
   components: {
-    Header,
+    // Header,
     // Footer
+  },
+  created() {
+    this.$store.dispatch('tryLogin');
   }
 }
 </script>
@@ -37,11 +40,7 @@ html {
   font-family: 'Lexend', sans-serif;
 }
 
-.container {
-    max-width: var(--container-width);
-    margin: 0 auto;
-    margin-top: 6rem;
-}
+
 
 h1 {
     font-size: 3rem;
@@ -49,6 +48,7 @@ h1 {
     margin: 0;
     padding: 0;
     color: var(--clr-blue);
+    user-select: none;
 }
 
 h2 {
@@ -108,25 +108,10 @@ input {
     user-select: none;
 }
 
-
-
-@media screen and (min-width: 650px) {
-    .container {
-        max-width: 90%;
-    }
+.container {
+    max-width: 95%;
 }
 
-@media screen and (min-width: 1050px) {
-    .container {
-        max-width: 1000px;
-    }
-}
-
-@media screen and (min-width: 1100px) {
-    .container {
-        max-width: 1000px;
-    }
-}
   
 
   

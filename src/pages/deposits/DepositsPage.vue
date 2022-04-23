@@ -3,7 +3,7 @@
         <Breadcrumbs />
 
         <h1>My Deposits</h1>
-        
+     
         <section class="cardsContainer">
             
         </section>
@@ -21,5 +21,37 @@ export default {
 </script>
 
 <style scoped>
+.container {
+     margin: 0 auto;
+    margin-top: 6rem;
+    margin-bottom: 4rem;
+}
 
+@media screen and (min-width: 400px) {
+    .container {
+        max-width: 95%;
+    }
+    
+}
+
+
+@media screen and (min-width: 650px) {
+    .cardsContainer {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .container {
+        max-width: 90%;
+    }
+}
+
+@media screen and (min-width: 1050px) {
+    .cardsContainer {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .container {
+        max-width: 1000px;
+    }
+}
 </style>
