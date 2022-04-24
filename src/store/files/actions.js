@@ -74,6 +74,7 @@ export default {
 
     },
     fetchCSVData(context) {
+
         const userId = localStorage.getItem("userId");
 
         const transactionsFileColRef = doc(db, 'users', userId, 'files', 'transactionsFile');

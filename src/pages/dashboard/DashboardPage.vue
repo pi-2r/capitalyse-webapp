@@ -47,6 +47,7 @@ export default {
     },
     created() {
         if(!this.isThereData) {
+            console.log('No data in store');
             this.$store.dispatch('files/fetchCSVData');
         }
     }
