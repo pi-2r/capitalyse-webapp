@@ -1,6 +1,6 @@
 <template>
     <p class="breadcrumbs">
-        <a :href="baseLink">Results</a>
+        <router-link :to="baseLink">Results</router-link>
         
         <span class="imagewrapper">
             <img src="../../assets/next.png"/>

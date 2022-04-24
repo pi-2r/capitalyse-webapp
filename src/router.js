@@ -3,6 +3,14 @@ import { createRouter, createWebHistory } from 'vue-router'
 import DashboardPage from "./pages/dashboard/DashboardPage.vue";
 import store from './store';
 
+import UploadFilesPage from "./pages/upload/UploadFilesPage.vue";
+import SignupPage from "./pages/auth/SignupPage.vue";
+import LoginPage from "./pages/auth/LoginPage.vue";
+import DepositsPage from "./pages/deposits/DepositsPage.vue";
+import FeesPage from "./pages/fees/FeesPage.vue";
+import TradingPage from "./pages/trading/TradingPage.vue";
+import NotFoundPage from "./pages/notfound/NotFoundPage.vue";
+
 const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -13,17 +21,17 @@ const router = createRouter({
         },
         {
             path: '/signup',
-            component: () => import('./pages/auth/SignupPage.vue'),
+            component: SignupPage,
             meta: { requiresUnauth: true },
         },
         {
             path: '/login',
-            component: () => import('./pages/auth/LoginPage.vue'),
+            component: LoginPage,
             meta: { requiresUnauth: true },
         },
         {
             path: '/upload',
-            component: () => import('./pages/upload/UploadFilesPage.vue'),
+            component: UploadFilesPage,
             meta: { requiresAuth: true },
         },
         {
@@ -33,22 +41,22 @@ const router = createRouter({
         },
         {
             path: '/dashboard/deposits',
-            component: () => import('./pages/deposits/DepositsPage.vue'),
+            component: DepositsPage,
             meta: { requiresAuth: true },
         },
         {
             path: '/dashboard/fees',
-            component: () => import('./pages/fees/FeesPage.vue'),
+            component: FeesPage,
             meta: { requiresAuth: true },
         },
         {
             path: '/dashboard/trading',
-            component: () => import('./pages/trading/TradingPage.vue'),
+            component: TradingPage,
             meta: { requiresAuth: true },
         },
         {
             path: '/:notFound(.*)',
-            component: () => import('./pages/notfound/NotFoundPage.vue'),
+            component: NotFoundPage,
         },
     ],
 })

@@ -12,7 +12,7 @@ export default {
         return state.accountFile;
     },
     hasFiles(state) {
-        return state.files.length > 1;
+        return !!state.accountFile && !!state.transactionsFile;
     },
    
 };

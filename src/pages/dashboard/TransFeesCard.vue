@@ -32,7 +32,12 @@ export default {
             return this.$store.getters['files/transactionsFile'];
         },
         isThereData() {
-            return this.transactionsFile;
+            return !!this.transactionsFile;
+        }
+    },
+    watch: {
+        isThereData() {
+            this.loadData();
         }
     },
     methods: {
@@ -57,7 +62,7 @@ export default {
             return tot;
         },
     },
-    mounted() {
+    created() {
         this.loadData();
     }
 }

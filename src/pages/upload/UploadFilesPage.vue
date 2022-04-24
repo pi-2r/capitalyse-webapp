@@ -2,7 +2,6 @@
     <section class="container">
         <article class="wrapper">
             <h1 class="uploadFilesTitle">Upload Files</h1>
-
             <form @submit.prevent="submitForm" class="uploadFilesForm">
                 
                 <section class="uploadFilesGroup">
@@ -39,11 +38,14 @@
                     </section>
 
                     <section class="fileButtons ">
-                        <Button @click="resetFiles" mode="secondary" class="removeFiles">Reset</Button>
+                        <!-- <Button @click="resetFiles" mode="secondary" class="removeFiles">Reset</Button> -->
+                        <Button class="secondary" link to="/dashboard" >Back</Button>
                         <Button type="submit" class="submitFiles">Submit</Button>
                     </section>
 
                 </section>
+                        <p v-if="alreadyHasFiles" class="alreadyFiles">You already have files uploaded, 
+                            If you want to upload your new files, submit them again to overwite.</p>
             </form>
         </article>
     </section>
@@ -53,7 +55,7 @@
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import CheckMarkIcon from 'vue-material-design-icons/CheckDecagram.vue';
 
-// import { addCSVData } from '@/firebase';
+
 
 export default {
     components: {
@@ -67,6 +69,7 @@ export default {
             accountFile: null,
             transactionsFileName: 'Transactions File',
             accountFileName: 'Account File',
+            alreadyHasFiles: false,
         }
     },
     computed: {
@@ -76,20 +79,17 @@ export default {
             this.accountFile ? tot++ : null
             return "Upload Files (" + tot + "/2)";
         }, 
+        hasFilesInStore() {
+            return this.$store.getters['files/hasFiles'];
+        }
     },
     methods: {
         submitForm() {
             if(this.transactionsFile && this.accountFile) {
-                this.$store.dispatch('files/removeCSVData', {
-                    transactionsFile: this.transactionsFile,
-                    accountFile: this.accountFile
-                })
-
                 this.$store.dispatch('files/sendCSVData', {
                     transactionsFile: this.transactionsFile,
                     accountFile: this.accountFile
                 });
-
 
                 this.$router.push('/dashboard');
             } else {
@@ -141,11 +141,24 @@ export default {
             this.transactionsFile = null;
             this.accountFile = null;
         },
+    },
+    created() {
+        if(this.hasFilesInStore) {
+            this.accountFile = true;
+            this.transactionsFile = true;
+            this.alreadyHasFiles = true;
+        }
     }
 }
 </script>
 
 <style scoped>
+.alreadyFiles {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    color: var(--clr-blue)
+}
+
 .container {
     margin: 0 auto;
     margin-top: 2rem;
@@ -158,6 +171,10 @@ export default {
 
 .fileInvalid {
     color: var(--clr-red);
+}
+
+button:nth-last-of-type(1) {
+    margin-left: 1rem;
 }
 
 input {

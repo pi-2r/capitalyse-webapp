@@ -60,13 +60,12 @@ export default {
     methods: {
         
         async submitForm() {
-        console.log("clicked");
         try {
             await this.$store.dispatch("login", {
             email: this.email,
             password: this.password,
             });
-            console.log("login");
+
             const url = "/";
             this.$router.replace(url);
         } catch {

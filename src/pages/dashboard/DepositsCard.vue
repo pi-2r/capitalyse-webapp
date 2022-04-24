@@ -35,7 +35,12 @@ export default {
             return this.$store.getters['dictionary/deposit'];
         },
         isThereData() {
-            return this.accountFile;
+            return !!this.accountFile;
+        }
+    },
+    watch: {
+        isThereData() {
+            this.loadData();
         }
     },
     methods: {
@@ -45,7 +50,7 @@ export default {
             }
         },
         getTotalDeposits() {
-            const data = this.accountFile;
+            let data = this.accountFile;
             const names = this.depositNames;
             const searchIndex = this.depositIndexes.searchIndex;
             const depositIndex = this.depositIndexes.depositIndex;
@@ -64,9 +69,9 @@ export default {
             return tot;
         },
     },
-    mounted() {
+    async created() {
         this.loadData();
-    }
+    },
 }
 </script>
 

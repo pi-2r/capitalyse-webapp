@@ -38,85 +38,18 @@ export default {
         DepositsCard,
         TradingVolCard,
         TransFeesCard,
-        LogoutButton
+        LogoutButton,
     },
     computed: {
-        depositIndexes() {
-            return this.$store.getters['indexes/deposits'];
-        },
-        transactionsIndexes() {
-            return this.$store.getters['indexes/transactions'];
-        },
-        tradingVolumeIndexes() {
-            return this.$store.getters['indexes/tradingVolume'];
-        },
-        accountFile() {
-            return this.$store.getters['files/accountFile'];
-        },
-        transactionsFile() {
-            return this.$store.getters['files/transactionsFile'];
-        },
-        depositNames() {
-            return this.$store.getters['dictionary/deposit'];
-        },
         isThereData() {
-            return this.accountFile && this.transactionsFile;
+            return this.$store.getters['files/hasFiles'];
+        },
+    },
+    created() {
+        if(!this.isThereData) {
+            this.$store.dispatch('files/fetchCSVData');
         }
-    },
-    data() {
-        return {
-            totDeposits: 0,
-            totTransFees: 0,
-            totTradingVol: 0,
-        }
-    },
-    methods: {
-        loadData() {
-            this.getTotalTransactionsFees();
-        },
-        getTotalTransactionsFees() {
-            const data = this.transactionsFile;
-            const searchIndex = this.transactionsIndexes.searchIndex;
-            let tot = 0;
-
-            for(let i = 0; i < data.length -1; i++) {
-                if(data[i][searchIndex] && data[i][searchIndex] !== "" &&
-                data[i][searchIndex]) {
-                    let nr = parseFloat(data[i][searchIndex]);
-                    tot += nr;
-                }
-            }
-            tot = tot.toFixed(2);
-            // to number
-            tot = parseFloat(tot);
-            this.totTransFees = tot;
-        },
-        
-        cleanNumber(number) {
-            let isPositive = number.includes("-") ? false : true;
-            number = number.replace(/['"]+/g, '');
-            const decimalNumbers = number.split(",")[1].length;
-            const dividedBy = Math.pow(10, decimalNumbers);
-            let decimal = Number.parseFloat(number.split(",")[1]) / dividedBy;
-            number = Number.parseFloat(number.split(",")[0])
-            isPositive ? number += decimal : number -= decimal;
-            return number;
-        },
-        includesFromArray(array, value) {
-            for(let i = 0; i < array.length; i++) {
-                if(value.includes(array[i])) {
-                    return true;
-                }
-            }
-            return false;
-        },
-    },
-    mounted() {
-        console.log(this.accountFile);
-        if(this.isThereData) {
-            this.loadData();
-        }
-    },
+    }
 }
 </script>
 

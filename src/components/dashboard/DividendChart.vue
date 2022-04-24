@@ -111,13 +111,24 @@ export default {
             return total;
         },
         isThereData() {
-            return this.data;
+            return !!this.data;
+        }
+    },
+    watch: {
+        isThereData() {
+            this.loadData();
         }
     },
     methods: {
+        loadData() {
+            if(this.isThereData) {
+                this.getDividends();
+            }
+        },
         timeFrameChange(e) {
+      
             this.selectedTimeFrame = e.target.innerText
-            this.data ? this.getDividends() : null;
+            this.isThereData ? this.getDividends() : null;
             this.timeFrameDataUpdate();
         },
         getDividends() {
@@ -363,9 +374,7 @@ export default {
         },
     },
     mounted() {
-        if(this.isThereData) {
-            this.getDividends();
-        }
+        this.loadData();
     }
   
 }

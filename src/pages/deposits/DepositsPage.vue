@@ -5,7 +5,6 @@
         <h1>My Deposits</h1>
      
         <section class="cardsContainer">
-            
         </section>
     </section>
 </template>
