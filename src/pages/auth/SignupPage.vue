@@ -275,11 +275,13 @@ input {
   border: none;
   background-color: #181818;
   color: var(--clr-white);
+  font-size: 16px;
 }
 
 input[type="password"] {
   letter-spacing: 0.25em;
   color: var(--clr-white);
+  
 }
 
 button {
