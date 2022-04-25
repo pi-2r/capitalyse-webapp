@@ -54,7 +54,7 @@
                 />
               </div>
 
-              <Button>Sign up</Button>
+              <Button class="button">Sign up</Button>
               <router-link to="/login">
                 <Button class="secondary tertiary">Log in instead</Button>
               </router-link>
@@ -172,7 +172,7 @@ export default {
 <style scoped>
 .page-wrapper {
   min-height: 100vh;
-  background: url("~@/assets/auth-bg.jpeg") no-repeat center center;
+  background: url("~@/assets/auth-bg.webp") no-repeat center center;
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -281,6 +281,10 @@ button {
   width: 100%;
 }
 
+.button:hover {
+  background-color: var(--clr-blue);
+  box-shadow: none;
+}
 
 .secondary {
     border: none;
@@ -293,7 +297,7 @@ button {
 
 .secondary:hover {
     box-shadow: none;
-    color: var(--clr-white);
+    color: var(--clr-blue);
     background-color: #00000020;
     transform: scale(1);
 }

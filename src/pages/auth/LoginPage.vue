@@ -127,7 +127,7 @@ input[type="password"]:-webkit-autofill:focus {
 .page-wrapper {
   min-height: 100vh;
   width: 100%;
-  background: url("~@/assets/auth-bg.jpeg") no-repeat center center;
+  background: url("~@/assets/auth-bg.webp") no-repeat center center;
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -229,6 +229,19 @@ input[type="password"] {
 
 button {
   margin-top: 0.9em;
+}
+
+.button:hover {
+  background-color: var(--clr-blue);
+  box-shadow: none;
+}
+
+
+.secondary:hover {
+    box-shadow: none;
+    color: var(--clr-blue);
+    background-color: #00000020;
+    transform: scale(1);
 }
 
 ::placeholder {
