@@ -1,4 +1,5 @@
 <template>
+    <Header></Header>
     <section class="container">
         <article class="wrapper">
             <h1 class="uploadFilesTitle">Upload Files</h1>
@@ -55,13 +56,16 @@
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import CheckMarkIcon from 'vue-material-design-icons/CheckDecagram.vue';
 
+import Header from '../../components/layout/Header.vue';
+
 import csvToArrayMixin from '../../mixins/csvToArray.js';
 
 export default {
     mixins: [csvToArrayMixin],
     components: {
         CloseIcon,
-        CheckMarkIcon
+        CheckMarkIcon,
+        Header
     },
     data() {
         return {

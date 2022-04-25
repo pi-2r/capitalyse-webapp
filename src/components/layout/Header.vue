@@ -4,12 +4,12 @@
             <div class="nav-container">
                 <section class="leftSide">
                     <ul>
-                        <h2>Analytics</h2>
+                        <h2><router-link class="routerLinkH2" to="/">Analytics</router-link></h2>
                         <!-- <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li> -->
-                        <li><a>My Portfolio's</a></li> 
-                        <li><a>+ New Portfolio</a></li>
+                        <li><router-link class="routerLink" to="/portfolios">My Portfolio's</router-link></li> 
+                        <li><router-link class="routerLink" to="/upload">+ New Portfolio</router-link></li>
                     </ul>
                 </section>
                 
@@ -51,6 +51,25 @@ export default {
     padding: 0.5rem 1rem;
 }
 
+.routerLink {
+    text-decoration: none;
+    color: var(--clr-grey);
+}
+
+.routerLinkH2 {
+    text-decoration: none;
+    color: var(--clr-black);
+}
+
+.routerLinkH2:hover {
+    text-decoration: none;
+    color: var(--clr-black);
+}
+
+.router-link-exact-active {
+    color: var(--clr-blue);
+}
+
 
 h2 {
     color: var(--clr-black);
@@ -72,6 +91,15 @@ h2 {
     color: var(--clr-grey);
 }
 
+h2 a{
+    text-decoration: none;
+    color: var(--clr-black);
+}
+
+a:hover {
+    color: var(--clr-blue);
+    cursor: pointer;
+}
 a:hover {
     color: var(--clr-blue);
     cursor: pointer;
