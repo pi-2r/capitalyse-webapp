@@ -30,7 +30,7 @@
               <p :class="error">Incorrect details</p>
               <Button class="button">Log in
               </Button>
-              <router-link to="/signup">
+              <router-link to="/portfolios">
                 <Button class="secondary button"
                   >Create an account instead</Button
                 >

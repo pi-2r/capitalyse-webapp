@@ -40,7 +40,7 @@
 
                     <section class="fileButtons ">
                         <!-- <Button @click="resetFiles" mode="secondary" class="removeFiles">Reset</Button> -->
-                        <Button class="secondary" link to="/dashboard" >Back</Button>
+                        <Button class="secondary" link to="/portfolios" >Back</Button>
                         <Button type="submit" class="submitFiles">Submit</Button>
                     </section>
 

@@ -25,7 +25,7 @@
                     </tr>
                 </tbody>
             </table>
-            
+            <Button link to="/upload">Upload Files</Button>
         </section>
     </section>
 </template>
@@ -108,6 +108,7 @@ export default {
 table {
     width: 100%;
     box-shadow: var(--box-shadow);
+    margin-bottom: 2rem;
 }
 
 thead {

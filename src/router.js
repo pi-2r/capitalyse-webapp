@@ -17,7 +17,7 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            redirect: '/dashboard',
+            redirect: '/portfolios',
             component: DashboardPage,
         },
         {
