@@ -111,7 +111,7 @@ export default {
                     accountFile: this.accountFile
                 });
 
-                this.$router.push('/dashboard');
+                this.$router.push('/portfolios');
             } else {
                 console.log('Please upload both files modal');
             }

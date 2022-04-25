@@ -2,8 +2,8 @@
   <Header></Header>
     <section class="container" >
         <Breadcrumbs 
-            baseLink="/upload"
-            baseLinkName="Upload" 
+            baseLink="/portfolios"
+            baseLinkName="My Portfolios" 
             secondLink="/dashboard"
             secondLinkName="Dashboard"
         />

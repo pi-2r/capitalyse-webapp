@@ -10,7 +10,7 @@
 
     <td>
         <router-link to="/dashboard">
-            <Icon icon="bi:arrow-right-square-fill" color="var(--clr-blue)" height="30" />
+            <Icon icon="bi:arrow-right-square-fill" color="var(--clr-blue)" height="30" /> 
         </router-link>
         <!-- <button @click="openPortfolio(portfolio.id)">Open</button> -->
     </td>
