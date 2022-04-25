@@ -42,9 +42,9 @@ button,a{
     user-select: none;
 } 
 
-button:hover, a:hover {
-    background-color: rgba(218, 237, 255, 0.197);  
-}
+/* button:hover, a:hover {
+    background-color: rgb(6, 41, 74);  
+} */
 
 a {
     user-select: none;
@@ -86,6 +86,10 @@ button:hover {
     text-decoration: none;
 }
 
+.link:hover {
+     background-color: rgba(133, 168, 194, 0.081);  
+}
+
 .secondary {
     background-color: transparent;
     color: var(--clr-blue);
@@ -93,6 +97,10 @@ button:hover {
     border: 2px solid var(--clr-blue);
     box-shadow: none;
     
+}
+
+.secondary:hover{
+    background-color: rgba(133, 168, 194, 0.081);  
 }
 
 

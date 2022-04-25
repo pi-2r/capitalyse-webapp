@@ -58,6 +58,8 @@
               <router-link to="/login">
                 <Button class="secondary tertiary">Log in instead</Button>
               </router-link>
+
+              <GoogleAuth />
             </form>
           </div>
         </div>
@@ -67,7 +69,12 @@
 </template>
 
 <script>
+import GoogleAuth from './GoogleAuth.vue';
+
 export default {
+  components: {
+    GoogleAuth
+  },
   data() {
     return {
       email: "",
@@ -194,7 +201,6 @@ export default {
   margin-top: 1em;
   margin-bottom: 1em;
   min-height: 35em;
-  max-height: 4em;
   margin-left: 1em;
   margin-right: 1em;
   max-width: 30em;
@@ -225,7 +231,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding-bottom: 0.2em;
-  margin-top: 1em;
+  margin-top: 0.7em;
 }
 
 .error {
@@ -239,7 +245,7 @@ h1 {
   font-weight: normal;
   color: #1b72d8;
   font-size: 225%;
-  margin-bottom: 1em;
+  margin-bottom: 0.8em;
 }
 
 h2 {
@@ -257,7 +263,7 @@ label {
   color: var(--clr-white);
   font-size: 95%;
   display: block;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.15rem;
   font-weight: 300;
 }
 
@@ -277,7 +283,7 @@ input[type="password"] {
 }
 
 button {
-  margin-top: 1.9em;
+  margin-top: 1.7em;
   width: 100%;
 }
 
@@ -291,8 +297,9 @@ button {
     color: #919498;
     font-weight: 300;
     font-size: 1rem;
-    padding: 0.7rem 1.25rem;
+    padding: 0.8rem 1.25rem;
     margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .secondary:hover {

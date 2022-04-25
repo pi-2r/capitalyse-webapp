@@ -4,7 +4,9 @@
       <h2>PORTFOLIO ANALYTICS</h2>
       <div class="container">
         <div class="content">
+          <Spinner class="spinner" v-if="isLoading"/>
           <div class="form-wrapper">
+         
             <h1>Log in</h1>
             <form @submit.prevent="submitForm" autocomplete="off">
               <div class="form-group">
@@ -26,12 +28,14 @@
                 <input type="password" id="password" v-model.trim="password" autocomplete="current-password"/>
               </div>
               <p :class="error">Incorrect details</p>
-              <Button class="button">Log in</Button>
+              <Button class="button">Log in
+              </Button>
               <router-link to="/signup">
                 <Button class="secondary button"
                   >Create an account instead</Button
                 >
               </router-link>
+        
               <GoogleAuth/>
             </form>
           </div>
@@ -50,13 +54,15 @@ export default {
     },
     data() {
         return {
-        email: "",
-        password: "",
-        error: "invisible-error",
+          email: "",
+          password: "",
+          error: "invisible-error",
+          isLoading: false,
         };
     },
     methods: {
       async submitForm() {
+        this.isLoading = true;
         try {
           await this.$store.dispatch("login", {
           email: this.email,
@@ -64,10 +70,12 @@ export default {
           });
 
           const url = "/";
+          
           this.$router.replace(url);
         } catch {
           this.error = "error";
         }
+        this.isLoading = false;
       },
   },
 };
@@ -75,6 +83,13 @@ export default {
 
 
 <style scoped>
+
+
+.spinner {
+  position: absolute;
+  width: 300px;
+  top: 45%;
+}
 
 html {
     background-color:black;
@@ -85,21 +100,32 @@ html {
      padding: 0.7rem 1rem;
 }
 
+button {
+  margin-top: 0.7em;
+}
+
+.button:hover {
+  background-color: var(--clr-blue);
+  box-shadow: none;
+}
+
+
+.secondary:hover {
+    box-shadow: none;
+    color: var(--clr-blue);
+    background-color: #00000020;
+    transform: scale(1);
+}
+
 .secondary {
     border: none;
     color: #919498;
     font-weight: 300;
     font-size: 1rem;
-    padding: 0.7rem 1.25rem;
+    padding: 0.8rem 1.25rem;
     margin-bottom: 1rem;
 }
 
-.secondary:hover {
-    box-shadow: none;
-    color: var(--clr-white);
-    background-color: #00000020;
-    transform: scale(1);
-}
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -172,7 +198,7 @@ input[type="password"]:-webkit-autofill:focus {
   display: flex;
   justify-content: space-between;
   padding-bottom: 0.2em;
-  margin-top: 1em;
+  margin-top: 0.7em;
 }
 
 .invisible-error {
@@ -191,7 +217,7 @@ h1 {
   font-weight: normal;
   color: var(--clr-blue);
   font-size: 225%;
-  margin-bottom: 1em;
+  margin-bottom: 0.8em;
 }
 
 h2 {
@@ -208,7 +234,7 @@ label {
   color: var(--clr-white);
   font-size: 95%;
   display: block;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.15rem;
   font-weight: 300;
 }
 
@@ -227,22 +253,7 @@ input[type="password"] {
   color: var(--clr-white);
 }
 
-button {
-  margin-top: 0.9em;
-}
 
-.button:hover {
-  background-color: var(--clr-blue);
-  box-shadow: none;
-}
-
-
-.secondary:hover {
-    box-shadow: none;
-    color: var(--clr-blue);
-    background-color: #00000020;
-    transform: scale(1);
-}
 
 ::placeholder {
   color: #6b6b6b;

@@ -1,18 +1,15 @@
 <template>
-<section class="wrapper">
-   
-    <GoogleIcon class="googleLogin" @click="googleSignIn"/>
-
-  
-</section>
+    <section class="wrapper">
+        <GoogleIcon class="googleLogin" @click="googleSignIn"/>
+    </section>
 </template>
 
 <script>
 import GoogleIcon from '../../../node_modules/vue-material-design-icons/Google.vue'
 
-import { GoogleAuthProvider } from "firebase/auth";
+// import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult} from 'firebase/auth';
 
-import firebase from "firebase/compat/app"
+
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 
@@ -22,22 +19,39 @@ export default {
     },
     methods: {
         googleSignIn() {
-            window.alert("Google sign in not available yet")
 
-            const provider = new GoogleAuthProvider();
+            window.alert("Google Sign in is not available yet. Please use the email and password sign in instead.");
+            // const auth = getAuth();
+            // const provider = new GoogleAuthProvider();
+            // signInWithRedirect(auth, provider)
+
+            // getRedirectResult(auth)
+            //     .then((result) => {
+            //         // This gives you a Google Access Token. You can use it to access Google APIs.
+            //         const credential = GoogleAuthProvider.credentialFromResult(result);
+            //         const token = credential.accessToken;
+
+            //         // The signed-in user info.
+            //         const user = result.user;
+
+            //         console.log(credential);
+            //         console.log(token);
+            //         console.log(user);
+
+                    
+            //     }).catch((error) => {
+            //         // Handle Errors here.
+            //         const errorCode = error.code;
+            //         const errorMessage = error.message;
+            //         // The email of the user's account used.
+            //         const email = error.email;
+            //         // The AuthCredential type that was used.
+            //         const credential = GoogleAuthProvider.credentialFromError(error);
+
+            //         console.log(errorCode, errorMessage, email, credential);
+            //         // ...
+            //     });
             
-            firebase
-                .auth()
-                .signInWithPopup(provider)
-                .then((result) => {
-                let token = result.credential.accessToken;
-                let user = result.user;
-                    console.log(token)
-                    console.log(user)
-                })
-                .catch((e) => {
-                    console.log(e);
-            });  
         },
 
     }
