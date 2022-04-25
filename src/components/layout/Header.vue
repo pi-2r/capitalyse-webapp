@@ -114,6 +114,7 @@ a:hover {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+
 }
 
 .rightSide section {
@@ -167,14 +168,15 @@ a:hover {
 /* Media Queries */
 
 @media screen and (max-width: 800px) {
-   .leftSide ul li{
-       display: none;
-   }
+
 
    .rightSide section {
        margin-left: 0.5rem;
    }
 
+    .leftSide ul {
+        flex-direction: column;
+    }
    
 }
 </style>
