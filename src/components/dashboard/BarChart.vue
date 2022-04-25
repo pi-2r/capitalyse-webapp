@@ -1,11 +1,13 @@
 <template>
-  <Bar
+<transition name="fade" mode="out-in">
+  <Bar :key="chartData.datasets[0].data"
     :chart-options="chartOptions"
     :chart-data="chartData"
 
     :width="width"
     :height="height"
   />
+</transition>
 </template>
 
 <script>
@@ -46,26 +48,33 @@ export default {
         return {
             scales: {
                 xAxes: {
-                display: true,
-                gridLines: {
-                  display: false
+                  
+                  display: true,
+                  gridLines: {
+                    display: false,
+                    drawBorder: false
+                  },
+
+                },
+                yAxes: {
+                  display: true,
+                  
+                  ticks: {
+                    beginAtZero: true,
+                    callback: function(value) {
+                      return '€' + value;
+                    }
+                  }
                 }
            
-              },
-              yAxes: {
-                display: true,
-                gridLines: {
-                  display: false
-                }
-              }
-                
+               
             },
             tooltips: {
                 mode: 'index',
                 intersect: false,
             },
             animation: {
-                duration: 0,
+                duration: 1,
             },
             legend: {
                 display: true,
@@ -92,3 +101,22 @@ export default {
   
 }
 </script>
+
+<style scoped>
+.fade-enter-active {
+  transition: all 0.15s ease-out;
+}
+.fade-leave-active {
+  transition: all 0.05s ease-in;
+}
+.fade-enter-from {
+  transform: translateY(10px);
+  opacity: 0;
+}
+
+.fade-leave-to {
+  transform: translateY(0px);
+    opacity: 0;
+}
+
+</style>

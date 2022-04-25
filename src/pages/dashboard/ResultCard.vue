@@ -2,11 +2,13 @@
     <div class="cardContainer">
         <section :class="[{cardContentNoBtn : !withBtn},{cardContent : withBtn}]">
                 <h2>{{ title }}</h2>
-                <p class="cardText">
-                    <span class="resultValue" :class="[{redNumber : isNegative}]">
-                        €{{ resultValue }}
-                    </span>
-                </p>
+                <transition name="slide-fade" mode="out-in">
+                    <p class="cardText" :key="resultValue">
+                        <span class="resultValue" :class="[{redNumber : isNegative}]">
+                            €{{ resultValue }}
+                        </span>
+                    </p>
+                </transition>
         </section>
         <section class="cardBtnSection" v-if="withBtn">
             <Button class="card link" link :to="to">{{ btnText }}</Button>
@@ -85,6 +87,25 @@ export default {
 .redNumber {
     color: var(--clr-red);
 }
+
+
+  
+.slide-fade-enter-active {
+  transition: all 0.15s ease-out;
+}
+.slide-fade-leave-active {
+  transition: all 0.15s ease-in;
+}
+.slide-fade-enter-from {
+  transform: translateY(-15px);
+  opacity: 0;
+}
+
+.slide-fade-leave-to {
+    transform: translateY(15px);
+    opacity: 0;
+}
+
 
 
 </style>

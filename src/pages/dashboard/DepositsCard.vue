@@ -7,7 +7,6 @@
         withBtn
     />
 </template>
-
 <script>
 import ResultCard from './ResultCard.vue';
 
@@ -67,7 +66,7 @@ export default {
             }
 
             tot = tot.toLocaleString('en-US');
-            
+
             return tot;
         },
     },
@@ -78,5 +77,6 @@ export default {
 </script>
 
 <style>
-    
+
+
 </style>

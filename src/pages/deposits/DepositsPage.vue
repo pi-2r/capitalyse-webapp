@@ -22,7 +22,7 @@ export default {
 <style scoped>
 .container {
      margin: 0 auto;
-    margin-top: 6rem;
+     margin-top: calc(4rem + var(--header-height));
     margin-bottom: 4rem;
 }
 

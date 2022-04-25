@@ -1,6 +1,6 @@
 <template>
 
-    <!-- <Header></Header> -->
+  
     <main>
         <router-view></router-view>
     </main>
@@ -40,7 +40,6 @@ html {
   font-family: 'Lexend', sans-serif;
   background-color: var(--clr-white);
 }
-
 
 
 h1 {
@@ -111,12 +110,10 @@ input {
 
 .container {
     max-width: 95%;
+  
 }
 
   
-
-  
-
 
 
   

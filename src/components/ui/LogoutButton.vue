@@ -1,16 +1,18 @@
 <template>
     <section class="logoutWrapper">
-        <LogoutIcon @click="logoutUser" class="logout"/>
+        <Icon icon="ic:baseline-log-out" class="logout" @click="logoutUser" color="var(--clr-red)" height="30" />
+        <!-- <LogoutIcon @click="logoutUser" class="logout"/> -->
     </section>
 </template>
 
 <script>
-import LogoutIcon from '../../../node_modules/vue-material-design-icons/Logout.vue';
+// import LogoutIcon from '../../../node_modules/vue-material-design-icons/Logout.vue';
+import { Icon } from '@iconify/vue';
 
 export default {
     components: {
-        LogoutIcon,
-    },
+		Icon,
+	},
     methods: {
         logoutUser() {
             this.$store.dispatch('logout');
@@ -32,11 +34,11 @@ export default {
     display: inline-block;
     color: var(--clr-red);
     transition: 0.2s all;
-    transform: scale(1.25);
+
 }
 
 .logout:hover {
     cursor: pointer;
-  
+    transform: scale(1.1);
 }
 </style>

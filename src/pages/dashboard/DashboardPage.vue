@@ -1,13 +1,17 @@
 <template>
-    <section class="container">
+  <Header></Header>
+    <section class="container" >
+        <Breadcrumbs 
+            baseLink="/upload"
+            baseLinkName="Upload" 
+            secondLink="/dashboard"
+            secondLinkName="Dashboard"
+        />
         <section class="head">
             <h1>Dashboard</h1>
             <LogoutButton/>
         </section>
 
-        <section class="upload">
-            <Button link to="/upload">Upload Files</Button>
-        </section>
 
         <DividendChart/>
 
@@ -21,14 +25,12 @@
 </template>
 
 <script>
-
+import Header from '../../components/layout/Header.vue';
 import DividendChart from '../../components/dashboard/DividendChart.vue';
-
+import Breadcrumbs from '../../components/ui/Breadcrumbs.vue';
 import DepositsCard from './DepositsCard.vue';
 import TradingVolCard from './TradingVolCard.vue';
 import TransFeesCard from './TransFeesCard.vue';
-
-import LogoutButton from '../../components/ui/LogoutButton.vue';
 
 export default {
     name: 'Dashboard',
@@ -37,7 +39,8 @@ export default {
         DepositsCard,
         TradingVolCard,
         TransFeesCard,
-        LogoutButton,
+        Header,
+        Breadcrumbs
     },
     computed: {
         isThereData() {
@@ -61,7 +64,7 @@ export default {
 }
 
 h1 {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .head {
@@ -79,8 +82,8 @@ h1 {
 
 .container {
      margin: 0 auto;
-     margin-top: 2rem;
-     margin-bottom: 2rem;
+     margin-bottom: 4rem;
+     margin-top: 3rem;
 }
 
 @media screen and (min-width: 400px) {
@@ -107,5 +110,7 @@ h1 {
     .container {
         max-width: 1000px;
     }
+
 }
+
 </style>

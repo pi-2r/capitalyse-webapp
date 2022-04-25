@@ -25,25 +25,28 @@
                 <button class="timeFrame__btn" id="js--timeFrame__btn--pastFiveYears">5 Years</button> -->
             </section>
         </section>
-        
+     
         <section class="dividendChartWrapper">
             <section class="dividendChartHeading">
                 <h2>Dividend Payments</h2>
-                <p>
-                    <span class="chartResultValue greenNumber">
-                    €{{ totalDividends }}
-                    </span>
-                </p>
+                <transition name="slide-fade" mode="out-in">
+                    <p :key="selectedTimeFrame">
+                        <span class="chartResultValue greenNumber">
+                        €{{ totalDividends }}
+                        </span>
+                    </p>
+                </transition>
             </section>
-            
+
             <section class="dividendChart">
-                <BarChart v-if="!isLoading"
+                <BarChart v-if="!isLoading" 
                     :chart-data="chartData"  
                 /> 
                 <section class="spinnerContainer" v-else>
                     <spinner/>
                 </section>
             </section>
+    
         </section>
     </section>
 </template>
@@ -437,4 +440,23 @@ export default {
     color: var(--clr-blue);
     transform: translateY(0px);
 }
+
+/* anims */
+.slide-fade-enter-active {
+  transition: all 0.15s ease-out;
+}
+.slide-fade-leave-active {
+  transition: all 0.15s ease-in;
+}
+.slide-fade-enter-from {
+  transform: translateY(-15px);
+  opacity: 0;
+}
+
+.slide-fade-leave-to {
+    transform: translateY(15px);
+    opacity: 0;
+}
+
+
 </style>
