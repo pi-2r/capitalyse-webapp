@@ -42,6 +42,10 @@ button,a{
     user-select: none;
 } 
 
+button:hover, a:hover {
+    background-color: rgba(218, 237, 255, 0.197);  
+}
+
 a {
     user-select: none;
 }
@@ -62,7 +66,7 @@ button:hover {
     color: var(--clr-blue);
     font-weight: 400;
     text-align: center;
-    font-size: 0.9rem;
+    font-size: calc(var(--btn-font-size) / 1.3);
     padding: 0.6rem 1.5rem;
     width: 100%;
     transition: 0.2s all;
@@ -72,7 +76,7 @@ button:hover {
 .card:hover {
     box-shadow: none;
     cursor: pointer;
-    background-color: rgb(218, 237, 255);  
+    background-color: rgba(218, 237, 255, 0.333);  
 }
 
 .link {

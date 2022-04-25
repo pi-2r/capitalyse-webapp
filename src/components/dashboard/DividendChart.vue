@@ -415,7 +415,7 @@ export default {
     margin-right: 0.25rem;
     background-color: var(--clr-light-blue);
     color: var(--clr-blue);
-    transform: translateY(2px);
+    transform: translateY(0px);
     border:none;
     border-radius: 0px;
     border-top-left-radius: var(--btn-radius);
