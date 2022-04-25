@@ -55,9 +55,10 @@
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import CheckMarkIcon from 'vue-material-design-icons/CheckDecagram.vue';
 
-
+import csvToArrayMixin from '../../mixins/csvToArray.js';
 
 export default {
+    mixins: [csvToArrayMixin],
     components: {
         CloseIcon,
         CheckMarkIcon
@@ -83,7 +84,22 @@ export default {
             return this.$store.getters['files/hasFiles'];
         }
     },
+    watch: {
+        hasFilesInStore() {
+            if(this.hasFilesInStore) {
+                this.setStylingToHasFiles();
+            }
+        }
+    },
     methods: {
+        setStylingToHasFiles() {
+            this.accountFile = true;
+            this.transactionsFile = true;
+            this.alreadyHasFiles = true;
+        },
+        fetchFiles() {
+            this.$store.dispatch('files/fetchCSVData');
+        },
         submitForm() {
             if(this.transactionsFile && this.accountFile) {
                 this.$store.dispatch('files/sendCSVData', {
@@ -110,10 +126,6 @@ export default {
                 }
             }
             reader.readAsText(e);
-        },
-        csvToArray(str, delimiter = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/) {
-            const rows = str.slice(str.indexOf("\n") + 1).split("\n");
-            return rows.map(row => row.split(delimiter));  
         },
         uploadFile(event) {
             this.checkFileNames(event.target.files);
@@ -144,9 +156,9 @@ export default {
     },
     created() {
         if(this.hasFilesInStore) {
-            this.accountFile = true;
-            this.transactionsFile = true;
-            this.alreadyHasFiles = true;
+            this.setStylingToHasFiles();
+        } else if (!this.hasFilesInStore) {
+            this.fetchFiles();
         }
     }
 }

@@ -1,6 +1,5 @@
 <template>
     <section class="logoutWrapper">
-  
         <LogoutIcon @click="logoutUser" class="logout"/>
     </section>
 </template>
@@ -28,9 +27,6 @@ export default {
     justify-content: center;
     align-items: center;
 }
-
-
-
 
 .logout {
     display: inline-block;

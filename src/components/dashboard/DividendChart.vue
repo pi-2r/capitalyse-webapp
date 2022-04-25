@@ -39,10 +39,7 @@
             <section class="dividendChart">
                 <BarChart v-if="!isLoading"
                     :chart-data="chartData"  
-                  
                 /> 
-               
-                <!-- <canvas v-if="!isLoading" id="divChart"></canvas> -->
                 <section class="spinnerContainer" v-else>
                     <spinner/>
                 </section>
@@ -54,13 +51,18 @@
 <script>
 import BarChart from './BarChart.vue'
 
+import cleanNumberMixin from '../../mixins/cleanNumber';
+import includesFromArrayMixin from '../../mixins/includesFromArray';
+import splitDateMixin from '../../mixins/splitDate';
+
 export default {
+    mixins: [cleanNumberMixin, includesFromArrayMixin, splitDateMixin],
     components: {
         BarChart
     },
     data() {
         return {
-            isLoading: false,
+            isLoading: true,
             selectedTimeFrame: 'All Time',
             dividendsArray: [],
             dataHolder: [],
@@ -123,10 +125,12 @@ export default {
         loadData() {
             if(this.isThereData) {
                 this.getDividends();
-            }
+                this.isLoading = false;
+            } else {
+                this.isLoading = true;
+            } 
         },
         timeFrameChange(e) {
-      
             this.selectedTimeFrame = e.target.innerText
             this.isThereData ? this.getDividends() : null;
             this.timeFrameDataUpdate();
@@ -202,7 +206,6 @@ export default {
                 dateArray.push(newFirstDate.toLocaleDateString());
                 newFirstDate.setMonth(newFirstDate.getMonth() + 1);
             }
-
 
             this.dividendsArray.reverse();
             // fill chart
@@ -343,37 +346,8 @@ export default {
             this.chartData.labels = this.labelsHolder;
             this.chartData.datasets[0].data = this.dataHolder;
         },
-        includesFromArray(array, value) {
-            for(let i = 0; i < array.length; i++) {
-                if(value.includes(array[i])) {
-                    return true;
-                }
-            }
-            return false;
-        },
-        cleanNumber(number) {
-            const isPositive = number.includes("-") ? false : true;
-            number = number.replace(/['"]+/g, '');
-            const decimalNumbers = number.split(",")[1].length;
-            const dividedBy = Math.pow(10, decimalNumbers);
-            let decimal = Number.parseFloat(number.split(",")[1]) / dividedBy;
-            number = Number.parseFloat(number.split(",")[0])
-            isPositive ? number += decimal : number -= decimal;
-            return number;
-        },
-        // split date compatible for all languages
-        splitDate(date) {
-            if (date.includes("-")) {
-                date = date.split("-");
-            } else if (date.includes(".")) {
-                date = date.split(".");
-            } else if (date.includes("/")) {
-                date = date.split("/");
-            }   
-            return date;
-        },
     },
-    mounted() {
+    created() {
         this.loadData();
     }
   

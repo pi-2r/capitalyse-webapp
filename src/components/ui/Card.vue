@@ -26,10 +26,4 @@ export default {
     flex-direction: column;
     box-shadow: var(--box-shadow-big);
 }
-
-
-
-
-
-
 </style>

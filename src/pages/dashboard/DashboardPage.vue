@@ -6,8 +6,7 @@
         </section>
 
         <section class="upload">
-
-        <Button link to="/upload">Upload Files</Button>
+            <Button link to="/upload">Upload Files</Button>
         </section>
 
         <DividendChart/>
@@ -44,11 +43,13 @@ export default {
         isThereData() {
             return this.$store.getters['files/hasFiles'];
         },
+ 
     },
     created() {
         if(!this.isThereData) {
             console.log('No data in store');
-            this.$store.dispatch('files/fetchCSVData');
+         
+            this.$store.dispatch('files/fetchCSVData')
         }
     }
 }
@@ -66,12 +67,9 @@ h1 {
 .head {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    
+    align-items: center; 
     margin-bottom: 2rem;
 }
-
-
 
 .cardsContainer {
     display: grid;
@@ -86,14 +84,10 @@ h1 {
 }
 
 @media screen and (min-width: 400px) {
-    
-
     .container {
         max-width: 95%;
-    }
-    
+    }   
 }
-
 
 @media screen and (min-width: 650px) {
     .cardsContainer {
@@ -114,7 +108,4 @@ h1 {
         max-width: 1000px;
     }
 }
-    
-    
-
 </style>

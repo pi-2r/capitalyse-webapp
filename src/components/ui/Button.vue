@@ -76,7 +76,7 @@ button:hover {
 }
 
 .link {
-    border: 2px solid rgb(106, 176, 255);
+    border: 2px solid var(--clr-blue);
     background-color: transparent;
     color: var(--clr-blue);
     text-decoration: none;

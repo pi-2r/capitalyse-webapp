@@ -38,6 +38,7 @@ export default {
 
 html {
   font-family: 'Lexend', sans-serif;
+  background-color: var(--clr-white);
 }
 
 

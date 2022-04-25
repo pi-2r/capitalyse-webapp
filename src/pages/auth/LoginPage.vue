@@ -44,8 +44,6 @@
 <script>
 import GoogleAuth from './GoogleAuth.vue';
 
-
-
 export default {
     components: {
         GoogleAuth
@@ -58,20 +56,19 @@ export default {
         };
     },
     methods: {
-        
-        async submitForm() {
+      async submitForm() {
         try {
-            await this.$store.dispatch("login", {
-            email: this.email,
-            password: this.password,
-            });
+          await this.$store.dispatch("login", {
+          email: this.email,
+          password: this.password,
+          });
 
-            const url = "/";
-            this.$router.replace(url);
+          const url = "/";
+          this.$router.replace(url);
         } catch {
-            this.error = "error";
+          this.error = "error";
         }
-        },
+      },
   },
 };
 </script>

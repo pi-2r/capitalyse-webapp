@@ -65,7 +65,9 @@ export default {
                     }
                 }
             }
+
             tot = tot.toLocaleString('en-US');
+            
             return tot;
         },
     },

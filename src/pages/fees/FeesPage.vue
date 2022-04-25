@@ -22,19 +22,16 @@ export default {
 
 <style scoped>
 .container {
-     margin: 0 auto;
+    margin: 0 auto;
     margin-top: 6rem;
     margin-bottom: 4rem;
-    
 }
 
 @media screen and (min-width: 400px) {
     .container {
         max-width: 95%;
     }
-    
 }
-
 
 @media screen and (min-width: 650px) {
     .cardsContainer {

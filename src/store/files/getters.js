@@ -14,5 +14,5 @@ export default {
     hasFiles(state) {
         return !!state.accountFile && !!state.transactionsFile;
     },
-   
+    
 };
