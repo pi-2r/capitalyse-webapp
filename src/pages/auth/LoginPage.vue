@@ -142,7 +142,7 @@ select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px #272d33 inset;
   transition: background-color 5000s ease-in-out 0s;
   color: var(--clr-white);
-  font-size: 16px;
+ 
 }
 
 input[type="password"]:-webkit-autofill,
@@ -240,7 +240,7 @@ label {
 }
 
 input {
-  font-size: 90%;
+ font-size: 16px;
   padding: 1em;
   width: 100%;
   border-radius: 6px;
