@@ -6,6 +6,8 @@ export default {
     namespaced: true,
     state() {
         return {
+            portfolios: [],
+            dashboardPortfolio: null,
             transactionsFile: null,
             accountFile: null,
         };

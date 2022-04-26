@@ -1,71 +1,90 @@
 <template>
     <Header></Header>
     <section class="container">
-        <article class="wrapper">
-            <h1 class="uploadFilesTitle">Upload Files</h1>
-            <form @submit.prevent="submitForm" class="uploadFilesForm">
-                
-                <section class="uploadFilesGroup">
-                    <label class="uploadFilesLabel">
-                        <input @change="uploadFile" type="file" accept=".csv" multiple/>
-                        <span>{{ inputText }}</span>
-                    </label>
-                </section>
+        
+        <Breadcrumbs baseLink="/portfolios" baseLinkName="My Portfolios" secondLink="/portfolios/new" secondLinkName="Add Portfolio"/>
+        <h1 class="uploadFilesTitle">Add Portfolio</h1>
+        <section class="formCardContainer">
+            <section class="formCard">
 
-                <section class="btnAndFileNames">
-                    <section class="fileNames">
-                        <p class="fileName" :class="(transactionsFile) ? 'fileValid' : 'fileInvalid'">
-                            
-                            <span v-if="transactionsFile">
-                                <CheckMarkIcon class="fileIcon"/>
-                            </span> 
-                            <span v-else>
-                                <CloseIcon class="fileIcon"/>
-                            </span>
-                            
-                            <span>{{ transactionsFileName }}</span>
-                        </p>
-                        <p class="fileName " :class="(accountFile) ? 'fileValid' : 'fileInvalid'">
-                            
-                            <span v-if="accountFile">
-                                <CheckMarkIcon class="fileIcon"/>
-                            </span> 
-                            <span v-else>
-                                <CloseIcon class="fileIcon"/>
-                            </span> 
+                <article class="wrapper">
+                    <form @submit.prevent="submitForm" class="uploadFilesForm">
                         
-                            <span>{{ accountFileName }}</span>
-                        </p>
-                    </section>
+                        <section class="portfolioName">
+                            <label for="portfolioName">Portfolio name</label>
+                            <input type="text" id="portfolioName" v-model.trim="portfolioName" autocomplete="off" placeholder="E.g. DeGiro Portfolio"/>
+                        </section>
 
-                    <section class="fileButtons ">
-                        <!-- <Button @click="resetFiles" mode="secondary" class="removeFiles">Reset</Button> -->
-                        <Button class="secondary" link to="/portfolios" >Back</Button>
-                        <Button type="submit" class="submitFiles">Submit</Button>
-                    </section>
+                        <section class="uploadFilesGroup">
+                            <p class="filesLabelP">Files</p>
+                            <label class="uploadFilesLabel">
+                                <input @change="uploadFile" type="file" accept=".csv" multiple/>
+                                <span class="uploadFilesLabelText">{{ inputText }}</span>
+                            </label>
+                        </section>
 
-                </section>
-                        <p v-if="alreadyHasFiles" class="alreadyFiles">You already have files uploaded, 
-                            If you want to upload your new files, submit them again to overwite.</p>
-            </form>
-        </article>
+                        <section class="btnAndFileNames">
+                            <section class="fileNames">
+                                <section class="fileNamesAndBtn">
+                                    <p class="fileName" :class="(transactionsFileIsValid) ? 'fileValid' : 'fileInvalid'">
+                                    
+                                    <span v-if="transactionsFileIsValid">
+                                        <CheckMarkIcon class="fileIcon"/>
+                                    </span> 
+                                    <span v-else>
+                                        <CloseIcon class="fileIcon"/>
+                                    </span>
+                                    
+                                    <span>{{ transactionsFileName }}</span>
+                                    </p>
+                                    <p class="fileName" :class="(accountFileIsValid) ? 'fileValid' : 'fileInvalid'">
+                                        
+                                        <span v-if="accountFileIsValid">
+                                            <CheckMarkIcon class="fileIcon"/>
+                                        </span> 
+                                        <span v-else>
+                                            <CloseIcon class="fileIcon"/>
+                                        </span> 
+                                    
+                                        <span>{{ accountFileName }}</span>
+                                    </p>
+                          
+                                </section>
+            
+                            </section>
+                            
+                            <button class="resetUploadedBtn" @click="resetFiles">Reset Uploads</button>
+
+
+                        </section>
+                                
+                        <section class="fileButtons ">
+                            <Button type="submit" class="submitFiles">Add Portfolio</Button>
+                            <Button class="secondary" link to="/portfolios" >Cancel</Button>
+                        </section>
+                    </form>
+                </article>
+            </section>
+        </section>
     </section>
 </template>
 
 <script>
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import CheckMarkIcon from 'vue-material-design-icons/CheckDecagram.vue';
-
+import Breadcrumbs from '../../components/ui/Breadcrumbs.vue';
 import Header from '../../components/layout/Header.vue';
 
 import csvToArrayMixin from '../../mixins/csvToArray.js';
+import includesFromArray from '../../mixins/includesFromArray.js';
 
 export default {
-    mixins: [csvToArrayMixin],
+    mixins: [csvToArrayMixin, includesFromArray],
     components: {
         CloseIcon,
         CheckMarkIcon,
-        Header
+        Header,
+        Breadcrumbs
     },
     data() {
         return {
@@ -74,8 +93,15 @@ export default {
             accountFile: null,
             transactionsFileName: 'Transactions File',
             accountFileName: 'Account File',
-            alreadyHasFiles: false,
+            transactionsFileIsValid: false,
+            accountFileIsValid: false,
+            portfolioName: '',
+            accountFileIsEmpty: false,
+            transactionsFileIsEmpty: false,
         }
+    },
+    watch: {
+        
     },
     computed: {
         inputText() {
@@ -84,31 +110,28 @@ export default {
             this.accountFile ? tot++ : null
             return "Upload Files (" + tot + "/2)";
         }, 
-        hasFilesInStore() {
-            return this.$store.getters['files/hasFiles'];
-        }
-    },
-    watch: {
-        hasFilesInStore() {
-            if(this.hasFilesInStore) {
-                this.setStylingToHasFiles();
+        formIsValid() {
+            if (this.portfolioNameIsValid && this.transactionsFileIsValid && this.accountFileIsValid) {
+                return true;
+            } else {
+                return false;
             }
-        }
+        },
+        
     },
     methods: {
-        setStylingToHasFiles() {
-            this.accountFile = true;
-            this.transactionsFile = true;
-            this.alreadyHasFiles = true;
-        },
         fetchFiles() {
             this.$store.dispatch('files/fetchCSVData');
         },
         submitForm() {
-            if(this.transactionsFile && this.accountFile) {
-                this.$store.dispatch('files/sendCSVData', {
+            this.portfolioNameFormControl();
+
+            if(this.formIsValid) {
+                this.$store.dispatch('files/createNewPortfolio', {
+                    portfolioName: this.portfolioName,
                     transactionsFile: this.transactionsFile,
-                    accountFile: this.accountFile
+                    accountFile: this.accountFile,
+                    addedAt: this.getDate()
                 });
 
                 this.$router.push('/portfolios');
@@ -116,69 +139,121 @@ export default {
                 console.log('Please upload both files modal');
             }
         },
-        readAsText(e, fName) {
+        portfolioNameFormControl() {
+            const forbiddenChars = ['/', '\\', '<', '>', ':', '"', '|', '?', '*', '&', '$', '#', '%', '@', '^', '+', '=', '~', '`', '{', '}', ';', '.', ','];
+            if (this.portfolioName.length > 2 &&
+                this.portfolioName.length < 30 &&
+                !this.includesFromArray(forbiddenChars, this.portfolioName)) {
+                    console.log(this.portfolioName);
+                    this.portfolioNameIsValid = true;
+            } else {
+                this.portfolioNameIsValid = false;
+            }
+        },
+        validateFileContents(e, fName) {
+            let isValid = true;
             let reader = new FileReader();
             
             reader.onload = (e) => {
                 let text = e.target.result;
                 let fileAsArray = this.csvToArray(text);
-            
+
+                console.log(fileAsArray.length, fileAsArray[0].length);
                 if(fName.includes('Transactions')) {
-                    this.transactionsFile = fileAsArray;
-                } else {
-                    this.accountFile = fileAsArray;
+                    if(fileAsArray[0].length !== 19) {
+                        isValid = false;
+                    }
+                    if(fileAsArray.length < 1) {
+                        isValid = false;
+                    } 
+                    this.transactionsFileIsValid = true;
+                } else if (fName.includes('Account')) {
+                    if(fileAsArray[0].length !== 12) {
+                        isValid = false;
+                    }
+                    if(fileAsArray.length < 1) {
+                        isValid = false;
+                    }  
                 }
             }
             reader.readAsText(e);
+            
+            return isValid;
         },
+       
         uploadFile(event) {
-            this.checkFileNames(event.target.files);
+            this.checkFileValidity(event.target.files);
         },
-        checkFileNames(files) {
-            const maxFileSizeKB = 1500;
-            for (let i = 0; i < files.length; i++) {
-                let fileName = files[i].name;
-                
-                if((files[i].size / 1024) < maxFileSizeKB) {
-                    if(fileName.includes('Transactions')) {
-                        this.transactionsFileName = fileName;
-                        this.readAsText(files[i], fileName);
-                    } else if(fileName.includes('Account')) {
-                        this.accountFileName = fileName;
-                        this.readAsText(files[i], fileName);
-                    }
-                } else {
-                    console.log('File too large');
-                }
-                
+        checkFileValidity(file) {
+            if(file[0].name.includes('Transactions') && file[0].size > 0) {
+                this.transactionsFile = file[0];
+                this.transactionsFileName = file[0].name;
+                this.transactionsFileIsValid = true;
+            } else if(file[0].name.includes('Account') && file[0].size > 0) {
+                this.accountFile = file[0];
+                this.accountFileName = file[0].name;
+                this.accountFileIsValid = true;
+            } 
+            if(file[0].name.includes('Transactions') && file[0].size === 0) {
+                console.log(file[0].size);
+                this.transactionsFileName = file[0].name;
+                this.transactionsFileIsValid = false;
+            } else if(file[0].name.includes('Account') && file[0].size === 0) {
+                this.accountFileName = file[0].name;
+                this.accountFileIsValid = false;
             }
         },
         resetFiles() {
             this.transactionsFile = null;
             this.accountFile = null;
         },
+        getDate() {
+             // get date DD-MM-YYYY
+            let date = new Date();
+            let dd = date.getDate();
+            let mm = date.getMonth() + 1;
+            let yyyy = date.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            date = dd + '-' + mm + '-' + yyyy;
+            return date;
+        }
     },
     created() {
-        if(this.hasFilesInStore) {
-            this.setStylingToHasFiles();
-        } else if (!this.hasFilesInStore) {
-            this.fetchFiles();
-        }
+       
     }
 }
 </script>
 
 <style scoped>
-.alreadyFiles {
-    margin-top: 0.5rem;
+h1 {
     margin-bottom: 1rem;
-    color: var(--clr-blue)
+    margin-top: 0.25rem;
 }
 
 .container {
     margin: 0 auto;
     margin-top: 2rem;
     margin-bottom: 2rem;
+    width: 28rem;
+}
+
+.formCardContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formCard {
+    width: 30rem;
+    padding: 1.25rem;
+    background-color: var(--clr-very-light-blue);
+    box-shadow: var(--box-shadow-big);
+    border-radius: var(--card-border-radius);
 }
 
 .fileValid {
@@ -189,14 +264,38 @@ export default {
     color: var(--clr-red);
 }
 
-button:nth-last-of-type(1) {
-    margin-left: 1rem;
-}
-
 input {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 1.1rem;
+    background-color: #f5f5f5;
+    border: none;
+    border-radius: var(--btn-radius);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--clr-black);
+    margin-top: 0.3rem;
+}
+
+input[type="text"]::placeholder {
+    color: var(--clr-grey);
+}
+
+.filesLabelP {
+     font-size: 1.2rem;
+    font-weight: lighter;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+label {
+    font-size: 1.2rem;
+    font-weight: lighter;
 }
 
 input[type="file"] {
@@ -222,6 +321,10 @@ input[type="submit"] {
     user-select: none;
 }
 
+.uploadFilesLabelText {
+    font-size: var(--btn-font-size);
+}
+
 .fileIcon {
     margin-right: 0.4rem;
 }
@@ -229,23 +332,24 @@ input[type="submit"] {
 .uploadFilesForm {
     display: grid;
     grid-template-columns: 1fr;
-    margin-top: 2rem;
 }
 
 .uploadFilesGroup {
     display: grid;
     grid-template-columns: 1fr;
-    grid-gap: 1rem;
+
+    margin-top: 1rem;
 }
 
 .uploadFilesLabel {
     background-color: var(--clr-light-blue);
     border-radius: var(--btn-radius);
     width: 100%;
-    padding: 1.5rem;
+    padding: var(--btn-padding);
     border: 3px dashed var(--clr-blue);
     color: var(--clr-blue);
     text-align: center;
+  
 }
 
 .uploadFilesLabel:hover, .uploadFilesLabel:hover * {
@@ -254,14 +358,6 @@ input[type="submit"] {
     user-select: none;
 }
 
-.fileButtons {
-    order: 1;
-}
-
-.fileNames {
-    order: 2;
-    margin-top: 1.5rem;
-}
 
 .fileName {
     display: flex;
@@ -270,30 +366,45 @@ input[type="submit"] {
 }
 
 .btnAndFileNames {
-    margin-top: 2rem;
     display: flex;
     justify-content: space-between;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.resetUploadedBtn {
+    height: 2rem;
+  
+    border: none;
+    color: var(--clr-blue);
+    font-size: 1rem;
+    background-color: transparent;
+}
+
+.resetUploadedBtn:hover{
+    box-shadow: none;
+    cursor: pointer;
+    transform: scale(1);
+    text-decoration: underline;
+}
+
+.secondary {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.fileButtons {
+    display: flex;
     flex-direction: column;
 }
 
-.removeFiles {
-    margin-right: 1rem;
-    margin-bottom: 0.3rem;
-}
+
 
 @media screen and (min-width: 768px) {
-    .fileButtons {
-        order: 2;
-    }
-
-    .fileNames {
-        order: 1;
-        margin-top: 0;
-    }
-
-    .btnAndFileNames {
-        flex-direction: row;
-    }
+   
+  .formCard {
+      padding: 2rem;
+  }
 }
 
 @media screen and (min-width: 400px) {

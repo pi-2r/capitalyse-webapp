@@ -31,12 +31,12 @@ const router = createRouter({
             meta: { requiresUnauth: true },
         },
         {
-            path: '/upload',
+            path: '/portfolios/new',
             component: UploadFilesPage,
             meta: { requiresAuth: true },
         },
         {
-            path: '/dashboard',
+            path: '/dashboard/:id',
             component: DashboardPage,
             meta: { requiresAuth: true },
         },

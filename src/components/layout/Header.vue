@@ -8,15 +8,15 @@
                         <!-- <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li> -->
-                        <li><router-link class="routerLink" to="/portfolios">My Portfolio's</router-link></li> 
-                        <li><router-link class="routerLink" to="/upload">+ New Portfolio</router-link></li>
+                        <li><router-link class="routerLink" to="/portfolios">My Portfolios</router-link></li> 
+                        <li><router-link class="routerLink" to="/portfolios/new">+ New Portfolio</router-link></li>
                     </ul>
                 </section>
                 
                 <section class="rightSide">
                     <section>
                         <Button class="premiumBtn">
-                            <Icon icon="fluent:premium-16-filled" color="#e8e8e8" height="15" />
+                            <Icon icon="fluent:premium-16-filled" color="var(--clr-white)" height="15" />
                             Premium
 
                         </Button>
@@ -48,7 +48,7 @@ export default {
 .premiumBtn {
     background-color: var(--clr-blue);
     color: var(--clr-white);
-    padding: 0.5rem 1rem;
+    padding: var(--btn-small-padding);
 }
 
 .routerLink {
@@ -93,13 +93,9 @@ h2 {
 
 h2 a{
     text-decoration: none;
-    color: var(--clr-black);
+    color: var(--clr-grey);
 }
 
-a:hover {
-    color: var(--clr-blue);
-    cursor: pointer;
-}
 a:hover {
     color: var(--clr-blue);
     cursor: pointer;

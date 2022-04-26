@@ -1,6 +1,8 @@
 // firebase
 
 import { initializeApp } from 'firebase/app';
+import { getStorage } from 'firebase/storage';
+
 import {
     // getFirestore,
     // collection,
@@ -22,7 +24,8 @@ const config = {
     measurementId: "G-2PS0EK08JH"
 };
 
-initializeApp(config);
+const firebaseApp = initializeApp(config);
+getStorage(firebaseApp)
 
 
 // const db = getFirestore();

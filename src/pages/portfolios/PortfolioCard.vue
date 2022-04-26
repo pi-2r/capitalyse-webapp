@@ -1,16 +1,21 @@
 <template>
- 
     <td>
-        {{ portfolio.file[0][0] }}
+        <router-link class="portfolioName" :to="'/dashboard/' + portfolio.id">
+            {{ portfolio.portfolioName }}
+        </router-link>
     </td>
-    
     <td>
-        {{totalDataPoints}}
+        {{portfolio.addedAt}}
     </td>
-
-    <td>
-        <router-link to="/dashboard">
-            <Icon icon="bi:arrow-right-square-fill" color="var(--clr-blue)" height="30" /> 
+    <td class="td__number">
+      X Transactions
+    </td>
+    <td class="td__number">
+      X Events
+    </td>
+    <td class="threeDotsWrapper">
+        <router-link to="/portfolios">
+            <Icon icon="bi:three-dots-vertical" color="var(--clr-black)" height="16" class="threeDots"/>
         </router-link>
         <!-- <button @click="openPortfolio(portfolio.id)">Open</button> -->
     </td>
@@ -43,9 +48,34 @@ export default {
 </script>
 
 <style scoped>
-td {
-    padding: 0.5rem;
+.portfolioName {
+    color: var(--clr-blue);
+    font-weight: bold;
+    text-decoration: none;
 }
 
+.portfolioName:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
 
+td {
+    padding: 1rem 2rem;
+    background-color: transparent;
+    color: var(--clr-grey);
+    font-weight: 400;
+}
+
+.td__number {
+    text-align: right;
+}
+
+.threeDotsWrapper {
+    width: 1px;
+    padding: 1rem;
+}
+
+.threeDots {
+    transition: 0.2s all;
+}
 </style>

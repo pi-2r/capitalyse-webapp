@@ -44,15 +44,30 @@ export default {
     },
     computed: {
         isThereData() {
-            return this.$store.getters['files/hasFiles'];
+            return this.$store.getters['files/hasDashboardPortfolio'];
         },
- 
+    },
+    watch: {
+        isThereData() {
+            this.loadData();
+        }
+    },
+    methods: {
+   
     },
     created() {
-        if(!this.isThereData) {
-            console.log('No data in store');
-         
-            this.$store.dispatch('files/fetchCSVData')
+        console.log(this.$route.params.id);
+        if(!this.isThereData) {         
+            this.$store.dispatch('files/fetchOnePortfolio', {
+                id: this.$route.params.id
+            });
+        } else if(this.isThereData) {
+            // if route id is different from store id, fetch new data
+            if(this.$route.params.id !== this.$store.getters['files/getDashboardPortfolio'].id) {
+                this.$store.dispatch('files/fetchOnePortfolio', {
+                    id: this.$route.params.id
+                });
+            }
         }
     }
 }
