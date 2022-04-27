@@ -31,6 +31,8 @@
                             <Icon class="settingsIcon" icon="ci:settings" color="var(--clr-grey)" height="30" />
                         </router-link>
                     </section>
+
+                    <logout-button></logout-button>
                 </section>
             </div>
             <div class="nav-container-mobile">
