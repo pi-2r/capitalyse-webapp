@@ -4,7 +4,6 @@
             <div class="nav-container">
                 <section class="leftSide">
                     <ul>
-                    
                         <h2>
                             <router-link class="routerLinkH2" to="/">Analytics</router-link>
                         </h2>
@@ -14,7 +13,6 @@
                         <li>
                             <router-link class="routerLink" to="/portfolios">
                             <Icon icon="bi:bar-chart-fill" height="15" />
-
                             My Portfolios</router-link>
                         </li> 
                     </ul>
@@ -25,7 +23,6 @@
                         <Button class="premiumBtn">
                             <Icon icon="fluent:premium-16-filled" color="var(--clr-white)" height="15" />
                             Premium
-
                         </Button>
                     </section>
                     <LogoutButton/>
@@ -61,11 +58,8 @@
                                 Settings
                                 </router-link>
                             </li> 
-                            <li @click="closeNav">
-                                  <router-link class="routerLink" to="/settings">
-                                <Icon icon="clarity:logout-solid" height="20" />
-                                Log out
-                                </router-link>
+                            <li @click="closeNav" class="logoutLi">
+                                <LogoutButton/> 
                             </li> 
                         </ul>
                     </section>
@@ -111,6 +105,9 @@ export default {
 </script>
 
 <style scoped>
+.logoutLi {
+    color: var(--clr-red);
+}
 
 .open {
     display: block !important;
