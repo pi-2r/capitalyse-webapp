@@ -3,7 +3,11 @@
     <section class="container">
 
         <section class="myPortfolios__header">
-            <h1>My Portfolios</h1>
+            
+            <section class="heading">
+                <Icon icon="bi:bar-chart-fill" height="30"  color="var(--clr-blue)"/>
+                <h1>My Portfolios</h1>
+            </section>
             <Button class="secondary addPortfolioBtn" link @click="addPortfolio">+ Add Portfolio</Button>
         </section>
 
@@ -13,8 +17,8 @@
                     <tr>
                         <th>Portfolio</th>
                         <th>Date Added</th>
-                        <th class="th__number">Transactions File</th>
-                        <th class="th__number">Account File</th>
+                        <th>Transactions File</th>
+                        <th>Account File</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -35,14 +39,15 @@
 </template>
 
 <script>
-
+import { Icon } from '@iconify/vue';
 import Header from '../../components/layout/Header.vue';
 import PortfolioCard from './PortfolioCard.vue';
 
 export default {
     components: {
         Header,
-        PortfolioCard
+        PortfolioCard,
+        Icon
     },
     data() {
         return {
@@ -107,6 +112,16 @@ export default {
 </script>
 
 <style scoped>
+.heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.heading h1 {
+    margin-left: 0.8rem;
+}
+
 .noPortfolios {
     padding: 1rem;
 }
@@ -137,11 +152,18 @@ export default {
 }
 
 .addPortfolioBtn {
-    border: 1px solid var(--clr-white) !important;
-    color: var(--clr-black) !important;
-    padding: var(--btn-small-padding);
-    font-size: var(--btn-font-size);
+    border: 2px solid var(--clr-blue) !important;
+    color: var(--clr-blue) !important;
+    padding: 0.6rem 1.4rem;
+    font-size: 1.1rem;
+    background-color: var(--clr-white) !important;
 }
+
+.addPortfolioBtn:hover {
+    box-shadow: var(--box-shadow);
+    background-color: none !important;
+}
+
 
 table {
     width: 100%;
@@ -155,9 +177,15 @@ thead {
 }
 
 th {
-      padding: 1.2rem 2rem;
+    padding: 1.2rem 2rem;
     text-align: left;
     font-size: 1.1rem;
+}
+
+th:last-of-type {
+    padding: 0;
+    margin: 0;
+    width: 1px;
 }
 
 tr {
@@ -216,10 +244,10 @@ tr:nth-last-child(1) {
 
 @media screen and (max-width: 600px) {
     .myPortfolios__header {
-        display: block;
+        display: inline-block;
     }
 
-    .myPortfolios__header h1 {
+    .heading {
         margin-bottom: 1.5rem;
     }
 }

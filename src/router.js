@@ -11,6 +11,7 @@ import FeesPage from "./pages/fees/FeesPage.vue";
 import TradingPage from "./pages/trading/TradingPage.vue";
 import NotFoundPage from "./pages/notfound/NotFoundPage.vue";
 import PortfoliosPage from "./pages/portfolios/PortfoliosPage.vue";
+import SettingsPage from "./pages/settings/SettingsPage.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -58,6 +59,11 @@ const router = createRouter({
         {
             path: '/portfolios',
             component: PortfoliosPage,
+            meta: { requiresAuth: true },
+        },
+        {
+            path: '/settings',
+            component: SettingsPage,
             meta: { requiresAuth: true },
         },
         {

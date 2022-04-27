@@ -11,10 +11,16 @@ import Spinner from "./components/ui/Spinner.vue";
 
 import App from './App.vue'
 
+
+import vClickOutside from 'v-click-outside'
+
 // app
+
 const app = createApp(App);
+ 
 
 
+app.use(vClickOutside)
 
 app.use(router);
 app.use(store);

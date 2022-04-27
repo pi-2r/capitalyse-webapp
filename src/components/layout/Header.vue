@@ -12,7 +12,7 @@
                         <li><a href="contact.html">Contact</a></li> -->
                         <li>
                             <router-link class="routerLink" to="/portfolios">
-                            <Icon icon="bi:bar-chart-fill" height="15" />
+                            <Icon icon="bi:bar-chart-fill" height="13" />
                             My Portfolios</router-link>
                         </li> 
                     </ul>
@@ -25,10 +25,12 @@
                             Premium
                         </Button>
                     </section>
-                    <LogoutButton/>
-                    <!-- <section> -->
-                       <!-- <Icon class="settingsIcon" icon="ci:settings" color="var(--clr-grey)" height="35" /> -->
-                    <!-- </section> -->
+
+                    <section>
+                        <router-link to="/settings">
+                            <Icon class="settingsIcon" icon="ci:settings" color="var(--clr-grey)" height="30" />
+                        </router-link>
+                    </section>
                 </section>
             </div>
             <div class="nav-container-mobile">
@@ -60,6 +62,7 @@
                             </li> 
                             <li @click="closeNav" class="logoutLi">
                                 <LogoutButton/> 
+
                             </li> 
                         </ul>
                     </section>
@@ -226,6 +229,7 @@ li {
     color: var(--clr-grey);
     display: flex;
     justify-content: center;
+    font-size: 1.1rem;
     align-items: center;
     grid-gap: 0.5rem;
 }
@@ -254,7 +258,7 @@ a:hover {
 .rightSide section {
     display: flex;
     align-items: center;
-    margin-left: 2rem;
+    margin-left: 1rem;
 }
 
 .nav-container {

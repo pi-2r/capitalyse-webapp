@@ -149,7 +149,7 @@ export default {
         submitForm() {
             this.portfolioNameFormControl();
             this.getPortfolios();
-            if(this.formIsValid && this.amountOfPortfolios < 1) {
+            if(this.formIsValid) {
                 this.isLoading = true;
                 this.$store.dispatch('files/createNewPortfolio', {
                     portfolioName: this.portfolioName,
