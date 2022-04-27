@@ -11,6 +11,9 @@ export default {
     hasPortfolios(state) {
         return state.portfolios.length > 0;
     },
+    amountOfPortfolios(state) {
+        return state.portfolios.length;
+    },
     getDashboardPortfolio(state) {
         return state.currentPortfolio;
     },
@@ -26,5 +29,7 @@ export default {
     hasFiles(state) {
         return !!state.accountFile && !!state.transactionsFile;
     },
-    
+    getUploadingState(state) {
+        return state.uploadingState;
+    },
 };

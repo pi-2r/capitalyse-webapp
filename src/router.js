@@ -71,7 +71,7 @@ router.beforeEach((to, _2, next) => {
     if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
         next('/login')
     } else if (to.meta.requiresUnauth && store.getters.isAuthenticated) {
-        next('/dashboard')
+        next('/portfolios')
     } else {
         next()
     }

@@ -2,8 +2,8 @@
     <section class="container">
         <section>
             <h2>PORTFOLIO ANALYTICS</h2>
-            <h1>Not Found</h1>
-            <Button to="/login">To Login</Button>
+            <h1>Sorry, this page doesn't exist.</h1>
+            <Button link to="/portfolios">To My Portfolios</Button>
         </section>
     </section>    
 </template>

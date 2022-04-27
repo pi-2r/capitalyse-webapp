@@ -109,7 +109,7 @@ input {
 }
 
 .container {
-    max-width: 95%;
+    max-width: 92%;
   
 }
 

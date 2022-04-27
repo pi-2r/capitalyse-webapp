@@ -9,7 +9,6 @@
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li> -->
                         <li><router-link class="routerLink" to="/portfolios">My Portfolios</router-link></li> 
-                        <li><router-link class="routerLink" to="/portfolios/new">+ New Portfolio</router-link></li>
                     </ul>
                 </section>
                 
@@ -27,6 +26,35 @@
                     <!-- </section> -->
                 </section>
             </div>
+            <div class="nav-container-mobile">
+
+                <h2>Analytics</h2>
+                <Icon @click="toggleMobileNav" class="hamburgerMenuIcon" icon="eva:menu-outline" color="var(--clr-black)" height="40" />
+                <div class="nav-menu-mobile" :class="[{open : isMobileNavOpen}]">
+                    <Icon @click="toggleMobileNav" icon="carbon:close" class="closeMobileNav" color="var(--clr-black)" height="50" />
+                    <section class="nav-mobile-content">
+                        <ul>
+                            <h2>Analytics</h2>
+                            <li @click="closeNav">
+                                <Icon icon="bi:bar-chart-fill" color="var(--clr-blue)" height="20" />
+                                <router-link class="routerLink" to="/portfolios">
+                                    My Portfolios
+                                </router-link>
+                                </li> 
+                            <li @click="closeNav">
+                                <router-link class="routerLink" to="/premium">
+                                    <Icon icon="fluent:premium-16-filled" color="var(--clr-blue)" height="20" />
+                                    Premium
+                                </router-link>
+                            </li> 
+                            <li @click="closeNav">
+                                <Icon icon="clarity:settings-solid" color="var(--clr-blue)" height="20" />
+                                <router-link class="routerLink" to="/settings">Settings</router-link>
+                                </li> 
+                        </ul>
+                    </section>
+                </div>
+            </div>
         </nav>
     </header>
 </template>
@@ -39,12 +67,98 @@ import LogoutButton from '../../components/ui/LogoutButton.vue';
 export default {
     components: {
         Icon,
-        LogoutButton
+        LogoutButton,
+     
     },
+    data() {
+        return {
+            isMobileNavOpen: false,
+        }
+    }, 
+    methods: {
+        toggleMobileNav() {
+
+            if(this.isMobileNavOpen) {
+                this.isMobileNavOpen = false;
+            } else {
+                this.isMobileNavOpen = true;
+            }
+        },
+        closeNav() {
+            this.isMobileNavOpen = false;
+        },
+    }
 }
 </script>
 
 <style scoped>
+.open {
+    display: block !important;
+    opacity: 1 !important;
+}
+
+.closeMobileNav {
+    margin: 1rem;
+    transition: all 0.3s;
+}
+
+.closeMobileNav:hover {
+    cursor: pointer;
+    transform: rotate(90deg);
+}
+
+.nav-container-mobile {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    width: 92%;
+}
+
+.nav-menu-mobile {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: var(--clr-white);
+    z-index: 100;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.nav-mobile-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-mobile-content h2 {
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.nav-mobile-content ul {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 300;
+}
+
+.nav-mobile-content ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.hamburgerMenuIcon:hover {
+    cursor: pointer;
+
+}
+
+
 .premiumBtn {
     background-color: var(--clr-blue);
     color: var(--clr-white);
@@ -75,6 +189,10 @@ h2 {
     color: var(--clr-black);
     font-weight: 600;
     font-size: 1.5rem;
+}
+
+li {
+    list-style: none;
 }
 
 .leftSide ul {
@@ -140,15 +258,15 @@ a:hover {
 /* media queries */
 
 @media screen and (min-width: 400px) {
-    .nav-container {
-        max-width: 95%;
+    .nav-container, .nav-container-mobile {
+        max-width: 92%;
     }   
 }
 
 @media screen and (min-width: 650px) {
  
 
-    .nav-container {
+    .nav-container, .nav-container-mobile {
         max-width: 90%;
     }
 }
@@ -156,14 +274,14 @@ a:hover {
 @media screen and (min-width: 1050px) {
    
 
-    .nav-container {
+    .nav-container, .nav-container-mobile {
         max-width: 1000px;
     }
 }
 
 /* Media Queries */
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 850px) {
 
 
    .rightSide section {
@@ -173,6 +291,23 @@ a:hover {
     .leftSide ul {
         flex-direction: column;
     }
+
+    .nav-wrapper {
+        justify-content: center;
+    }
+
+    .nav-container-mobile {
+        display: flex;
+    }
+
+    .nav-container {
+        display: none;
+    }
    
 }
+
+
+    
+
+  
 </style>

@@ -29,7 +29,7 @@ export default {
 
 @media screen and (min-width: 400px) {
     .container {
-        max-width: 23%;
+        max-width: 92%;
     }
     
 }

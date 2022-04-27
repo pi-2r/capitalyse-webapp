@@ -103,7 +103,7 @@ h1 {
 
 @media screen and (min-width: 400px) {
     .container {
-        max-width: 95%;
+        max-width: 92%;
     }   
 }
 

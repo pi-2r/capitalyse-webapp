@@ -10,6 +10,7 @@ export default {
             dashboardPortfolio: null,
             transactionsFile: null,
             accountFile: null,
+            uploadingState: 'none',
         };
     },
     mutations,

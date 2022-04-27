@@ -46,7 +46,7 @@ export default {
     },
     data() {
         return {
-            isLoading: true,
+            isLoading: false,
             portfolios: [],
         }
     },
@@ -54,15 +54,18 @@ export default {
         areTherePortfolios() {
             return this.$store.getters['files/hasPortfolios'];
         },
+        amountOfPortfolios() {
+            return this.$store.getters['files/amountOfPortfolios'];
+        },
         portfoliosFromStore() {
             return this.$store.getters['files/getPortfolios'];
         },
     },
     watch: {
-        areTherePortfolios() {
+        amountOfPortfolios() {
             console.log('change');
             this.loadData();
-        }
+        },
     },
     methods: {
         loadData() {
@@ -76,6 +79,7 @@ export default {
         },
         loadPortfoliosIntoArray() {
             console.log(this.portfoliosFromStore[0].id);
+            this.portfolios = [];
             for(let i = 0; i < this.portfoliosFromStore.length; i++) {
                 this.portfolios.push(this.portfoliosFromStore[i]);
             }
@@ -83,12 +87,13 @@ export default {
     },
    
     created() {
+        this.isLoading = true;
         this.loadData();
+        // reset transactionsFile and accountFile
+        this.$store.dispatch('files/resetFiles');
 
-        // hack
-        setTimeout(() => {
-            this.$store.dispatch('files/fetchAllPortfolios')
-        }, 1250);
+        this.$store.dispatch('files/fetchAllPortfolios')
+
     }
 }
 </script>
@@ -166,7 +171,7 @@ tr:nth-last-child(1) {
 
 @media screen and (min-width: 400px) {
     .container {
-        max-width: 95%;
+        max-width: 92%;
     }   
 
   

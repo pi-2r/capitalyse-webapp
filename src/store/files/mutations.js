@@ -14,5 +14,12 @@ export default {
     },
     setAccountFile(state, accountFile) {
         state.accountFile = accountFile;
-    }
+    },
+    setUploadingState(state, uploadingState) {
+        state.uploadingState = uploadingState;
+    },
+    resetFiles(state) {
+        state.transactionsFile = null;
+        state.accountFile = null;
+    },
 };

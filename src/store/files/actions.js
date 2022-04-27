@@ -1,6 +1,6 @@
 import '../../../firebase'
 import {
-    writeBatch,
+    // writeBatch,
     getFirestore,
     collection,
     getDocs,
@@ -32,8 +32,10 @@ export default {
             accountFile: payload.accountFile,
         });
     },
+    resetFiles(context) {
+        context.commit("resetFiles");
+    },
     async createNewPortfolio(context, payload) {
-        const batch = writeBatch(db);
         const storage = getStorage();
 
         const userId = localStorage.getItem('userId');
@@ -65,39 +67,45 @@ export default {
             // upload transactions file
             uploadBytes(transactionsStorageFileRef, transactionsFile).then((snapshot) => {
                 console.log(snapshot);
+
+                uploadBytes(accountStorageFileRef, accountFile).then((snapshot) => {
+                    console.log(snapshot);
+                    // update firestore storage url
+                    const updateFireStorePortfolioRef = doc(db, `users/${userId}/portfolios/${portfolioId}`);
+
+                    updateDoc(updateFireStorePortfolioRef, {
+                        transactionsFileUrl: transactionsStorageFileUrl,
+                        accountFileUrl: accountStorageFileUrl,
+                    }).then((docRef) => {
+                        console.log(docRef);
+
+                       
+
+
+                        context.commit("setUploadingState", "success");
+                    }).catch((error) => {
+                        console.log('error at updating firestore storage url');
+                        context.commit("setUploadingState", "error");
+                        console.log(error);
+                    });
+                }).catch((error) => {
+                    console.log('error at account file upload');
+                    context.commit("setUploadingState", "error");
+                    console.log(error);
+                });
             }).catch((error) => {
                 console.log( 'error at transactions file upload');
+                context.commit("setUploadingState", "error");
                 console.log(error);
             });
-            // upload account file
-            uploadBytes(accountStorageFileRef, accountFile).then((snapshot) => {
-                console.log(snapshot);
-            }).catch((error) => {
-                console.log('error at account file upload');
-                console.log(error);
-            });
-            // update firestore storage url
-            const updateFireStorePortfolioRef = doc(db, `users/${userId}/portfolios/${portfolioId}`);
-            updateDoc(updateFireStorePortfolioRef, {
-                transactionsFileUrl: transactionsStorageFileUrl,
-                accountFileUrl: accountStorageFileUrl,
-            }).then((docRef) => {
-                console.log(docRef);
-            }).catch((error) => {
-                console.log('error at updating firestore storage url');
-                console.log(error);
-            });
+            
         }).catch(error => {
             console.log('error at firestore upload');
+            context.commit("setUploadingState", "error");
             console.log( error);
         });
 
-        await batch.commit();
-
-        context.commit("setFiles", {
-            transactionsFile: payload.transactionsFile,
-            accountFile: payload.accountFile,
-        })
+        
     },
     async fetchAllPortfolios(context) {
         const userId = localStorage.getItem('userId');

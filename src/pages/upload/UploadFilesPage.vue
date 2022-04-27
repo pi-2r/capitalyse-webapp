@@ -62,6 +62,10 @@
                             <Button type="submit" class="submitFiles">Add Portfolio</Button>
                             <Button class="secondary" link to="/portfolios" >Cancel</Button>
                         </section>
+
+                        <section v-if="isLoading">
+                            <Spinner />
+                        </section>
                     </form>
                 </article>
             </section>
@@ -84,7 +88,7 @@ export default {
         CloseIcon,
         CheckMarkIcon,
         Header,
-        Breadcrumbs
+        Breadcrumbs,
     },
     data() {
         return {
@@ -98,10 +102,20 @@ export default {
             portfolioName: '',
             accountFileIsEmpty: false,
             transactionsFileIsEmpty: false,
+            isLoading: false,
         }
     },
     watch: {
-        
+        uploadingState() {
+            if (this.uploadingState === 'success') {
+                this.$store.commit('files/setUploadingState', 'none');
+                this.isLoading = false;
+                this.$router.push('/portfolios');
+            } else if (this.uploadingState === 'error') {
+                this.$store.commit('files/setUploadingState', 'none');
+                this.isLoading = false;
+            }
+        }
     },
     computed: {
         inputText() {
@@ -117,7 +131,9 @@ export default {
                 return false;
             }
         },
-        
+        uploadingState(){
+            return this.$store.getters['files/getUploadingState'];
+        }
     },
     methods: {
         fetchFiles() {
@@ -127,6 +143,7 @@ export default {
             this.portfolioNameFormControl();
 
             if(this.formIsValid) {
+                this.isLoading = true;
                 this.$store.dispatch('files/createNewPortfolio', {
                     portfolioName: this.portfolioName,
                     transactionsFile: this.transactionsFile,
@@ -134,7 +151,7 @@ export default {
                     addedAt: this.getDate()
                 });
 
-                this.$router.push('/portfolios');
+                
             } else {
                 console.log('Please upload both files modal');
             }
@@ -224,7 +241,7 @@ export default {
         }
     },
     created() {
-       
+        this.$store.commit('files/setUploadingState', 'none');
     }
 }
 </script>
@@ -411,7 +428,7 @@ input[type="submit"] {
     
 
     .container {
-        max-width: 95%;
+        max-width: 92%;
     }
     
 }
