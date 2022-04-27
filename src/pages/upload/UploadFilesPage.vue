@@ -115,6 +115,9 @@ export default {
                 this.$store.commit('files/setUploadingState', 'none');
                 this.isLoading = false;
             }
+        },
+        getPortfolios() {
+            this.alreadyHasPortfolios();
         }
     },
     computed: {
@@ -133,16 +136,20 @@ export default {
         },
         uploadingState(){
             return this.$store.getters['files/getUploadingState'];
-        }
+        },
+        amountOfPortfolios() {
+            return this.$store.getters['files/amountOfPortfolios'];
+        },
+       
     },
     methods: {
-        fetchFiles() {
-            this.$store.dispatch('files/fetchCSVData');
+         getPortfolios() {
+            return this.$store.dispatch('files/fetchAllPortfolios');
         },
         submitForm() {
             this.portfolioNameFormControl();
-
-            if(this.formIsValid) {
+            this.getPortfolios();
+            if(this.formIsValid && this.amountOfPortfolios < 1) {
                 this.isLoading = true;
                 this.$store.dispatch('files/createNewPortfolio', {
                     portfolioName: this.portfolioName,
@@ -154,6 +161,7 @@ export default {
                 
             } else {
                 console.log('Please upload both files modal');
+                console.log(this.amountOfPortfolios);
             }
         },
         portfolioNameFormControl() {
@@ -241,6 +249,7 @@ export default {
         }
     },
     created() {
+       
         this.$store.commit('files/setUploadingState', 'none');
     }
 }

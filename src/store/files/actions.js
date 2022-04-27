@@ -41,12 +41,17 @@ export default {
         const userId = localStorage.getItem('userId');
         const transactionsFile = payload.transactionsFile;
         const accountFile = payload.accountFile;
+
+        const transactionsFileSize = (transactionsFile.size / 1024).toFixed(2);
+        const accountFileSize = (accountFile.size / 1024).toFixed(2);
            
         const firebaseDocData = {
             portfolioName: payload.portfolioName,
             addedAt: payload.addedAt,
             transactionsFileUrl: '',
             accountFileUrl: '',
+            transactionsFileSize: transactionsFileSize,
+            accountFileSize: accountFileSize,
         }
      
         // firestore link
@@ -211,28 +216,5 @@ export default {
                 console.log('error get');
                 console.log(error);
             })
-    },
-    async removeCSVData(context, payload) {
-        
-        context.commit("setFiles", {
-            transactionsFile: null,
-            accountFile: null,
-        });
-
-        const token = localStorage.getItem("token");
-        
-        const response = await fetch(
-            `https://portfolio-analytics-app-default-rtdb.europe-west1.firebasedatabase.app/files/${payload.userId}.json?auth=${token}`,
-            {
-                method: "DELETE",
-            }
-        );
-
-        const responseData = await response.json();
-
-        if (!response.ok) {
-            const error = new Error(responseData.error.message);
-            throw error;
-        }
     },
 };

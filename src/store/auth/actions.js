@@ -60,10 +60,8 @@ export default {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
 
-        context.commit("files/setFiles", {
-            transactionsFile: null,
-            accountFile: null,
-        });
+        context.commit("files/resetFiles");
+        context.commit('files/resetPortfolios')
 
         context.commit("setUser", {
             token: null,

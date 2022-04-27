@@ -4,23 +4,31 @@
             <div class="nav-container">
                 <section class="leftSide">
                     <ul>
-                        <h2><router-link class="routerLinkH2" to="/">Analytics</router-link></h2>
+                    
+                        <h2>
+                            <router-link class="routerLinkH2" to="/">Analytics</router-link>
+                        </h2>
                         <!-- <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li> -->
-                        <li><router-link class="routerLink" to="/portfolios">My Portfolios</router-link></li> 
+                        <li>
+                            <router-link class="routerLink" to="/portfolios">
+                            <Icon icon="bi:bar-chart-fill" height="15" />
+
+                            My Portfolios</router-link>
+                        </li> 
                     </ul>
                 </section>
                 
                 <section class="rightSide">
-                    <section>
+                    <section v-if="!hasPremium">
                         <Button class="premiumBtn">
                             <Icon icon="fluent:premium-16-filled" color="var(--clr-white)" height="15" />
                             Premium
 
                         </Button>
                     </section>
-                       <LogoutButton/>
+                    <LogoutButton/>
                     <!-- <section> -->
                        <!-- <Icon class="settingsIcon" icon="ci:settings" color="var(--clr-grey)" height="35" /> -->
                     <!-- </section> -->
@@ -36,21 +44,29 @@
                         <ul>
                             <h2>Analytics</h2>
                             <li @click="closeNav">
-                                <Icon icon="bi:bar-chart-fill" color="var(--clr-blue)" height="20" />
                                 <router-link class="routerLink" to="/portfolios">
+                                <Icon icon="bi:bar-chart-fill" height="20" />
                                     My Portfolios
                                 </router-link>
-                                </li> 
+                            </li> 
                             <li @click="closeNav">
                                 <router-link class="routerLink" to="/premium">
-                                    <Icon icon="fluent:premium-16-filled" color="var(--clr-blue)" height="20" />
+                                    <Icon icon="fluent:premium-16-filled" height="20" />
                                     Premium
                                 </router-link>
                             </li> 
                             <li @click="closeNav">
-                                <Icon icon="clarity:settings-solid" color="var(--clr-blue)" height="20" />
-                                <router-link class="routerLink" to="/settings">Settings</router-link>
-                                </li> 
+                                  <router-link class="routerLink" to="/settings">
+                                <Icon icon="clarity:settings-solid" height="20" />
+                                Settings
+                                </router-link>
+                            </li> 
+                            <li @click="closeNav">
+                                  <router-link class="routerLink" to="/settings">
+                                <Icon icon="clarity:logout-solid" height="20" />
+                                Log out
+                                </router-link>
+                            </li> 
                         </ul>
                     </section>
                 </div>
@@ -68,16 +84,19 @@ export default {
     components: {
         Icon,
         LogoutButton,
-     
     },
     data() {
         return {
             isMobileNavOpen: false,
         }
     }, 
+    computed: {
+        hasPremium() {
+            return this.$store.getters['auth/hasPremium'];
+        }
+    },
     methods: {
         toggleMobileNav() {
-
             if(this.isMobileNavOpen) {
                 this.isMobileNavOpen = false;
             } else {
@@ -87,11 +106,12 @@ export default {
         closeNav() {
             this.isMobileNavOpen = false;
         },
-    }
+    },
 }
 </script>
 
 <style scoped>
+
 .open {
     display: block !important;
     opacity: 1 !important;
@@ -198,7 +218,7 @@ li {
 .leftSide ul {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: baseline;
     
 }
 
@@ -207,6 +227,10 @@ li {
     margin-left: 2.5rem;
     list-style-type: none;
     color: var(--clr-grey);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 0.5rem;
 }
 
 h2 a{
@@ -228,7 +252,6 @@ a:hover {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-
 }
 
 .rightSide section {
@@ -251,7 +274,6 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-  
     box-shadow: var(--box-shadow-big);
 }
 

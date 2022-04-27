@@ -22,4 +22,7 @@ export default {
         state.transactionsFile = null;
         state.accountFile = null;
     },
+    resetPortfolios(state) {
+        state.portfolios = [];
+    },
 };

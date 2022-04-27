@@ -4,7 +4,7 @@
 
         <section class="myPortfolios__header">
             <h1>My Portfolios</h1>
-            <Button class="secondary addPortfolioBtn" link to="/portfolios/new">+ Add Portfolio</Button>
+            <Button class="secondary addPortfolioBtn" link @click="addPortfolio">+ Add Portfolio</Button>
         </section>
 
         <section class="tablecontainer">
@@ -68,6 +68,14 @@ export default {
         },
     },
     methods: {
+        addPortfolio() {
+            // if(this.amountOfPortfolios >= 1) {
+            //     window.alert('You can only have one portfolio, delete the existing one or upgrade your account to add more');
+
+            // } else {
+            this.$router.push('/portfolios/new');
+            // }
+        },
         loadData() {
             if(this.areTherePortfolios) {
                 this.loadPortfoliosIntoArray();
@@ -129,6 +137,8 @@ export default {
 }
 
 .addPortfolioBtn {
+    border: 1px solid var(--clr-white) !important;
+    color: var(--clr-black) !important;
     padding: var(--btn-small-padding);
     font-size: var(--btn-font-size);
 }
@@ -210,7 +220,7 @@ tr:nth-last-child(1) {
     }
 
     .myPortfolios__header h1 {
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
     }
 }
     

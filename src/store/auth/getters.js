@@ -8,4 +8,7 @@ export default {
     isAuthenticated(state) {
         return !!state.token;
     },
+    hasPremium(state) {
+        return state.hasPremium;
+    },
 };

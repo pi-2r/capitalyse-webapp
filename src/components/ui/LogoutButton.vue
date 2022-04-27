@@ -1,6 +1,6 @@
 <template>
     <section class="logoutWrapper">
-        <Icon icon="ic:baseline-log-out" class="logout" @click="logoutUser" color="var(--clr-red)" height="30" />
+        <Icon icon="ic:baseline-log-out" class="logout" @click="logoutUser" color="var(--clr-red)" height="25" />
         <!-- <LogoutIcon @click="logoutUser" class="logout"/> -->
     </section>
 </template>

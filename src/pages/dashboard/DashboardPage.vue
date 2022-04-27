@@ -4,7 +4,7 @@
         <Breadcrumbs 
             baseLink="/portfolios"
             baseLinkName="My Portfolios" 
-            secondLink="/dashboard"
+            secondLink="#"
             secondLinkName="Dashboard"
         />
         <section class="head">
