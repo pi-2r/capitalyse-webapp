@@ -98,7 +98,7 @@ export default {
         },
         deletePortfolio(id) {
             this.$store.dispatch('files/deletePortfolio', id);
-            
+            this.portfolios = this.portfolios.filter(portfolio => portfolio.id !== id);
         },
     },
    

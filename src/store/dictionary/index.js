@@ -8,7 +8,8 @@ export default {
             dictionary: {
                 currency: ["Valuta", "Währungswechsel"],
                 dividend: ["Dividend", "Dividende"],
-                deposit: ["iDEAL Deposit", "iDEAL storting", "Soforteinzahlung", "Einzahlung", "Reservation iDEAL / Sofort Deposit"],
+                deposit: ["iDEAL storting", "Einzahlung", "Reservation iDEAL / Sofort Deposit"],
+                withdrawal: ["Laufende Auszahlung", "Processed Flatex Withdrawal"],
             },
         };
     },
