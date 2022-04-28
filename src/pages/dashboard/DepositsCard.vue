@@ -59,8 +59,10 @@ export default {
                 if(data[i][searchIndex]) {                
                     if(this.includesFromArray(names, data[i][searchIndex])) {
                         let nr = this.cleanNumber(data[i][depositIndex]);
-                        nr < 0 ? (nr = nr * -1) : nr;
-                        tot += nr;
+                        if(nr > 0) {
+
+                            tot += nr;
+                        }
                     }
                 }
             }
