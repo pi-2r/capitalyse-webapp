@@ -11,17 +11,9 @@ import Spinner from "./components/ui/Spinner.vue";
 
 import App from './App.vue'
 
-
-import vClickOutside from 'v-click-outside'
-
 // app
-
 const app = createApp(App);
  
-
-
-app.use(vClickOutside)
-
 app.use(router);
 app.use(store);
 
@@ -31,22 +23,8 @@ app.component("Spinner", Spinner);
 
 app.mount('#app');
 
-
-
-
 // firebase
-
 import { initializeApp } from 'firebase/app';
-import {
-    // getFirestore,
-    // collection,
-    // getDocs,
-    // deleteDoc, 
-    // doc,
-    // getDoc,
-    // addDoc,
-    // updateDoc
-} from 'firebase/firestore'
 
 const config = {
     apiKey: "AIzaSyD8TfxGvV-99IPZFldKa8yu49aL5jSdXjc",

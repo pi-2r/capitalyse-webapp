@@ -4,7 +4,7 @@ import {
     getFirestore,
     collection,
     getDocs,
-    // deleteDoc, 
+    deleteDoc, 
     doc,
     getDoc,
     addDoc,
@@ -18,7 +18,8 @@ import {
     getDownloadURL,
     getStorage,
     ref,
-    uploadBytes
+    uploadBytes,
+    deleteObject,
 } from 'firebase/storage';
 
 // mixins
@@ -60,61 +61,46 @@ export default {
         
         // firestore upload
         addDoc(setFirestorePortfolioRef, firebaseDocData).then((docRef) => {
-            console.log(docRef);
             const portfolioId = docRef.id;
-          
             // csv file storage upload, with newly gotten portfolio ID
             const transactionsStorageFileUrl = `users/${userId}/portfolios/${portfolioId}/Transactions.csv`
             const accountStorageFileUrl = `users/${userId}/portfolios/${portfolioId}/Account.csv`
-
             const transactionsStorageFileRef = ref(storage, transactionsStorageFileUrl);
             const accountStorageFileRef = ref(storage, accountStorageFileUrl);
             // upload transactions file
-            uploadBytes(transactionsStorageFileRef, transactionsFile).then((snapshot) => {
-                console.log(snapshot);
-
-                uploadBytes(accountStorageFileRef, accountFile).then((snapshot) => {
-                    console.log(snapshot);
+            uploadBytes(transactionsStorageFileRef, transactionsFile).then(() => {
+                uploadBytes(accountStorageFileRef, accountFile).then(() => {
                     // update firestore storage url
                     const updateFireStorePortfolioRef = doc(db, `users/${userId}/portfolios/${portfolioId}`);
 
                     updateDoc(updateFireStorePortfolioRef, {
                         transactionsFileUrl: transactionsStorageFileUrl,
                         accountFileUrl: accountStorageFileUrl,
-                    }).then((docRef) => {
-                        console.log(docRef);
-
-                       
-
-
+                    }).then(() => {
                         context.commit("setUploadingState", "success");
                     }).catch((error) => {
-                        console.log('error at updating firestore storage url');
                         context.commit("setUploadingState", "error");
+                        console.log('error at updating firestore storage url');
                         console.log(error);
                     });
                 }).catch((error) => {
-                    console.log('error at account file upload');
                     context.commit("setUploadingState", "error");
+                    console.log('error at account file upload');
                     console.log(error);
                 });
             }).catch((error) => {
-                console.log( 'error at transactions file upload');
                 context.commit("setUploadingState", "error");
+                console.log( 'error at transactions file upload');
                 console.log(error);
             });
-            
         }).catch(error => {
-            console.log('error at firestore upload');
             context.commit("setUploadingState", "error");
+            console.log('error at firestore upload');
             console.log( error);
         });
-
-        
     },
     async fetchAllPortfolios(context) {
         const userId = localStorage.getItem('userId');
-
         const portfoliosRef = collection(db, `users/${userId}/portfolios`);
         const querySnapshot = await getDocs(portfoliosRef);
        
@@ -156,7 +142,6 @@ export default {
                 }
             };
             xhr.send();
-
         }).catch((error) => {
             console.log(error);
         });
@@ -181,20 +166,17 @@ export default {
                 }
             };
             xhr.send();
-
         }).catch((error) => {
             console.log(error);
         });
     },
     fetchCSVData(context) {
-
         const userId = localStorage.getItem("userId");
-
         const transactionsFileColRef = doc(db, 'users', userId, 'files', 'transactionsFile');
         const accountFileColRef = doc(db, 'users', userId, 'files', 'accountFile'); 
-
         let accountData = null;
         let transactionsData = null;
+
         getDoc(transactionsFileColRef)
             .then((doc) => {
                 transactionsData = doc.data();  
@@ -205,7 +187,6 @@ export default {
                 console.log('error get');
                 console.log(error);
             })
-        
         getDoc(accountFileColRef)
             .then((doc) => {
                 accountData = doc.data();
@@ -217,4 +198,31 @@ export default {
                 console.log(error);
             })
     },
+    deletePortfolio(context, payload) {
+        const userId = localStorage.getItem('userId');
+        const portfolioId = payload;
+
+        const storage = getStorage();
+
+        const deletePortfolioRef = doc(db, `users/${userId}/portfolios/${portfolioId}`);
+        const deleteTransactionsFileRef = ref(storage, `users/${userId}/portfolios/${portfolioId}/Transactions.csv`);
+        const deleteAccountFileRef = ref(storage, `users/${userId}/portfolios/${portfolioId}/Account.csv`);
+
+        deleteDoc(deletePortfolioRef).then(() => {
+            deleteObject(deleteTransactionsFileRef).then(() => {
+                deleteObject(deleteAccountFileRef).then(() => {
+                    context.commit("deletePortfolio", payload);
+                }).catch((error) => {
+                    console.log('error at delete portfolio');
+                    console.log(error);
+                });
+            }).catch((error) => {
+                console.log('error at delete portfolio');
+                console.log(error);       
+            });
+        }).catch((error) => {
+            console.log('error at delete portfolio');
+            console.log(error);
+        });
+    }
 };

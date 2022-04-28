@@ -1,10 +1,7 @@
 <template>
-
-  
     <main>
         <router-view></router-view>
     </main>
-
     <!-- <Footer></Footer> -->
 </template>
 
@@ -40,7 +37,6 @@ html {
   font-family: 'Lexend', sans-serif;
   background-color: var(--clr-white);
 }
-
 
 h1 {
     font-size: 2.5rem;
@@ -110,16 +106,11 @@ input {
 
 .container {
     max-width: 92%;
-  
 }
 
 @media screen and (max-width: 768px) {
     h1 {
         font-size: 2.2rem;
     }
-  
 }
-
-
-  
 </style>

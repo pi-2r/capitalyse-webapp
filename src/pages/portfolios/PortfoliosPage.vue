@@ -24,7 +24,7 @@
                 </thead>
                 <tbody>
                     <tr  :key="portfolio.id" v-for="portfolio in portfolios">
-                        <PortfolioCard
+                        <PortfolioCard @deletePortfolio="deletePortfolio"
                             :portfolio="portfolio"   
                         />
                     </tr>
@@ -91,11 +91,14 @@ export default {
             } 
         },
         loadPortfoliosIntoArray() {
-            console.log(this.portfoliosFromStore[0].id);
             this.portfolios = [];
             for(let i = 0; i < this.portfoliosFromStore.length; i++) {
                 this.portfolios.push(this.portfoliosFromStore[i]);
             }
+        },
+        deletePortfolio(id) {
+            this.$store.dispatch('files/deletePortfolio', id);
+            
         },
     },
    
@@ -105,7 +108,6 @@ export default {
         // reset transactionsFile and accountFile
         this.$store.dispatch('files/resetFiles');
 
-        this.$store.dispatch('files/fetchAllPortfolios')
 
     }
 }

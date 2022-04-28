@@ -25,4 +25,7 @@ export default {
     resetPortfolios(state) {
         state.portfolios = [];
     },
+    deletePortfolio(state, portfolio) {
+        state.portfolios = state.portfolios.filter(p => p.id !== portfolio.id);
+    }
 };
