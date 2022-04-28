@@ -278,6 +278,7 @@ a:hover {
     align-items: center;
     justify-content: space-between;
     box-shadow: var(--box-shadow-big);
+    border-bottom: 1px solid rgb(234, 234, 234);
 }
 
 /* media queries */

@@ -1,4 +1,16 @@
 <template>
+   <ConfirmModal class="deletePopup" v-show="isDeletePopupOpen === true">
+       <h1>Are you sure?</h1>
+            <p>Are you sure you want to delete this portfolio? This action can not be reversed.</p>
+            <div class="deletePopup__btns">
+                <Button class="deletePopup__btn noBtn" @click="toggleDeletePopup">Cancel</Button>
+                <Button class="deletePopup__btn deleteBtn" @click="deletePortfolio">
+                     <Icon icon="ant-design:delete-filled" color="var(--clr-white)" height="22" class="deleteBtnIcon"/>
+                    Delete
+                </Button>
+            </div>
+    </ConfirmModal>
+
     <Header></Header>
     <section class="container">
 
@@ -24,13 +36,21 @@
                 </thead>
                 <tbody>
                     <tr  :key="portfolio.id" v-for="portfolio in portfolios">
-                        <PortfolioCard @deletePortfolio="deletePortfolio"
+                        <PortfolioCard @toggleDeletePopup="toggleDeletePopup"
                             :portfolio="portfolio"   
                         />
                     </tr>
                     <!-- if no portfolios -->
                     <tr v-if="portfolios.length < 1">
-                        <td class="noPortfolios" colspan="3">No portfolios found <router-link to="/portfolios/new">Add one to get started</router-link></td>
+                        <td class="noPortfolios" colspan="3">
+                            <h2>No Portfolios</h2>
+                            <p>You haven't added any portfolios yet. 
+                            <br>Add a portfolio to get started.</p>
+
+                            <Button class="secondary addPortfolioBtn" link @click="addPortfolio">+ Add Portfolio</Button>
+                        </td>
+                
+                   
                     </tr>
                 </tbody>
             </table>
@@ -42,17 +62,21 @@
 import { Icon } from '@iconify/vue';
 import Header from '../../components/layout/Header.vue';
 import PortfolioCard from './PortfolioCard.vue';
+import ConfirmModal from '../../components/ui/ConfirmModal.vue';
 
 export default {
     components: {
         Header,
         PortfolioCard,
-        Icon
+        Icon,
+        ConfirmModal
     },
     data() {
         return {
             isLoading: false,
             portfolios: [],
+            isDeletePopupOpen: false,
+            deletePortfolioId: null,
         }
     },
     computed: {
@@ -65,6 +89,7 @@ export default {
         portfoliosFromStore() {
             return this.$store.getters['files/getPortfolios'];
         },
+        
     },
     watch: {
         amountOfPortfolios() {
@@ -96,10 +121,16 @@ export default {
                 this.portfolios.push(this.portfoliosFromStore[i]);
             }
         },
-        deletePortfolio(id) {
+        deletePortfolio() {
+            const id = this.deletePortfolioId;
             this.$store.dispatch('files/deletePortfolio', id);
             this.portfolios = this.portfolios.filter(portfolio => portfolio.id !== id);
+            this.toggleDeletePopup();
         },
+        toggleDeletePopup(id) {
+            this.isDeletePopupOpen = !this.isDeletePopupOpen;
+            this.deletePortfolioId = id;
+        }
     },
    
     created() {
@@ -125,7 +156,23 @@ export default {
 }
 
 .noPortfolios {
-    padding: 1rem;
+    padding: 2rem;
+    padding-top: 1rem;
+    padding-right: 20%;
+}
+
+.noPortfolios h2 {
+    font-size: 1.8rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    color: var(--clr-grey);
+}
+
+.noPortfolios p {
+    font-size: 1rem;
+    font-weight: 300;
+    margin-bottom: 1.8rem;
+    color: var(--clr-grey);
 }
 
 .container {
@@ -154,10 +201,11 @@ export default {
 }
 
 .addPortfolioBtn {
-    border: 2px solid var(--clr-blue) !important;
+    border: 1px solid var(--clr-blue) !important;
     color: var(--clr-blue) !important;
-    padding: 0.6rem 1.4rem;
+    padding: 0.4rem 1.2rem;
     font-size: 1.1rem;
+    font-weight: 400;
     background-color: var(--clr-white) !important;
 }
 
@@ -204,7 +252,63 @@ tr:nth-last-child(1) {
     text-align: right;
 }
 
+/* delete popup */
+.deletePopup h1 {
+    margin-bottom: 1rem;
 
+}
+
+.deletePopup p {
+    margin-bottom: 1.4rem;
+    font-weight: 300;
+}
+
+
+.deletePopup__btns {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+   
+
+}
+
+.deletePopup__btn {
+    height: 3rem;
+    border-radius: var(--btn-radius);
+    border: none;
+    background-color: var(--clr-blue);
+    color: var(--white-color);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.2s all;
+    width: 48%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.deletePopup__btn:hover {
+
+    box-shadow: var(--box-shadow);
+}
+
+.deleteBtn {
+    background-color: var(--clr-red);
+    color: var(--clr-white);    
+}
+
+.deleteBtnIcon {
+    margin-right: 0.4rem;
+}
+
+.noBtn {
+    background-color: var(--clr-white);
+    color: var(--clr-grey);
+    border: 1px solid var(--clr-grey);
+    cursor: pointer;
+}
 
 
 
@@ -251,6 +355,23 @@ tr:nth-last-child(1) {
 
     .heading {
         margin-bottom: 1.5rem;
+    }
+
+    .deletePopup__btns {
+        flex-direction: column;
+    }
+
+    .deletePopup__btn {
+        width: 100%;
+    }
+
+    .deleteBtn {
+        margin-bottom: 1rem;
+        order: 1;
+    }
+
+    .noBtn {
+        order: 2;
     }
 }
     

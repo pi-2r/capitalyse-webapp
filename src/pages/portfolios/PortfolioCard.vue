@@ -17,7 +17,7 @@
     <td class="actionsTd">
         <Icon icon="fluent:new-16-filled" color="var(--clr-blue)" height="22" class="actionBtn"/>
         <Icon icon="ci:edit"  height="22" color="orange" class="actionBtn"/>
-        <Icon icon="ant-design:delete-filled" color="var(--clr-red)" height="22" class="actionBtn" @click="$emit('deletePortfolio', portfolio.id)"/>
+        <Icon icon="ant-design:delete-filled" color="var(--clr-red)" height="22" class="actionBtn" @click="$emit('toggleDeletePopup', portfolio.id)"/>
     </td>
 </template>
 
