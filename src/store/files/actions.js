@@ -211,7 +211,7 @@ export default {
         deleteDoc(deletePortfolioRef).then(() => {
             deleteObject(deleteTransactionsFileRef).then(() => {
                 deleteObject(deleteAccountFileRef).then(() => {
-                    context.commit("deletePortfolio", payload);
+                    context.commit("deletePortfolio", portfolioId);
                 }).catch((error) => {
                     console.log('error at delete portfolio');
                     console.log(error);
