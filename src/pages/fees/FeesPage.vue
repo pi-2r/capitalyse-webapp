@@ -1,4 +1,5 @@
 <template>
+    <Header/>
     <section class="container">
         <Breadcrumbs 
             baseLink="/portfolios"
@@ -19,10 +20,12 @@
 
 <script>
 import Breadcrumbs from '../../components/ui/Breadcrumbs.vue';
+import Header from '../../components/layout/Header.vue';
 
 export default {
    components: {
-       Breadcrumbs
+        Breadcrumbs,
+        Header
    }
 }
 </script>
@@ -30,8 +33,8 @@ export default {
 <style scoped>
 .container {
     margin: 0 auto;
-    margin-top: 6rem;
     margin-bottom: 4rem;
+    margin-top: 3rem;
 }
 
 @media screen and (min-width: 400px) {
