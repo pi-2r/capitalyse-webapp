@@ -1,18 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import DashboardPage from "./pages/dashboard/DashboardPage.vue";
 import store from './store';
 
-import UploadFilesPage from "./pages/upload/UploadFilesPage.vue";
-import SignupPage from "./pages/auth/SignupPage.vue";
-import LoginPage from "./pages/auth/LoginPage.vue";
-import DepositsPage from "./pages/deposits/DepositsPage.vue";
-import FeesPage from "./pages/fees/FeesPage.vue";
-import TradingPage from "./pages/trading/TradingPage.vue";
-import NotFoundPage from "./pages/notfound/NotFoundPage.vue";
+// import DashboardPage from "./pages/dashboard/DashboardPage.vue";
+// import UploadFilesPage from "./pages/upload/UploadFilesPage.vue";
+// import SignupPage from "./pages/auth/SignupPage.vue";
+// import LoginPage from "./pages/auth/LoginPage.vue";
+// import DepositsPage from "./pages/deposits/DepositsPage.vue";
+// import FeesPage from "./pages/fees/FeesPage.vue";
+// import TradingPage from "./pages/trading/TradingPage.vue";
+// import NotFoundPage from "./pages/notfound/NotFoundPage.vue";
 import PortfoliosPage from "./pages/portfolios/PortfoliosPage.vue";
-import SettingsPage from "./pages/settings/SettingsPage.vue";
-import EditPage from "./pages/edit/EditPage.vue";
+// import SettingsPage from "./pages/settings/SettingsPage.vue";
+// import EditPage from "./pages/edit/EditPage.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -20,42 +20,6 @@ const router = createRouter({
         {
             path: '/',
             redirect: '/portfolios',
-            component: DashboardPage,
-        },
-        {
-            path: '/signup',
-            component: SignupPage,
-            meta: { requiresUnauth: true },
-        },
-        {
-            path: '/login',
-            component: LoginPage,
-            meta: { requiresUnauth: true },
-        },
-        {
-            path: '/portfolios/new',
-            component: UploadFilesPage,
-            meta: { requiresAuth: true },
-        },
-        {
-            path: '/dashboard/:id',
-            component: DashboardPage,
-            meta: { requiresAuth: true },
-        },
-        {
-            path: '/dashboard/:id/deposits',
-            component: DepositsPage,
-            meta: { requiresAuth: true },
-        },
-        {
-            path: '/dashboard/:id/fees',
-            component: FeesPage,
-            meta: { requiresAuth: true },
-        },
-        {
-            path: '/dashboard/:id/trading',
-            component: TradingPage,
-            meta: { requiresAuth: true },
         },
         {
             path: '/portfolios',
@@ -63,18 +27,53 @@ const router = createRouter({
             meta: { requiresAuth: true },
         },
         {
+            path: '/signup',
+            component: () => import('./pages/auth/SignupPage.vue'),
+            meta: { requiresUnauth: true },
+        },
+        {
+            path: '/login',
+            component: () => import('./pages/auth/LoginPage.vue'),
+            meta: { requiresUnauth: true },
+        },
+        {
+            path: '/portfolios/new',
+            component: () => import("./pages/upload/UploadFilesPage.vue"),
+            meta: { requiresAuth: true },
+        },
+        {
+            path: '/dashboard/:id',
+            component: () => import('./pages/dashboard/DashboardPage.vue'),
+            meta: { requiresAuth: true },
+        },
+        {
+            path: '/dashboard/:id/deposits',
+            component: () => import("./pages/deposits/DepositsPage.vue"),
+            meta: { requiresAuth: true },
+        },
+        {
+            path: '/dashboard/:id/fees',
+            component: () => import('./pages/fees/FeesPage.vue'),
+            meta: { requiresAuth: true },
+        },
+        {
+            path: '/dashboard/:id/trading',
+            component: () => import('./pages/trading/TradingPage.vue'),
+            meta: { requiresAuth: true },
+        },
+        {
             path: '/settings',
-            component: SettingsPage,
+            component: () => import('./pages/settings/SettingsPage.vue'),
             meta: { requiresAuth: true },
         },
         {
             path: '/portfolios/edit/:id',
-            component: EditPage,
+            component: () => import('./pages/edit/EditPage.vue'),
             meta: { requiresAuth: true },
         },
         {
             path: '/:notFound(.*)',
-            component: NotFoundPage,
+            component: () => import('./pages/notfound/NotFoundPage.vue'),
         },
     ],
 })
