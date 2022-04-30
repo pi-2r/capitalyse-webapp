@@ -36,6 +36,9 @@ export default {
     resetFiles(context) {
         context.commit("resetFiles");
     },
+    setLastDashboardPortfolioId(context, id) {
+        context.commit("setLastDashboardPortfolioId", id);
+    },
     async createNewPortfolio(context, payload) {
         const storage = getStorage();
 

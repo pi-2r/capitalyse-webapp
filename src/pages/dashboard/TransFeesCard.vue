@@ -2,7 +2,7 @@
     <ResultCard 
         title="Total Transaction Fees" 
         :resultValue="totTransFees" 
-        to="/dashboard/fees" 
+        :to="'/dashboard/'+ portfolioId + '/fees'" 
         btnText="Fees and Costs"
         withBtn
     />
@@ -16,6 +16,12 @@ import includesFromArrayMixin from '../../mixins/includesFromArray';
 
 export default {
     mixins: [cleanNumberMixin, includesFromArrayMixin],
+    props: {
+        portfolioId: {
+            type: String,
+            required: true,
+        }
+    },
     components: {
         ResultCard
     },

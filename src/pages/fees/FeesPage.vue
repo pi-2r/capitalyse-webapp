@@ -1,6 +1,13 @@
 <template>
     <section class="container">
-        <Breadcrumbs />
+        <Breadcrumbs 
+            baseLink="/portfolios"
+            baseLinkName="My Portfolios" 
+            :secondLink="'/dashboard/' + this.$route.params.id"
+            secondLinkName="Dashboard"    
+            thirdLink="#"
+            thirdLinkName="Fees and Costs"
+        />
 
         <h1>Fees and Costs</h1>
         

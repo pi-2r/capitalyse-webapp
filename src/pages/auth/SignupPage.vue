@@ -4,6 +4,7 @@
       <h2>Portfolio Analytics</h2>
       <div class="container">
         <div class="content">
+          <Spinner class="spinner" v-if="isLoading"/>
           <div class="form-wrapper">
             <h1>Sign up</h1>
             <form @submit.prevent="submitForm" autocomplete="off">
@@ -86,6 +87,7 @@ export default {
       emailErrorMsg: "",
       passwordErrorMessage: "",
       repeatPasswordErrorMessage: "",
+      isLoading: false,
     };
   },
   computed: {
@@ -104,11 +106,14 @@ export default {
   methods: {
     async submitForm() {
       if (this.formIsValid) {
+        this.isLoading = true;
         try {
           await this.$store.dispatch("signup", {
             email: this.email,
             password: this.password,
           });
+          
+          this.isLoading = false;
 
           const url = "/";
           this.$router.replace(url);
@@ -117,6 +122,7 @@ export default {
           this.emailFormControl = "invalid";
           this.emailErrorMsg = "E-mail is already in use";
         }
+        this.isLoading = false;
       } else {
         this.checkEmailFormControl();
         this.checkPasswordFormControl();
@@ -177,6 +183,12 @@ export default {
 </script>
 
 <style scoped>
+.spinner {
+  position: absolute;
+  width: 300px;
+  top: 45%;
+}
+
 .page-wrapper {
   min-height: 100vh;
   background: url("~@/assets/auth-bg.webp") no-repeat center center;

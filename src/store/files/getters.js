@@ -32,4 +32,7 @@ export default {
     getUploadingState(state) {
         return state.uploadingState;
     },
+    lastDashboardPortfolioId(state) {
+        return state.lastDashboardPortfolioId;
+    },
 };

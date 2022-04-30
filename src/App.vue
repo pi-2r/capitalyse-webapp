@@ -108,6 +108,21 @@ input {
     max-width: 92%;
 }
 
+/* anim */
+
+.slide-fade-enter-active {
+  transition: all 0.15s ease;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.1s ease;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0;
+}
+
 @media screen and (max-width: 768px) {
     h1 {
         font-size: 2.2rem;

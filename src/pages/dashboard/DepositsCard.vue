@@ -2,7 +2,7 @@
     <ResultCard 
         title="Total Deposits" 
         :resultValue="totDeposits" 
-        to="/dashboard/deposits" 
+        :to="'/dashboard/' + portfolioId + '/deposits'"
         btnText="My Deposits"
         withBtn
     />
@@ -15,6 +15,12 @@ import includesFromArrayMixin from '../../mixins/includesFromArray';
 
 export default {
     mixins: [cleanNumberMixin, includesFromArrayMixin],
+    props: {
+        portfolioId: {
+            type: String,
+            required: true,
+        }
+    },
     components: {
         ResultCard
     },

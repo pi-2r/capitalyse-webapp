@@ -2,7 +2,7 @@
     <ResultCard 
         title="Total Trading Volume" 
         :resultValue="totTradingVol" 
-        to="/dashboard/trading" 
+        :to="'/dashboard/' + portfolioId + '/trading'" 
         btnText="Trading Details"
         withBtn
     />
@@ -12,6 +12,12 @@
 import ResultCard from './ResultCard.vue';
 
 export default {
+    props: {
+        portfolioId: {
+            type: String,
+            required: true,
+        }
+    },
     components: {
         ResultCard
     },

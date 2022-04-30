@@ -16,9 +16,9 @@
         <DividendChart/>
 
         <section class="cardsContainer">
-            <DepositsCard/>
-            <TradingVolCard />
-            <TransFeesCard />
+            <DepositsCard :portfolioId="this.$route.params.id"/>
+            <TradingVolCard :portfolioId="this.$route.params.id"/>
+            <TransFeesCard :portfolioId="this.$route.params.id"/>
         </section>
         
     </section>
@@ -56,7 +56,8 @@ export default {
    
     },
     created() {
-        console.log(this.$route.params.id);
+        this.$store.dispatch('files/setLastDashboardPortfolioId', this.$route.params.id);
+
         if(!this.isThereData) {         
             this.$store.dispatch('files/fetchOnePortfolio', {
                 id: this.$route.params.id

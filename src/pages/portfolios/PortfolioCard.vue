@@ -73,7 +73,8 @@ export default {
 
 .actionBtn:hover {
     cursor: pointer;
-    background-color: rgb(248, 248, 248);
+    background-color: rgb(245, 248, 252);
+    transform: scale(1.1)
 }
 
 .portfolioName {
@@ -96,10 +97,10 @@ td {
 
 
 .slide-fade-enter-active {
-  transition: all 0.15s ease-out;
+  transition: all 0.1s ease-out;
 }
 .slide-fade-leave-active {
-  transition: all 0.15s ease-in;
+  transition: all 0.1s ease-in;
 }
 .slide-fade-enter-from {
   transform: translateY(-10px);

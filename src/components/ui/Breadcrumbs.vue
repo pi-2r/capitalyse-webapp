@@ -10,7 +10,7 @@
 
             <Icon class="u-margin-right" icon="ep:arrow-right" color="var(--clr-grey)" height="15" />
 
-            <router-link class="u-margin-right" :to="thirdLink">{{ thirdLink }}</router-link>
+            <router-link class="u-margin-right" :to="thirdLink">{{ thirdLinkName }}</router-link>
 
         </section>
     </p>

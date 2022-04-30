@@ -12,6 +12,7 @@ import TradingPage from "./pages/trading/TradingPage.vue";
 import NotFoundPage from "./pages/notfound/NotFoundPage.vue";
 import PortfoliosPage from "./pages/portfolios/PortfoliosPage.vue";
 import SettingsPage from "./pages/settings/SettingsPage.vue";
+import EditPage from "./pages/edit/EditPage.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -42,17 +43,17 @@ const router = createRouter({
             meta: { requiresAuth: true },
         },
         {
-            path: '/dashboard/deposits',
+            path: '/dashboard/:id/deposits',
             component: DepositsPage,
             meta: { requiresAuth: true },
         },
         {
-            path: '/dashboard/fees',
+            path: '/dashboard/:id/fees',
             component: FeesPage,
             meta: { requiresAuth: true },
         },
         {
-            path: '/dashboard/trading',
+            path: '/dashboard/:id/trading',
             component: TradingPage,
             meta: { requiresAuth: true },
         },
@@ -64,6 +65,11 @@ const router = createRouter({
         {
             path: '/settings',
             component: SettingsPage,
+            meta: { requiresAuth: true },
+        },
+        {
+            path: '/portfolios/edit/:id',
+            component: EditPage,
             meta: { requiresAuth: true },
         },
         {

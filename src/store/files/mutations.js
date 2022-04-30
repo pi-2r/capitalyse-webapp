@@ -27,5 +27,8 @@ export default {
     },
     deletePortfolio(state, id) {
         state.portfolios = state.portfolios.filter(p => p.id !== id);
-    }
+    },
+    setLastDashboardPortfolioId(state, id) {
+        state.lastDashboardPortfolioId = id;
+    },
 };

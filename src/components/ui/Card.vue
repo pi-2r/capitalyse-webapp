@@ -25,5 +25,6 @@ export default {
     border-radius: var(--card-border-radius);
     flex-direction: column;
     box-shadow: var(--box-shadow-big);
+    border: var(--light-border);
 }
 </style>

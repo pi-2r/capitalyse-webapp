@@ -13,14 +13,14 @@
 
 .loader {
   display: block;
-  border: 3px solid var(--clr-blue);
+  border: 5px solid var(--clr-blue);
   border-radius: 100%;
-  border-top: 4px solid transparent;
-  border-right: 1px solid transparent;
-  border-bottom: 3px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid transparent;
   width: 50px;
   height: 50px;
-  animation: spin 0.65s ease infinite;
+  animation: spin 0.6s ease-in-out infinite;
 }
 
 @keyframes spin {

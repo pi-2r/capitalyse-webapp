@@ -1,15 +1,18 @@
 <template>
-   <ConfirmModal class="deletePopup" v-show="isDeletePopupOpen === true">
-       <h1>Are you sure?</h1>
-            <p>Are you sure you want to delete this portfolio? This action can not be reversed.</p>
+    <transition name="slide-fade" mode="out-in">
+        <ConfirmModal class="deletePopup" v-if="isDeletePopupOpen">
+            <h1>Are you sure?</h1>
+            <p>Are you sure you want to permanently delete this portfolio? This action can not be reversed.</p>
             <div class="deletePopup__btns">
                 <Button class="deletePopup__btn noBtn" @click="toggleDeletePopup">Cancel</Button>
                 <Button class="deletePopup__btn deleteBtn" @click="deletePortfolio">
-                     <Icon icon="ant-design:delete-filled" color="var(--clr-white)" height="22" class="deleteBtnIcon"/>
+                    <Icon icon="ant-design:delete-filled" color="var(--clr-white)" height="22" class="deleteBtnIcon"/>
                     Delete
                 </Button>
             </div>
-    </ConfirmModal>
+        </ConfirmModal>
+    </transition>
+   
 
     <Header></Header>
     <section class="container">
@@ -93,7 +96,6 @@ export default {
     },
     watch: {
         amountOfPortfolios() {
-            console.log('change');
             this.loadData();
         },
     },
@@ -189,15 +191,13 @@ export default {
 
 .tablecontainer {
     margin-top: 2rem;
-       min-width: 20rem;
- 
+    min-width: 20rem;
 }
 
 .portfoliosTable {
     width: 100%;
     border-radius: var(--card-border-radius);
     border-collapse: collapse;
-   
 }
 
 .addPortfolioBtn {
@@ -255,7 +255,7 @@ tr:nth-last-child(1) {
 /* delete popup */
 .deletePopup h1 {
     margin-bottom: 1rem;
-
+    color: var(--clr-red);
 }
 
 .deletePopup p {

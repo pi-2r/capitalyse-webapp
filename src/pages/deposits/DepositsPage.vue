@@ -1,6 +1,13 @@
 <template>
     <section class="container">
-        <Breadcrumbs />
+        <Breadcrumbs 
+            baseLink="/portfolios"
+            baseLinkName="My Portfolios" 
+            :secondLink="'/dashboard/' + this.$route.params.id"
+            secondLinkName="Dashboard"    
+            thirdLink="#"
+            thirdLinkName="My Deposits"
+        />
 
         <h1>My Deposits</h1>
      
@@ -13,6 +20,11 @@
 import Breadcrumbs from '../../components/ui/Breadcrumbs.vue';
 
 export default {
+    computed: {
+        portfolioId() {
+            return this.$route.params.id;
+        }
+    },
    components: {
        Breadcrumbs
    }

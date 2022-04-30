@@ -1,9 +1,9 @@
 <template>
     <Header></Header>
     <section class="container">
-        <Spinner class="spinner" v-if="isLoading"/>
+        
         <Breadcrumbs baseLink="/portfolios" baseLinkName="My Portfolios" secondLink="/portfolios/new" secondLinkName="Add Portfolio"/>
-        <h1 class="uploadFilesTitle">Add Portfolio</h1>
+        <h1 class="uploadFilesTitle">Edit Portfolio</h1>
         <section class="formCardContainer">
             <section class="formCard">
 
@@ -63,7 +63,9 @@
                             <Button class="secondary" link to="/portfolios" >Cancel</Button>
                         </section>
 
-                   
+                        <section v-if="isLoading">
+                            <Spinner />
+                        </section>
                     </form>
                 </article>
             </section>
@@ -72,188 +74,11 @@
 </template>
 
 <script>
-import CloseIcon from 'vue-material-design-icons/Close.vue';
-import CheckMarkIcon from 'vue-material-design-icons/CheckDecagram.vue';
-import Breadcrumbs from '../../components/ui/Breadcrumbs.vue';
-import Header from '../../components/layout/Header.vue';
 
-import csvToArrayMixin from '../../mixins/csvToArray.js';
-import includesFromArray from '../../mixins/includesFromArray.js';
 
-export default {
-    mixins: [csvToArrayMixin, includesFromArray],
-    components: {
-        CloseIcon,
-        CheckMarkIcon,
-        Header,
-        Breadcrumbs,
-    },
-    data() {
-        return {
-            csvFiles: [],
-            transactionsFile: null,
-            accountFile: null,
-            transactionsFileName: 'Transactions File',
-            accountFileName: 'Account File',
-            transactionsFileIsValid: false,
-            accountFileIsValid: false,
-            portfolioName: '',
-            accountFileIsEmpty: false,
-            transactionsFileIsEmpty: false,
-            isLoading: false,
-        }
-    },
-    watch: {
-        uploadingState() {
-            if (this.uploadingState === 'success') {
-                this.$store.commit('files/setUploadingState', 'none');
-                this.isLoading = false;
-                this.$router.push('/portfolios');
-            } else if (this.uploadingState === 'error') {
-                this.$store.commit('files/setUploadingState', 'none');
-                this.isLoading = false;
-            }
-        },
-        getPortfolios() {
-            this.alreadyHasPortfolios();
-        }
-    },
-    computed: {
-        inputText() {
-            let tot = 0
-            this.transactionsFile ? tot++ : null
-            this.accountFile ? tot++ : null
-            return "Upload Files (" + tot + "/2)";
-        }, 
-        formIsValid() {
-            if (this.portfolioNameIsValid && this.transactionsFileIsValid && this.accountFileIsValid) {
-                return true;
-            } else {
-                return false;
-            }
-        },
-        uploadingState(){
-            return this.$store.getters['files/getUploadingState'];
-        },
-        amountOfPortfolios() {
-            return this.$store.getters['files/amountOfPortfolios'];
-        },
-       
-    },
-    methods: {
-         getPortfolios() {
-            return this.$store.dispatch('files/fetchAllPortfolios');
-        },
-        submitForm() {
-            this.portfolioNameFormControl();
-            this.getPortfolios();
-            if(this.formIsValid) {
-                this.isLoading = true;
-                this.$store.dispatch('files/createNewPortfolio', {
-                    portfolioName: this.portfolioName,
-                    transactionsFile: this.transactionsFile,
-                    accountFile: this.accountFile,
-                    addedAt: this.getDate()
-                });
-            } else {
-                console.log('Not accepted');
-                console.log(this.amountOfPortfolios);
-            }
-        },
-        portfolioNameFormControl() {
-            const forbiddenChars = ['/', '\\', '<', '>', ':', '"', '|', '?', '*', '&', '$', '#', '%', '@', '^', '+', '=', '~', '`', '{', '}', ';', '.', ','];
-            if (this.portfolioName.length > 2 &&
-                this.portfolioName.length < 30 &&
-                !this.includesFromArray(forbiddenChars, this.portfolioName)) {
-                    this.portfolioNameIsValid = true;
-            } else {
-                this.portfolioNameIsValid = false;
-            }
-        },
-        validateFileContents(e, fName) {
-            let isValid = true;
-            let reader = new FileReader();
-            
-            reader.onload = (e) => {
-                let text = e.target.result;
-                let fileAsArray = this.csvToArray(text);
-
-                console.log(fileAsArray.length, fileAsArray[0].length);
-                if(fName.includes('Transactions')) {
-                    if(fileAsArray[0].length !== 19) {
-                        isValid = false;
-                    }
-                    if(fileAsArray.length < 1) {
-                        isValid = false;
-                    } 
-                    this.transactionsFileIsValid = true;
-                } else if (fName.includes('Account')) {
-                    if(fileAsArray[0].length !== 12) {
-                        isValid = false;
-                    }
-                    if(fileAsArray.length < 1) {
-                        isValid = false;
-                    }  
-                }
-            }
-            reader.readAsText(e);
-            return isValid;
-        },
-       
-        uploadFile(event) {
-            this.checkFileValidity(event.target.files);
-        },
-        checkFileValidity(file) {
-            if(file[0].name.includes('Transactions') && file[0].size > 0) {
-                this.transactionsFile = file[0];
-                this.transactionsFileName = file[0].name;
-                this.transactionsFileIsValid = true;
-            } else if(file[0].name.includes('Account') && file[0].size > 0) {
-                this.accountFile = file[0];
-                this.accountFileName = file[0].name;
-                this.accountFileIsValid = true;
-            } 
-            if(file[0].name.includes('Transactions') && file[0].size === 0) {
-                this.transactionsFileName = file[0].name;
-                this.transactionsFileIsValid = false;
-            } else if(file[0].name.includes('Account') && file[0].size === 0) {
-                this.accountFileName = file[0].name;
-                this.accountFileIsValid = false;
-            }
-        },
-        resetFiles() {
-            this.transactionsFile = null;
-            this.accountFile = null;
-        },
-        getDate() {
-             // get date DD-MM-YYYY
-            let date = new Date();
-            let dd = date.getDate();
-            let mm = date.getMonth() + 1;
-            let yyyy = date.getFullYear();
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-            date = dd + '-' + mm + '-' + yyyy;
-            return date;
-        }
-    },
-    created() {
-        this.$store.commit('files/setUploadingState', 'none');
-    }
-}
 </script>
 
 <style scoped>
-.spinner {
-  position: absolute;
-  width: 300px;
-  top: 45%;
-}
-
 h1 {
     margin-bottom: 1rem;
     margin-top: 0.25rem;
