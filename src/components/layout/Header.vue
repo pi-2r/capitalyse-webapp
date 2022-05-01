@@ -32,7 +32,7 @@
                         </router-link>
                     </section>
 
-                    <logout-button></logout-button>
+                    <LogoutButton />
                 </section>
             </div>
             <div class="nav-container-mobile">
@@ -120,7 +120,9 @@ export default {
 }
 
 .closeMobileNav {
-    margin: 1rem;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
     transition: all 0.3s;
 }
 
@@ -154,6 +156,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 4rem;
 }
 
 .nav-mobile-content h2 {

@@ -148,21 +148,6 @@ export default {
                 return new Date(b.addedAt) - new Date(a.addedAt);
             });
         },
-        toValidDate(date) {
-            // year
-            const year = date.split(0, 4);
-            // month
-            const month = date.split(5, 7);
-            // day
-            const day = date.split(8, 10);
-            // hour
-            const hour = date.split(11, 13);
-            // minute
-            const minute = date.split(14, 16);
-            // second
-            const second = date.split(17, 19);
-            console.log(`${year}-${month}-${day} ${hour}:${minute}:${second}`);
-        },
         deletePortfolio() {
             const id = this.deletePortfolioId;
             this.$store.dispatch('files/deletePortfolio', id);
@@ -178,10 +163,9 @@ export default {
     created() {
         this.isLoading = true;
         this.loadData();
+
         // reset transactionsFile and accountFile
         this.$store.dispatch('files/resetFiles');
-
-
     }
 }
 </script>

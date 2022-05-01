@@ -118,7 +118,6 @@ export default {
         }, 
         formIsValid() {
             // if portfolio is valid and files are uploaded after passing checks then return true
-            console.log(this.portfolioNameIsValid, this.transactionsFileIsValid, this.accountFileIsValid);
             if (this.portfolioNameIsValid && this.transactionsFileIsValid && this.accountFileIsValid) {
                 return true;
             } else {
@@ -172,8 +171,6 @@ export default {
                     addedAt: new Date(),
                 });
             } else {
-                console.log('Not accepted');
-                console.log(this.amountOfPortfolios);
                 this.isLoading = false;
             }
         },
@@ -209,8 +206,6 @@ export default {
                     file[i].type.includes('csv');
                     // this.validateFileContents(file[i]);
                 
-                console.log(this.validateFileContents(file[i]));
-
                 valid ? this.addFile(file[i]) : this.incorrectFile(file[i]);
             }
         },

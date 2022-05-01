@@ -1,24 +1,23 @@
 <template >
-    
-    <td class="portfolioNameTd">
-        <router-link class="portfolioName" :to="'/dashboard/' + portfolio.id">
-            {{ portfolio.portfolioName }}
-        </router-link>
-    </td>
-    <td class="dateAdded">
-        {{ portfolioDate }}
-    </td>
-    <td >
-        {{ transactionsFileSize }}
-    </td>
-    <td >
-        {{ accountFileSize }} 
-    </td>
-    <td class="actionsTd">
-        <Icon icon="fluent:new-16-filled" color="var(--clr-blue)" height="22" class="actionBtn"/>
-        <Icon icon="ci:edit"  height="22" color="orange" class="actionBtn"/>
-        <Icon icon="ant-design:delete-filled" color="var(--clr-red)" height="22" class="actionBtn" @click="$emit('toggleDeletePopup', portfolio.id)"/>
-    </td>
+        <td class="portfolioNameTd">
+            <router-link class="portfolioName" :to="'/dashboard/' + portfolio.id">
+                {{ portfolio.portfolioName }}
+            </router-link>
+        </td>
+        <td class="dateAdded">
+            {{ portfolioDate() }}
+        </td>
+        <td >
+            {{ transactionsFileSize }}
+        </td>
+        <td >
+            {{ accountFileSize }} 
+        </td>
+        <td class="actionsTd">
+            <Icon icon="fluent:new-16-filled" color="var(--clr-blue)" height="22" class="actionBtn"/>
+            <Icon icon="ci:edit"  height="22" color="orange" class="actionBtn"/>
+            <Icon icon="ant-design:delete-filled" color="var(--clr-red)" height="22" class="actionBtn" @click="$emit('toggleDeletePopup', portfolio.id)"/>
+        </td>
 </template>
 
 <script>
@@ -28,15 +27,11 @@ export default {
     components: {
         Icon,
     },
+    emits: ['toggleDeletePopup'],
     props: {
         portfolio: {
             type: Object,
             required: true,
-        },
-    },
-    methods: {
-        openPortfolio(id) {
-            this.$router.push(`/portfolios/${id}`);
         },
     },
     computed: {
@@ -48,6 +43,11 @@ export default {
         },
         accountFileSize() {
             return this.portfolio.accountFileSize ? Math.floor(this.portfolio.accountFileSize) + ' KB' : 'No data';
+        },
+    },
+    methods: {
+        openPortfolio(id) {
+            this.$router.push(`/portfolios/${id}`);
         },
         portfolioDate() {
             let dateTime = this.portfolio.addedAt;
@@ -79,14 +79,11 @@ export default {
             }
         },
     },
-
 }
 </script>
 
 <style scoped>
-.dateAdded {
-    min-width: 10rem;
-}
+
 
 .actionsTd {
     display: flex;
