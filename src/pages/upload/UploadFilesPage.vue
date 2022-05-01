@@ -2,17 +2,17 @@
     <Header></Header>
     <section class="container">
         <Spinner class="spinner" v-if="isLoading"/>
+      
         <Breadcrumbs baseLink="/portfolios" baseLinkName="My Portfolios" secondLink="/portfolios/new" secondLinkName="Add Portfolio"/>
         <h1 class="uploadFilesTitle">Add Portfolio</h1>
         <section class="formCardContainer">
-            <section class="formCard">
+            <section class="formCard" v-if="!isLoading">
 
-                <article class="wrapper">
-                    <form @submit.prevent="submitForm" class="uploadFilesForm">
-                        
+                <article class="wrapper" >
+                    <form  @submit.prevent="submitForm" class="uploadFilesForm">
                         <section class="portfolioName">
                             <label for="portfolioName">Portfolio name</label>
-                            <input type="text" id="portfolioName" v-model.trim="portfolioName" autocomplete="off" placeholder="E.g. DeGiro Portfolio"/>
+                            <input type="text" id="portfolioName" @blur="checkPortfolioNameValidity" @focus="resetInputStyling" v-model.trim="portfolioName" :class="portfolioNameIsValidClass" autocomplete="off" placeholder="E.g. DeGiro Portfolio"/>
                         </section>
 
                         <section class="uploadFilesGroup">
@@ -48,22 +48,15 @@
                                     
                                         <span>{{ accountFileName }}</span>
                                     </p>
-                          
                                 </section>
-            
                             </section>
-                            
                             <button class="resetUploadedBtn" @click="resetFiles">Reset Uploads</button>
-
-
                         </section>
                                 
                         <section class="fileButtons ">
                             <Button type="submit" class="submitFiles">Add Portfolio</Button>
                             <Button class="secondary" link to="/portfolios" >Cancel</Button>
                         </section>
-
-                   
                     </form>
                 </article>
             </section>
@@ -76,7 +69,6 @@ import CloseIcon from 'vue-material-design-icons/Close.vue';
 import CheckMarkIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.vue';
 import Header from '../../components/layout/Header.vue';
-
 import csvToArrayMixin from '../../mixins/csvToArray.js';
 import includesFromArray from '../../mixins/includesFromArray.js';
 
@@ -90,16 +82,14 @@ export default {
     },
     data() {
         return {
-            csvFiles: [],
             transactionsFile: null,
             accountFile: null,
             transactionsFileName: 'Transactions File',
             accountFileName: 'Account File',
-            transactionsFileIsValid: false,
-            accountFileIsValid: false,
             portfolioName: '',
-            accountFileIsEmpty: false,
-            transactionsFileIsEmpty: false,
+            accountFileIsEmpty: null,
+            transactionsFileIsEmpty: null,
+            portfolioNameIsValidClass: '',
             isLoading: false,
         }
     },
@@ -108,7 +98,7 @@ export default {
             if (this.uploadingState === 'success') {
                 this.$store.commit('files/setUploadingState', 'none');
                 this.isLoading = false;
-                this.$router.push('/portfolios');
+                this.$router.push({ path: '/portfolios' });
             } else if (this.uploadingState === 'error') {
                 this.$store.commit('files/setUploadingState', 'none');
                 this.isLoading = false;
@@ -116,7 +106,8 @@ export default {
         },
         getPortfolios() {
             this.alreadyHasPortfolios();
-        }
+        },
+    
     },
     computed: {
         inputText() {
@@ -126,11 +117,21 @@ export default {
             return "Upload Files (" + tot + "/2)";
         }, 
         formIsValid() {
+            // if portfolio is valid and files are uploaded after passing checks then return true
+            console.log(this.portfolioNameIsValid, this.transactionsFileIsValid, this.accountFileIsValid);
             if (this.portfolioNameIsValid && this.transactionsFileIsValid && this.accountFileIsValid) {
                 return true;
             } else {
                 return false;
             }
+        },
+        portfolioNameIsValid() {
+            const forbiddenChars = ['/', '\\', '<', '>', ':', '"', '|', '?', '*', '&', '$', '#', '%', '@', '^', '+', '=', '~', '`', '{', '}', ';', '.', ','];
+            const valid = !this.includesFromArray(forbiddenChars, this.portfolioName) &&
+                this.portfolioName.length > 0 &&
+                this.portfolioName.length < 30;
+
+            return valid;
         },
         uploadingState(){
             return this.$store.getters['files/getUploadingState'];
@@ -138,15 +139,31 @@ export default {
         amountOfPortfolios() {
             return this.$store.getters['files/amountOfPortfolios'];
         },
-       
+        accountFileIsValid() {
+            return !!this.accountFile;
+        },
+        transactionsFileIsValid() {
+            return !!this.transactionsFile;
+        },
     },
     methods: {
-         getPortfolios() {
+        resetInputStyling() {
+            this.portfolioNameIsValidClass = '';
+        },
+        checkPortfolioNameValidity() {
+            if (this.portfolioNameIsValid) {
+                this.portfolioNameIsValidClass = 'nameValid';
+            } else {
+                this.portfolioNameIsValidClass = 'nameInvalid';
+            }
+        },
+        getPortfolios() {
             return this.$store.dispatch('files/fetchAllPortfolios');
         },
         submitForm() {
-            this.portfolioNameFormControl();
             this.getPortfolios();
+            this.checkPortfolioNameValidity();
+
             if(this.formIsValid) {
                 this.isLoading = true;
                 this.$store.dispatch('files/createNewPortfolio', {
@@ -158,72 +175,69 @@ export default {
             } else {
                 console.log('Not accepted');
                 console.log(this.amountOfPortfolios);
+                this.isLoading = false;
             }
         },
-        portfolioNameFormControl() {
-            const forbiddenChars = ['/', '\\', '<', '>', ':', '"', '|', '?', '*', '&', '$', '#', '%', '@', '^', '+', '=', '~', '`', '{', '}', ';', '.', ','];
-            if (this.portfolioName.length > 2 &&
-                this.portfolioName.length < 30 &&
-                !this.includesFromArray(forbiddenChars, this.portfolioName)) {
-                    this.portfolioNameIsValid = true;
-            } else {
-                this.portfolioNameIsValid = false;
-            }
-        },
-        validateFileContents(e, fName) {
-            let isValid = true;
+        // not used
+        validateFileContents(e) {
+            let isValid;
             let reader = new FileReader();
             
             reader.onload = (e) => {
                 let text = e.target.result;
                 let fileAsArray = this.csvToArray(text);
 
-                console.log(fileAsArray.length, fileAsArray[0].length);
-                if(fName.includes('Transactions')) {
-                    if(fileAsArray[0].length !== 19) {
-                        isValid = false;
-                    }
-                    if(fileAsArray.length < 1) {
-                        isValid = false;
-                    } 
-                    this.transactionsFileIsValid = true;
-                } else if (fName.includes('Account')) {
-                    if(fileAsArray[0].length !== 12) {
-                        isValid = false;
-                    }
-                    if(fileAsArray.length < 1) {
-                        isValid = false;
-                    }  
-                }
+                const transactionsValid = fileAsArray[0].length === 19 &&
+                    fileAsArray.length !== 0;
+                const accountValid = fileAsArray[0].length === 12 &&
+                    fileAsArray.length !== 0;
+
+                isValid = !transactionsValid && !accountValid;
             }
             reader.readAsText(e);
+
             return isValid;
         },
-       
         uploadFile(event) {
             this.checkFileValidity(event.target.files);
         },
         checkFileValidity(file) {
-            if(file[0].name.includes('Transactions') && file[0].size > 0) {
-                this.transactionsFile = file[0];
-                this.transactionsFileName = file[0].name;
-                this.transactionsFileIsValid = true;
-            } else if(file[0].name.includes('Account') && file[0].size > 0) {
-                this.accountFile = file[0];
-                this.accountFileName = file[0].name;
-                this.accountFileIsValid = true;
-            } 
-            if(file[0].name.includes('Transactions') && file[0].size === 0) {
-                this.transactionsFileName = file[0].name;
-                this.transactionsFileIsValid = false;
-            } else if(file[0].name.includes('Account') && file[0].size === 0) {
-                this.accountFileName = file[0].name;
-                this.accountFileIsValid = false;
+            const maxFileSizeKB = 5000;
+
+            for(let i = 0; i < file.length; i++) {
+                const valid = file[i].size > 0 && 
+                    file[i].size < (maxFileSizeKB * 1024) &&
+                    file[i].type.includes('csv');
+                    // this.validateFileContents(file[i]);
+                
+                console.log(this.validateFileContents(file[i]));
+
+                valid ? this.addFile(file[i]) : this.incorrectFile(file[i]);
+            }
+        },
+        addFile(file) {
+            if(file.name.includes('Transactions')) {
+                this.transactionsFile = file;
+                this.transactionsFileName = file.name;
+            } else if(file.name.includes('Account')) {
+                this.accountFile = file;
+                this.accountFileName = file.name;
+            }
+        },
+        incorrectFile(file) {
+            if(file.name.includes('Transactions')) {
+                this.transactionsFile = null;
+                this.transactionsFileName = file.name;
+            } else if(file.name.includes('Account')) {
+                this.accountFile = null;
+                this.accountFileName = file.name;
             }
         },
         resetFiles() {
             this.transactionsFile = null;
             this.accountFile = null;
+            this.transactionsFileName = 'Transactions File';
+            this.accountFileName = 'Account File';
         },
         getDate() {
              // get date DD-MM-YYYY
@@ -248,10 +262,24 @@ export default {
 </script>
 
 <style scoped>
+.portfolioNameInvalid__label {
+    color: var(--clr-red);
+}
+
+.nameValid {
+    border: 1px solid var(--clr-blue) !important;
+    background-color: rgb(243, 249, 255) !important;
+}
+
+.nameInvalid {
+    border: 1px solid var(--clr-red) !important;
+    background-color: rgba(255, 249, 249, 0.867) !important;
+}
+
 .spinner {
-  position: absolute;
-  width: 300px;
-  top: 45%;
+    position: absolute;
+    top: 50%;
+    left: 48%;
 }
 
 h1 {
