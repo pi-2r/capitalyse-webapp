@@ -19,12 +19,12 @@
                 </section>
                 
                 <section class="rightSide">
-                    <section v-if="!hasPremium">
+                    <!-- <section v-if="!hasPremium">
                         <Button class="premiumBtn">
                             <Icon icon="fluent:premium-16-filled" color="var(--clr-white)" height="15" />
                             Premium
                         </Button>
-                    </section>
+                    </section> -->
 
                     <section>
                         <router-link to="/settings">
@@ -50,12 +50,12 @@
                                     My Portfolios
                                 </router-link>
                             </li> 
-                            <li @click="closeNav">
+                            <!-- <li @click="closeNav">
                                 <router-link class="routerLink" to="/premium">
                                     <Icon icon="fluent:premium-16-filled" height="20" />
                                     Premium
                                 </router-link>
-                            </li> 
+                            </li>  -->
                             <li @click="closeNav">
                                   <router-link class="routerLink" to="/settings">
                                 <Icon icon="clarity:settings-solid" height="20" />

@@ -96,7 +96,7 @@ export default {
 
 .actionBtn {
     margin-left: 0.5rem;
-    transition: 0.2s all;
+    transition: 0.1s all;
     border-radius: 1000rem;
 
 }
@@ -104,7 +104,7 @@ export default {
 .actionBtn:hover {
     cursor: pointer;
     background-color: rgb(245, 248, 252);
-    transform: scale(1.1)
+    transform: scale(1.075)
 }
 
 .portfolioName {

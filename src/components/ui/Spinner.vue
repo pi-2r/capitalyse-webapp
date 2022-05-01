@@ -20,7 +20,7 @@
   border-bottom: 5px solid transparent;
   width: 50px;
   height: 50px;
-  animation: spin 0.6s ease-in-out infinite;
+  animation: spin 0.75s ease-in-out infinite;
 }
 
 @keyframes spin {
