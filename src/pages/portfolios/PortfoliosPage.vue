@@ -121,7 +121,47 @@ export default {
             this.portfolios = [];
             for(let i = 0; i < this.portfoliosFromStore.length; i++) {
                 this.portfolios.push(this.portfoliosFromStore[i]);
+
+                // only do this if addedAt hasnt been converted yet
+                if(this.portfoliosFromStore[i].addedAt.seconds && this.portfoliosFromStore[i].addedAt.nanoseconds) {
+                    const firebaseDateTime = new Date(
+                        this.portfoliosFromStore[i].addedAt.seconds * 1000 +
+                        this.portfoliosFromStore[i].addedAt.nanoseconds / 1000000,
+                    );
+                    const firebaseDate = firebaseDateTime.toLocaleDateString('en-US', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                    });
+                    const firebaseTime = firebaseDateTime.toLocaleTimeString('en-US', {
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        hour12: false,
+                    });
+                    this.portfolios[i].addedAt = firebaseDate + ' ' + firebaseTime;
+                }
             }
+            this.sortByDateAdded();
+        },
+        sortByDateAdded() {
+            this.portfolios.sort((a, b) => {
+                return new Date(b.addedAt) - new Date(a.addedAt);
+            });
+        },
+        toValidDate(date) {
+            // year
+            const year = date.split(0, 4);
+            // month
+            const month = date.split(5, 7);
+            // day
+            const day = date.split(8, 10);
+            // hour
+            const hour = date.split(11, 13);
+            // minute
+            const minute = date.split(14, 16);
+            // second
+            const second = date.split(17, 19);
+            console.log(`${year}-${month}-${day} ${hour}:${minute}:${second}`);
         },
         deletePortfolio() {
             const id = this.deletePortfolioId;

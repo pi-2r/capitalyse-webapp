@@ -163,14 +163,13 @@ export default {
         submitForm() {
             this.getPortfolios();
             this.checkPortfolioNameValidity();
-
             if(this.formIsValid) {
                 this.isLoading = true;
                 this.$store.dispatch('files/createNewPortfolio', {
                     portfolioName: this.portfolioName,
                     transactionsFile: this.transactionsFile,
                     accountFile: this.accountFile,
-                    addedAt: this.getDate()
+                    addedAt: new Date(),
                 });
             } else {
                 console.log('Not accepted');
