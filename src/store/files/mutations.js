@@ -2,33 +2,40 @@ export default {
     setPortfolios(state, portfolios) {
         state.portfolios = portfolios;
     },
-    setDashboardPortfolio(state, portfolio) {
-        state.dashboardPortfolio = portfolio;
+    setCurrentPortfolio(state, id) {
+        for (let i = 0; i < state.portfolios.length; i++) {
+            if (state.portfolios[i].id === id) {
+                state.currentPortfolio = state.portfolios[i];
+                return;
+            }
+        }
     },
-    setFiles(state, { transactionsFile, accountFile }) {
-        state.transactionsFile = transactionsFile;
-        state.accountFile = accountFile;
+    resetCurrentPortfolio(state) {
+        state.currentPortfolio = null;
     },
-    setTransactionsFile(state, transactionsFile) {
-        state.transactionsFile = transactionsFile;
+    setTransactionsFile(state, {transactionsFile, portfolioId}) {
+        state.portfolios = state.portfolios.map(portfolio => {
+            if (portfolio.id === portfolioId) {
+                portfolio.transactionsFile = transactionsFile;
+            }
+            return portfolio;
+        });
     },
-    setAccountFile(state, accountFile) {
-        state.accountFile = accountFile;
+    setAccountFile(state, {accountFile, portfolioId}) {
+        state.portfolios = state.portfolios.map(portfolio => {
+            if (portfolio.id === portfolioId) {
+                portfolio.accountFile = accountFile;
+            }
+            return portfolio;
+        });
     },
     setUploadingState(state, uploadingState) {
         state.uploadingState = uploadingState;
-    },
-    resetFiles(state) {
-        state.transactionsFile = null;
-        state.accountFile = null;
     },
     resetPortfolios(state) {
         state.portfolios = [];
     },
     deletePortfolio(state, id) {
         state.portfolios = state.portfolios.filter(p => p.id !== id);
-    },
-    setLastDashboardPortfolioId(state, id) {
-        state.lastDashboardPortfolioId = id;
     },
 };

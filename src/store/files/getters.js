@@ -1,12 +1,9 @@
 export default {
-    getFiles(state) {
-        return {
-            transactionsFile: state.transactionsFile,
-            accountFile: state.accountFile,
-        };
-    },
     getPortfolios(state) {
         return state.portfolios;
+    },
+    getCurrentPortfolio(state) {
+        return state.currentPortfolio;
     },
     hasPortfolios(state) {
         return state.portfolios.length > 0;
@@ -14,25 +11,20 @@ export default {
     amountOfPortfolios(state) {
         return state.portfolios.length;
     },
-    getDashboardPortfolio(state) {
-        return state.currentPortfolio;
+    hasCurrentPortfolio(state, payload) {
+        return state.portfolios.some(p => p.id === payload.portfolioId);
     },
-    hasDashboardPortoflio(state) {
-        return state.currentPortfolio !== null;
-    },
-    transactionsFile(state) {
-        return state.transactionsFile;
-    },
-    accountFile(state) {
-        return state.accountFile;
-    },
-    hasFiles(state) {
-        return !!state.accountFile && !!state.transactionsFile;
+    hasCurrentFiles(state, payload) {
+        // check if files are uploaded for a specific portfolio
+        if (payload) {
+            for (let i = 0; i < state.portfolios.length; i++) {
+                if (state.portfolios[i].id === payload.portfolioId) {
+                    return !!state.portfolios[i].transactionsFile && !!state.portfolios[i].accountFile;
+                }
+            }
+        }
     },
     getUploadingState(state) {
         return state.uploadingState;
-    },
-    lastDashboardPortfolioId(state) {
-        return state.lastDashboardPortfolioId;
     },
 };

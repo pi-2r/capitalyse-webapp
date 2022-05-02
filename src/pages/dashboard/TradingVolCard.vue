@@ -12,12 +12,6 @@
 import ResultCard from './ResultCard.vue';
 
 export default {
-    props: {
-        portfolioId: {
-            type: String,
-            required: true,
-        }
-    },
     components: {
         ResultCard
     },
@@ -32,14 +26,17 @@ export default {
         }
     },
     computed: {
+        portfolioId() {
+            return this.$route.params.id;
+        },
         tradingVolumeIndexes() {
             return this.$store.getters['indexes/tradingVolume'];
         },
-        transactionsFile() {
-            return this.$store.getters['files/transactionsFile'];
+        currentPortfolio() {
+            return this.$store.getters['files/getCurrentPortfolio'];
         },
         isThereData() {
-            return !!this.transactionsFile;
+            return !!this.currentPortfolio.transactionsFile;
         }
     },
     methods: {
@@ -49,7 +46,7 @@ export default {
             }
         },
         getTotalTradingVolume() {
-            const data = this.transactionsFile;
+            const data = this.currentPortfolio.transactionsFile;
             const searchIndex = this.tradingVolumeIndexes.searchIndex;
             let vol = 0;
             let tot = 0;

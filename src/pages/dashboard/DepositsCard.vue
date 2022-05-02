@@ -15,12 +15,7 @@ import includesFromArrayMixin from '../../mixins/includesFromArray';
 
 export default {
     mixins: [cleanNumberMixin, includesFromArrayMixin],
-    props: {
-        portfolioId: {
-            type: String,
-            required: true,
-        }
-    },
+
     components: {
         ResultCard
     },
@@ -30,17 +25,20 @@ export default {
         }
     },
     computed: {
+        portfolioId() {
+            return this.$route.params.id;
+        },
         depositIndexes() {
             return this.$store.getters['indexes/deposits'];
         },
-        accountFile() {
-            return this.$store.getters['files/accountFile'];
+        currentPortfolio() {
+            return this.$store.getters['files/getCurrentPortfolio'];
         },
         depositNames() {
             return this.$store.getters['dictionary/deposit'];
         },
         isThereData() {
-            return !!this.accountFile;
+            return !!this.currentPortfolio.accountFile;
         }
     },
     watch: {
@@ -55,7 +53,7 @@ export default {
             }
         },
         getTotalDeposits() {
-            let data = this.accountFile;
+            let data = this.currentPortfolio.accountFile;
             const names = this.depositNames;
             const searchIndex = this.depositIndexes.searchIndex;
             const depositIndex = this.depositIndexes.depositIndex;
@@ -66,15 +64,12 @@ export default {
                     if(this.includesFromArray(names, data[i][searchIndex])) {
                         let nr = this.cleanNumber(data[i][depositIndex]);
                         if(nr > 0) {
-
                             tot += nr;
                         }
                     }
                 }
             }
-
             tot = tot.toLocaleString('en-US');
-
             return tot;
         },
     },

@@ -6,7 +6,7 @@ import {
     getDocs,
     deleteDoc, 
     doc,
-    getDoc,
+    // getDoc,
     addDoc,
     // setDoc,
     updateDoc,
@@ -27,17 +27,11 @@ import {
 const db = getFirestore();
 
 export default {
-    setFiles(context, payload) {
-        context.commit("setFiles", {
-            transactionsFile: payload.transactionsFile,
-            accountFile: payload.accountFile,
-        });
+    setCurrentPortfolio(context, id) {
+        context.commit('setCurrentPortfolio', id);
     },
-    resetFiles(context) {
-        context.commit("resetFiles");
-    },
-    setLastDashboardPortfolioId(context, id) {
-        context.commit("setLastDashboardPortfolioId", id);
+    resetCurrentPortfolio(context) {
+        context.commit('resetCurrentPortfolio');
     },
     async createNewPortfolio(context, payload) {
         const storage = getStorage();
@@ -60,7 +54,6 @@ export default {
      
         // firestore link
         const setFirestorePortfolioRef = collection(db, `users/${userId}/portfolios`);
-    
         
         // firestore upload
         addDoc(setFirestorePortfolioRef, firebaseDocData).then((docRef) => {
@@ -141,7 +134,10 @@ export default {
                     rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));  
                     const transactionsArray = rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
      
-                    context.commit("setTransactionsFile", transactionsArray);
+                    context.commit("setTransactionsFile", {
+                        transactionsFile: transactionsArray,
+                        portfolioId: portfolioId,
+                    });
                 }
             };
             xhr.send();
@@ -165,41 +161,16 @@ export default {
                     rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));  
                     const accountArray = rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
      
-                    context.commit("setAccountFile", accountArray);
+                    context.commit("setAccountFile", {
+                        accountFile: accountArray,
+                        portfolioId: portfolioId,
+                    });
                 }
             };
             xhr.send();
         }).catch((error) => {
             console.log(error);
         });
-    },
-    fetchCSVData(context) {
-        const userId = localStorage.getItem("userId");
-        const transactionsFileColRef = doc(db, 'users', userId, 'files', 'transactionsFile');
-        const accountFileColRef = doc(db, 'users', userId, 'files', 'accountFile'); 
-        let accountData = null;
-        let transactionsData = null;
-
-        getDoc(transactionsFileColRef)
-            .then((doc) => {
-                transactionsData = doc.data();  
-                transactionsData ? transactionsData = Object.values(transactionsData) : transactionsData = null;
-                context.commit('setTransactionsFile', transactionsData);                
-            })
-            .catch(error => {
-                console.log('error get');
-                console.log(error);
-            })
-        getDoc(accountFileColRef)
-            .then((doc) => {
-                accountData = doc.data();
-                accountData ? accountData = Object.values(accountData) : accountData = null;	
-                context.commit('setAccountFile', accountData);
-            })
-            .catch(error => {
-                console.log('error get');
-                console.log(error);
-            })
     },
     deletePortfolio(context, payload) {
         const userId = localStorage.getItem('userId');

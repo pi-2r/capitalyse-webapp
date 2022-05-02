@@ -92,7 +92,6 @@ export default {
         portfoliosFromStore() {
             return this.$store.getters['files/getPortfolios'];
         },
-        
     },
     watch: {
         amountOfPortfolios() {
@@ -163,9 +162,6 @@ export default {
     created() {
         this.isLoading = true;
         this.loadData();
-
-        // reset transactionsFile and accountFile
-        this.$store.dispatch('files/resetFiles');
     }
 }
 </script>

@@ -107,20 +107,19 @@ export default {
         currencyNames() {
             return this.$store.getters['dictionary/currency'];
         },
-        data() {
-            return this.$store.getters['files/accountFile'];
+        currentPortfolio() {
+            return this.$store.getters['files/getCurrentPortfolio'];
         },
         totalDividends() {
             let total = 0;
             for(let i = 0; i < this.dividendsArray.length; i++) {
                 total += this.dividendsArray[i].divAmt;
-                
             }
             total = total.toFixed(2)
             return total;
         },
         isThereData() {
-            return !!this.data;
+            return !!this.currentPortfolio.accountFile;
         }
     },
     watch: {
@@ -143,7 +142,7 @@ export default {
             this.timeFrameDataUpdate();
         },
         getDividends() {
-            const data = this.data;
+            const data = this.currentPortfolio.accountFile;
             const dateIndex = this.indexes.dateIndex;
             const searchIndex = this.indexes.searchIndex;
             const currencyIndex = this.indexes.currencyIndex;
@@ -155,6 +154,8 @@ export default {
             this.dividendsArray = [];
             this.dataHolder = [];
             this.labelsHolder = [];
+
+           
 
             for(let i = 0; i < data.length - 1; i++) {
 
@@ -245,7 +246,6 @@ export default {
                     this.labelsHolder.push(date)           
                 }
             
-
                 this.addMissingMonthsToChart();
 
                 this.chartData.labels = this.labelsHolder;

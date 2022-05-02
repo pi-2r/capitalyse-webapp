@@ -12,7 +12,6 @@
             <LogoutButton/>
         </section>
 
-
         <DividendChart/>
 
         <section class="cardsContainer">
@@ -43,33 +42,62 @@ export default {
         Breadcrumbs
     },
     computed: {
-        isThereData() {
-            return this.$store.getters['files/hasDashboardPortfolio'];
+        hasCurrentPortfolio() {
+            const portfolios = this.$store.getters['files/getPortfolios'];
+            for(let i = 0; i < portfolios.length; i++) {
+                if(portfolios[i].id === this.$route.params.id) {
+                    return true;
+                }
+            }
+            return false;
         },
+        hasCurrentFiles() {
+            const portfolios = this.$store.getters['files/getPortfolios'];
+            portfolios.forEach(portfolio => {
+                if(portfolio.id === this.$route.params.id) {
+                    if(portfolio.accountFile && portfolio.transactionsFile) {
+                        return true;
+                    }
+                }
+            });
+            return false;
+        },
+        hasPortfolios() {
+       
+            return this.$store.getters['files/hasPortfolios'];
+        }
     },
     watch: {
-        isThereData() {
+        hasPortfolios() {
             this.loadData();
         }
     },
     methods: {
-   
+        loadData() {
+            if(this.hasCurrentFiles) {
+                console.log('all good');
+            } else if (this.hasCurrentPortfolio) {
+                console.log('no files for this portfolio');
+                this.$store.dispatch('files/fetchOnePortfolio', {id: this.$route.params.id});
+                
+            } else if (!this.hasCurrentPortfolio) {
+                console.log('no portfolio');
+                this.$store.dispatch('files/fetchAllPortfolios');
+            }
+
+            if(this.hasCurrentPortfolio) {
+                this.setCurrentPortfolio(this.$route.params.id);
+            }
+        },
+        setCurrentPortfolio(id) {
+            this.$store.dispatch('files/setCurrentPortfolio', id);
+        },
+        resetCurrentPortfolio() {
+            this.$store.dispatch('files/resetCurrentPortfolio');
+        }
     },
     created() {
-        this.$store.dispatch('files/setLastDashboardPortfolioId', this.$route.params.id);
-
-        if(!this.isThereData) {         
-            this.$store.dispatch('files/fetchOnePortfolio', {
-                id: this.$route.params.id
-            });
-        } else if(this.isThereData) {
-            // if route id is different from store id, fetch new data
-            if(this.$route.params.id !== this.$store.getters['files/getDashboardPortfolio'].id) {
-                this.$store.dispatch('files/fetchOnePortfolio', {
-                    id: this.$route.params.id
-                });
-            }
-        }
+        this.loadData();
     }
 }
 </script>

@@ -16,12 +16,6 @@ import includesFromArrayMixin from '../../mixins/includesFromArray';
 
 export default {
     mixins: [cleanNumberMixin, includesFromArrayMixin],
-    props: {
-        portfolioId: {
-            type: String,
-            required: true,
-        }
-    },
     components: {
         ResultCard
     },
@@ -31,14 +25,17 @@ export default {
         }
     },
     computed: {
+        portfolioId() {
+            return this.$route.params.id;
+        },
         transactionsIndexes() {
             return this.$store.getters['indexes/transactions'];
         },
-        transactionsFile() {
-            return this.$store.getters['files/transactionsFile'];
+        currentPortfolio() {
+            return this.$store.getters['files/getCurrentPortfolio'];
         },
         isThereData() {
-            return !!this.transactionsFile;
+            return !!this.currentPortfolio.transactionsFile;
         }
     },
     watch: {
@@ -53,7 +50,7 @@ export default {
             }
         },
         getTotalTransactionsFees() {
-            const data = this.transactionsFile;
+            const data = this.currentPortfolio.transactionsFile;
             const searchIndex = this.transactionsIndexes.searchIndex;
             let tot = 0;
 

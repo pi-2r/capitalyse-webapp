@@ -7,10 +7,10 @@ export default {
     state() {
         return {
             portfolios: [],
-            dashboardPortfolio: null,
-            transactionsFile: null,
-            accountFile: null,
-            lastDashboardPortfolioId: null,
+            currentPortfolio: {
+                accountFile: null,
+                transactionsFile: null,
+            },
             uploadingState: 'none',
         };
     },
