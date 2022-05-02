@@ -38,7 +38,10 @@
                 </transition>
             </section>
 
-            <section class="dividendChart">
+            <p class="chartErrorMsg" v-if="chartErrorMsg">
+                {{ chartErrorMsg }}
+            </p>
+            <section class="dividendChart" v-else>
                 <BarChart v-if="!isLoading" 
                     :chart-data="chartData"  
                 /> 
@@ -68,6 +71,7 @@ export default {
             isLoading: true,
             selectedTimeFrame: 'All Time',
             dividendsArray: [],
+            chartErrorMsg: null,
             dataHolder: [],
             labelsHolder: [],
             timeFrameOptions: {
@@ -192,59 +196,66 @@ export default {
                     }
                 }
             }
+            
+            if(this.dividendsArray.length > 0) {
+                // sort array by date if exists
+                this.dividendsArray ? this.dividendsArray.sort((a, b) => {
+                    return new Date(b.date) - new Date(a.date);
+                }) : null;
 
-            // sort array by date if exists
-            this.dividendsArray ? this.dividendsArray.sort((a, b) => {
-                return new Date(b.date) - new Date(a.date);
-            }) : null;
+                let firstDate = this.dividendsArray[0].date.split("-");
+                let lastDate = this.dividendsArray[this.dividendsArray.length - 1].date.split("-");
+                let newFirstDate = new Date(lastDate[1], lastDate[0]  -1)
+                let newLastDate = new Date(firstDate[1], firstDate[0])
 
-            let firstDate = this.dividendsArray[0].date.split("-");
-            let lastDate = this.dividendsArray[this.dividendsArray.length - 1].date.split("-");
-            let newFirstDate = new Date(lastDate[1], lastDate[0]  -1)
-            let newLastDate = new Date(firstDate[1], firstDate[0])
-
-            // create array from first date to last date
-            let dateArray = [];
-            while (newFirstDate < newLastDate) {
-                dateArray.push(newFirstDate.toLocaleDateString());
-                newFirstDate.setMonth(newFirstDate.getMonth() + 1);
-            }
-
-            this.dividendsArray.reverse();
-            // fill chart
-            for (let i = 0; i < dateArray.length; i++) {
-                
-                let date = dateArray[i];
-                let found = false;
-
-                // find date in dividendsArray, if found add to chart
-                for (let x = 0; x < this.dividendsArray.length; x++) {
-                    let dateFromArray = this.dividendsArray[x].date.split("-");
-                    let newDateFromArray = new Date(dateFromArray[1], dateFromArray[0] -1).toLocaleDateString();
-
-                    if (date === newDateFromArray) {
-                        found = true;
-                        let dividend = this.dividendsArray[x].divAmt;
-                        this.dataHolder.push(dividend);
-                    } 
-                }
-         
-                // if not found push 0 aka null
-                if(!found) {
-                    this.dataHolder.push(null);
+                // create array from first date to last date
+                let dateArray = [];
+                while (newFirstDate < newLastDate) {
+                    dateArray.push(newFirstDate.toLocaleDateString());
+                    newFirstDate.setMonth(newFirstDate.getMonth() + 1);
                 }
 
-                // date to month and year only
-                date = this.splitDate(date);
-                date = date[1] + "-" + date[2];
-                this.labelsHolder.push(date)           
+                this.dividendsArray.reverse();
+                // fill chart
+                for (let i = 0; i < dateArray.length; i++) {
+                    
+                    let date = dateArray[i];
+                    let found = false;
+
+                    // find date in dividendsArray, if found add to chart
+                    for (let x = 0; x < this.dividendsArray.length; x++) {
+                        let dateFromArray = this.dividendsArray[x].date.split("-");
+                        let newDateFromArray = new Date(dateFromArray[1], dateFromArray[0] -1).toLocaleDateString();
+
+                        if (date === newDateFromArray) {
+                            found = true;
+                            let dividend = this.dividendsArray[x].divAmt;
+                            this.dataHolder.push(dividend);
+                        } 
+                    }
+            
+                    // if not found push 0 aka null
+                    if(!found) {
+                        this.dataHolder.push(null);
+                    }
+
+                    // date to month and year only
+                    date = this.splitDate(date);
+                    date = date[1] + "-" + date[2];
+                    this.labelsHolder.push(date)           
+                }
+            
+
+                this.addMissingMonthsToChart();
+
+                this.chartData.labels = this.labelsHolder;
+                this.chartData.datasets[0].data = this.dataHolder;
+            } else {
+                this.chartData.labels = [];
+                this.chartData.datasets[0].data = [];
+
+                this.chartErrorMsg = "You haven't received any dividends yet.";
             }
-           
-
-            this.addMissingMonthsToChart();
-
-            this.chartData.labels = this.labelsHolder;
-            this.chartData.datasets[0].data = this.dataHolder;
         },
         addMissingMonthsToChart() {
             // add potentially missing months untill current month
@@ -257,7 +268,7 @@ export default {
                 let newCurrentMonth = new Date(currentMonth.split("-")[1], currentMonth.split("-")[0] - 1);
                 let firstiteration = true;
 
-                while (newLastMonth <= newCurrentMonth) {
+                while (newLastMonth <= newCurrentMonth) {   
                     firstiteration ? newLastMonth = new Date(newLastMonth.getFullYear(), newLastMonth.getMonth() + 1) : null;       
                     firstiteration = false;
 
@@ -274,6 +285,11 @@ export default {
                     newLastMonth.setMonth(newLastMonth.getMonth() + 1);
                 }
                 this.labelsHolder.push(currentMonth);
+            }
+
+            // remove duplicate last and second last bug
+            if(this.labelsHolder[this.labelsHolder.length-1] === this.labelsHolder[this.labelsHolder.length-2]) {
+                this.labelsHolder.pop();
             }
         },
         timeFrameDataUpdate() {
@@ -358,6 +374,12 @@ export default {
 </script>
 
 <style scoped>
+.chartErrorMsg {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    color: var(--clr-blue);
+}
+
 .spinnerContainer {
     display: flex;
     justify-content: center;
