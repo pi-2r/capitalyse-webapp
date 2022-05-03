@@ -172,6 +172,22 @@ export default {
             console.log(error);
         });
     },
+    editPortfolioName(context, payload) {
+        const userId = localStorage.getItem('userId');
+        const portfolioId = payload.id;
+
+        const updateFireStorePortfolioRef = doc(db, `users/${userId}/portfolios/${portfolioId}`);
+        updateDoc(updateFireStorePortfolioRef, {
+            portfolioName: payload.portfolioName,
+        }).then(() => {
+            context.commit('files/setUpdatedPortfolioName', {
+                portfolioId: portfolioId,
+                portfolioName: payload.portfolioName,
+            });
+        }).catch((error) => {
+            console.log(error);
+        });
+    },
     deletePortfolio(context, payload) {
         const userId = localStorage.getItem('userId');
         const portfolioId = payload;

@@ -35,6 +35,14 @@ export default {
     resetPortfolios(state) {
         state.portfolios = [];
     },
+    setUpdatedPortfolioName(state, { portfolioId, portfolioName }) {
+        state.portfolios = state.portfolios.map(portfolio => {
+            if (portfolio.id === portfolioId) {
+                portfolio.portfolioName = portfolioName;
+            }
+            return portfolio;
+        });
+    },
     deletePortfolio(state, id) {
         state.portfolios = state.portfolios.filter(p => p.id !== id);
     },
