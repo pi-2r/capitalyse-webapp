@@ -16,7 +16,24 @@
                         </section>
 
                         <section class="uploadFilesGroup">
-                            <p class="filesLabelP">Files</p>
+                            <section class="uploadFilesGroup__heading">
+                                <p class="filesLabelP">
+                                    Files
+                                    <Icon 
+                                        @mouseenter="isHoveringOverTooltip = true" @mouseleave="isHoveringOverTooltip = false"
+                                        class="uploadFilesTooltipBtn" icon="clarity:help-info-solid" color="var(--clr-blue)" height="20" />
+                                </p>
+                            </section>
+                            <transition name="slide-fade" mode="out-in">
+                                <section class="uploadFilesTooltipWrapper" v-show="isUploadFilesTooltipPopupOpen"  @mouseenter="isHoveringOverTooltip = true" @mouseleave="isHoveringOverTooltip = false"> 
+                                    <section class="uploadFilesTooltip">
+                                        <p>Upload the <strong>Transactions.csv</strong> and <strong>Account.csv</strong> files found in your <strong>Degiro App or Web-App</strong>.
+                                            <br><br>
+                                            For more information on where to find these files and how to correctly download them, see the bottom of the page.
+                                        </p>
+                                    </section>
+                                </section>
+                            </transition>
                             <label class="uploadFilesLabel">
                                 <input @change="uploadFile" type="file" accept=".csv" multiple/>
                                 <span class="uploadFilesLabelText">{{ inputText }}</span>
@@ -25,7 +42,7 @@
 
                         <section class="btnAndFileNames">
                             <section class="fileNames">
-                                <section class="fileNamesAndBtn">
+                                <section class="fileNamesAndBtn u-noselect">
                                     <p class="fileName" :class="(transactionsFileIsValid) ? 'fileValid' : 'fileInvalid'">
                                     
                                     <span v-if="transactionsFileIsValid">
@@ -66,6 +83,7 @@
 
 <script>
 import CloseIcon from 'vue-material-design-icons/Close.vue';
+import { Icon } from '@iconify/vue';
 import CheckMarkIcon from 'vue-material-design-icons/CheckDecagram.vue';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.vue';
 import Header from '../../components/layout/Header.vue';
@@ -79,6 +97,7 @@ export default {
         CheckMarkIcon,
         Header,
         Breadcrumbs,
+        Icon
     },
     data() {
         return {
@@ -91,6 +110,8 @@ export default {
             transactionsFileIsEmpty: null,
             portfolioNameIsValidClass: '',
             isLoading: false,
+            isHoveringOverTooltip: false,
+            isUploadFilesTooltipPopupOpen: false,
         }
     },
     watch: {
@@ -107,7 +128,9 @@ export default {
         getPortfolios() {
             this.alreadyHasPortfolios();
         },
-    
+        isHoveringOverTooltip() {
+            this.toggleTooltipPopup();
+        }
     },
     computed: {
         inputText() {
@@ -146,6 +169,20 @@ export default {
         },
     },
     methods: {
+        toggleTooltipPopup() {
+            // if is hovering when function triggered
+            if(this.isHoveringOverTooltip) {
+                setTimeout(() => {
+                    // if is still hovering when timeout over
+                    if (this.isHoveringOverTooltip) {
+                        this.isUploadFilesTooltipPopupOpen = true;
+                    }
+                }, 100);
+            // if not hovering when function triggered
+            } else if (!this.isHoveringOverTooltip) {
+                this.isUploadFilesTooltipPopupOpen = false;
+            }
+        },
         resetInputStyling() {
             this.portfolioNameIsValidClass = '';
         },
@@ -337,6 +374,50 @@ input[type="text"]::placeholder {
     font-weight: lighter;
     margin-bottom: 0.5rem;
     margin-top: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.4rem;
+
+}
+
+.uploadFilesTooltipWrapper {
+    position: relative;
+     box-shadow: var(--box-shadow);
+}
+
+.uploadFilesTooltip {
+    position: absolute;
+    top: -2.5rem;
+    left: 4.8rem;
+    font-size: 0.9rem;
+    font-weight: lighter;
+    background-color: var(--clr-white);
+    padding: 1rem;
+    border-radius: var(--btn-radius);
+    box-shadow: var(--box-shadow);
+    
+}
+
+.uploadFilesTooltip::after {
+    content: '';
+    position: absolute;
+    top: 1rem;
+    left: -0.2rem;
+    transform: translateX(-50%);
+    border-top: 0.5rem solid transparent;
+    border-bottom: 0.5rem solid transparent;
+    border-right: 0.5rem solid var(--clr-white);
+}
+
+.uploadFilesTooltip p {
+    color: var(--clr-grey);
+}
+
+.uploadFilesTooltipBtn:hover {
+    cursor: pointer;
+    background-color: #e7f7ff;
+    border-radius: 100px;
 }
 
 label {
@@ -385,6 +466,19 @@ input[type="submit"] {
     grid-template-columns: 1fr;
 
     margin-top: 1rem;
+}
+
+.uploadFilesGroup__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.uploadFilesGroup__help {
+    font-size: 1rem;
+    color: var(--clr-grey);
+    font-weight: lighter;
+    margin-top: 0.5rem;
 }
 
 .uploadFilesLabel {
@@ -443,6 +537,28 @@ input[type="submit"] {
     display: flex;
     flex-direction: column;
 }
+
+.submitFiles:hover {
+    transform: scale(1.005);
+}
+
+/* anims */
+.slide-fade-enter-active {
+  transition: all 0.15s ease-out;
+}
+.slide-fade-leave-active {
+  transition: all 0.15s ease-in;
+}
+.slide-fade-enter-from {
+  transform: translateY(10px) scale(0.95);
+  opacity: 0;
+}
+
+.slide-fade-leave-to {
+    transform: translateY(10px) scale(0.95);
+    opacity: 0;
+}
+
 
 
 
