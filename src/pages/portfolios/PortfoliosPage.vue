@@ -18,7 +18,6 @@
     <section class="container">
 
         <section class="myPortfolios__header">
-            
             <section class="heading">
                 <Icon icon="bi:bar-chart-fill" height="30"  color="var(--clr-blue)"/>
                 <h1>My Portfolios</h1>
@@ -38,13 +37,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr  :key="portfolio.id" v-for="portfolio in portfolios">
+                   
+                        <tr  :key="portfolio.id" v-for="portfolio in portfolios">
                         <PortfolioCard @toggleDeletePopup="toggleDeletePopup"
                             :portfolio="portfolio"   
                         />
                     </tr>
+               
                     <!-- if no portfolios -->
-                    <tr v-if="portfolios.length < 1">
+                    <tr v-if="portfolios.length < 1 && !isLoading">
                         <td class="noPortfolios" colspan="3">
                             <h2>No Portfolios</h2>
                             <p>You haven't added any portfolios yet. 
@@ -52,8 +53,12 @@
 
                             <Button class="secondary addPortfolioBtn" link @click="addPortfolio">+ Add Portfolio</Button>
                         </td>
-                
-                   
+                    </tr>
+
+                    <tr v-if="isLoading">
+                        <td colspan="4" class="loading">
+                            <Spinner />
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -112,8 +117,9 @@ export default {
                 this.loadPortfoliosIntoArray();
                 this.isLoading = false;
             } else {
-                this.isLoading = true;
-                this.$store.dispatch('files/fetchAllPortfolios')
+                this.$store.dispatch('files/fetchAllPortfolios').then(() => {
+                    this.isLoading = false;
+                });
             } 
         },
         loadPortfoliosIntoArray() {
@@ -158,15 +164,19 @@ export default {
             this.deletePortfolioId = id;
         }
     },
-   
     created() {
         this.isLoading = true;
         this.loadData();
+      
     }
 }
 </script>
 
 <style scoped>
+.loading{
+    padding: 2rem;
+}
+
 .heading {
     display: flex;
     align-items: center;

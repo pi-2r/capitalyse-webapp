@@ -29,7 +29,7 @@
                                     <section class="uploadFilesTooltip">
                                         <p>Upload the <strong>Transactions.csv</strong> and <strong>Account.csv</strong> files found in your <strong>Degiro App or Web-App</strong>.
                                             <br><br>
-                                            For more information on where to find these files and how to correctly download them, see the bottom of the page.
+                                            For more information on where to find these files and how to correctly download them, see below.
                                         </p>
                                     </section>
                                 </section>
@@ -78,6 +78,8 @@
                 </article>
             </section>
         </section>
+        
+        
     </section>
 </template>
 
