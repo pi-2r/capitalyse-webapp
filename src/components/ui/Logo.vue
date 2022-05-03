@@ -1,6 +1,6 @@
 <template>
     <section class="logoContainer">
-        <Icon icon="bxs:doughnut-chart" :color="color" height="28" />
+        <Icon icon="bxs:doughnut-chart" :color="color" height="23" />
         <h2 :style="{ 'color': color }">Capitalyse</h2>
     </section>
 </template>
@@ -31,7 +31,7 @@ export default {
 }
 
 h2 {
-    font-size: 1.1rem;
+    font-size: 1rem;
     text-transform: uppercase;
     font-weight: normal;
     text-align: center;

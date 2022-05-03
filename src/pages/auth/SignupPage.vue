@@ -263,7 +263,7 @@ h1 {
 }
 
 .logo {
-  transform: scale(0.9);
+  transform: scale(0.95);
 }
 
 label {
