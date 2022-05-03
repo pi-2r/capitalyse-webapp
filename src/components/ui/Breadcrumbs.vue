@@ -28,7 +28,7 @@ export default {
         },
         baseLinkName: {
             type: String,
-            default: 'First link',
+            default: '',
         },
         secondLink: {
             type: String,
@@ -36,7 +36,7 @@ export default {
         },
         secondLinkName: {
             type: String,
-            default: 'Second link',
+            default: '',
         },
         thirdLink: {
             type: String,
@@ -44,7 +44,7 @@ export default {
         },
         thirdLinkName: {
             type: String,
-            default: 'Third link',
+            default: '',
         },
     },
     components: {

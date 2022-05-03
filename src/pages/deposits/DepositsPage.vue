@@ -5,7 +5,7 @@
             baseLink="/portfolios"
             baseLinkName="My Portfolios" 
             :secondLink="'/dashboard/' + this.$route.params.id"
-            secondLinkName="Dashboard"    
+            :secondLinkName="'Dashboard ' + portfolioName"    
             thirdLink="#"
             thirdLinkName="My Deposits"
         />
@@ -23,6 +23,9 @@ import Header from '../../components/layout/Header.vue';
 
 export default {
     computed: {
+        portfolioName() {
+            return this.$store.getters['files/getCurrentPortfolioName'];
+        },
         portfolioId() {
             return this.$route.params.id;
         }

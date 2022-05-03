@@ -5,19 +5,19 @@
             baseLink="/portfolios"
             baseLinkName="My Portfolios" 
             secondLink="#"
-            secondLinkName="Dashboard"
+            :secondLinkName="'Dashboard ' + portfolioName"
         />
         <section class="head">
-            <h1>Dashboard</h1>
+            <h1>Dashboard {{ portfolioName }}</h1>
             <LogoutButton/>
         </section>
 
         <DividendChart/>
 
         <section class="cardsContainer">
-            <DepositsCard :portfolioId="this.$route.params.id"/>
-            <TradingVolCard :portfolioId="this.$route.params.id"/>
-            <TransFeesCard :portfolioId="this.$route.params.id"/>
+            <DepositsCard />
+            <TradingVolCard />
+            <TransFeesCard />
         </section>
         
     </section>
@@ -42,6 +42,9 @@ export default {
         Breadcrumbs
     },
     computed: {
+        portfolioName() {
+            return this.$store.getters['files/getCurrentPortfolioName'];
+        },
         hasCurrentPortfolio() {
             const portfolios = this.$store.getters['files/getPortfolios'];
             for(let i = 0; i < portfolios.length; i++) {
@@ -63,7 +66,6 @@ export default {
             return false;
         },
         hasPortfolios() {
-       
             return this.$store.getters['files/hasPortfolios'];
         }
     },

@@ -5,7 +5,7 @@
             baseLink="/portfolios"
             baseLinkName="My Portfolios"
             :secondLink="'/dashboard/' + this.$route.params.id"
-            secondLinkName="Dashboard"
+            :secondLinkName="'Dashboard ' + portfolioName"
             thirdLink="#"
             thirdLinkName="Trading"
         />
@@ -23,10 +23,15 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs.vue';
 import Header from '../../components/layout/Header.vue';
 
 export default {
-   components: {
+    components: {
         Breadcrumbs,
         Header
-   }
+    },
+    computed: {
+        portfolioName() {
+              return this.$store.getters['files/getCurrentPortfolioName'];
+        },
+    }   
 }
 </script>
 
@@ -43,7 +48,6 @@ export default {
     }
     
 }
-
 
 @media screen and (min-width: 650px) {
     .cardsContainer {

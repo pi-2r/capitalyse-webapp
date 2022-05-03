@@ -5,6 +5,9 @@ export default {
     getCurrentPortfolio(state) {
         return state.currentPortfolio;
     },
+    getCurrentPortfolioName(state) {
+        return state.currentPortfolio.portfolioName;
+    },
     hasPortfolios(state) {
         return state.portfolios.length > 0;
     },

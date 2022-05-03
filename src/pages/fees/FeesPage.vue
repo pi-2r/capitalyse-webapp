@@ -5,7 +5,7 @@
             baseLink="/portfolios"
             baseLinkName="My Portfolios" 
             :secondLink="'/dashboard/' + this.$route.params.id"
-            secondLinkName="Dashboard"    
+            :secondLinkName="'Dashboard ' + portfolioName"    
             thirdLink="#"
             thirdLinkName="Fees and Costs"
         />
@@ -26,6 +26,11 @@ export default {
    components: {
         Breadcrumbs,
         Header
+   },
+   computed: {
+        portfolioName() {
+            return this.$store.getters['files/getCurrentPortfolioName'];
+        },
    }
 }
 </script>
