@@ -14,9 +14,9 @@
             {{ accountFileSize }} 
         </td>
         <td class="actionsTd">
-            <Icon icon="fluent:new-16-filled" color="var(--clr-blue)" height="22" class="actionBtn"/>
-            <Icon icon="ci:edit"  height="22" color="orange" class="actionBtn"/>
-            <Icon icon="ant-design:delete-filled" color="var(--clr-red)" height="22" class="actionBtn" @click="$emit('toggleDeletePopup', portfolio.id)"/>
+            <!-- <Icon icon="fluent:new-16-filled" color="var(--clr-blue)" height="22" class="actionBtn"/> -->
+            <!-- <Icon icon="ci:edit"  height="22" color="orange" class="actionBtn"/> -->
+            <Icon icon="bxs:trash" color="var(--clr-red)" height="22" class="actionBtn" @click="$emit('toggleDeletePopup', portfolio.id)"/>
         </td>
 </template>
 
@@ -96,7 +96,7 @@ export default {
 
 .actionBtn {
     margin-left: 0.5rem;
-    transition: 0.1s all;
+    transition: 0.2s all;
     border-radius: 1000rem;
 
 }
@@ -104,7 +104,7 @@ export default {
 .actionBtn:hover {
     cursor: pointer;
     background-color: rgb(245, 248, 252);
-    transform: scale(1.075)
+    transform: scale(1.06)
 }
 
 .portfolioName {
@@ -119,7 +119,7 @@ export default {
 }
 
 td {
-    padding: 1rem 2rem;
+    padding: 1.25rem 2rem;
     background-color: transparent;
     color: var(--clr-grey);
     font-weight: 400;

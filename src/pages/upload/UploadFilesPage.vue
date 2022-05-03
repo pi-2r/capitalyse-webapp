@@ -21,7 +21,7 @@
                                     Files
                                     <Icon 
                                         @mouseenter="isHoveringOverTooltip = true" @mouseleave="isHoveringOverTooltip = false"
-                                        class="uploadFilesTooltipBtn" icon="clarity:help-info-solid" color="var(--clr-blue)" height="20" />
+                                        class="uploadFilesTooltipBtn" icon="clarity:help-info-solid" color="var(--clr-blue)" height="18" />
                                 </p>
                             </section>
                             <transition name="slide-fade" mode="out-in">
@@ -305,6 +305,7 @@ export default {
 }
 
 .nameInvalid {
+    color: var(--clr-red);
     border: 1px solid var(--clr-red) !important;
     background-color: rgba(255, 249, 249, 0.867) !important;
 }
@@ -358,7 +359,7 @@ input {
 input[type="text"] {
     width: 100%;
     padding: 1.1rem;
-    background-color: none;
+    background-color: rgb(252, 252, 252);
     border: 1px solid rgb(214, 214, 214);
     border-radius: var(--btn-radius);
     font-size: 16px;
@@ -547,23 +548,19 @@ input[type="submit"] {
 
 /* anims */
 .slide-fade-enter-active {
-  transition: all 0.15s ease-out;
+  transition: all 0.125s ease-out;
 }
 .slide-fade-leave-active {
-  transition: all 0.15s ease-in;
+  transition: all 0.125s ease-in;
 }
 .slide-fade-enter-from {
-  transform: translateY(10px) scale(0.95);
+  transform: translateY(-10px) translateX(-20px) scale(0.95);
   opacity: 0;
 }
-
 .slide-fade-leave-to {
-    transform: translateY(10px) scale(0.95);
+    transform: translateY(-10px) translateX(-20px) scale(0.75);
     opacity: 0;
 }
-
-
-
 
 @media screen and (min-width: 768px) {
    
