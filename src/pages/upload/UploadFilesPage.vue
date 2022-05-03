@@ -563,19 +563,15 @@ input[type="submit"] {
 }
 
 @media screen and (min-width: 768px) {
-   
-  .formCard {
-      padding: 2rem;
-  }
+    .formCard {
+        padding: 2rem;
+    }
 }
 
 @media screen and (min-width: 400px) {
-    
-
     .container {
         max-width: 92%;
     }
-    
 }
 
 
