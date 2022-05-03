@@ -1,7 +1,10 @@
 <template>
   <div class="page-wrapper">
     <div class="containerwithtitle">
-      <h2>PORTFOLIO ANALYTICS</h2>
+     
+
+      <Logo class="logo" color="var(--clr-white)"/>
+     
       <div class="container">
         <div class="content">
           <Spinner class="spinner" v-if="isLoading"/>
@@ -48,9 +51,13 @@
 <script>
 import GoogleAuth from './GoogleAuth.vue';
 
+import Logo from '../../components/ui/Logo.vue';
+
 export default {
     components: {
-        GoogleAuth
+        GoogleAuth,
+     
+        Logo
     },
     data() {
         return {
@@ -221,14 +228,8 @@ h1 {
   margin-bottom: 0.8em;
 }
 
-h2 {
-  padding-top: 1.5em;
-  font-weight: normal;
-  color: var(--clr-white);
-  font-size: 100%;
-  text-align: center;
-  letter-spacing: 0.2em;
-  user-select: none;
+.logo {
+  transform: scale(0.9);
 }
 
 label {

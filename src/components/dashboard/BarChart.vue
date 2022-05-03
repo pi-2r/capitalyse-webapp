@@ -47,27 +47,21 @@ export default {
       default: () => {
         return {
             scales: {
-                xAxes: {
-                  
-                  display: true,
-                  gridLines: {
-                    display: false,
-                    drawBorder: false
-                  },
-
-                },
-                yAxes: {
-                  display: true,
-                  
-                  ticks: {
+                y: {
                     beginAtZero: true,
-                    callback: function(value) {
-                      return '€' + value;
+                    ticks: {
+                        callback: function(value) {
+                            return '€' + value.toFixed(2);
+                        }
                     }
-                  }
-                }
-           
-               
+                },
+                x: {
+                    beginAtZero: true,
+                    gridLines: {
+                        display: false,
+                    },
+                },
+              
             },
             tooltips: {
                 mode: 'index',
@@ -77,8 +71,8 @@ export default {
                 duration: 1,
             },
             legend: {
-                display: true,
-                position: 'bottom',
+                display: false,
+                position: 'left',
             },
             responsiveAnimationDuration: 0,
             responsive: true,

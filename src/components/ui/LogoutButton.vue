@@ -23,22 +23,13 @@ export default {
 </script>
 
 <style scoped>
-
-.logoutWrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .logout {
     display: inline-block;
     color: var(--clr-red);
     transition: 0.2s all;
-
 }
 
 .logout:hover {
     cursor: pointer;
-    transform: scale(1.1);
 }
 </style>

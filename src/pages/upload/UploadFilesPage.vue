@@ -12,7 +12,7 @@
                     <form  @submit.prevent="submitForm" class="uploadFilesForm">
                         <section class="portfolioName">
                             <label for="portfolioName">Portfolio name</label>
-                            <input type="text" id="portfolioName" @blur="checkPortfolioNameValidity" @focus="resetInputStyling" v-model.trim="portfolioName" :class="portfolioNameIsValidClass" autocomplete="off" placeholder="E.g. DeGiro Portfolio"/>
+                            <input type="text" id="portfolioName" @blur="checkPortfolioNameValidity" @focus="resetInputStyling" v-model.trim="portfolioName" :class="portfolioNameIsValidClass" autocomplete="off" placeholder="e.g. Degiro Portfolio"/>
                         </section>
 
                         <section class="uploadFilesGroup">
@@ -358,12 +358,13 @@ input {
 input[type="text"] {
     width: 100%;
     padding: 1.1rem;
-    background-color: #f5f5f5;
-    border: none;
+    background-color: none;
+    border: 1px solid rgb(214, 214, 214);
     border-radius: var(--btn-radius);
     font-size: 16px;
     font-weight: 500;
     color: var(--clr-black);
+    box-shadow: var(--box-shadow-small);
     margin-top: 0.3rem;
 }
 
@@ -372,7 +373,7 @@ input[type="text"]::placeholder {
 }
 
 .filesLabelP {
-     font-size: 1.2rem;
+    font-size: 1.2rem;
     font-weight: lighter;
     margin-bottom: 0.5rem;
     margin-top: 0.5rem;

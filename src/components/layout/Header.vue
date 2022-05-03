@@ -4,17 +4,19 @@
             <div class="nav-container">
                 <section class="leftSide">
                     <ul>
-                        <h2>
-                            <router-link class="routerLinkH2" to="/">Analytics</router-link>
-                        </h2>
+                      
+                        <router-link class="routerLinkLogo" to="/">
+                            <Logo/>
+                        </router-link>
+                        
                         <!-- <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li> -->
-                        <li>
+                        <!-- <li>
                             <router-link class="routerLink" to="/portfolios">
-                            <Icon icon="bi:bar-chart-fill" height="13" />
-                            My Portfolios</router-link>
-                        </li> 
+                                My Portfolios
+                            </router-link>
+                        </li>  -->
                     </ul>
                 </section>
                 
@@ -25,46 +27,38 @@
                             Premium
                         </Button>
                     </section> -->
-
-                    <section>
-                        <router-link to="/settings">
-                            <Icon class="settingsIcon" icon="ci:settings" color="var(--clr-grey)" height="30" />
+                    <section class="u-displayflex">
+                        <router-link to="/settings" class="u-displayflex settingsSection">
+                            <Icon class="settingsIcon" tabindex="0" icon="ci:settings" height="25" />
+                            Settings
                         </router-link>
                     </section>
-
-                    <LogoutButton />
                 </section>
             </div>
             <div class="nav-container-mobile">
 
-                <h2>Analytics</h2>
-                <Icon @click="toggleMobileNav" class="hamburgerMenuIcon" icon="eva:menu-outline" color="var(--clr-black)" height="40" />
+                <router-link class="routerLinkLogo" to="/">
+                    <Logo/>
+                </router-link>
+                
+                <Icon @click="toggleMobileNav" class="hamburgerMenuIcon" icon="eva:menu-outline" color="var(--clr-grey)" height="40" />
                 <div class="nav-menu-mobile" :class="[{open : isMobileNavOpen}]">
                     <Icon @click="toggleMobileNav" icon="carbon:close" class="closeMobileNav" color="var(--clr-black)" height="50" />
                     <section class="nav-mobile-content">
                         <ul>
-                            <h2>Analytics</h2>
-                            <li @click="closeNav">
-                                <router-link class="routerLink" to="/portfolios">
-                                <Icon icon="bi:bar-chart-fill" height="20" />
-                                    My Portfolios
-                                </router-link>
+                            <router-link class="routerLinkLogo" to="/">
+                                <Logo/>
+                            </router-link>
+                            <li >
+                                <router-link class="routerLink" to="/portfolios">My Portfolios</router-link>
                             </li> 
-                            <!-- <li @click="closeNav">
+                            <!-- <li >
                                 <router-link class="routerLink" to="/premium">
-                                    <Icon icon="fluent:premium-16-filled" height="20" />
                                     Premium
                                 </router-link>
                             </li>  -->
-                            <li @click="closeNav">
-                                  <router-link class="routerLink" to="/settings">
-                                <Icon icon="clarity:settings-solid" height="20" />
-                                Settings
-                                </router-link>
-                            </li> 
-                            <li @click="closeNav" class="logoutLi">
-                                <LogoutButton/> 
-
+                            <li>
+                                <router-link class="routerLink" to="/settings">Settings</router-link>
                             </li> 
                         </ul>
                     </section>
@@ -76,13 +70,12 @@
 
 <script>
 import { Icon } from '@iconify/vue';
-import LogoutButton from '../../components/ui/LogoutButton.vue';
-
+import Logo from '../ui/Logo.vue'
 
 export default {
     components: {
         Icon,
-        LogoutButton,
+        Logo
     },
     data() {
         return {
@@ -110,8 +103,8 @@ export default {
 </script>
 
 <style scoped>
-.logoutLi {
-    color: var(--clr-red);
+.logoBanner {
+    height: 25px;
 }
 
 .open {
@@ -121,7 +114,7 @@ export default {
 
 .closeMobileNav {
     position: absolute;
-    right: 1rem;
+    right: 2rem;
     top: 1rem;
     transition: all 0.3s;
 }
@@ -156,25 +149,27 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 4rem;
-}
-
-.nav-mobile-content h2 {
-    font-size: 2.5rem;
-    text-align: center;
+    margin-top: 25%;
 }
 
 .nav-mobile-content ul {
     text-align: center;
-    font-size: 1.4rem;
-    font-weight: 300;
+}
+
+.nav-mobile-content .routerLink {
+    font-size: 1.5rem;
+}
+
+.nav-mobile-content ul .routerLinkLogo {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
 }
 
 .nav-mobile-content ul li {
     display: flex;
     justify-content: center;
     align-items: center;
-    grid-gap: 0.5rem;
     margin-top: 2rem;
 }
 
@@ -191,29 +186,30 @@ export default {
 }
 
 .routerLink {
+    font-size: 1rem;
     text-decoration: none;
     color: var(--clr-grey);
 }
 
-.routerLinkH2 {
+.routerLink:hover {
+    color: var(--clr-dark-grey);
+}
+
+.routerLinkLogo {
     text-decoration: none;
-    color: var(--clr-black);
+} 
+
+.logoIcon {
+    color: var(--clr-dark-grey);
 }
-
-.routerLinkH2:hover {
-    text-decoration: none;
-    color: var(--clr-black);
-}
-
-.router-link-exact-active {
-    color: var(--clr-blue);
-}
-
-
 h2 {
-    color: var(--clr-black);
-    font-weight: 600;
-    font-size: 1.5rem;
+    color: var(--clr-dark-grey);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: normal;
+    text-align: center;
+    letter-spacing: 0.2em;
+    user-select: none;
 }
 
 li {
@@ -223,13 +219,12 @@ li {
 .leftSide ul {
     display: flex;
     justify-content: center;
-    align-items: baseline;
-    
+    align-items: center;
 }
 
 
 .leftSide li {
-    margin-left: 2.5rem;
+    margin-left: 3rem;
     list-style-type: none;
     color: var(--clr-grey);
     display: flex;
@@ -238,6 +233,7 @@ li {
     align-items: center;
     grid-gap: 0.5rem;
 }
+
 
 h2 a{
     text-decoration: none;
@@ -249,10 +245,29 @@ a:hover {
     cursor: pointer;
 }
 
-.settingsIcon:hover {
-    cursor: pointer;
-    color: var(--clr-blue);
+
+.settingsSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: var(--clr-grey);
+    gap: 0.3rem;
 }
+
+.settingsIcon {
+    transition: 1s all;
+    border: none;
+    outline: none;
+    color: var(--clr-grey)
+}
+
+.settingsSection:hover .settingsIcon, .settingsSection:hover {
+    cursor: pointer;
+    color: var(--clr-dark-grey);
+}
+
+
 
 .rightSide {
     display: flex;
@@ -275,13 +290,19 @@ a:hover {
 }
 
 .nav-wrapper {
-    background-color: var(--clr-very-light-blue);
+    background-color: var(--clr-white);
     height: var(--header-height);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: var(--box-shadow-big);
-    border-bottom: var(--light-border);
+    box-shadow: var(--box-shadow-medium);
+    border-bottom: 1px solid var(--clr-light-grey);
+}
+
+.u-displayflex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* media queries */
