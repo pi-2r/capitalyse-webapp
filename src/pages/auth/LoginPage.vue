@@ -30,9 +30,8 @@
                 </div>
                 <input type="password" id="password" v-model.trim="password" autocomplete="current-password"/>
               </div>
-              <p :class="error">Incorrect details</p>
-              <Button class="button">Log in
-              </Button>
+              <p class="error">{{ errorMessage }}</p>
+              <Button class="button">Log in</Button>
               <router-link to="/signup">
                 <Button class="secondary button"
                   >Create an account instead</Button
@@ -63,27 +62,51 @@ export default {
         return {
           email: "",
           password: "",
-          error: "invisible-error",
+          errorMessage: "",
           isLoading: false,
         };
     },
+    computed: {
+      authError() {
+        return this.$store.getters['getAuthError'];
+      },
+      isAuth() {
+        return this.$store.getters['isAuthenticated'];
+      }
+    },
+    watch: {
+      authError() {
+        if(this.authError) {
+          this.setErrorMessage(this.authError.message);
+          this.isLoading = false;
+        }
+      },
+      isAuth() {
+        if(this.isAuth) {
+          this.$router.replace('/portfolios');
+        }
+      }
+    },
     methods: {
-      async submitForm() {
+      submitForm() {
         this.isLoading = true;
-        try {
-          await this.$store.dispatch("login", {
+     
+        this.$store.dispatch("login", {
           email: this.email,
           password: this.password,
-          });
-
-          const url = "/";
-          
-          this.$router.replace(url);
-        } catch {
-          this.error = "error";
-        }
-        this.isLoading = false;
+        });
       },
+      setErrorMessage(error) {
+        if(error.includes('auth/wrong-password')) {
+          this.errorMessage = "Incorrect password";
+        } else if(error.includes('auth/user-not-found')) {
+          this.errorMessage = "User not found";
+        } else if(error.includes('auth/invalid-email')) {
+          this.errorMessage = "Invalid email";
+        } else {
+          this.errorMessage = "An error occurred";
+        }
+      }
   },
 };
 </script>

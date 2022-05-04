@@ -1,71 +1,47 @@
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword  } from 'firebase/auth';
+
+
 export default {
-    async login(context, payload) {
-        
-        const authResponse = await fetch(
-            "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD8TfxGvV-99IPZFldKa8yu49aL5jSdXjc",
-            {
-                method: "POST",
-                body: JSON.stringify({
-                    email: payload.email,
-                    password: payload.password,
-                    returnSecureToken: true,
-                })
+    login(context, payload) {
+        context.commit('setAuthError', null);
+
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, payload.email, payload.password)
+            .then((userCredential) => {
+                localStorage.setItem("token", userCredential.user.accessToken);
+                localStorage.setItem("userId", userCredential.user.uid);
+                context.commit("setUser", {
+                    token: userCredential.user.accessToken,
+                    userId: userCredential.user.uid,
+                });
+            })
+            .catch((error) => {
+                context.commit("setAuthError", error);
             });
-        
-        const authResponseData = await authResponse.json();
-
-        if (!authResponse.ok) {
-            const error = new Error(authResponseData.error.message);
-            throw error;
-        }
-
-        localStorage.setItem("token", authResponseData.idToken);
-        localStorage.setItem("userId", authResponseData.localId);
-
-        context.commit("setUser", {
-            token: authResponseData.idToken,
-            userId: authResponseData.localId,
-        });
     },
     async signup(context, payload) {
-        
-        const authResponse = await fetch(
-            "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD8TfxGvV-99IPZFldKa8yu49aL5jSdXjc",
-            {
-                method: "POST",
-                body: JSON.stringify({
-                    email: payload.email,
-                    password: payload.password,
-                    returnSecureToken: true,
-                })
+        context.commit('setAuthError', null);
+
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, payload.email, payload.password)
+            .then((userCredential) => {
+                localStorage.setItem("token", userCredential.user.accessToken);
+                localStorage.setItem("userId", userCredential.user.uid);
+                context.commit("setUser", {
+                    token: userCredential.user.accessToken,
+                    userId: userCredential.user.uid,
+                });
+            })
+            .catch((error) => {
+                context.commit("setAuthError", error);
             });
-        
-        const authResponseData = await authResponse.json();
-
-        if (!authResponse.ok) {
-            const error = new Error(authResponseData.error.message);
-            throw error;
-        }
-
-        localStorage.setItem("token", authResponseData.idToken);
-        localStorage.setItem("userId", authResponseData.localId);
-
-        context.commit("setUser", {
-            token: authResponseData.idToken,
-            userId: authResponseData.localId,
-        });
     },
     logout(context) {
-        
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
 
-        context.commit("files/resetCurrentPortfolio");
-        context.commit('files/resetPortfolios')
-        context.commit("setUser", {
-            token: null,
-            userId: null,
-        });
+        context.commit('files/resetDataState');
+        context.commit("resetAuthState");
     },
     tryLogin(context) {
 

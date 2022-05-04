@@ -92,6 +92,19 @@ export default {
       isLoading: false,
     };
   },
+  watch: {
+    authError() {
+      if(this.authError) {
+        this.setErrorMessage(this.authError.message);
+        this.isLoading = false;
+      }
+    },
+    isAuth() {
+      if(this.isAuth) {
+        this.$router.replace('/portfolios');
+      }
+    }
+  },
   computed: {
     formIsValid() {
       if (
@@ -104,32 +117,31 @@ export default {
         return false;
       }
     },
+    isAuth() {
+      return this.$store.getters['isAuthenticated'];
+    },
+    authError() {
+      return this.$store.getters['getAuthError'];
+    },
   },
   methods: {
-    async submitForm() {
+    submitForm() {
       if (this.formIsValid) {
         this.isLoading = true;
-        try {
-          await this.$store.dispatch("signup", {
-            email: this.email,
-            password: this.password,
-          });
-          
-          this.isLoading = false;
-
-          const url = "/";
-          this.$router.replace(url);
-        } catch {
-          this.accexists = "accexists";
-          this.emailFormControl = "invalid";
-          this.emailErrorMsg = "E-mail is already in use";
-        }
-        this.isLoading = false;
+    
+        this.$store.dispatch("signup", {
+          email: this.email,
+          password: this.password,
+        });
+   
       } else {
-        this.checkEmailFormControl();
-        this.checkPasswordFormControl();
-        this.checkRepeatPasswordFormControl();
+        this.checkFormInputs();
       }
+    },
+    checkFormInputs() {
+      this.checkEmailFormControl();
+      this.checkPasswordFormControl();
+      this.checkRepeatPasswordFormControl();
     },
     checkEmailFormControl() {
       if (
@@ -180,6 +192,17 @@ export default {
       this.repeatPasswordFormControl = "";
       this.repeatPasswordErrorMessage = "";
     },
+    setErrorMessage(error) {
+      if(error.includes('auth/email-already-in-use')) {
+        this.emailErrorMsg = "E-mail already in use";
+        this.emailFormControl = "invalid";
+      } else if(error.includes('auth/weak-password')) {
+        this.passwordErrorMessage = "Password is too weak";
+        this.passwordFormControl = "invalid";
+      } else {
+        this.errorMessage = error;
+      }
+    }
   },
 };
 </script>

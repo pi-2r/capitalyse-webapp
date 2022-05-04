@@ -188,7 +188,7 @@ export default {
             console.log(error);
         });
     },
-    deletePortfolio(context, payload) {
+    async deletePortfolio(context, payload) {
         const userId = localStorage.getItem('userId');
         const portfolioId = payload;
 

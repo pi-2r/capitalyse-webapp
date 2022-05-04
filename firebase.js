@@ -13,6 +13,11 @@ import {
     // addDoc,
     // updateDoc
 } from 'firebase/firestore'
+import {
+    setPersistence,
+    getAuth,
+    browserSessionPersistence
+} from 'firebase/auth';
 
 const config = {
     apiKey: "AIzaSyD8TfxGvV-99IPZFldKa8yu49aL5jSdXjc",
@@ -26,6 +31,9 @@ const config = {
 
 const firebaseApp = initializeApp(config);
 getStorage(firebaseApp)
+
+const auth = getAuth();
+setPersistence(auth, browserSessionPersistence);
 
 
 // const db = getFirestore();

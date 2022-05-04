@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import BarChart from './BarChart.vue'
+import BarChart from '../../components/ui/BarChart.vue'
 
 import cleanNumberMixin from '../../mixins/cleanNumber';
 import includesFromArrayMixin from '../../mixins/includesFromArray';

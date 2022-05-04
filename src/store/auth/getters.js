@@ -11,4 +11,7 @@ export default {
     hasPremium(state) {
         return state.hasPremium;
     },
+    getAuthError(state) {
+        return state.error;
+    }
 };

@@ -46,4 +46,9 @@ export default {
     deletePortfolio(state, id) {
         state.portfolios = state.portfolios.filter(p => p.id !== id);
     },
+    resetDataState(state) {
+        state.portfolios = [];
+        state.currentPortfolio = null;
+        state.uploadingState = null;
+    }
 };

@@ -25,7 +25,7 @@
 
 <script>
 import Header from '../../components/layout/Header.vue';
-import DividendChart from '../../components/dashboard/DividendChart.vue';
+import DividendChart from './DividendChart.vue';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.vue';
 import DepositsCard from './DepositsCard.vue';
 import TradingVolCard from './TradingVolCard.vue';
@@ -76,14 +76,9 @@ export default {
     },
     methods: {
         loadData() {
-            if(this.hasCurrentFiles) {
-                console.log('all good');
-            } else if (this.hasCurrentPortfolio) {
-                console.log('no files for this portfolio');
+            if (this.hasCurrentPortfolio) {
                 this.$store.dispatch('files/fetchOnePortfolio', {id: this.$route.params.id});
-                
             } else if (!this.hasCurrentPortfolio) {
-                console.log('no portfolio');
                 this.$store.dispatch('files/fetchAllPortfolios');
             }
 
