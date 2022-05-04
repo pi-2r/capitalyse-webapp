@@ -91,14 +91,12 @@ export default {
     align-items: center;
     margin: 0;
     padding-left: 0;
-    height: 100%;
 }
 
 .actionBtn {
     margin-left: 0.5rem;
     transition: 0.2s all;
     border-radius: 1000rem;
-
 }
 
 .actionBtn:hover {

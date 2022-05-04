@@ -44,7 +44,6 @@
             <section class="dividendChart" v-else>
                 <BarChart v-if="!isLoading" 
                     :chart-data="chartData"  
-                    :chart-options="chartOptions"
                 /> 
                 <section class="spinnerContainer" v-else>
                     <spinner/>

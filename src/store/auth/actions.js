@@ -1,6 +1,5 @@
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword  } from 'firebase/auth';
 
-
 export default {
     login(context, payload) {
         context.commit('setAuthError', null);
@@ -44,7 +43,6 @@ export default {
         context.commit("resetAuthState");
     },
     tryLogin(context) {
-
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("userId");
 

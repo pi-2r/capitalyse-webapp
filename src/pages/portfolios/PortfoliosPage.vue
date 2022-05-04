@@ -19,7 +19,7 @@
 
         <section class="myPortfolios__header">
             <section class="heading">
-                <Icon icon="bi:bar-chart-fill" height="30"  color="var(--clr-blue)"/>
+                <Icon icon="bi:bar-chart-fill" height="30" color="var(--clr-blue)"/>
                 <h1>My Portfolios</h1>
             </section>
             <Button class="secondary addPortfolioBtn" link @click="addPortfolio">+ Add Portfolio</Button>

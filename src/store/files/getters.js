@@ -18,7 +18,6 @@ export default {
         return state.portfolios.some(p => p.id === payload.portfolioId);
     },
     hasCurrentFiles(state, payload) {
-        // check if files are uploaded for a specific portfolio
         if (payload) {
             for (let i = 0; i < state.portfolios.length; i++) {
                 if (state.portfolios[i].id === payload.portfolioId) {

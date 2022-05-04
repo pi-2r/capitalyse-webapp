@@ -112,7 +112,7 @@ export default {
     },
     async fetchOnePortfolio(context, payload) {
         const userId = localStorage.getItem('userId');
-        const portfolioId = payload.id;
+        const portfolioId = payload;
        
         const transactionsFileUrl = `users/${userId}/portfolios/${portfolioId}/Transactions.csv`;
         const accountFileUrl = `users/${userId}/portfolios/${portfolioId}/Account.csv`;
@@ -188,7 +188,7 @@ export default {
             console.log(error);
         });
     },
-    async deletePortfolio(context, payload) {
+    deletePortfolio(context, payload) {
         const userId = localStorage.getItem('userId');
         const portfolioId = payload;
 

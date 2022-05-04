@@ -9,7 +9,6 @@
         />
         <section class="head">
             <h1>Dashboard {{ portfolioName }}</h1>
-            <LogoutButton/>
         </section>
 
         <DividendChart/>
@@ -56,14 +55,15 @@ export default {
         },
         hasCurrentFiles() {
             const portfolios = this.$store.getters['files/getPortfolios'];
+            let hasFiles = false
             portfolios.forEach(portfolio => {
                 if(portfolio.id === this.$route.params.id) {
                     if(portfolio.accountFile && portfolio.transactionsFile) {
-                        return true;
+                        hasFiles = true;
                     }
                 }
             });
-            return false;
+            return hasFiles;
         },
         hasPortfolios() {
             return this.$store.getters['files/hasPortfolios'];
@@ -76,9 +76,10 @@ export default {
     },
     methods: {
         loadData() {
-            if (this.hasCurrentPortfolio) {
-                this.$store.dispatch('files/fetchOnePortfolio', {id: this.$route.params.id});
+            if(!this.hasCurrentFiles && this.hasCurrentPortfolio) {
+                this.$store.dispatch('files/fetchOnePortfolio', this.$route.params.id);
             } else if (!this.hasCurrentPortfolio) {
+                console.log('no portfolio');
                 this.$store.dispatch('files/fetchAllPortfolios');
             }
 

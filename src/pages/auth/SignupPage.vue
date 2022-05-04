@@ -199,8 +199,6 @@ export default {
       } else if(error.includes('auth/weak-password')) {
         this.passwordErrorMessage = "Password is too weak";
         this.passwordFormControl = "invalid";
-      } else {
-        this.errorMessage = error;
       }
     }
   },
