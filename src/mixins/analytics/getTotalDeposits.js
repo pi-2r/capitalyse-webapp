@@ -1,4 +1,8 @@
+import cleanNumberMixin from '../../mixins/cleanNumber';
+import includesFromArrayMixin from '../../mixins/includesFromArray';
+
 export default {
+    mixins: [cleanNumberMixin, includesFromArrayMixin],
     methods: {
         getTotalDeposits(data) {
             const names = this.$store.getters['dictionary/deposit'];

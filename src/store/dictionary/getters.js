@@ -11,4 +11,7 @@ export default {
     deposit(state) {
         return state.dictionary.deposit;
     },
+    exchangeFees(state) {
+        return state.dictionary.exchangeFees;
+    }
 };

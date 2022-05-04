@@ -96,6 +96,7 @@ export default {
         });
     },
     async fetchAllPortfolios(context) {
+        console.log('fetched all portfolios');
         const userId = localStorage.getItem('userId');
         const portfoliosRef = collection(db, `users/${userId}/portfolios`);
         const querySnapshot = await getDocs(portfoliosRef);
@@ -111,6 +112,7 @@ export default {
         context.commit("setPortfolios", portfolios);
     },
     async fetchOnePortfolio(context, payload) {
+        console.log('fetched one portfolio');
         const userId = localStorage.getItem('userId');
         const portfolioId = payload;
        

@@ -5,7 +5,7 @@
             baseLink="/portfolios"
             baseLinkName="My Portfolios" 
             secondLink="#"
-            :secondLinkName="'Dashboard ' + portfolioName"
+            :secondLinkName="'Dashboard ' + (portfolioName ? portfolioName : '')"
         />
         <section class="head">
             <h1>Dashboard {{ portfolioName }}</h1>

@@ -10,6 +10,7 @@ export default {
                 dividend: ["Dividend", "Dividende"],
                 deposit: ["iDEAL storting", "Einzahlung", "Reservation iDEAL / Sofort Deposit"],
                 withdrawal: ["Laufende Auszahlung", "Processed Flatex Withdrawal"],
+                exchangeFees: ["DEGIRO Aansluitingskosten", "Giro Exchange"],
             },
         };
     },

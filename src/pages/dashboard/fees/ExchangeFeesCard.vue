@@ -1,20 +1,18 @@
 <template>
     <ResultCard 
-        title="Total Trading Volume" 
-        :resultValue="totTradingVol" 
-        :to="'/dashboard/' + portfolioId + '/trading'" 
-        btnText="Trading Details"
-        :withBtn="true"
+        title="Total Exchange Fees" 
+        :resultValue="totExchangeFees" 
+        :withBtn="false"
     />
 </template>
 
 <script>
-import ResultCard from './ResultCard.vue';
+import ResultCard from '../ResultCard.vue';
 
-import getTotalTradingVolumeMixin from '../../mixins/analytics/getTotalTradingVolume';
+import getTotalExchangeFeesMixin from '../../../mixins/analytics/getTotalExchangeFees';
 
 export default {
-    mixins: [getTotalTradingVolumeMixin],
+    mixins: [getTotalExchangeFeesMixin],
     components: {
         ResultCard
     },
@@ -26,7 +24,7 @@ export default {
     },
     data() {
         return {
-            totTradingVol: 0,
+            totExchangeFees: 0,
         }
     },
     watch: {
@@ -42,13 +40,13 @@ export default {
             return this.$store.getters['files/getCurrentPortfolio'];
         },
         isThereData() {
-            return !!this.currentPortfolio.transactionsFile;
+            return !!this.currentPortfolio.accountFile;
         }
     },
     methods: {
         loadData() {
             if(this.isThereData) {
-                this.totTradingVol = this.getTotalTradingVolume(this.currentPortfolio.transactionsFile);
+                this.totExchangeFees = this.getTotalExchangeFees(this.currentPortfolio.accountFile);
             }
         },
     },

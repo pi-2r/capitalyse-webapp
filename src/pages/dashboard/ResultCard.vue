@@ -69,7 +69,7 @@ export default {
 }
 
 .cardContentNoBtn {
-    padding: 1rem;
+    padding: 2rem;
     display: flex;
     align-items: center;
     flex-direction: column;

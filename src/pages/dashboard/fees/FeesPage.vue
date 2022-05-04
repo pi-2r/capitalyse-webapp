@@ -5,7 +5,7 @@
             baseLink="/portfolios"
             baseLinkName="My Portfolios" 
             :secondLink="'/dashboard/' + this.$route.params.id"
-            :secondLinkName="'Dashboard ' + portfolioName"    
+            :secondLinkName="'Dashboard ' + (portfolioName ? portfolioName : '')"    
             thirdLink="#"
             thirdLinkName="Fees and Costs"
         />
@@ -13,7 +13,8 @@
         <h1>Fees and Costs</h1>
         
         <section class="cardsContainer">
-            
+            <TransFeesCard :withBtn="false"/>
+            <ExchangeFeesCard />
         </section>
     </section>
 </template>
@@ -22,16 +23,72 @@
 import Breadcrumbs from '../../../components/ui/Breadcrumbs.vue';
 import Header from '../../../components/layout/Header.vue';
 
+import ExchangeFeesCard from './ExchangeFeesCard.vue';
+import TransFeesCard from '../TransFeesCard.vue';
+
 export default {
-   components: {
+    components: {
         Breadcrumbs,
-        Header
-   },
-   computed: {
+        Header,
+        TransFeesCard,
+        ExchangeFeesCard
+    },
+    computed: {
         portfolioName() {
             return this.$store.getters['files/getCurrentPortfolioName'];
         },
-   }
+        hasCurrentPortfolio() {
+            const portfolios = this.$store.getters['files/getPortfolios'];
+            for(let i = 0; i < portfolios.length; i++) {
+                if(portfolios[i].id === this.$route.params.id) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        hasCurrentFiles() {
+            const portfolios = this.$store.getters['files/getPortfolios'];
+            let hasFiles = false;
+            portfolios.forEach(portfolio => {
+                if(portfolio.id === this.$route.params.id) {
+                    if(portfolio.accountFile && portfolio.transactionsFile) {
+                        hasFiles = true;
+                    }
+                }
+            });
+            return hasFiles;
+        },
+        hasPortfolios() {
+            return this.$store.getters['files/hasPortfolios'];
+        }
+    },
+    watch: {
+        hasPortfolios() {
+            this.loadData();
+        }
+    },
+    methods: {
+        loadData() {
+            if(!this.hasCurrentFiles && this.hasCurrentPortfolio) {
+                this.$store.dispatch('files/fetchOnePortfolio', this.$route.params.id);
+            } else if (!this.hasCurrentPortfolio) {
+                this.$store.dispatch('files/fetchAllPortfolios');
+            }
+
+            if(this.hasCurrentPortfolio) {
+                this.setCurrentPortfolio(this.$route.params.id);
+            }
+        },
+        setCurrentPortfolio(id) {
+            this.$store.dispatch('files/setCurrentPortfolio', id);
+        },
+        resetCurrentPortfolio() {
+            this.$store.dispatch('files/resetCurrentPortfolio');
+        }
+    },
+    created() {
+        this.loadData();
+    }
 }
 </script>
 
@@ -40,6 +97,16 @@ export default {
     margin: 0 auto;
     margin-bottom: 4rem;
     margin-top: 3rem;
+}
+
+h1 {
+    margin-bottom: 2rem;
+}
+
+.cardsContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 2rem;
 }
 
 @media screen and (min-width: 400px) {
@@ -59,9 +126,7 @@ export default {
 }
 
 @media screen and (min-width: 1050px) {
-    .cardsContainer {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
+   
 
     .container {
         max-width: 1000px;

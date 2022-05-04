@@ -13,5 +13,8 @@ export default {
     },
     tradingVolume(state) {
         return state.indexes.tradingVolume;
-    }
+    },
+    exchangeFees(state) {
+        return state.indexes.exchangeFees;
+    },
 };

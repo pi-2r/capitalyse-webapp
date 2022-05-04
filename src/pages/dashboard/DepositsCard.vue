@@ -4,21 +4,26 @@
         :resultValue="totDeposits" 
         :to="'/dashboard/' + portfolioId + '/deposits'"
         btnText="My Deposits"
-        withBtn
+        :withBtn="true"
     />
 </template>
 <script>
 import ResultCard from './ResultCard.vue';
 
-import cleanNumberMixin from '../../mixins/cleanNumber';
-import includesFromArrayMixin from '../../mixins/includesFromArray';
+
 import getTotalDepositsMixin from '../../mixins/analytics/getTotalDeposits';
 
 export default {
-    mixins: [cleanNumberMixin, includesFromArrayMixin, getTotalDepositsMixin],
+    mixins: [getTotalDepositsMixin],
 
     components: {
         ResultCard
+    },
+    props: {
+        withBth: {
+            type: Boolean,
+            default: false
+        }
     },
     data() {
         return {

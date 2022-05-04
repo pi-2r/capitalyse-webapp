@@ -4,7 +4,7 @@
         :resultValue="totTransFees" 
         :to="'/dashboard/'+ portfolioId + '/fees'" 
         btnText="Fees and Costs"
-        withBtn
+        :withBtn="true"
     />
 </template>
 
@@ -19,6 +19,12 @@ export default {
     mixins: [cleanNumberMixin, includesFromArrayMixin, getTotalTransactionsFeesMixin],
     components: {
         ResultCard
+    },
+    props: {
+        withBth: {
+            type: Boolean,
+            default: false
+        }
     },
     data() {
         return {

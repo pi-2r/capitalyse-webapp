@@ -22,6 +22,10 @@ export default {
                 tradingVolume: {
                     searchIndex: 16,
                 },
+                exchangeFees: {
+                    searchIndex: 5,
+                    feeIndex: 8,
+                },
             },
         };
     },
