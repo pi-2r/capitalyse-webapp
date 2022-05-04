@@ -11,7 +11,10 @@
 <script>
 import ResultCard from './ResultCard.vue';
 
+import getTotalTradingVolumeMixin from '../../mixins/analytics/getTotalTradingVolume';
+
 export default {
+    mixins: [getTotalTradingVolumeMixin],
     components: {
         ResultCard
     },
@@ -29,9 +32,6 @@ export default {
         portfolioId() {
             return this.$route.params.id;
         },
-        tradingVolumeIndexes() {
-            return this.$store.getters['indexes/tradingVolume'];
-        },
         currentPortfolio() {
             return this.$store.getters['files/getCurrentPortfolio'];
         },
@@ -42,24 +42,8 @@ export default {
     methods: {
         loadData() {
             if(this.isThereData) {
-                this.totTradingVol = this.getTotalTradingVolume();
+                this.totTradingVol = this.getTotalTradingVolume(this.currentPortfolio.transactionsFile);
             }
-        },
-        getTotalTradingVolume() {
-            const data = this.currentPortfolio.transactionsFile;
-            const searchIndex = this.tradingVolumeIndexes.searchIndex;
-            let vol = 0;
-            let tot = 0;
-            
-            for(let i = 0; i < data.length -1; i++) {
-                if(data[i][searchIndex] !== "") {
-                    vol = parseFloat(data[i][searchIndex]);
-                    vol < 0 ? vol = vol * -1 : vol;
-                    tot += vol;
-                }
-            }
-            tot = parseFloat(tot).toLocaleString('en-US');
-            return tot;
         },
     },
     created() {

@@ -12,9 +12,10 @@ import ResultCard from './ResultCard.vue';
 
 import cleanNumberMixin from '../../mixins/cleanNumber';
 import includesFromArrayMixin from '../../mixins/includesFromArray';
+import getTotalDepositsMixin from '../../mixins/analytics/getTotalDeposits';
 
 export default {
-    mixins: [cleanNumberMixin, includesFromArrayMixin],
+    mixins: [cleanNumberMixin, includesFromArrayMixin, getTotalDepositsMixin],
 
     components: {
         ResultCard
@@ -28,14 +29,8 @@ export default {
         portfolioId() {
             return this.$route.params.id;
         },
-        depositIndexes() {
-            return this.$store.getters['indexes/deposits'];
-        },
         currentPortfolio() {
             return this.$store.getters['files/getCurrentPortfolio'];
-        },
-        depositNames() {
-            return this.$store.getters['dictionary/deposit'];
         },
         isThereData() {
             return !!this.currentPortfolio.accountFile;
@@ -49,28 +44,8 @@ export default {
     methods: {
         loadData() {
             if(this.isThereData) {
-                this.totDeposits = this.getTotalDeposits();
+                this.totDeposits = this.getTotalDeposits(this.currentPortfolio.accountFile);
             }
-        },
-        getTotalDeposits() {
-            let data = this.currentPortfolio.accountFile;
-            const names = this.depositNames;
-            const searchIndex = this.depositIndexes.searchIndex;
-            const depositIndex = this.depositIndexes.depositIndex;
-            let tot = 0;
-
-            for(let i = 0; i < data.length; i++) {
-                if(data[i][searchIndex]) {                
-                    if(this.includesFromArray(names, data[i][searchIndex])) {
-                        let nr = this.cleanNumber(data[i][depositIndex]);
-                        if(nr > 0) {
-                            tot += nr;
-                        }
-                    }
-                }
-            }
-            tot = tot.toLocaleString('en-US');
-            return tot;
         },
     },
     async created() {

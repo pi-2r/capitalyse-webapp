@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import Breadcrumbs from '../../components/ui/Breadcrumbs.vue';
-import Header from '../../components/layout/Header.vue';
+import Breadcrumbs from '../../../components/ui/Breadcrumbs.vue';
+import Header from '../../../components/layout/Header.vue';
 
 export default {
    components: {

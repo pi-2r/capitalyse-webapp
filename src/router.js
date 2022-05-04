@@ -2,17 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import store from './store';
 
-// import DashboardPage from "./pages/dashboard/DashboardPage.vue";
-// import UploadFilesPage from "./pages/upload/UploadFilesPage.vue";
-// import SignupPage from "./pages/auth/SignupPage.vue";
-// import LoginPage from "./pages/auth/LoginPage.vue";
-// import DepositsPage from "./pages/deposits/DepositsPage.vue";
-// import FeesPage from "./pages/fees/FeesPage.vue";
-// import TradingPage from "./pages/trading/TradingPage.vue";
-// import NotFoundPage from "./pages/notfound/NotFoundPage.vue";
 import PortfoliosPage from "./pages/portfolios/PortfoliosPage.vue";
-// import SettingsPage from "./pages/settings/SettingsPage.vue";
-// import EditPage from "./pages/edit/EditPage.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -48,27 +38,22 @@ const router = createRouter({
         },
         {
             path: '/dashboard/:id/deposits',
-            component: () => import("./pages/deposits/DepositsPage.vue"),
+            component: () => import("./pages/dashboard/deposits/DepositsPage.vue"),
             meta: { requiresAuth: true },
         },
         {
             path: '/dashboard/:id/fees',
-            component: () => import('./pages/fees/FeesPage.vue'),
+            component: () => import('./pages/dashboard/fees/FeesPage.vue'),
             meta: { requiresAuth: true },
         },
         {
             path: '/dashboard/:id/trading',
-            component: () => import('./pages/trading/TradingPage.vue'),
+            component: () => import('./pages/dashboard/trading/TradingPage.vue'),
             meta: { requiresAuth: true },
         },
         {
             path: '/settings',
             component: () => import('./pages/settings/SettingsPage.vue'),
-            meta: { requiresAuth: true },
-        },
-        {
-            path: '/portfolios/edit/:id',
-            component: () => import('./pages/edit/EditPage.vue'),
             meta: { requiresAuth: true },
         },
         {

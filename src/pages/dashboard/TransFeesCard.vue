@@ -13,9 +13,10 @@ import ResultCard from './ResultCard.vue';
 
 import cleanNumberMixin from '../../mixins/cleanNumber';
 import includesFromArrayMixin from '../../mixins/includesFromArray';
+import getTotalTransactionsFeesMixin from '../../mixins/analytics/getTotalTransactionsFees';
 
 export default {
-    mixins: [cleanNumberMixin, includesFromArrayMixin],
+    mixins: [cleanNumberMixin, includesFromArrayMixin, getTotalTransactionsFeesMixin],
     components: {
         ResultCard
     },
@@ -27,9 +28,6 @@ export default {
     computed: {
         portfolioId() {
             return this.$route.params.id;
-        },
-        transactionsIndexes() {
-            return this.$store.getters['indexes/transactions'];
         },
         currentPortfolio() {
             return this.$store.getters['files/getCurrentPortfolio'];
@@ -46,23 +44,8 @@ export default {
     methods: {
         loadData() {
             if(this.isThereData) {
-                this.totTransFees = this.getTotalTransactionsFees();
+                this.totTransFees = this.getTotalTransactionsFees(this.currentPortfolio.transactionsFile);
             }
-        },
-        getTotalTransactionsFees() {
-            const data = this.currentPortfolio.transactionsFile;
-            const searchIndex = this.transactionsIndexes.searchIndex;
-            let tot = 0;
-
-            for(let i = 0; i < data.length -1; i++) {
-                if(data[i][searchIndex] && data[i][searchIndex] !== "" &&
-                data[i][searchIndex]) {
-                    let nr = parseFloat(data[i][searchIndex]);
-                    tot += nr;
-                }
-            }
-            tot = parseFloat(tot).toLocaleString('en-US');
-            return tot;
         },
     },
     created() {

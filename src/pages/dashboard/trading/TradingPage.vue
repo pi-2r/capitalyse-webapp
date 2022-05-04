@@ -13,19 +13,22 @@
         <h1>Trading</h1>
         
         <section class="cardsContainer">
-            
+            <TransFeesCard/>
         </section>
     </section>
 </template>
 
 <script>
-import Breadcrumbs from '../../components/ui/Breadcrumbs.vue';
-import Header from '../../components/layout/Header.vue';
+import Breadcrumbs from '../../../components/ui/Breadcrumbs.vue';
+import Header from '../../../components/layout/Header.vue';
+
+import TransFeesCard from '../TransFeesCard.vue';
 
 export default {
     components: {
         Breadcrumbs,
-        Header
+        Header,
+        TransFeesCard
     },
     computed: {
         portfolioName() {
