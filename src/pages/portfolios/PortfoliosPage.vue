@@ -228,6 +228,7 @@ export default {
     width: 100%;
     border-radius: var(--card-border-radius);
     border-collapse: collapse;
+    box-shadow: var(--box-shadow-big);
 }
 
 .addPortfolioBtn {
@@ -372,9 +373,13 @@ tr:nth-last-child(1) {
 }
 
 /* max width */
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 775px) {
     .tablecontainer {
         overflow-x: scroll;
+        padding: 2rem;
+        margin-left: -2rem;
+        margin-top: 0;
+        min-width: 20rem;
     }
 }
 
