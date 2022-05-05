@@ -17,4 +17,7 @@ export default {
     exchangeFees(state) {
         return state.indexes.exchangeFees;
     },
+    tradingFrequency(state) {
+        return state.indexes.tradingFrequency;
+    }
 };

@@ -5,7 +5,7 @@
                 <transition name="slide-fade" mode="out-in">
                     <p class="cardText" :key="resultValue">
                         <span class="resultValue" :class="[{redNumber : isNegative}]">
-                            €{{ resultValue }}
+                            <span v-if="numberResult">€</span>{{ resultValue }}
                         </span>
                     </p>
                 </transition>
@@ -39,6 +39,10 @@ export default {
             type: String,
             default: 'View Details',
         },
+        numberResult: {
+            type: Boolean,
+            default: true,
+        },
     },
     computed: {
         isNegative() {
@@ -50,6 +54,10 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+    text-align: center;
+}
+
 .cardContainer {
     width: 100%;
     background-color: var(--clr-very-light-blue);
@@ -58,6 +66,10 @@ export default {
     border-radius: var(--card-border-radius);
     flex-direction: column;
     box-shadow: var(--box-shadow-big);
+}
+
+.resultValue {
+    font-size: 1.75rem;
 }
 
 .cardContent {
@@ -77,6 +89,7 @@ export default {
 
 .cardText {
     margin-bottom: 0.5rem;
+    text-align: center;
 }
 
 .cardBtnSection {

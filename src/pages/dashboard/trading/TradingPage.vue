@@ -13,7 +13,8 @@
         <h1>Trading</h1>
         
         <section class="cardsContainer">
-       
+            <MostFreqTradedCard/>
+            <MostFreqBuyOrSell/>
         </section>
     </section>
 </template>
@@ -22,12 +23,15 @@
 import Breadcrumbs from '../../../components/ui/Breadcrumbs.vue';
 import Header from '../../../components/layout/Header.vue';
 
-
+import MostFreqTradedCard from './MostFreqTradedCard.vue';
+import MostFreqBuyOrSell from './MostFreqBuyOrSell.vue';
 
 export default {
     components: {
         Breadcrumbs,
         Header,
+        MostFreqTradedCard,
+        MostFreqBuyOrSell
     },
     computed: {
         portfolioName() {
@@ -95,6 +99,16 @@ export default {
     margin-top: 3rem;
 }
 
+.cardsContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 2rem;
+}
+
+h1 {
+    margin-bottom: 2rem;
+}
+
 @media screen and (min-width: 400px) {
     .container {
         max-width: 92%;
@@ -113,9 +127,7 @@ export default {
 }
 
 @media screen and (min-width: 1050px) {
-    .cardsContainer {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
+   
 
     .container {
         max-width: 1000px;

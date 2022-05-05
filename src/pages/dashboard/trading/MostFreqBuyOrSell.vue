@@ -1,0 +1,128 @@
+<template>
+    <section class="cardWrapper">
+        <Button class="secondary toggleBuySellBtn" @click="toggleBuySell">toggle</Button>
+        <section>
+            <ResultCard class="card"
+                :title="title"
+                :resultValue="mostFreqTraded" 
+                :withBtn="false"
+                :numberResult="false"
+            />
+        </section>
+    </section>
+</template>
+
+<script>
+import ResultCard from '../ResultCard.vue';
+import getMostFrequentBuyOrSell from '../../../mixins/analytics/getMostFrequentBuyOrSell.js';
+
+export default {
+    mixins: [getMostFrequentBuyOrSell],
+    components: {
+        ResultCard
+    },
+    props: {
+        withBth: {
+            type: Boolean,
+            default: false
+        }
+    },
+    data() {
+        return {
+            mostFreqBuyOrSellList: [],
+            buyOrSell: 'buy',
+        }
+    },
+    watch: {
+        isThereData() {
+            this.loadData();
+        },
+        buyOrSell() {
+            this.loadData();
+        }
+    },
+    computed: {
+        portfolioId() {
+            return this.$route.params.id;
+        },
+        currentPortfolio() {
+            return this.$store.getters['files/getCurrentPortfolio'];
+        },
+        isThereData() {
+            return !!this.currentPortfolio.transactionsFile;
+        },
+        mostFreqTraded() {
+            if(this.isThereData) {
+                return this.mostFreqBuyOrSellList ? this.mostFreqBuyOrSellList[0][0] : 'No data';
+            }
+            return 'No data';
+        },
+        title() {
+            if(this.isThereData) {
+                return this.buyOrSell === 'buy' ? 'Most Bought Product' : 'Most Sold Product';
+            }
+            return 'No data';
+        }
+    },
+    methods: {
+        toggleBuySell() {
+            this.buyOrSell = this.buyOrSell === 'buy' ? 'sell' : 'buy';
+        },
+        loadData() {
+            if(this.isThereData) {
+                if(this.buyOrSell === "buy") {
+                    this.mostFreqBuyOrSellList = this.getMostFrequentBuyOrSell(this.currentPortfolio.transactionsFile, 'buy');
+                } else if (this.buyOrSell === "sell") {
+                    this.mostFreqBuyOrSellList = this.getMostFrequentBuyOrSell(this.currentPortfolio.transactionsFile, 'sell');
+                }
+            }
+        },
+    },
+    created() {
+        this.loadData();
+    }
+}
+</script>
+
+<style scoped>
+.toggleBuySellBtn {
+    position: absolute;
+    padding: 0.5rem; 
+    left: 0.5rem;
+    top: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;    
+    text-transform: uppercase;
+    border: none;
+    box-shadow: none;
+}
+
+.toggleBuySellBtn:hover {
+    cursor: pointer;
+    box-shadow: none;
+}
+
+.card {
+    box-shadow: none;
+    padding: 0;
+    height: 100%;	
+    grid-gap: 0;
+}
+
+
+.cardWrapper {
+    position: relative;
+    width: 100%;
+    background-color: var(--clr-very-light-blue);
+    display: flex;
+    justify-content: center;
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--box-shadow-big);
+
+}
+
+
+
+
+
+</style>

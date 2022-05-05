@@ -26,6 +26,10 @@ export default {
                     searchIndex: 5,
                     feeIndex: 8,
                 },
+                tradingFrequency: {
+                    searchIndex: 2,
+                    buyOrSellIndex: 6,
+                }
             },
         };
     },
