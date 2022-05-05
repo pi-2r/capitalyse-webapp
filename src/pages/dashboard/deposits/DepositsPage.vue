@@ -119,4 +119,6 @@ export default {
         max-width: 1000px;
     }
 }
+
+
 </style>

@@ -36,7 +36,7 @@ export default {
     async createNewPortfolio(context, payload) {
         const storage = getStorage();
 
-        const userId = localStorage.getItem('userId');
+        const userId = context.rootGetters.userId;
         const transactionsFile = payload.transactionsFile;
         const accountFile = payload.accountFile;
 
@@ -97,7 +97,7 @@ export default {
     },
     async fetchAllPortfolios(context) {
         console.log('fetched all portfolios');
-        const userId = localStorage.getItem('userId');
+        const userId = context.rootGetters.userId;
         const portfoliosRef = collection(db, `users/${userId}/portfolios`);
         const querySnapshot = await getDocs(portfoliosRef);
        
@@ -113,7 +113,7 @@ export default {
     },
     async fetchOnePortfolio(context, payload) {
         console.log('fetched one portfolio');
-        const userId = localStorage.getItem('userId');
+        const userId = context.rootGetters.userId;
         const portfolioId = payload;
        
         const transactionsFileUrl = `users/${userId}/portfolios/${portfolioId}/Transactions.csv`;
@@ -175,7 +175,7 @@ export default {
         });
     },
     editPortfolioName(context, payload) {
-        const userId = localStorage.getItem('userId');
+        const userId = context.rootGetters.userId;
         const portfolioId = payload.id;
 
         const updateFireStorePortfolioRef = doc(db, `users/${userId}/portfolios/${portfolioId}`);
@@ -191,7 +191,7 @@ export default {
         });
     },
     deletePortfolio(context, payload) {
-        const userId = localStorage.getItem('userId');
+        const userId = context.rootGetters.userId;
         const portfolioId = payload;
 
         const storage = getStorage();
