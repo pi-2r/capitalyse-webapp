@@ -85,11 +85,11 @@ export default {
                     {
                         label: 'Dividends Received (EUR)',
                         backgroundColor: "#e1f1fb",
-                        borderWidth: 2,
-                        borderRadius: 6,
+                        borderWidth: 1,
+                        borderRadius: 9,
                         borderSkipped: 'bottom',
                         borderColor: '#0091ff',
-                        hoverBorderWidth: 2,
+                        hoverBorderWidth: 1,
                         hoverBorderColor: '#0091ff',
                         data: []
                     }
@@ -374,6 +374,10 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+    color: var(--clr-dark-grey);
+}
+
 .chartErrorMsg {
     margin-top: 2rem;
     margin-bottom: 2rem;

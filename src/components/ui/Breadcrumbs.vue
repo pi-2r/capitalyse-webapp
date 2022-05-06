@@ -6,13 +6,11 @@
 
         <router-link class="u-margin-right" :to="secondLink">{{ secondLinkName }}</router-link>
 
-        <section class="u-flex-align-center" v-if="thirdLink !== ''">
 
-            <Icon class="u-margin-right" icon="ep:arrow-right" color="var(--clr-grey)" height="15" />
+            <Icon v-if="thirdLink !== ''" class="u-margin-right" icon="ep:arrow-right" color="var(--clr-grey)" height="15" />
 
-            <router-link class="u-margin-right" :to="thirdLink">{{ thirdLinkName }}</router-link>
+            <router-link v-if="thirdLink !== ''" class="u-margin-right" :to="thirdLink">{{ thirdLinkName }}</router-link>
 
-        </section>
     </p>
 </template>
 
