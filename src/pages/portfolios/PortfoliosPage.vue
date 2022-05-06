@@ -249,8 +249,8 @@ thead {
 th {
     padding: 1.2rem 2rem;
     text-align: left;
-    font-size: 1.1rem;
-    color: var(--clr-dark-grey)
+    font-weight: 500;
+    color: var(--clr-black)
 }
 
 th:last-of-type {

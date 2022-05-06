@@ -1,15 +1,21 @@
 <template>
     <p class="breadcrumbs u-flex-align-center">
+        <section class="linkPart">
         <router-link class="u-margin-right" :to="baseLink">{{ baseLinkName }}</router-link>
-        
+            
+        </section>
+        <section class="linkPart">
         <Icon class="u-margin-right" icon="ep:arrow-right" color="var(--clr-grey)" height="15" />
-
         <router-link class="u-margin-right" :to="secondLink">{{ secondLinkName }}</router-link>
 
+        </section>
+        <section class="linkPart">
+        <Icon v-if="thirdLink !== ''" class="u-margin-right" icon="ep:arrow-right" color="var(--clr-grey)" height="15" />
+        <router-link v-if="thirdLink !== ''" class="u-margin-right" :to="thirdLink">{{ thirdLinkName }}</router-link>
 
-            <Icon v-if="thirdLink !== ''" class="u-margin-right" icon="ep:arrow-right" color="var(--clr-grey)" height="15" />
+        </section>
 
-            <router-link v-if="thirdLink !== ''" class="u-margin-right" :to="thirdLink">{{ thirdLinkName }}</router-link>
+
 
     </p>
 </template>
@@ -52,6 +58,10 @@ export default {
 </script>
 
 <style scoped>
+.linkPart {
+    display:block;
+}
+
 .u-margin-right {
     margin-right: 0.4rem;
 }
@@ -61,6 +71,10 @@ export default {
     color: var(--clr-grey);
     font-weight: 300;
     
+}
+
+.breadcrumbs > * {
+    display: inline-block;
 }
 
 .u-flex-align-center {

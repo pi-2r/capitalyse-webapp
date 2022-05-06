@@ -125,7 +125,7 @@ input {
 
 @media screen and (max-width: 768px) {
     h1 {
-        font-size: 2.2rem;
+        font-size: 1.75rem;
     }
 }
 </style>
