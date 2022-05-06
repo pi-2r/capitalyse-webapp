@@ -369,16 +369,6 @@ tr:nth-last-child(1) {
     }
 }
 
-@media screen and (max-width: 775px) {
-    .tablecontainer {
-        overflow-x: scroll;
-        padding: 2rem;
-        margin-left: -2rem;
-        margin-top: 0;
-        min-width: 20rem;
-    }
-}
-
 @media screen and (max-width: 600px) {
     .myPortfolios__header {
         display: inline-block;
@@ -403,6 +393,17 @@ tr:nth-last-child(1) {
 
     .noBtn {
         order: 2;
+    }
+}
+
+
+@media screen and (max-width: 350px) {
+    .tablecontainer {
+        overflow-x: scroll;
+        padding: 2rem;
+        margin-left: -2rem;
+        margin-top: 0;
+        min-width: 20rem;
     }
 }
     
