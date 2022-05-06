@@ -7,54 +7,24 @@
 <script>
 import GoogleIcon from '../../../node_modules/vue-material-design-icons/Google.vue'
 
-// import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult} from 'firebase/auth';
-
-
-import "firebase/compat/auth"
-import "firebase/compat/firestore"
-
 export default {
     components: {
         GoogleIcon
     },
+    data() {
+        return {
+            token: null,
+            user: null,
+        }
+    },
     methods: {
         googleSignIn() {
-
-            window.alert("Google Sign in is not available yet. Please use the email and password sign in instead.");
-            // const auth = getAuth();
-            // const provider = new GoogleAuthProvider();
-            // signInWithRedirect(auth, provider)
-
-            // getRedirectResult(auth)
-            //     .then((result) => {
-            //         // This gives you a Google Access Token. You can use it to access Google APIs.
-            //         const credential = GoogleAuthProvider.credentialFromResult(result);
-            //         const token = credential.accessToken;
-
-            //         // The signed-in user info.
-            //         const user = result.user;
-
-            //         console.log(credential);
-            //         console.log(token);
-            //         console.log(user);
-
-                    
-            //     }).catch((error) => {
-            //         // Handle Errors here.
-            //         const errorCode = error.code;
-            //         const errorMessage = error.message;
-            //         // The email of the user's account used.
-            //         const email = error.email;
-            //         // The AuthCredential type that was used.
-            //         const credential = GoogleAuthProvider.credentialFromError(error);
-
-            //         console.log(errorCode, errorMessage, email, credential);
-            //         // ...
-            //     });
-            
+            alert('google sign in not available')
         },
-
-    }
+        log() {
+            console.log(this.token, this.user);
+        }
+    },
 }
 </script>
 

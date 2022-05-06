@@ -16,7 +16,7 @@ import {
 import {
     setPersistence,
     getAuth,
-    browserLocalPersistence
+    browserLocalPersistence,
 } from 'firebase/auth';
 
 const config = {
@@ -34,6 +34,8 @@ getStorage(firebaseApp)
 
 const auth = getAuth();
 setPersistence(auth, browserLocalPersistence);
+
+
 
 
 // const db = getFirestore();
