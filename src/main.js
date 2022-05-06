@@ -8,6 +8,8 @@ import store from './store/index.js';
 import Button from "./components/ui/Button.vue";
 import Card from "./components/ui/Card.vue";
 import Spinner from "./components/ui/Spinner.vue";
+import Footer from "./components/layout/Footer.vue";
+import Header from "./components/layout/Header.vue";
 
 import App from './App.vue'
 
@@ -20,6 +22,8 @@ app.use(store);
 app.component("Button", Button);
 app.component("Card", Card);
 app.component("Spinner", Spinner);
+app.component("Footer", Footer);
+app.component("Header", Header);
 
 app.mount('#app');
 

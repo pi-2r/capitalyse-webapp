@@ -108,6 +108,7 @@ export default {
 .portfolioName {
     color: var(--clr-blue);
     text-decoration: none;
+    font-weight: 600;
 }
 
 .portfolioName:hover {

@@ -69,7 +69,7 @@ export default {
 .breadcrumbs {
     display: flex;
     color: var(--clr-grey);
-    font-weight: 300;
+    font-weight: 400;
     
 }
 

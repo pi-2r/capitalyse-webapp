@@ -85,6 +85,7 @@ h2 {
 
 .resultValue {
     font-size: 1.75rem;
+    font-weight: 600;
 }
 
 .cardContent {

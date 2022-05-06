@@ -19,7 +19,8 @@ export default {
     justify-content: center;
     align-items: center;
     width: 100%;
-    background-color: var(--clr-very-light-blue);
+    background-color: var(--clr-footer-background);
+    box-shadow: var(--box-shadow);
     height: 7rem;
     margin-top: 2rem;
 }

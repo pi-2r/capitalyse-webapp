@@ -1,8 +1,9 @@
 <template>
-    <section class="logoutWrapper">
-        <Icon icon="ic:baseline-log-out" class="logout" @click="logoutUser" color="var(--clr-red)" height="25" />
+    <button class="logoutWrapper"  @click="logoutUser">
+        <Icon icon="ic:baseline-log-out" class="logout" color="var(--clr-red)" height="18" />
+        Log out
         <!-- <LogoutIcon @click="logoutUser" class="logout"/> -->
-    </section>
+    </button>
 </template>
 
 <script>
@@ -23,6 +24,27 @@ export default {
 </script>
 
 <style scoped>
+.logoutWrapper {
+    display: flex;
+    width: 9rem;
+    justify-content: center;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: var(--btn-radius);
+    transition: 0.2s all;
+    background-color: rgba(255, 0, 0, 0.05);
+    border: none; 
+     color: var(--clr-red);
+    font-weight: 600;
+    font-size: 1.1rem;  
+}
+
+.logoutWrapper:hover {
+    cursor: pointer;
+    background-color: rgba(255, 0, 0, 0.075);
+}	
+
 .logout {
     display: inline-block;
     color: var(--clr-red);
@@ -32,4 +54,5 @@ export default {
 .logout:hover {
     cursor: pointer;
 }
+
 </style>

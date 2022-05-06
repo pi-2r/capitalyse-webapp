@@ -12,11 +12,11 @@
                         <!-- <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li> -->
-                        <!-- <li>
+                        <li>
                             <router-link class="routerLink" to="/portfolios">
                                 My Portfolios
                             </router-link>
-                        </li>  -->
+                        </li> 
                     </ul>
                 </section>
                 
@@ -190,6 +190,7 @@ export default {
 .routerLink {
     font-size: 1rem;
     text-decoration: none;
+    font-weight: 500;
     color: var(--clr-grey);
 }
 
@@ -204,15 +205,6 @@ export default {
 .logoIcon {
     color: var(--clr-dark-grey);
 }
-h2 {
-    color: var(--clr-dark-grey);
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    font-weight: normal;
-    text-align: center;
-    letter-spacing: 0.2em;
-    user-select: none;
-}
 
 li {
     list-style: none;
@@ -226,20 +218,13 @@ li {
 
 
 .leftSide li {
-    margin-left: 3rem;
+    margin-left: 4rem;
     list-style-type: none;
     color: var(--clr-grey);
     display: flex;
     justify-content: center;
-    font-size: 1.1rem;
     align-items: center;
     grid-gap: 0.5rem;
-}
-
-
-h2 a{
-    text-decoration: none;
-    color: var(--clr-grey);
 }
 
 a:hover {
@@ -253,6 +238,7 @@ a:hover {
     justify-content: center;
     align-items: center;
     text-decoration: none;
+    font-weight: 600;
     color: var(--clr-grey);
     gap: 0.3rem;
 }
@@ -320,6 +306,10 @@ a:hover {
 .slide-fade-enter-from,
 .slide-fade-leave-to {
   opacity: 0;
+}
+
+.router-link-active {
+    color: var(--clr-blue);
 }
 
 /* media queries */

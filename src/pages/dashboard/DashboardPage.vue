@@ -136,9 +136,8 @@ export default {
 <style scoped>
 .startDate {
     color: rgb(179, 179, 179);
-    font-weight: 300;
+    font-weight: 500;
     font-size: 0.75rem;
-
 }
 
 .upload {

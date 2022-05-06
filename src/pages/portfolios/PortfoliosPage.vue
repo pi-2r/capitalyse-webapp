@@ -191,14 +191,12 @@ export default {
 
 .noPortfolios h2 {
     font-size: 1.8rem;
-    font-weight: 300;
     margin-bottom: 1rem;
     color: var(--clr-grey);
 }
 
 .noPortfolios p {
     font-size: 1rem;
-    font-weight: 300;
     margin-bottom: 1.8rem;
     color: var(--clr-grey);
 }
@@ -278,7 +276,7 @@ tr:nth-last-child(1) {
 
 .deletePopup p {
     margin-bottom: 1.4rem;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 .deletePopup__btns {

@@ -33,7 +33,7 @@ export default {
 h2 {
     font-size: 1rem;
     text-transform: uppercase;
-    font-weight: normal;
+    font-weight: 600;
     text-align: center;
     letter-spacing: 0.2em;
     user-select: none;

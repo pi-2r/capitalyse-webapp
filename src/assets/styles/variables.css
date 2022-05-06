@@ -9,16 +9,16 @@
     --clr-light-grey: #ececec;
     --clr-grey: rgb(124, 124, 124);
     --clr-dark-grey: rgb(97, 97, 97);
-
+    
     --fnt-main: "Lexend", sans-serif;
-
+    
     --btn-radius: 0.6rem;
     --btn-padding: 0.75rem 2.5rem;
     --btn-font-size: 1.2rem;
     --btn-font-weight: 500;
     --btn-shadow: 0px 0px 8px 1px rgba(51, 142, 246, 0.356);
     --btn-small-padding: 0.5rem 1rem;
-
+    
     --container-width: 92%;
     
     --box-shadow-small: 0px 0px 10px -4px rgba(41, 63, 100, 0.13);
@@ -28,6 +28,7 @@
     --card-border-radius: 1.2rem;
 
     --header-height: 4.5rem;
+    --clr-footer-background: var(--clr-white);
     
     
 }
