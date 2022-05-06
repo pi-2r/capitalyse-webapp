@@ -53,9 +53,9 @@ html {
 }
 
 h1 {
-    font-size: 2rem;
+    font-size: 2.25rem;
     font-family: 'Lexend', sans-serif;
-    font-weight: 600;
+    font-weight: 500;
     margin: 0;
     padding: 0;
     color: var(--clr-blue);
