@@ -1,7 +1,7 @@
 <template>
     <ResultCard 
         title="Most Times Traded Overall" 
-        :resultValue="mostFreqTraded + ' (' + timesTraded + ' times)'" 
+        :resultValue="mostFreqTraded + ' (' + timesTraded + ' time' + (timesTraded > 1 ? 's' : '')  + ')'" 
         :withBtn="false"
         :numberResult="false"
     />
@@ -51,9 +51,9 @@ export default {
         },
         timesTraded() {
             if(this.isThereData) {
-                return this.mostFreqTradedList ? this.mostFreqTradedList[0][1] : 'No data';
+                return this.mostFreqTradedList ? this.mostFreqTradedList[0][1] : '0';
             }
-            return 'No data';
+            return '0';
         }
     },
     methods: {

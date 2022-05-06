@@ -64,9 +64,9 @@ export default {
         },
         timesTraded() {
             if(this.isThereData) {
-                return this.mostFreqBuyOrSellList ? this.mostFreqBuyOrSellList[0][1] : 'No data';
+                return this.mostFreqBuyOrSellList ? this.mostFreqBuyOrSellList[0][1] : '0';
             }
-            return 'No data';
+            return '0';
         },
         title() {
             if(this.isThereData) {
