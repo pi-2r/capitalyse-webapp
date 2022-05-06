@@ -23,7 +23,7 @@
                 <Icon icon="bi:bar-chart-fill" height="30" color="var(--clr-blue)"/>
                 <h1>My Portfolios</h1>
             </section>
-            <Button class="secondary addPortfolioBtn" link @click="addPortfolio">+ Add Portfolio</Button>
+            <Button class="addPortfolioBtn" link @click="addPortfolio">+ Add Portfolio</Button>
         </section>
 
         <section class="tablecontainer">
@@ -50,7 +50,7 @@
                             <p>You haven't added any portfolios yet. 
                             <br>Add a portfolio to get started.</p>
 
-                            <Button class="secondary addPortfolioBtn" link @click="addPortfolio">+ Add Portfolio</Button>
+                            <Button class="addPortfolioBtn" link @click="addPortfolio">+ Add Portfolio</Button>
                         </td>
                     </tr>
                     <tr v-if="isLoading">
