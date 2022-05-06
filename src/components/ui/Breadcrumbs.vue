@@ -62,7 +62,7 @@ export default {
     display: flex;
     color: var(--clr-grey);
     font-weight: 300;
-   
+    
 }
 
 .u-flex-align-center {
@@ -88,5 +88,11 @@ img {
     margin-left: 0.3rem;
     margin-right: 0.3rem;
     height: 0.65rem;
+}
+
+@media screen and (max-width: 500px) {
+    .breadcrumbs {
+        display: inline;
+    }
 }
 </style>

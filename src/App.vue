@@ -39,7 +39,7 @@ html {
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 500;
     margin: 0;
     padding: 0;
@@ -48,8 +48,8 @@ h1 {
 }
 
 h2 {
-    font-size: 1.25rem;
-    font-weight: 500;
+    font-size: 1.2rem;
+    font-weight: 400;
     margin: 0;
     padding: 0;
     color: var(--clr-black);

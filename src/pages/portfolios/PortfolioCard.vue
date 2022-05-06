@@ -7,10 +7,10 @@
         <td class="dateAdded">
             {{ portfolioDate() }}
         </td>
-        <td >
+        <td class="fileSize">
             {{ transactionsFileSize }}
         </td>
-        <td >
+        <td class="fileSize">
             {{ accountFileSize }} 
         </td>
         <td class="actionsTd">
@@ -107,13 +107,12 @@ export default {
 
 .portfolioName {
     color: var(--clr-blue);
-    font-weight: bold;
     text-decoration: none;
 }
 
 .portfolioName:hover {
     cursor: pointer;
-    text-decoration: underline;
+    text-decoration:underline;
 }
 
 td {
@@ -138,6 +137,12 @@ td {
 .slide-fade-leave-to {
     transform: translateY(-10px);
     opacity: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .fileSize {
+        display: none;
+    }
 }
 
 </style>

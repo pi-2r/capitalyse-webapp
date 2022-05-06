@@ -50,7 +50,6 @@ a {
     user-select: none;
 }
 
-
 button:hover {
     transform: scale(1.01);
     box-shadow: var(--btn-shadow);
@@ -76,27 +75,23 @@ button:hover {
 .card:hover {
     box-shadow: none;
     cursor: pointer;
-    background-color: rgba(218, 237, 255, 0.333);  
 }
 
 .link {
-    border: 1px solid var(--clr-blue);
-    background-color: transparent;
-    color: var(--clr-blue);
     text-decoration: none;
+    color: var(--clr-blue);
+    border: none;
+    box-shadow: none;
+    background-color: rgba(35, 138, 217, 0.081);  
 }
 
-.link:hover {
-     background-color: rgba(133, 168, 194, 0.081);  
-}
 
 .secondary {
-    background-color: transparent;
+    background-color: rgba(133, 168, 194, 0.081);  
     color: var(--clr-blue);
     border: none;
     border: 1px solid var(--clr-blue);
     box-shadow: none;
-    
 }
 
 .secondary:hover{

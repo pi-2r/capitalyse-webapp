@@ -95,11 +95,13 @@ export default {
     text-transform: uppercase;
     border: none;
     box-shadow: none;
+    background-color: rgba(218, 237, 255, 0.333);  
 }
 
 .toggleBuySellBtn:hover {
     cursor: pointer;
     box-shadow: none;
+    background-color: rgba(218, 237, 255, 0.333);
 }
 
 .card {

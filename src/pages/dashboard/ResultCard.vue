@@ -5,7 +5,8 @@
                 <transition name="slide-fade" mode="out-in">
                     <p class="cardText" :key="resultValue">
                         <span class="resultValue" :class="[{redNumber : isNegative}]">
-                            <span v-if="numberResult">€</span>{{ resultValue }}
+                            <span v-if="numberResult">€</span>
+                            <span :class="[{textResult : !numberResult}]">{{ resultValue }}</span>
                         </span>
                     </p>
                 </transition>
@@ -56,6 +57,12 @@ export default {
 <style scoped>
 h2 {
     text-align: center;
+    color: var(--clr-dark-grey);
+}
+
+.textResult {
+    font-size: 1.25rem;
+    color: black;
 }
 
 .cardContainer {
