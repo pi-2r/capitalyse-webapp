@@ -375,7 +375,6 @@ input[type="text"]::placeholder {
 
 .filesLabelP {
     font-size: 1.2rem;
-    font-weight: lighter;
     margin-bottom: 0.5rem;
     margin-top: 0.5rem;
     display: flex;
@@ -395,7 +394,6 @@ input[type="text"]::placeholder {
     top: -2.5rem;
     left: 4.8rem;
     font-size: 0.9rem;
-    font-weight: lighter;
     background-color: var(--clr-white);
     padding: 1rem;
     border-radius: var(--btn-radius);
@@ -426,7 +424,6 @@ input[type="text"]::placeholder {
 
 label {
     font-size: 1.2rem;
-    font-weight: lighter;
 }
 
 input[type="file"] {

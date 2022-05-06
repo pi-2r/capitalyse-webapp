@@ -308,9 +308,9 @@ a:hover {
   opacity: 0;
 }
 
-.router-link-active {
+/* .router-link-active {
     color: var(--clr-blue);
-}
+} */
 
 /* media queries */
 

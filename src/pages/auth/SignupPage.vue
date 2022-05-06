@@ -272,7 +272,7 @@ export default {
 .error {
   color: var(--clr-red);
   font-size: 0.75em;
-  font-weight: 200;
+  font-weight: 400;
   text-align: right;
 }
 

@@ -35,8 +35,7 @@ export default {
     transition: 0.2s all;
     background-color: rgba(255, 0, 0, 0.05);
     border: none; 
-     color: var(--clr-red);
-    font-weight: 600;
+    color: var(--clr-red);
     font-size: 1.1rem;  
 }
 
@@ -54,5 +53,4 @@ export default {
 .logout:hover {
     cursor: pointer;
 }
-
 </style>

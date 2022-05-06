@@ -48,12 +48,13 @@ export default {
 }
 
 html {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Poppins', sans-serif;
   background-color: var(--clr-white);
 }
 
 h1 {
     font-size: 2rem;
+    font-family: 'Lexend', sans-serif;
     font-weight: 600;
     margin: 0;
     padding: 0;
