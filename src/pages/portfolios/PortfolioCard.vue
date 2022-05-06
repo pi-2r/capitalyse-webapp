@@ -139,7 +139,7 @@ td {
     opacity: 0;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 650px) {
     .fileSize {
         display: none;
     }

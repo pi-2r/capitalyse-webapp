@@ -7,20 +7,18 @@
                 <Button class="deletePopup__btn noBtn" @click="toggleDeletePopup">Cancel</Button>
                 <Button class="deletePopup__btn deleteBtn" @click="deletePortfolio">
                     <Icon icon="bxs:trash" color="var(--clr-white)" height="22" class="deleteBtnIcon"/>
-
                     Delete
                 </Button>
             </div>
         </ConfirmModal>
     </transition>
-   
 
     <Header></Header>
     <section class="container">
 
         <section class="myPortfolios__header">
             <section class="heading">
-                <Icon icon="bi:bar-chart-fill" height="30" color="var(--clr-blue)"/>
+                <Icon icon="bi:bar-chart-fill" class="headingIcon" height="30" color="var(--clr-blue)"/>
                 <h1>My Portfolios</h1>
             </section>
             <Button class="addPortfolioBtn" link @click="addPortfolio">+ Add Portfolio</Button>
@@ -268,7 +266,6 @@ tr:nth-last-child(1) {
     border-bottom: none;
 }
 
-
 .th__number {
     text-align: right;
 }
@@ -284,15 +281,10 @@ tr:nth-last-child(1) {
     font-weight: 300;
 }
 
-
 .deletePopup__btns {
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-   
-
 }
 
 .deletePopup__btn {
@@ -311,7 +303,6 @@ tr:nth-last-child(1) {
 }
 
 .deletePopup__btn:hover {
-
     box-shadow: var(--box-shadow);
 }
 
@@ -331,39 +322,36 @@ tr:nth-last-child(1) {
     cursor: pointer;
 }
 
-
-
-
 @media screen and (min-width: 400px) {
     .container {
         max-width: 92%;
     }   
-
-  
 }
 
 @media screen and (min-width: 650px) {
-  
-
     .container {
         max-width: 90%;
     }
-
-    
-    
 }
 
 @media screen and (min-width: 1050px) {
-   
     .container {
         max-width: 1000px;
     }
-
-
 }
 
 /* max width */
 @media screen and (max-width: 768px) {
+    .headingIcon {
+        height: 25px;
+    }
+
+    .heading h1 {
+        margin-left: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 650px) {
     .fileSize {
         display: none;
     }
@@ -395,7 +383,6 @@ tr:nth-last-child(1) {
         order: 2;
     }
 }
-
 
 @media screen and (max-width: 350px) {
     .tablecontainer {

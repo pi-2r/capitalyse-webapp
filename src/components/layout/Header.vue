@@ -42,27 +42,29 @@
                 </router-link>
                 
                 <Icon @click="toggleMobileNav" class="hamburgerMenuIcon" icon="eva:menu-outline" color="var(--clr-grey)" height="40" />
-                <div class="nav-menu-mobile" :class="[{open : isMobileNavOpen}]">
-                    <Icon @click="toggleMobileNav" icon="carbon:close" class="closeMobileNav" color="var(--clr-black)" height="50" />
-                    <section class="nav-mobile-content">
-                        <ul>
-                            <router-link class="routerLinkLogo" to="/">
-                                <Logo/>
-                            </router-link>
-                            <li >
-                                <router-link class="routerLink" to="/portfolios">My Portfolios</router-link>
-                            </li> 
-                            <!-- <li >
-                                <router-link class="routerLink" to="/premium">
-                                    Premium
+                <transition name="slide-fade" mode="out-in">
+                    <div class="nav-menu-mobile" :class="[{open : isMobileNavOpen}]">
+                        <Icon @click="toggleMobileNav" icon="carbon:close" class="closeMobileNav" color="var(--clr-black)" height="50" />
+                        <section class="nav-mobile-content">
+                            <ul>
+                                <router-link class="routerLinkLogo" to="/">
+                                    <Logo/>
                                 </router-link>
-                            </li>  -->
-                            <li>
-                                <router-link class="routerLink" to="/settings">Settings</router-link>
-                            </li> 
-                        </ul>
-                    </section>
-                </div>
+                                <li >
+                                    <router-link class="routerLink" to="/portfolios">My Portfolios</router-link>
+                                </li> 
+                                <!-- <li >
+                                    <router-link class="routerLink" to="/premium">
+                                        Premium
+                                    </router-link>
+                                </li>  -->
+                                <li>
+                                    <router-link class="routerLink" to="/settings">Settings</router-link>
+                                </li> 
+                            </ul>
+                        </section>
+                    </div>
+                </transition>
             </div>
         </nav>
     </header>
@@ -303,6 +305,21 @@ a:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* anim */
+
+.slide-fade-enter-active {
+  transition: all 0.15s ease;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.1s ease;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0;
 }
 
 /* media queries */
