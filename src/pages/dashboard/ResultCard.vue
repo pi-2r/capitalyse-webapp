@@ -55,7 +55,6 @@ export default {
     },
     computed: {
         isNegative() {
-            console.log(this.resultValue);
             return this.resultValue < 0 || this.resultValue.toLocaleString('de-DE').includes('-');
         }
     }
