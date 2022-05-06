@@ -30,8 +30,11 @@ export default {
                     totalFees += nr;
                 }
             }
+
+            totalFees = totalFees.toFixed(2);
+            totalFees = parseFloat(totalFees).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
             
-            return totalFees.toFixed(2);
+            return totalFees;
         },
     }
 }

@@ -55,7 +55,7 @@ export default {
     },
     computed: {
         isNegative() {
-            return this.resultValue < 0;
+            return this.resultValue < 0 || this.resultValue.includes('-');
         }
     }
 

@@ -85,11 +85,11 @@ export default {
                     {
                         label: 'Dividends Received (EUR)',
                         backgroundColor: "#e1f1fb",
-                        borderWidth: 1,
-                        borderRadius: 9,
+                        borderWidth: 2,
+                        borderRadius: 7,
                         borderSkipped: 'bottom',
                         borderColor: '#0091ff',
-                        hoverBorderWidth: 1,
+                        hoverBorderWidth: 2,
                         hoverBorderColor: '#0091ff',
                         data: []
                     }
@@ -115,7 +115,8 @@ export default {
             for(let i = 0; i < this.dividendsArray.length; i++) {
                 total += this.dividendsArray[i].divAmt;
             }
-            total = total.toFixed(2)
+            total = total.toFixed(2);
+            total = parseFloat(total).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
             return total;
         },
         isThereData() {
@@ -431,7 +432,7 @@ h2 {
 
 .chartResultValue {
     font-size: 1.5rem;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .timeFrame__btn {

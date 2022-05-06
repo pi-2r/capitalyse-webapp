@@ -6,7 +6,7 @@
         <section>
             <ResultCard class="card"
                 :title="title"
-                :resultValue="mostFreqTraded + ' (' + timesTraded + ' times)'" 
+                :resultValue="mostFreqTraded + ' (' + timesTraded + ' time' + (timesTraded > 1 ? 's' : '') + ')'" 
                 :withBtn="false"
                 :numberResult="false"
             />

@@ -9,7 +9,7 @@
         />
         <section class="head">
             <h1>Dashboard {{ portfolioName }}</h1>
-            <p class="startDate">Account age: {{accountAge ? accountAge : '-/-/-'}}</p>
+            <p class="startDate">{{accountAge ? accountAge : '-/-/-'}}</p>
         </section>
 
         <DividendChart/>

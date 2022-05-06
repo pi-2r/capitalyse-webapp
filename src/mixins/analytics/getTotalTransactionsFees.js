@@ -17,7 +17,7 @@ export default {
             }
 
             tot = tot.toFixed(2);
-            tot = parseFloat(tot).toLocaleString('en-US');
+            tot = parseFloat(tot).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
 
             return tot;
         },
