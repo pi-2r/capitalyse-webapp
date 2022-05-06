@@ -23,7 +23,7 @@
                 <Icon icon="bi:bar-chart-fill" height="30" color="var(--clr-blue)"/>
                 <h1>My Portfolios</h1>
             </section>
-            <Button class="addPortfolioBtn" link @click="addPortfolio">Add Portfolio</Button>
+            <Button class="secondary addPortfolioBtn" link @click="addPortfolio">+ Add Portfolio</Button>
         </section>
 
         <section class="tablecontainer">

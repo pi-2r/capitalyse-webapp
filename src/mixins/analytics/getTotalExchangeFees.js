@@ -31,7 +31,7 @@ export default {
                 }
             }
             
-            return totalFees;
+            return totalFees.toFixed(2);
         },
     }
 }

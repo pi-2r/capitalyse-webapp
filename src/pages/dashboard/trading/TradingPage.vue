@@ -13,8 +13,8 @@
         <h1>Trading</h1>
         
         <section class="cardsContainer">
-            <MostFreqTradedCard/>
             <MostFreqBuyOrSell/>
+            <MostFreqTradedCard/>
         </section>
     </section>
 </template>

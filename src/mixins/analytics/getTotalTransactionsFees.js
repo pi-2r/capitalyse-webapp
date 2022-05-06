@@ -11,10 +11,12 @@ export default {
                     data[i][searchIndex]) {
                     
                     let nr = parseFloat(data[i][searchIndex]);
+                    
                     tot += nr;
                 }
             }
 
+            tot = tot.toFixed(2);
             tot = parseFloat(tot).toLocaleString('en-US');
 
             return tot;

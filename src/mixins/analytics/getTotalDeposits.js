@@ -28,6 +28,7 @@ export default {
                 }
             }
 
+            tot = tot.toFixed(2);
             tot = tot.toLocaleString('en-US');
 
             return tot;

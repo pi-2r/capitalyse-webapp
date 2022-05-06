@@ -99,7 +99,7 @@ export default {
 .toggleBuySellBtn {
     position: absolute;
     padding: 0.4rem 0.5rem; 
-    left: 0.5rem;
+    right: 0.5rem;
     top: 0.5rem;
     font-size: 0.8rem;
     font-weight: 600;    

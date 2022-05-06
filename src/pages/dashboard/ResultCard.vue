@@ -12,13 +12,21 @@
                 </transition>
         </section>
         <section class="cardBtnSection" v-if="withBtn">
-            <Button class="card link" link :to="to">{{ btnText }}</Button>
+            <Button class="card link cardBtnSection__btn" link :to="to">
+                {{ btnText }}
+                <Icon class="cardBtnSection__btnIcon" icon="charm:arrow-right" color="var(--clr-blue)" height="15" />
+            </Button>
         </section>
     </div>
 </template>
 
 <script>
+import { Icon } from '@iconify/vue';
+
 export default {
+    components: {
+        Icon
+    },
     props: {
         withBtn: {
             type: Boolean,
@@ -102,6 +110,21 @@ h2 {
 .cardBtnSection {
     padding: 1rem;
     padding-top: 0;
+}
+
+.cardBtnSection__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.cardBtnSection__btnIcon {
+    transition: 0.2s all;
+}
+
+.cardBtnSection__btn:hover .cardBtnSection__btnIcon {
+    transform: scale(1.02) translateX(0.2rem);
 }
 
 .redNumber {

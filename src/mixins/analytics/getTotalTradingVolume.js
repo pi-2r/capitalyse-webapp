@@ -19,6 +19,7 @@ export default {
                 }
             }
 
+            tot = tot.toFixed(2)
             tot = parseFloat(tot).toLocaleString('en-US');
 
             return tot;
