@@ -70,7 +70,7 @@ export default {
         },
         title() {
             if(this.isThereData) {
-                return this.buyOrSell === 'buy' ? 'Most Bought Product' : 'Most Sold Product';
+                return this.buyOrSell === 'buy' ? 'Most Times Bought' : 'Most Times Sold';
             }
             return 'No data';
         }

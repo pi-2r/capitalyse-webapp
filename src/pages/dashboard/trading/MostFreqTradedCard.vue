@@ -1,6 +1,6 @@
 <template>
     <ResultCard 
-        title="Most Traded Product Overall" 
+        title="Most Times Traded Overall" 
         :resultValue="mostFreqTraded + ' (' + timesTraded + ' times)'" 
         :withBtn="false"
         :numberResult="false"
