@@ -6,7 +6,8 @@
             <div class="deletePopup__btns">
                 <Button class="deletePopup__btn noBtn" @click="toggleDeletePopup">Cancel</Button>
                 <Button class="deletePopup__btn deleteBtn" @click="deletePortfolio">
-                    <Icon icon="ant-design:delete-filled" color="var(--clr-white)" height="22" class="deleteBtnIcon"/>
+                    <Icon icon="bxs:trash" color="var(--clr-white)" height="22" class="deleteBtnIcon"/>
+
                     Delete
                 </Button>
             </div>

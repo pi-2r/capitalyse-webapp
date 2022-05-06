@@ -1,7 +1,7 @@
 <template>
     <ResultCard 
         title="Most Traded Product Overall" 
-        :resultValue="mostFreqTraded" 
+        :resultValue="mostFreqTraded + ' (' + timesTraded + ' times)'" 
         :withBtn="false"
         :numberResult="false"
     />
@@ -46,6 +46,12 @@ export default {
         mostFreqTraded() {
             if(this.isThereData) {
                 return this.mostFreqTradedList ? this.mostFreqTradedList[0][0] : 'No data';
+            }
+            return 'No data';
+        },
+        timesTraded() {
+            if(this.isThereData) {
+                return this.mostFreqTradedList ? this.mostFreqTradedList[0][1] : 'No data';
             }
             return 'No data';
         }

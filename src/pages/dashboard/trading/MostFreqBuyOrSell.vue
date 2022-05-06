@@ -1,10 +1,12 @@
 <template>
     <section class="cardWrapper">
-        <Button class="secondary toggleBuySellBtn" @click="toggleBuySell">toggle</Button>
+        <Button class="secondary toggleBuySellBtn" @click="toggleBuySell">
+            <Icon icon="heroicons-outline:switch-horizontal" color="var(--clr-blue)" height="25" />        
+        </Button>
         <section>
             <ResultCard class="card"
                 :title="title"
-                :resultValue="mostFreqTraded" 
+                :resultValue="mostFreqTraded + ' (' + timesTraded + ' times)'" 
                 :withBtn="false"
                 :numberResult="false"
             />
@@ -16,10 +18,13 @@
 import ResultCard from '../ResultCard.vue';
 import getMostFrequentBuyOrSell from '../../../mixins/analytics/getMostFrequentBuyOrSell.js';
 
+import { Icon } from '@iconify/vue';
+
 export default {
     mixins: [getMostFrequentBuyOrSell],
     components: {
-        ResultCard
+        ResultCard,
+        Icon
     },
     props: {
         withBth: {
@@ -57,6 +62,12 @@ export default {
             }
             return 'No data';
         },
+        timesTraded() {
+            if(this.isThereData) {
+                return this.mostFreqBuyOrSellList ? this.mostFreqBuyOrSellList[0][1] : 'No data';
+            }
+            return 'No data';
+        },
         title() {
             if(this.isThereData) {
                 return this.buyOrSell === 'buy' ? 'Most Bought Product' : 'Most Sold Product';
@@ -87,7 +98,7 @@ export default {
 <style scoped>
 .toggleBuySellBtn {
     position: absolute;
-    padding: 0.5rem; 
+    padding: 0.4rem 0.5rem; 
     left: 0.5rem;
     top: 0.5rem;
     font-size: 0.8rem;
@@ -95,7 +106,7 @@ export default {
     text-transform: uppercase;
     border: none;
     box-shadow: none;
-    background-color: rgba(218, 237, 255, 0.333);  
+    background-color: transparent;  
 }
 
 .toggleBuySellBtn:hover {
