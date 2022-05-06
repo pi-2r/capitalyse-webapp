@@ -37,13 +37,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                   
-                        <tr  :key="portfolio.id" v-for="portfolio in portfolios">
+                    <tr  :key="portfolio.id" v-for="portfolio in portfolios">
                         <PortfolioCard @toggleDeletePopup="toggleDeletePopup"
                             :portfolio="portfolio"   
                         />
                     </tr>
-               
                     <!-- if no portfolios -->
                     <tr v-if="portfolios.length < 1 && !isLoading">
                         <td class="noPortfolios" colspan="3">
@@ -54,7 +52,6 @@
                             <Button class="secondary addPortfolioBtn" link @click="addPortfolio">+ Add Portfolio</Button>
                         </td>
                     </tr>
-
                     <tr v-if="isLoading">
                         <td colspan="4" class="loading">
                             <Spinner />

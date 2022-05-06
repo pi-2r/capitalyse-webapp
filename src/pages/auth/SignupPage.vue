@@ -328,13 +328,13 @@ button {
     font-weight: 300;
     font-size: 1rem;
     padding: 0.8rem 1.25rem;
+    background-color: transparent;
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
 
 .secondary:hover {
     box-shadow: none;
-    color: var(--clr-blue);
     background-color: #00000020;
     transform: scale(1);
 }

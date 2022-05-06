@@ -142,7 +142,6 @@ button {
 
 .secondary:hover {
     box-shadow: none;
-    color: var(--clr-blue);
     background-color: #00000020;
     transform: scale(1);
 }
@@ -150,6 +149,7 @@ button {
 .secondary {
     border: none;
     color: #919498;
+    background-color: transparent;
     font-weight: 300;
     font-size: 1rem;
     padding: 0.8rem 1.25rem;
