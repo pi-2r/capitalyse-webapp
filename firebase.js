@@ -2,6 +2,7 @@
 
 import { initializeApp } from 'firebase/app';
 import { getStorage } from 'firebase/storage';
+import { getPerformance } from "firebase/performance";
 
 import {
     // getFirestore,
@@ -35,6 +36,8 @@ getStorage(firebaseApp)
 const auth = getAuth();
 setPersistence(auth, browserLocalPersistence);
 
+const perf = getPerformance(firebaseApp);
+console.log(perf);
 
 
 

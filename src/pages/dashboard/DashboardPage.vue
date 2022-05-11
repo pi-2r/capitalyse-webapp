@@ -9,15 +9,15 @@
         />
         <section class="head">
             <h1>Dashboard {{ portfolioName }}</h1>
-            <p class="startDate">{{accountAge ? accountAge : '-/-/-'}}</p>
+            <p class="startDate">{{accountAge ? accountAge : 'Loading...'}}</p>
         </section>
 
         <DividendChart/>
 
         <section class="cardsContainer">
             <DepositsCard />
-            <TradingVolCard />
             <TransFeesCard />
+            <TradingVolCard />
         </section>
         
     </section>

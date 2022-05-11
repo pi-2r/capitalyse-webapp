@@ -1,19 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
 import store from './store';
-
-import PortfoliosPage from "./pages/portfolios/PortfoliosPage.vue";
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
             path: '/',
-            redirect: '/portfolios',
+            component: () => import('./pages/landing/LandingPage.vue'),
         },
         {
             path: '/portfolios',
-            component: PortfoliosPage,
+            component: () => import('./pages/portfolios/PortfoliosPage.vue'),
             meta: { requiresAuth: true },
         },
         {
