@@ -13,5 +13,5 @@ export default {
     },
     getAuthError(state) {
         return state.error;
-    }
+    },
 };

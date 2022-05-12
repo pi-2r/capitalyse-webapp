@@ -19,8 +19,8 @@
                 </a>
             </section>
             <section class="navWrapper__buttons">
-                <Button class="secondary navLogin" link to="/login">Log in</Button>
-                <Button class="navSignup" link to="/signup">Get started</Button>
+                <Button class="secondary navLogin" link to="/login">{{loginText}}</Button>
+                <Button v-if="!isAuthenticated" class="navSignup" :class="[{ isAuthenticated : isAuthenticatedBtnStyling }]" link to="/signup">Sign up</Button>
             </section>
 
             <section class="hamburgerIcon">
@@ -39,10 +39,22 @@ export default {
         Logo,
         Icon
     },
+    computed: {
+        isAuthenticated() {
+            return this.$store.getters['isAuthenticated'];
+        },
+        loginText() {
+            return this.isAuthenticated ? 'My Portfolios' : 'Log in';
+        }
+    }
 }
 </script>
 
 <style scoped>
+.isAuthenticatedBtnStyling {
+    background-color:red;
+}
+
 .navWrapper {
     display: flex;
     justify-content: space-between;

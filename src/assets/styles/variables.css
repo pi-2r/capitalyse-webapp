@@ -33,6 +33,48 @@
     
 }
 
+@media (prefers-color-scheme: dark) {
+    :root {
+        --clr-blue: #0084ff;
+        --clr-light-blue: #242424;
+        --clr-very-light-blue: rgb(45, 45, 45);
+        --clr-white: rgb(28, 28, 28);
+        --clr-dark-grey: rgb(237, 237, 237);
+        --clr-grey: rgb(168, 168, 168);
+        --clr-light-grey: rgb(69, 69, 69);
+        --clr-black: #eeeeee;
+        --clr-red: #c23432;
+        --clr-green: #00b94a;
+    }
+}
+
+[data-theme="light"] {
+    --clr-blue: #0084ff;
+    --clr-light-blue: #e5f2f8;
+    --clr-very-light-blue: rgb(255, 255, 255);
+    --clr-white: rgb(252, 252, 252);
+    --clr-black: #000000;
+    --clr-red: #da6a68;
+    --clr-green: #008d38;
+    --clr-light-grey: #ececec;
+    --clr-grey: rgb(124, 124, 124);
+    --clr-dark-grey: rgb(97, 97, 97);
+}
+
+[data-theme="dark"] {
+    --clr-blue: #0084ff;
+    --clr-light-blue: #242424;
+    --clr-very-light-blue: rgb(45, 45, 45);
+    --clr-white: rgb(28, 28, 28);
+    --clr-dark-grey: rgb(237, 237, 237);
+    --clr-grey: rgb(168, 168, 168);
+    --clr-light-grey: rgb(69, 69, 69);
+    --clr-black: #eeeeee;
+    --clr-red: #c23432;
+    --clr-green: #00b94a;
+    
+}
+
 /* old */
 
 /* 0091ff */

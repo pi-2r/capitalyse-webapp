@@ -8,12 +8,14 @@
                     <p>Getting a deep understanding of your Degiro costs, returns 
                         and trading habits is extremely important to be able to survive 
                         in the long run, and Capitalyse is here to help.</p>
-                    <button>Get started for free</button>
+                    <button>Add free portfolio</button>
                 </section>
             </section>
             
         </section>
-        <section class="contentContainer">
+
+
+        <!-- <section class="contentContainer">
             <section class="content">
                 <h2>Giving you the analytics DEGIRO won't</h2>
                 <section class="sideBySide">
@@ -79,7 +81,7 @@
                     </section>
                 </section>
             </section>
-        </section>
+        </section> -->
     </article>
 </template>
 <script>
@@ -102,15 +104,12 @@ h1,h2,h3,p,button {
 
 .hero {
     background-image: linear-gradient(45deg, 
-        var(--clr-blue) 10%,
-        var(--clr-blue) 15%, 
-        #011f39 15%, 
-        #011f39 85%, 
-        var(--clr-blue) 0%); 
+        rgb(5, 26, 47) 0%, 
+        rgb(14, 41, 50) 90%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 75vh;
+    height: 100vh;
 } 
 
 
@@ -121,7 +120,7 @@ h1,h2,h3,p,button {
     align-items: center;
     gap: 1rem;
     max-width: 50rem;
-    margin-top: 10%;
+    margin-top: 20%;
 }
 
 .heroContent h1 {
@@ -130,11 +129,14 @@ h1,h2,h3,p,button {
     text-align: center;
     font-weight: 600;
     font-size: 3rem;
+    line-height: 3rem;
+    margin-bottom: 1rem;
 }
 .heroContent p {
-    color: var(--clr-light-grey);
+    color: rgba(255, 255, 255, 0.649);
     font-weight: 300;
     text-align: center;
+    max-width: 80%;
 }
 .heroContent button {
     background-color: var(--clr-white);
@@ -221,5 +223,7 @@ h3 {
     .heroContent h1 {
         font-size: 2rem;
     }
+
+    
 }
 </style>

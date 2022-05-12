@@ -5,7 +5,7 @@
                 <section class="leftSide">
                     <ul>
                       
-                        <router-link class="routerLinkLogo" to="/">
+                        <router-link class="routerLinkLogo" to="/portfolios">
                             <Logo/>
                         </router-link>
                         

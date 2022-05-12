@@ -6,7 +6,7 @@
         <div class="content">
           <Spinner class="spinner" v-if="isLoading"/>
           <div class="form-wrapper">
-            <h1>Sign up</h1>
+            <h1><BackButton :toHome="true"/>Sign up</h1>
             <form @submit.prevent="submitForm" autocomplete="off">
               <div class="form-group">
                 <div class="error-wrapper">
@@ -72,10 +72,12 @@
 <script>
 import GoogleAuth from './GoogleAuth.vue';
 import Logo from '../../components/ui/Logo.vue';
+import BackButton from '../../components/ui/BackButton.vue';
 
 export default {
   components: {
     GoogleAuth,
+    BackButton,
     Logo
   },
   data() {
@@ -223,7 +225,7 @@ export default {
 }
 
 .container {
-  background: #272727d2;
+  background: #1b1b1be6;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.522);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(4px);
@@ -307,13 +309,13 @@ input {
 }
 
 input[type="password"] {
-  letter-spacing: 0.25em;
+  letter-spacing: 0.35rem;
   color: var(--clr-white);
   
 }
 
 button {
-  margin-top: 1.7em;
+  margin-top: 1.7rem;
   width: 100%;
 }
 

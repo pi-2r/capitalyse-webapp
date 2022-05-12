@@ -101,7 +101,7 @@ export default {
 
 .actionBtn:hover {
     cursor: pointer;
-    background-color: rgb(245, 248, 252);
+    background-color: var(--clr-light-blue);
     transform: scale(1.06)
 }
 

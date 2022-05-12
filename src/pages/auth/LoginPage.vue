@@ -1,16 +1,15 @@
 <template>
   <div class="page-wrapper">
     <div class="containerwithtitle">
-     
 
-      <Logo class="logo" color="var(--clr-white)"/>
-     
+        <Logo class="logo" color="var(--clr-white)"/>
       <div class="container">
         <div class="content">
           <Spinner class="spinner" v-if="isLoading"/>
           <div class="form-wrapper">
          
-            <h1>Log in</h1>
+            
+            <h1><BackButton :toHome="true"/>Log in</h1>
             <form @submit.prevent="submitForm" autocomplete="off">
               <div class="form-group">
                 <div class="error-wrapper">
@@ -49,13 +48,14 @@
 
 <script>
 import GoogleAuth from './GoogleAuth.vue';
+import BackButton from '../../components/ui/BackButton.vue';
 
 import Logo from '../../components/ui/Logo.vue';
 
 export default {
     components: {
         GoogleAuth,
-     
+        BackButton,
         Logo
     },
     data() {
@@ -88,6 +88,9 @@ export default {
       }
     },
     methods: {
+      goBack() {
+        this.$router.push('/');
+      },
       submitForm() {
         this.isLoading = true;
      
@@ -113,7 +116,15 @@ export default {
 
 
 <style scoped>
+.backBtn {
+  margin-right: 0.5rem;
+  cursor: pointer;
+  transition: 0.2s all;
+}
 
+.backBtn:hover {
+  transform: translateX(-2px);
+}
 
 .spinner {
   position: absolute;
@@ -125,13 +136,17 @@ html {
     background-color:black;
 }
 
+.containerwithtitle {
+  position: relative;
+}
+
 .button {
     width: 100%;
      padding: 0.7rem 1rem;
 }
 
 button {
-  margin-top: 0.7em;
+  margin-top: 1.7em;
 }
 
 .button:hover {
@@ -178,7 +193,7 @@ select:-webkit-autofill:focus {
 input[type="password"]:-webkit-autofill,
 input[type="password"]:-webkit-autofill:hover,
 input[type="password"]:-webkit-autofill:focus {
-  letter-spacing: 0.25em;
+  letter-spacing: 0.35rem;
 }
 
 .page-wrapper {
@@ -193,7 +208,7 @@ input[type="password"]:-webkit-autofill:focus {
 }
 
 .container {
-  background: #272727d2;
+  background: #1b1b1be6;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.576);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(4px);

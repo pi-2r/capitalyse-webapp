@@ -4,7 +4,15 @@
         <h1>Settings</h1>
         <section class="settingsCard__container">
             <section class="settingsCard">
-                <h2>Account</h2>
+                <h2>Appearance</h2>
+                <section class="settingsSection">
+                    <!-- theme toggle -->
+                    <label for="theme">Dark mode</label>
+                    <input type="checkbox" @change="toggleTheme" value="darkMode" v-model="isDarkThemeOn" id="theme" name="theme" class="themeCheckbox">
+                </section>
+            </section>
+            <section class="settingsCard">
+                <h2>Other</h2>
                 <section class="settingsSection">
                     <LogoutButton />
                 </section>
@@ -23,6 +31,35 @@ export default {
     components: {
         Header,
         LogoutButton,
+    },
+    data() {
+        return {
+            isDarkThemeOn: true,
+        }
+    },
+    methods: {
+        toggleTheme() {
+            if(this.isDarkThemeOn) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+
+            const root = document.querySelector(':root');
+            root.setAttribute('data-theme', localStorage.getItem('theme'));
+        },
+        getTheme() {
+            const theme = localStorage.getItem('theme');
+
+            if(theme === 'dark') {
+                this.isDarkThemeOn = true;
+            } else {
+                this.isDarkThemeOn = false;
+            }
+        }
+    },
+    created() {
+        this.getTheme();
     }
 }
 </script>
@@ -35,6 +72,17 @@ export default {
     width: 28rem;
 }
 
+.themeCheckbox {
+    display: block;
+    appearance: checkbox;
+    -webkit-appearance: checkbox;
+    -moz-appearance: checkbox;
+    -ms-appearance: checkbox;
+    -o-appearance: checkbox;
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: pointer;
+}
 
 h1 {
     margin-bottom: 2rem;

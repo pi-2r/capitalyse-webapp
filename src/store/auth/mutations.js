@@ -14,5 +14,5 @@ export default {
         state.token = null;
         state.hasPremium = false;
         state.error = null;
-    }
+    },
 };

@@ -70,7 +70,7 @@ h2 {
 
 .textResult {
     font-size: 1.25rem;
-    color: black;
+    color: var(--clr-black);
 }
 
 .cardContainer {

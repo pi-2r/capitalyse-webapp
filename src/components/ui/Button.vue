@@ -58,8 +58,6 @@ button:hover {
 .card {
     text-decoration: none;
     margin-top: 1rem;
-    background-color: rgba(1, 120, 255, 0.072);
-    border-color: rgb(106, 176, 255);
     border-width: 1px;
     border-radius: var(--btn-radius);
     color: var(--clr-blue);
