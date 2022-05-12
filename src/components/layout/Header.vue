@@ -37,7 +37,7 @@
             </div>
             <div class="nav-container-mobile">
 
-                <router-link class="routerLinkLogo" to="/">
+                <router-link class="routerLinkLogo" to="/portfolios">
                     <Logo/>
                 </router-link>
                 
