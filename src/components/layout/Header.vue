@@ -47,7 +47,7 @@
                         <Icon @click="toggleMobileNav" icon="carbon:close" class="closeMobileNav" color="var(--clr-black)" height="50" />
                         <section class="nav-mobile-content">
                             <ul>
-                                <router-link class="routerLinkLogo" to="/">
+                                <router-link class="routerLinkLogo" to="/portfolios">
                                     <Logo/>
                                 </router-link>
                                 <li >

@@ -69,8 +69,9 @@ export default {
     margin: 0 auto;
     margin-bottom: 4rem;
     margin-top: 3rem;
-    width: 28rem;
+    width: 30rem;
 }
+
 
 .themeCheckbox {
     display: block;
@@ -94,7 +95,6 @@ h2 {
 }
 
 .settingsCard {
-    width: 30rem;
     padding: 1.25rem;
     background-color: var(--clr-very-light-blue);
     box-shadow: var(--box-shadow-big);
@@ -110,6 +110,8 @@ h2 {
     padding-top: 1rem;
     margin-top: 1rem;
 }
+
+
 
 @media screen and (min-width: 400px) {
     .container {

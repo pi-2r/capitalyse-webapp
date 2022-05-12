@@ -8,7 +8,7 @@
                     <p>Getting a deep understanding of your Degiro costs, returns 
                         and trading habits is extremely important to be able to survive 
                         in the long run, and Capitalyse is here to help.</p>
-                    <button>Add free portfolio</button>
+                    <Button class="button" link to="/signup">Create Free Portfolio</Button>
                 </section>
             </section>
             
@@ -98,7 +98,7 @@ export default {
     border: 1px solid red;
 } */
 
-h1,h2,h3,p,button {
+h1,h2,h3,p,.button {
     font-family: 'Poppins', sans-serif;
 }
 
@@ -138,7 +138,7 @@ h1,h2,h3,p,button {
     text-align: center;
     max-width: 80%;
 }
-.heroContent button {
+.heroContent .button {
     background-color: var(--clr-white);
     color: var(--clr-blue);
     border: none;

@@ -24,9 +24,45 @@
             </section>
 
             <section class="hamburgerIcon">
-                <Icon icon="charm:menu-hamburger" color="var(--clr-white)" height="30" />
+                <Icon icon="charm:menu-hamburger" @click="toggleMobileNav" class="hamburgerMenuIcon" color="var(--clr-white)" height="30" />
             </section>
         </section>
+
+         <div class="nav-container-mobile">
+                <transition name="slide-fade" mode="out-in">
+                    <div class="nav-menu-mobile" :class="[{open : isMobileNavOpen}]">
+                        <Icon @click="toggleMobileNav" icon="carbon:close" class="closeMobileNav" color="var(--clr-white)" height="50" />
+                        <section class="nav-mobile-content">
+                            <ul>
+                                <router-link class="routerLinkLogo" to="/">
+                                    <Logo color="var(--clr-white)"/>
+                                </router-link>
+                                <li >
+                                    <router-link class="routerLink" to="/">Home</router-link>
+                                </li> 
+                                <!-- <li >
+                                    <router-link class="routerLink" to="/premium">
+                                        Premium
+                                    </router-link>
+                                </li>  -->
+                                <li>
+                                    <router-link class="routerLink" to="/">Features</router-link>
+                                </li> 
+                                <li>
+                                    <router-link class="routerLink" to="/">Pricing</router-link>
+                                </li> 
+                                <li>
+                                    <router-link class="routerLink" to="/">FAQ</router-link>
+                                </li> 
+                                <section class="mobileNavButtons">
+                                    <Button class="secondary navLogin" link to="/login">{{loginText}}</Button>
+                                    <Button v-if="!isAuthenticated" class="navSignup" :class="[{ isAuthenticated : isAuthenticatedBtnStyling }]" link to="/signup">Sign up</Button>
+                                </section>
+                            </ul>
+                        </section>
+                    </div>
+                </transition>
+            </div>
     </nav>
 </template>
 
@@ -39,6 +75,11 @@ export default {
         Logo,
         Icon
     },
+    data() {
+        return {
+            isMobileNavOpen: false,
+        }
+    },
     computed: {
         isAuthenticated() {
             return this.$store.getters['isAuthenticated'];
@@ -46,11 +87,32 @@ export default {
         loginText() {
             return this.isAuthenticated ? 'My Portfolios' : 'Log in';
         }
-    }
+    },
+     methods: {
+        toggleMobileNav() {
+            if(this.isMobileNavOpen) {
+                this.isMobileNavOpen = false;
+            } else {
+                this.isMobileNavOpen = true;
+            }
+        },
+        closeNav() {
+            this.isMobileNavOpen = false;
+        },
+    },
 }
 </script>
 
 <style scoped>
+.mobileNavButtons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 5rem;
+    gap: 2rem;
+}
+
 .isAuthenticatedBtnStyling {
     background-color:red;
 }
@@ -109,6 +171,165 @@ export default {
 /* router active styling */
 .router-link-active {
     text-decoration: underline;
+}
+
+
+.logoBanner {
+    height: 25px;
+}
+
+.open {
+    display: block !important;
+    opacity: 1 !important;
+}
+
+.closeMobileNav {
+    position: absolute;
+    right: 2rem;
+    top: 1rem;
+    transition: all 0.3s;
+}
+
+.closeMobileNav:hover {
+    cursor: pointer;
+    transform: rotate(90deg);
+}
+
+.nav-container-mobile {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    width: 92%;
+}
+
+.nav-menu-mobile {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgb(30, 30, 30);
+    z-index: 100;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.nav-mobile-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25%;
+}
+
+.nav-mobile-content ul {
+    text-align: center;
+}
+
+.nav-mobile-content .routerLink {
+    font-size: 1.5rem;
+}
+
+.nav-mobile-content ul .routerLinkLogo {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+}
+
+.nav-mobile-content ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.hamburgerMenuIcon:hover {
+    cursor: pointer;
+
+}
+
+.routerLink {
+    font-size: 1rem;
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--clr-white);
+}
+
+.routerLink:hover {
+    color: var(--clr-white);
+}
+
+.routerLinkLogo {
+    text-decoration: none;
+} 
+
+.logoIcon {
+    color: var(--clr-white);
+}
+
+li {
+    list-style: none;
+}
+
+a:hover {
+    color: var(--clr-blue);
+    cursor: pointer;
+}
+
+
+.u-displayflex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* anim */
+
+.slide-fade-enter-active {
+  transition: all 0.15s ease;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.1s ease;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0;
+}
+
+/* .router-link-active {
+    color: var(--clr-blue);
+} */
+
+/* media queries */
+
+@media screen and (min-width: 400px) {
+    .nav-container-mobile {
+        max-width: 92%;
+    }   
+}
+
+@media screen and (min-width: 650px) {
+    .nav-container-mobile {
+        max-width: 90%;
+    }
+}
+
+@media screen and (min-width: 1050px) {
+    .nav-container-mobile {
+        max-width: 1000px;
+    }
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 850px) {
+    .nav-container-mobile {
+        display: flex;
+    }
+
 }
 
 @media screen and (max-width: 950px) {
