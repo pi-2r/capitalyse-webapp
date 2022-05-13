@@ -112,7 +112,7 @@ export default {
 .toggleBuySellBtn:hover {
     cursor: pointer;
     box-shadow: none;
-    background-color: rgba(218, 237, 255, 0.333);
+    background-color: var(--clr-light-blue);
 }
 
 .card {
@@ -131,11 +131,5 @@ export default {
     justify-content: center;
     border-radius: var(--card-border-radius);
     box-shadow: var(--box-shadow-big);
-
 }
-
-
-
-
-
 </style>

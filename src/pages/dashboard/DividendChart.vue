@@ -129,6 +129,20 @@ export default {
         }
     },
     methods: {
+        setTheme() {
+            const theme = localStorage.getItem('theme');
+            console.log(theme);
+            if(theme === 'dark') {
+                this.chartData.datasets[0].backgroundColor = '#283036';
+                this.chartData.datasets[0].borderColor = '#0084ff';
+            } else {
+                this.chartData.datasets[0].backgroundColor = '#e1f1fb';
+                this.chartData.datasets[0].borderColor = '#0091ff';
+                this.chartData.datasets[0].hoverBorderColor = '#0091ff';
+            }
+
+            console.log(this.chartData);
+        },
         loadData() {
             if(this.isThereData) {
                 this.getDividends();
@@ -366,6 +380,7 @@ export default {
     },
     created() {
         this.loadData();
+        this.setTheme();
     }
   
 }
