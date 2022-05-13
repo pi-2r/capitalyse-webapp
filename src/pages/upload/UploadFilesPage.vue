@@ -301,13 +301,11 @@ export default {
 
 .nameValid {
     border: 1px solid var(--clr-blue) !important;
-    background-color: rgb(243, 249, 255) !important;
 }
 
 .nameInvalid {
     color: var(--clr-red);
     border: 1px solid var(--clr-red) !important;
-    background-color: rgba(255, 249, 249, 0.867) !important;
 }
 
 .spinner {
@@ -359,13 +357,13 @@ input {
 input[type="text"] {
     width: 100%;
     padding: 1.1rem;
-    background-color: rgb(252, 252, 252);
-    border: 1px solid rgb(214, 214, 214);
+    background-color: var(--clr-very-light-blue);
+    border: 1px solid var(--clr-grey);
     border-radius: var(--btn-radius);
     font-size: 16px;
     font-weight: 500;
     color: var(--clr-black);
-    box-shadow: var(--box-shadow-small);
+    box-shadow: none;
     margin-top: 0.3rem;
 }
 
@@ -418,7 +416,7 @@ input[type="text"]::placeholder {
 
 .uploadFilesTooltipBtn:hover {
     cursor: pointer;
-    background-color: #e7f7ff;
+    background-color: var(--clr-light-blue);
     border-radius: 100px;
 }
 
