@@ -12,8 +12,8 @@
             <p class="startDate">{{accountAge ? accountAge : 'Loading...'}}</p>
         </section>
 
-        <DividendChart/>
-
+        <DividendChart class="dividendChartDashboard"/>
+        
         <section class="cardsContainer">
             <DepositsCard />
             <TransFeesCard />
@@ -153,7 +153,12 @@ h1 {
     margin-bottom: 3rem;
 }
 
+.dividendChartDashboard {
+    margin-bottom: 4rem;
+}
+
 .cardsContainer {
+    
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 2rem;

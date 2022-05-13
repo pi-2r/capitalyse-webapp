@@ -30,7 +30,6 @@
                     <section class="u-displayflex">
                         <router-link to="/settings" class="u-displayflex settingsSection">
                             <Icon class="settingsIcon" tabindex="0" icon="ci:settings" height="25" />
-                            Settings
                         </router-link>
                     </section>
                 </section>
@@ -244,7 +243,7 @@ a:hover {
 }
 
 .settingsIcon {
-    transition: 1s all;
+    transition: 0.2s all;
     border: none;
     outline: none;
     color: var(--clr-grey)

@@ -54,7 +54,7 @@ export default {
             intersect: false,
         },
         animation: {
-            duration: 1000,
+            duration: 750,
         },
         plugins: {
           legend: {

@@ -133,7 +133,7 @@ export default {
             const theme = localStorage.getItem('theme');
             console.log(theme);
             if(theme === 'dark') {
-                this.chartData.datasets[0].backgroundColor = '#25343f';
+                this.chartData.datasets[0].backgroundColor = '#223443';
                 this.chartData.datasets[0].borderColor = '#0084ff';
             } else {
                 this.chartData.datasets[0].backgroundColor = '#e1f1fb';
@@ -409,9 +409,7 @@ h2 {
     padding: 2rem;
     padding-bottom: 0.1rem;
     background-color: var(--clr-very-light-blue);
-    border-top-right-radius: var(--card-border-radius);
-    border-bottom-left-radius: var(--card-border-radius);
-    border-bottom-right-radius: var(--card-border-radius);
+    border-radius: var(--card-border-radius);
     box-shadow: var(--box-shadow-big);
 }
 
@@ -450,27 +448,30 @@ h2 {
     font-weight: 600;
 }
 
+.timeFrame__buttons {
+    margin-bottom: 0.5rem;
+    display: flex;
+}
+
 .timeFrame__btn {
-    padding: 0.7rem 1.4rem;
+    padding: 0.65rem 0.9rem;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.9rem;
     margin-right: 0.25rem;
-    background-color: var(--clr-light-blue);
-    color: var(--clr-blue);
+    background-color: var(--clr-very-light-blue);
+    color: var(--clr-grey);
     transform: translateY(0px);
     border:none;
-    border-radius: 0px;
-    border-top-left-radius: var(--btn-radius);
-    border-top-right-radius: var(--btn-radius);
+    border-radius: 200px;
     user-select: none;
+    box-shadow: -1px 0px 15px -9px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--clr-very-light-blue);
 }
 
 
 .timeFrame__btn:hover {
     cursor: pointer;
-    box-shadow: none;
     background-color: var(--clr-very-light-blue);
-    color: var(--clr-blue);
     transform: translateY(0px);
 }
 
@@ -478,6 +479,8 @@ h2 {
     background-color: var(--clr-very-light-blue);
     color: var(--clr-blue);
     transform: translateY(0px);
+    font-weight: 600;
+    border: 1px solid var(--clr-blue);
 }
 
 /* anims */
