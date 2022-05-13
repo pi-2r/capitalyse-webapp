@@ -19,6 +19,76 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 export default {
   name: 'BarChart',
   components: { Bar },
+  data() {
+    return {
+      chartOptions: {
+        scales: {
+          yAxes: {
+              beginAtZero: true,
+              grid: {
+                color: 'rgba(0, 0, 0, 0.08)',
+                drawBorder: false,
+              },
+              ticks: {
+                color: '#fff',
+                callback: function(value) {
+                  // replace dot with comma
+                  return '€' + value.toFixed(2).toString().replace('.', ",");
+                }
+              }
+          },
+          xAxes: {
+              beginAtZero: true,
+              grid: {
+                color: 'rgba(0, 0, 0, 0.08)',
+                drawBorder: false,
+                display: false,
+              },
+              ticks: {
+                color: '#fff',
+              }
+          },
+        },
+        tooltips: {
+            mode: 'index',
+            intersect: false,
+        },
+        animation: {
+            duration: 1000,
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            displayColors: false,
+            titleFont: {weight: 'normal'},
+            titleColor: '#0084ff',
+            bodyColor: '#0084ff',
+            backgroundColor: 'rgb(260, 260, 260)',
+            borderColor: '#0084ff',
+            borderWidth: 1,
+            padding: 10,
+            enabled: true,
+            callbacks: {
+              title: function(value) {
+                const date = value[0].label;
+                const year = date.split('-')[1];
+                const month = date.split('-')[0];
+                const arrayOfMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                return 'Date: ' + arrayOfMonths[month - 1] + ' ' + year;
+              },
+              label: function(value) {
+                return 'Dividends: €' + value.formattedValue;
+              },
+            }
+          }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        }
+    } 
+  },
   props: {
     chartData: {
       required: true,
@@ -28,7 +98,7 @@ export default {
           labels: [],
           datasets: [
             {
-              label: 'Dividends Received (EUR)',
+              label: '',
               backgroundColor: "#e1f1fb",
               borderWidth: 1,
               borderRadius: 1,
@@ -42,44 +112,6 @@ export default {
         }
       } 
     },
-    chartOptions: {
-      type: Object,
-      default: () => {
-        return {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            return '€' + value.toFixed(2);
-                        }
-                    }
-                },
-                x: {
-                    beginAtZero: true,
-                    gridLines: {
-                        display: false,
-                    },
-                },
-              
-            },
-            tooltips: {
-                mode: 'index',
-                intersect: false,
-            },
-            animation: {
-                duration: 1,
-            },
-            legend: {
-                display: false,
-                position: 'left',
-            },
-            responsiveAnimationDuration: 0,
-            responsive: true,
-            maintainAspectRatio: false,
-        } 
-      },
-    },
     height: {
       required: false,
       type: Number,
@@ -91,7 +123,25 @@ export default {
       default: 400
     }
   },
-  
+  methods: {
+    setTheme() {
+      const theme = localStorage.getItem('theme')
+
+      if(theme === 'dark') {
+        this.chartOptions.scales.yAxes.ticks.color = 'rgb(134, 134, 134)';
+        this.chartOptions.scales.xAxes.ticks.color = 'rgb(134, 134, 134)';
+        this.chartOptions.scales.yAxes.grid.color = 'rgb(67, 67, 67)';
+        this.chartOptions.scales.xAxes.grid.color = 'rgb(67, 67, 67)';
+        this.chartOptions.plugins.tooltip.backgroundColor = 'rgb(52, 52, 52)';
+      } else {
+        this.chartOptions.scales.yAxes.ticks.color = 'rgba(0, 0, 0, 0.5)';
+        this.chartOptions.scales.xAxes.ticks.color = 'rgba(0, 0, 0, 0.5)';
+      }
+    }
+  },
+  created() {
+    this.setTheme();
+  }
   
 }
 </script>
@@ -99,6 +149,7 @@ export default {
 <style scoped>
 .fade-enter-active {
   transition: all 0.15s ease-out;
+  color: rgb(230, 230, 230);
 }
 .fade-leave-active {
   transition: all 0.05s ease-in;

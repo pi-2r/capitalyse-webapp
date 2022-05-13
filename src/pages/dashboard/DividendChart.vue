@@ -83,7 +83,7 @@ export default {
                 labels: [],
                 datasets: [
                     {
-                        label: 'Dividends Received (EUR)',
+                        label: 'Dividends Received',
                         backgroundColor: "#e1f1fb",
                         borderWidth: 2,
                         borderRadius: 7,
@@ -133,7 +133,7 @@ export default {
             const theme = localStorage.getItem('theme');
             console.log(theme);
             if(theme === 'dark') {
-                this.chartData.datasets[0].backgroundColor = '#283036';
+                this.chartData.datasets[0].backgroundColor = '#25343f';
                 this.chartData.datasets[0].borderColor = '#0084ff';
             } else {
                 this.chartData.datasets[0].backgroundColor = '#e1f1fb';
