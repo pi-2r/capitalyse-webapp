@@ -104,8 +104,8 @@ h1,h2,h3,p,.button {
 
 .hero {
     background-image: linear-gradient(45deg, 
-        rgb(5, 26, 47) 0%, 
-        rgb(14, 41, 50) 90%);
+        rgb(4, 22, 39) 0%, 
+        rgb(13, 50, 63) 90%);
     display: flex;
     flex-direction: column;
     align-items: center;
