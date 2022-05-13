@@ -6,20 +6,20 @@
             </section>
             <section class="navWrapper__links">
                 <a href="#">
-                    <router-link to="/">Home</router-link>
+                    <router-link class="u-router-destyle" to="/">Home</router-link>
                 </a>
                 <a href="#">
-                    <router-link to="/features">Features</router-link>
+                    <router-link class="u-router-destyle" to="/features">Features</router-link>
                 </a>
                 <a href="#">
-                    <router-link to="/pricing">Pricing</router-link>
+                    <router-link class="u-router-destyle" to="/pricing">Pricing</router-link>
                 </a>
                 <a href="#">
-                    <router-link to="/faq">FAQ</router-link>
+                    <router-link class="u-router-destyle" to="/faq">FAQ</router-link>
                 </a>
             </section>
             <section class="navWrapper__buttons">
-                <Button class="secondary navLogin" link to="/login">{{loginText}}</Button>
+                <Button class="secondary navLogin u-router-destyle" link to="/login">{{loginText}}</Button>
                 <Button v-if="!isAuthenticated" class="navSignup" :class="[{ isAuthenticated : isAuthenticatedBtnStyling }]" link to="/signup">Sign up</Button>
             </section>
 
@@ -55,7 +55,7 @@
                                     <router-link class="routerLink" to="/">FAQ</router-link>
                                 </li> 
                                 <section class="mobileNavButtons">
-                                    <Button class="secondary navLogin" link to="/login">{{loginText}}</Button>
+                                    <Button class="secondary navLogin u-router-destyle" link to="/login">{{loginText}}</Button>
                                     <Button v-if="!isAuthenticated" class="navSignup" :class="[{ isAuthenticated : isAuthenticatedBtnStyling }]" link to="/signup">Sign up</Button>
                                 </section>
                             </ul>
@@ -104,6 +104,10 @@ export default {
 </script>
 
 <style scoped>
+.u-router-destyle:hover {
+    color: var(--clr-white);
+}
+
 .mobileNavButtons {
     display: flex;
     justify-content: space-between;
