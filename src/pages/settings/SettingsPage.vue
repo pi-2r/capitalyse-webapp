@@ -1,14 +1,22 @@
 <template>
     <Header/>
     <article class="container">
-        <h1>Settings</h1>
+        <section class="titleContainer">
+            <BackButton/>
+            <h1>Settings</h1>
+        </section>
         <section class="settingsCard__container">
             <section class="settingsCard">
                 <h2>Appearance</h2>
                 <section class="settingsSection">
                     <!-- theme toggle -->
                     <label for="theme">Dark mode</label>
-                    <input type="checkbox" @change="toggleTheme" value="darkMode" v-model="isDarkThemeOn" id="theme" name="theme" class="themeCheckbox">
+                    <!-- <input type="checkbox" @change="toggleTheme" value="darkMode" v-model="isDarkThemeOn" id="theme" name="theme" class="themeCheckbox"> -->
+
+                    <label class="switch" @click="toggleTheme">
+                        <input type="checkbox" id="theme" name="theme" value="darkMode" @change="toggleTheme" v-model="isDarkThemeOn">
+                        <span class="slider round"></span>
+                    </label>
                 </section>
             </section>
             <section class="settingsCard">
@@ -25,12 +33,13 @@
 <script>
 import Header from '../../components/layout/Header.vue';
 import LogoutButton from '../../components/ui/LogoutButton.vue';
-
+import BackButton from '../../components/ui/BackButton.vue';
 
 export default {
     components: {
         Header,
         LogoutButton,
+        BackButton
     },
     data() {
         return {
@@ -65,6 +74,76 @@ export default {
 </script>
 
 <style scoped>
+.titleContainer {
+    margin-bottom: 2rem;
+    margin-top: 0.25rem;
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .2s ease-in-out;
+  transition: .2s ease-in-out;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--clr-very-light-blue);
+  -webkit-transition: .2s ease-in-out;
+  transition: .2s ease-in-out;
+}
+
+input:checked + .slider {
+    background-color: var(--clr-blue);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--clr-blue);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(24px);
+  -ms-transform: translateX(24px);
+  transform: translateX(24px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 200px;
+}
+
+.slider.round:before {
+  border-radius: 200px;
+}
+
+
+
 .container {
     margin: 0 auto;
     margin-bottom: 4rem;
@@ -86,8 +165,7 @@ export default {
 }
 
 h1 {
-    margin-bottom: 2rem;
-    margin-top: 0.25rem;
+ 
 }
 
 h2 {
