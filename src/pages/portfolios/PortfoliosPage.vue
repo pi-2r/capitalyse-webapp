@@ -1,14 +1,14 @@
 <template>
     <transition name="slide-fade" mode="out-in">
-        <ConfirmModal class="deletePopup" v-if="isDeletePopupOpen">
+        <ConfirmModal class="deletePopup" @click-outside-popup="isDeletePopupOpen = false" v-if="isDeletePopupOpen">
             <h1>Are you sure?</h1>
             <p>Are you sure you want to permanently delete this portfolio? This action can not be reversed.</p>
             <div class="deletePopup__btns">
-                <Button class="deletePopup__btn noBtn" @click="toggleDeletePopup">Cancel</Button>
                 <Button class="deletePopup__btn deleteBtn" @click="deletePortfolio">
                     <Icon icon="bxs:trash" color="var(--clr-white)" height="22" class="deleteBtnIcon"/>
                     Delete
                 </Button>
+                <Button class="deletePopup__btn noBtn" @click="toggleDeletePopup">Cancel</Button>
             </div>
         </ConfirmModal>
     </transition>
