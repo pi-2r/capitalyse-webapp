@@ -10,7 +10,10 @@
             thirdLinkName="My Deposits"
         />
 
-        <h1>My Deposits</h1>
+        <section class="titleAndBackButtonContainer">
+            <BackButton/>
+            <h1>My Deposits</h1>
+        </section>
      
         <section class="cardsContainer">
         </section>
@@ -21,11 +24,13 @@
 <script>
 import Breadcrumbs from '../../../components/ui/Breadcrumbs.vue';
 import Header from '../../../components/layout/Header.vue';
+import BackButton from '../../../components/ui/BackButton.vue';
 
 export default {
     components: {
         Breadcrumbs,
-        Header
+        Header,
+        BackButton
     },
     computed: {
         portfolioName() {

@@ -10,7 +10,10 @@
             thirdLinkName="Fees and Costs"
         />
 
-        <h1>Fees and Costs</h1>
+        <section class="titleAndBackButtonContainer">
+            <BackButton/>
+            <h1>Fees and Costs</h1>
+        </section>
         
         <section class="cardsContainer">
             <TransFeesCard :withBtn="false"/>
@@ -23,6 +26,7 @@
 import Breadcrumbs from '../../../components/ui/Breadcrumbs.vue';
 import Header from '../../../components/layout/Header.vue';
 
+import BackButton from '../../../components/ui/BackButton.vue';
 import ExchangeFeesCard from './ExchangeFeesCard.vue';
 import TransFeesCard from '../TransFeesCard.vue';
 
@@ -31,7 +35,8 @@ export default {
         Breadcrumbs,
         Header,
         TransFeesCard,
-        ExchangeFeesCard
+        ExchangeFeesCard,
+        BackButton
     },
     computed: {
         portfolioName() {
@@ -97,10 +102,6 @@ export default {
     margin: 0 auto;
     margin-bottom: 4rem;
     margin-top: 3rem;
-}
-
-h1 {
-    margin-bottom: 2rem;
 }
 
 .cardsContainer {

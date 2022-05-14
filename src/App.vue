@@ -35,7 +35,12 @@ export default {
 /* Variables */
 @import './assets/styles/variables.css';
 
-
+.titleAndBackButtonContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
 
 .websiteWrapperMain {
   min-height: 100vh;

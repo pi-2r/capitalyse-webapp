@@ -72,7 +72,7 @@ export default {
             if(this.isThereData) {
                 return this.buyOrSell === 'buy' ? 'Most Times Bought' : 'Most Times Sold';
             }
-            return 'No data';
+            return 'Most Times Bought';
         }
     },
     methods: {

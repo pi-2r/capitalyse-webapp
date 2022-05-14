@@ -10,7 +10,10 @@
             thirdLinkName="Trading"
         />
 
-        <h1>Trading</h1>
+        <section class="titleAndBackButtonContainer">
+            <BackButton/>
+            <h1>Trading</h1>
+        </section>
         
         <section class="cardsContainer">
             <MostFreqBuyOrSell/>
@@ -23,6 +26,7 @@
 import Breadcrumbs from '../../../components/ui/Breadcrumbs.vue';
 import Header from '../../../components/layout/Header.vue';
 
+import BackButton from '../../../components/ui/BackButton.vue';
 import MostFreqTradedCard from './MostFreqTradedCard.vue';
 import MostFreqBuyOrSell from './MostFreqBuyOrSell.vue';
 
@@ -31,7 +35,8 @@ export default {
         Breadcrumbs,
         Header,
         MostFreqTradedCard,
-        MostFreqBuyOrSell
+        MostFreqBuyOrSell,
+        BackButton
     },
     computed: {
         portfolioName() {
@@ -103,10 +108,6 @@ export default {
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 2rem;
-}
-
-h1 {
-    margin-bottom: 2rem;
 }
 
 @media screen and (min-width: 400px) {

@@ -69,7 +69,7 @@ h2 {
 }
 
 .textResult {
-    font-size: 1.25rem;
+    font-size: 1rem;
     color: var(--clr-black);
 }
 
@@ -84,7 +84,7 @@ h2 {
 }
 
 .resultValue {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 600;
 }
 

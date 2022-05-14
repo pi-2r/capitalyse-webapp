@@ -61,6 +61,7 @@ import cleanNumberMixin from '../../mixins/cleanNumber';
 import includesFromArrayMixin from '../../mixins/includesFromArray';
 import splitDateMixin from '../../mixins/splitDate';
 
+
 export default {
     mixins: [cleanNumberMixin, includesFromArrayMixin, splitDateMixin],
     components: {
@@ -485,10 +486,10 @@ h2 {
 
 /* anims */
 .slide-fade-enter-active {
-  transition: all 0.15s ease-out;
+  transition: all .15s ease-out;
 }
 .slide-fade-leave-active {
-  transition: all 0.15s ease-in;
+  transition: all .15s ease-in;
 }
 .slide-fade-enter-from {
   transform: translateY(-15px);

@@ -1,7 +1,7 @@
 <template>
     <Header/>
     <article class="container">
-        <section class="titleContainer">
+         <section class="titleAndBackButtonContainer">
             <BackButton/>
             <h1>Settings</h1>
         </section>
@@ -39,7 +39,7 @@ export default {
     components: {
         Header,
         LogoutButton,
-        BackButton
+        BackButton,
     },
     data() {
         return {
@@ -74,13 +74,7 @@ export default {
 </script>
 
 <style scoped>
-.titleContainer {
-    margin-bottom: 2rem;
-    margin-top: 0.25rem;
-    gap: 1rem;
-    display: flex;
-    align-items: center;
-}
+
 
 .switch {
   position: relative;

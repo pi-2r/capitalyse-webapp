@@ -148,19 +148,14 @@ export default {
 
 <style scoped>
 .fade-enter-active {
-  transition: all 0.15s ease-out;
-  color: rgb(230, 230, 230);
+  transition: all .15s ease-out;
 }
-.fade-leave-active {
-  transition: all 0.05s ease-in;
-}
+
 .fade-enter-from {
-  transform: translateY(10px);
   opacity: 0;
 }
 
 .fade-leave-to {
-  transform: translateY(0px);
     opacity: 0;
 }
 
