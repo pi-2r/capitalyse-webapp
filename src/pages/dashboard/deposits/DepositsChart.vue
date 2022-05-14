@@ -1,6 +1,6 @@
 <template>
 
-    <section class="dividendChartContainer">
+    <section class="depositChartContainer">
         <!-- time frame -->
         <section class="timeFrame">
             
@@ -26,13 +26,13 @@
             </section>
         </section>
      
-        <section class="dividendChartWrapper">
-            <section class="dividendChartHeading">
-                <h2>Dividend Payments</h2>
+        <section class="depositChartWrapper">
+            <section class="depositChartHeading">
+                <h2>Deposits & Withdrawals</h2>
                 <transition name="slide-fade" mode="out-in">
                     <p :key="selectedTimeFrame">
-                        <span class="chartResultValue greenNumber">
-                        €{{ totalDividends }}
+                        <span class="chartResultValue">
+                        €{{ totalDeposits }}
                         </span>
                     </p>
                 </transition>
@@ -41,8 +41,8 @@
             <p class="chartErrorMsg" v-if="chartErrorMsg">
                 {{ chartErrorMsg }}
             </p>
-            <section class="dividendChart" v-else>
-                <BarChart v-if="!isLoading" 
+            <section class="depositChart" v-else>
+                <LineChart v-if="!isLoading" 
                     :chart-data="chartData"  
                 /> 
                 <section class="spinnerContainer" v-else>
@@ -53,25 +53,24 @@
         </section>
     </section>
 </template>
-
 <script>
-import BarChart from '../../components/ui/BarChart.vue'
+import LineChart from '../../../components/ui/LineChart.vue'
 
-import cleanNumberMixin from '../../mixins/cleanNumber';
-import includesFromArrayMixin from '../../mixins/includesFromArray';
-import splitDateMixin from '../../mixins/splitDate';
+import cleanNumberMixin from '../../../mixins/cleanNumber';
+import includesFromArrayMixin from '../../../mixins/includesFromArray';
+import splitDateMixin from '../../../mixins/splitDate';
 
 
 export default {
     mixins: [cleanNumberMixin, includesFromArrayMixin, splitDateMixin],
     components: {
-        BarChart
+        LineChart
     },
     data() {
         return {
             isLoading: true,
             selectedTimeFrame: 'All Time',
-            dividendsArray: [],
+            depositsArray: [],
             chartErrorMsg: null,
             dataHolder: [],
             labelsHolder: [],
@@ -82,28 +81,31 @@ export default {
             }, 
             chartData: {
                 labels: [],
-                datasets: [
-                    {
-                        label: 'Dividends Received',
-                        backgroundColor: "#e1f1fb",
-                        borderWidth: 2,
-                        borderRadius: 7,
-                        borderSkipped: 'bottom',
-                        borderColor: '#0091ff',
-                        hoverBorderWidth: 2,
-                        hoverBorderColor: '#0091ff',
-                        data: []
-                    }
-                ]
+                datasets: [{
+                    data: [],
+                    borderColor: "#0084ff",
+                    backgroundColor: "#0084ff",
+                    pointBackgroundColor: "#0084ff",
+                    pointBorderColor: "#0084ff",
+                    pointHoverBackgroundColor: "#0084ff",
+                    pointHoverBorderColor: "#0084ff",
+                    cubicInterpolationMode: 'monotone',
+                }]
             }, 
         }
     },
     computed: {
         indexes() {
-            return this.$store.getters['indexes/dividendChart'];
+            return this.$store.getters['indexes/deposits'];
         },
-        dividendNames() {
-            return this.$store.getters['dictionary/dividend'];
+        depositNames() {
+            return this.$store.getters['dictionary/deposit'];
+        },
+        failedDepositNames() {
+            return this.$store.getters['dictionary/failedDeposit'];
+        },
+        withdrawalNames() {
+            return this.$store.getters['dictionary/withdrawal'];
         },
         currencyNames() {
             return this.$store.getters['dictionary/currency'];
@@ -111,10 +113,10 @@ export default {
         currentPortfolio() {
             return this.$store.getters['files/getCurrentPortfolio'];
         },
-        totalDividends() {
+        totalDeposits() {
             let total = 0;
-            for(let i = 0; i < this.dividendsArray.length; i++) {
-                total += this.dividendsArray[i].divAmt;
+            for(let i = 0; i < this.depositsArray.length; i++) {
+                total += this.depositsArray[i].depAmt;
             }
             total = total.toFixed(2);
             total = parseFloat(total).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
@@ -143,7 +145,7 @@ export default {
         },
         loadData() {
             if(this.isThereData) {
-                this.getDividends();
+                this.getDeposits();
                 this.isLoading = false;
             } else {
                 this.isLoading = true;
@@ -151,110 +153,125 @@ export default {
         },
         timeFrameChange(e) {
             this.selectedTimeFrame = e.target.innerText
-            this.isThereData ? this.getDividends() : null;
+            this.isThereData ? this.getDeposits() : null;
             this.timeFrameDataUpdate();
         },
-        getDividends() {
+        getDeposits() {
+            const depositNames = this.depositNames;
+            const withdrawalNames = this.withdrawalNames;
+
             const data = this.currentPortfolio.accountFile;
             const dateIndex = this.indexes.dateIndex;
             const searchIndex = this.indexes.searchIndex;
-            const currencyIndex = this.indexes.currencyIndex;
-            const productIndex = this.indexes.productIndex;
-            const dividendIndex = this.indexes.dividendIndex;
-            const dividendNames = this.dividendNames;
-            const currencyNames = this.currencyNames;
+            const depositIndex = this.indexes.depositIndex;
 
-            this.dividendsArray = [];
-            this.dataHolder = [];
+            this.depositsArray = [];
             this.labelsHolder = [];
+            this.dataHolder = [];
 
-            for(let i = 0; i < data.length - 1; i++) {
-                const validDividend = 
-                    this.includesFromArray(dividendNames, data[i][searchIndex]) &&
-                    data[i][currencyIndex] === "EUR" ||
-                    this.includesFromArray(currencyNames, data[i][searchIndex]) &&
-                    data[i][currencyIndex] === "EUR" &&
-                    data[i][productIndex] === "";
 
-                if(validDividend) {
+            for(let i = 0; i < data.length -1; i++) {
+                const validDeposit = 
+                    (this.includesFromArray(depositNames, data[i][searchIndex]) &&
+                    this.cleanNumber(data[i][depositIndex]) > 0);
+
+                const validWithdrawal = 
+                    (this.includesFromArray(withdrawalNames, data[i][searchIndex]) &&
+                    this.cleanNumber(data[i][depositIndex]) < 0);
+
+                if(validDeposit || validWithdrawal) {
                     let alreadyExists = false;
                     let date = data[i][dateIndex].slice(3, 10);
-                    
-                    let divAmt = this.cleanNumber(data[i][dividendIndex]);
+
+                    let depAmt = this.cleanNumber(data[i][depositIndex]);
 
                     // first time
-                    if(this.dividendsArray.length === 0) {
-                        this.dividendsArray.push({
+                    if(this.depositsArray.length === 0) {
+                        this.depositsArray.push({
                             date: date,
-                            divAmt: divAmt,
+                            depAmt: depAmt
                         });
                     } else {
-                        // if already exists, find and add to existing
-                        for(let j = 0; j < this.dividendsArray.length; j++) {
-                            if(this.dividendsArray[j].date === date) {
-                                this.dividendsArray[j].divAmt += divAmt;
+                        for(let j = 0; j < this.depositsArray.length; j++) {
+                            if(this.depositsArray[j].date === date) {
+                                this.depositsArray[j].depAmt += depAmt;
                                 alreadyExists = true;
                                 break;
                             }
                         }
-                        // if doesnt already exists, add new
                         if(!alreadyExists) {
-                            this.dividendsArray.push({
+                            this.depositsArray.push({
                                 date: date,
-                                divAmt: divAmt,
+                                depAmt: depAmt
                             });
                         }
                     }
                 }
+
             }
-            
-            if(this.dividendsArray.length > 0) {
-                // sort array by date if exists
-                this.dividendsArray ? this.dividendsArray.sort((a, b) => {
-                    return new Date(b.date) - new Date(a.date);
+
+            if(this.depositsArray.length > 0) {
+
+                this.depositsArray ? this.depositsArray.sort((a, b) => {
+                    return new Date(a.date) - new Date(b.date);
                 }) : null;
 
-                let firstDate = this.dividendsArray[0].date.split("-");
-                let lastDate = this.dividendsArray[this.dividendsArray.length - 1].date.split("-");
-                let newFirstDate = new Date(lastDate[1], lastDate[0]  -1)
-                let newLastDate = new Date(firstDate[1], firstDate[0])
+                let firstDate = this.depositsArray[0].date.split('-');
+                let lastDate = this.depositsArray[this.depositsArray.length - 1].date.split('-');
+                let newFirstDate = new Date(lastDate[1], lastDate[0] - 1);
+                let newLastDate = new Date(firstDate[1], firstDate[0]);
 
-                // create array from first date to last date
                 let dateArray = [];
-                while (newFirstDate < newLastDate) {
+                while(newFirstDate < newLastDate) {
                     dateArray.push(newFirstDate.toLocaleDateString());
                     newFirstDate.setMonth(newFirstDate.getMonth() + 1);
                 }
+                this.depositsArray.reverse();
 
-                this.dividendsArray.reverse();
+
                 // fill chart
                 for (let i = 0; i < dateArray.length; i++) {
-                    
                     let date = dateArray[i];
                     let found = false;
-
-                    // find date in dividendsArray, if found add to chart
-                    for (let x = 0; x < this.dividendsArray.length; x++) {
-                        let dateFromArray = this.dividendsArray[x].date.split("-");
+                   
+                    // find date in depositsArray, if found add to chart
+                    for (let x = 0; x < this.depositsArray.length; x++) {
+                        let dateFromArray = this.depositsArray[x].date.split("-");
                         let newDateFromArray = new Date(dateFromArray[1], dateFromArray[0] -1).toLocaleDateString();
 
                         if (date === newDateFromArray) {
                             found = true;
-                            let dividend = this.dividendsArray[x].divAmt;
-                            this.dataHolder.push(dividend);
+                            let deposit = this.depositsArray[x].depAmt;
+                            // if first iteration
+                            if(x !== 0) {
+                                // add all previous deposits
+                                for(let y = 0; y < x; y++) {
+                                    deposit += this.depositsArray[y].depAmt;
+                                }
+                            }
+                            
+                            this.dataHolder.push(deposit);
                         } 
                     }
-            
-                    // if not found push 0 aka null
+
                     if(!found) {
-                        this.dataHolder.push(null);
+                        this.dataHolder.push(0);
                     }
+
+                    // where there are no deposits, add previous month's deposits
+                    for(let y = 0; y < this.dataHolder.length; y++) {
+                        if(this.dataHolder[y] === 0) {
+                            this.dataHolder[y] = this.dataHolder[y-1];
+                        }
+                    }
+                
 
                     // date to month and year only
                     date = this.splitDate(date);
                     date = date[1] + "-" + date[2];
                     this.labelsHolder.push(date)           
                 }
+
             
                 this.addMissingMonthsToChart();
 
@@ -264,8 +281,9 @@ export default {
                 this.chartData.labels = [];
                 this.chartData.datasets[0].data = [];
 
-                this.chartErrorMsg = "You haven't received any dividends yet.";
+                this.chartErrorMsg = "Unfortunately, your language isn't supported yet. Please contact us to include your language for you and your country.";
             }
+
         },
         addMissingMonthsToChart() {
             // add potentially missing months untill current month
@@ -293,7 +311,10 @@ export default {
                     let pushedDate = pushedMonth + "-" + pushedYear;
                     this.labelsHolder.push(pushedDate);
                     newLastMonth.setMonth(newLastMonth.getMonth() + 1);
+
+                    this.dataHolder.push(this.dataHolder[this.dataHolder.length - 1]);
                 }
+                this.dataHolder.push(this.dataHolder[this.dataHolder.length - 1]);
                 this.labelsHolder.push(currentMonth);
             }
 
@@ -330,14 +351,21 @@ export default {
                     i--;
                 }
             }
-            // delete all dividends before this year
-            for (let i = 0; i < this.dividendsArray.length; i++) {
-                let dividendYear = this.dividendsArray[i].date.split("-")[1];
-                if (dividendYear < currentYear) {
-                    this.dividendsArray.splice(i, 1);
+
+            let total = 0;
+
+            // delete all deposits before this year
+            for (let i = 0; i < this.depositsArray.length; i++) {
+                let depositYear = this.depositsArray[i].date.split("-")[1];
+                if (depositYear < currentYear) {
+                    total += this.depositsArray[i].depAmt;
+                    this.depositsArray.splice(i, 1);
                     i--;
                 }
             }
+
+            this.countFromZero(total);
+            
         },
         setOneYearData() {
             // get one year ago in MM-YYYY
@@ -359,26 +387,40 @@ export default {
                 }
             }
 
-            // delete all dividends of more than one year ago
-            for (let i = 0; i < this.dividendsArray.length; i++) {
-                let dividendYear = this.dividendsArray[i].date.split("-")[1];
-                let dividendMonth = this.dividendsArray[i].date.split("-")[0];
-                let dividendDate = new Date(dividendYear, dividendMonth - 1);
+            // total of removed values for countFromZero
+            let total = 0;
 
-                if (dividendDate < yearAgo || dividendDate < yearAgo + 1) {
-                    this.dividendsArray.splice(i, 1);
+            // delete all deposits of more than one year ago
+            for (let i = 0; i < this.depositsArray.length; i++) {
+                let depositYear = this.depositsArray[i].date.split("-")[1];
+                let depositMonth = this.depositsArray[i].date.split("-")[0];
+                let depositDate = new Date(depositYear, depositMonth - 1);
+
+                if (depositDate < yearAgo || depositDate < yearAgo + 1) {
+                    total += this.depositsArray[i].depAmt;
+                    this.depositsArray.splice(i, 1);
                     i--;
                 }
             }
+
+            this.countFromZero(total);
         },
         updateChart() {
             this.chartData.labels = this.labelsHolder;
             this.chartData.datasets[0].data = this.dataHolder;
         },
+        countFromZero(prevTotal) {
+            const diff = prevTotal - this.dataHolder[0];
+            const firstDate = this.dataHolder[0];
+            for(let i = 0; i < this.dataHolder.length; i++) {
+                const currentDate = this.dataHolder[i];
+                this.dataHolder[i] = currentDate - firstDate - diff;
+            }
+        }
     },
     created() {
         this.loadData();
-        this.setTheme();
+        // this.setTheme();
     }
   
 }
@@ -403,7 +445,7 @@ h2 {
     height: 100%;
 }
 
-.dividendChartWrapper {
+.depositChartWrapper {
     padding: 2rem;
     padding-bottom: 0.1rem;
     background-color: var(--clr-very-light-blue);
@@ -411,22 +453,22 @@ h2 {
     box-shadow: var(--box-shadow-big);
 }
 
-.dividendChartContainer {
+.depositChartContainer {
     margin-bottom: 2rem;
 }
 
-.dividendChartHeading {
+.depositChartHeading {
     margin-bottom: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.dividendChartHeading p {
+.depositChartHeading p {
     text-align: right;
 }
 
-.dividendChart {
+.depositChart {
     width: 100%;
     height: 20rem;
     background-color: var(--clr-very-light-blue);
@@ -444,6 +486,7 @@ h2 {
 .chartResultValue {
     font-size: 1.5rem;
     font-weight: 600;
+    color: var(--clr-blue);
 }
 
 .timeFrame__buttons {

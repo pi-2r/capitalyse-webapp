@@ -13,6 +13,7 @@ export default {
                     productIndex: 3,
                 },
                 deposits: {
+                    dateIndex: 0,
                     searchIndex: 5,
                     depositIndex: 8,
                 },
@@ -29,7 +30,7 @@ export default {
                 tradingFrequency: {
                     searchIndex: 2,
                     buyOrSellIndex: 6,
-                }
+                },
             },
         };
     },

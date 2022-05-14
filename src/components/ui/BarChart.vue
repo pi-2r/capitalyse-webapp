@@ -61,6 +61,7 @@ export default {
             display: false,
           },
           tooltip: {
+            position: 'nearest',
             displayColors: false,
             titleFont: {weight: 'normal'},
             titleColor: '#0084ff',
@@ -86,7 +87,7 @@ export default {
         },
         responsive: true,
         maintainAspectRatio: false,
-        }
+      }
     } 
   },
   props: {

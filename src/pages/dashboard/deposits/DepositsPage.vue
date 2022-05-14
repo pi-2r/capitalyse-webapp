@@ -16,6 +16,7 @@
         </section>
      
         <section class="cardsContainer">
+            <DepositsChart />
         </section>
     </section>
   
@@ -26,11 +27,14 @@ import Breadcrumbs from '../../../components/ui/Breadcrumbs.vue';
 import Header from '../../../components/layout/Header.vue';
 import BackButton from '../../../components/ui/BackButton.vue';
 
+import DepositsChart from './DepositsChart.vue';
+
 export default {
     components: {
         Breadcrumbs,
         Header,
-        BackButton
+        BackButton,
+        DepositsChart
     },
     computed: {
         portfolioName() {

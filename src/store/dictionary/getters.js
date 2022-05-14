@@ -13,5 +13,8 @@ export default {
     },
     exchangeFees(state) {
         return state.dictionary.exchangeFees;
-    }
+    },
+    withdrawal(state) {
+        return state.dictionary.withdrawal;
+    },
 };
