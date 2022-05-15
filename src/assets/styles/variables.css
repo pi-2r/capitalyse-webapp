@@ -33,7 +33,7 @@
     
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
     :root {
         --clr-blue: #0084ff;
         --clr-light-blue: #242424;
@@ -46,7 +46,7 @@
         --clr-red: #c23432;
         --clr-green: #00b94a;
     }
-}
+} */
 
 [data-theme="light"] {
     --clr-blue: #0084ff;
