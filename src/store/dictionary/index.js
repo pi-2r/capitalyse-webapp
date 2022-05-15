@@ -11,7 +11,7 @@ export default {
                 // iDEAL storting is support voor oude benaming
                 deposit: ["iDEAL storting", "Einzahlung", "Reservation iDEAL / Sofort Deposit"],
                 failedDeposit: ["Storting mislukt"],
-                withdrawal: ["Laufende Auszahlung", "Processed Flatex Withdrawal"],
+                withdrawal: ["Terugstorting", "Laufende Auszahlung", "Processed Flatex Withdrawal"],
                 exchangeFees: ["DEGIRO Aansluitingskosten", "Giro Exchange"],
             },
         };

@@ -1,6 +1,6 @@
 <template>
     <ResultCard 
-        title="Total Deposits" 
+        title="Total Deposited" 
         :resultValue="totDeposits" 
         :to="'/dashboard/' + portfolioId + '/deposits'"
         btnText="My Deposits"

@@ -17,4 +17,7 @@ export default {
     withdrawal(state) {
         return state.dictionary.withdrawal;
     },
+    failedDeposit(state) {
+        return state.dictionary.failedDeposit;
+    }
 };

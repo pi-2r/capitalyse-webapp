@@ -23,8 +23,8 @@
     
     --box-shadow-small: 0px 0px 10px -4px rgba(41, 63, 100, 0.13);
     --box-shadow: 0px 2px 10px 0px rgba(41, 63, 100, 0.13);
-    --box-shadow-big: rgba(0, 0, 0, 0.15) 0px 0px 50px -20px;
     --box-shadow-medium: 0px 0px 10px 0px rgba(0, 0, 0, 0.067);
+    --box-shadow-big: rgba(0, 0, 0, 0.15) 0px 0px 50px -20px;
     --card-border-radius: 1.2rem;
 
     --header-height: 4.5rem;
@@ -70,8 +70,8 @@
     --clr-grey: rgb(168, 168, 168);
     --clr-light-grey: rgb(69, 69, 69);
     --clr-black: #eeeeee;
-    --clr-red: #c23432;
-    --clr-green: #00b94a;
+    --clr-red: #be4947;
+    --clr-green: #24864b;
     
 }
 

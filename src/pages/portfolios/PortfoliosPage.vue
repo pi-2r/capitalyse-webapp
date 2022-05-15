@@ -239,7 +239,7 @@ table {
 
 thead {
     color: var(--clr-black);
-    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid var(--clr-light-grey);
 }
 
 th {
@@ -256,7 +256,7 @@ th:last-of-type {
 }
 
 tr {
-    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid var(--clr-light-grey);
     transition: 0.1s all;
 }
 

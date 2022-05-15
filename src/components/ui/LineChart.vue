@@ -57,10 +57,6 @@ export default {
                     }
                 },
             },
-            tooltips: {
-                mode: 'index',
-                intersect: false
-            },
             animation: {
                 duration: 750,
             },
@@ -70,6 +66,11 @@ export default {
                 },
                 tooltip: {
                     position: 'nearest',
+                    mode: 'index',
+                    intersect: false,
+                    caretPadding: 5,
+                    usePointStyle: true,
+                    cornerRadius: 10,
                     displayColors: false,
                     titleFont: {weight: 'normal'},
                     titleColor: '#0084ff',

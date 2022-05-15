@@ -5,7 +5,8 @@ export default {
     mixins: [cleanNumberMixin, includesFromArrayMixin],
     methods: {
         getTotalDeposits(data) {
-            const names = this.$store.getters['dictionary/deposit'];
+            const depositNames = this.$store.getters['dictionary/deposit'];
+            const withdrawalNames = this.$store.getters['dictionary/withdrawal'];
 
             const indexes = this.$store.getters['indexes/deposits'];
             const searchIndex = indexes.searchIndex;
@@ -15,15 +16,19 @@ export default {
 
             for (let i = 0; i < data.length; i++) {
                 
-                if (data[i][searchIndex]) {         
+                if (data[i][searchIndex]) { 
                     
-                    if (this.includesFromArray(names, data[i][searchIndex])) {
-                        
-                        let nr = this.cleanNumber(data[i][depositIndex]);
+                    const validDeposit =
+                        this.includesFromArray(depositNames, data[i][searchIndex]) &&
+                        this.cleanNumber(data[i][depositIndex]) > 0;
 
-                        if(nr > 0) {
+                    const validWithdrawal =
+                        this.includesFromArray(withdrawalNames, data[i][searchIndex]) &&
+                        this.cleanNumber(data[i][depositIndex]) < 0;
+                    
+                    if (validDeposit || validWithdrawal) {
+                        let nr = this.cleanNumber(data[i][depositIndex]);
                             tot += nr;
-                        }
                     }
                 }
             }

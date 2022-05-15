@@ -107,9 +107,6 @@ export default {
         withdrawalNames() {
             return this.$store.getters['dictionary/withdrawal'];
         },
-        currencyNames() {
-            return this.$store.getters['dictionary/currency'];
-        },
         currentPortfolio() {
             return this.$store.getters['files/getCurrentPortfolio'];
         },
@@ -169,44 +166,48 @@ export default {
             this.labelsHolder = [];
             this.dataHolder = [];
 
+            
+            for(let i = 0; i < data.length; i++) {
 
-            for(let i = 0; i < data.length -1; i++) {
-                const validDeposit = 
-                    (this.includesFromArray(depositNames, data[i][searchIndex]) &&
-                    this.cleanNumber(data[i][depositIndex]) > 0);
+                if(data[i][depositIndex]) {
+                    const validDeposit = 
+                        (this.includesFromArray(depositNames, data[i][searchIndex]) &&
+                        this.cleanNumber(data[i][depositIndex]) > 0);
 
-                const validWithdrawal = 
-                    (this.includesFromArray(withdrawalNames, data[i][searchIndex]) &&
-                    this.cleanNumber(data[i][depositIndex]) < 0);
+                    const validWithdrawal = 
+                        (this.includesFromArray(withdrawalNames, data[i][searchIndex]) &&
+                        this.cleanNumber(data[i][depositIndex]) < 0);
 
-                if(validDeposit || validWithdrawal) {
-                    let alreadyExists = false;
-                    let date = data[i][dateIndex].slice(3, 10);
+                    if(validDeposit || validWithdrawal) {
+                        let alreadyExists = false;
+                        let date = data[i][dateIndex].slice(3, 10);
 
-                    let depAmt = this.cleanNumber(data[i][depositIndex]);
+                        let depAmt = this.cleanNumber(data[i][depositIndex]);
 
-                    // first time
-                    if(this.depositsArray.length === 0) {
-                        this.depositsArray.push({
-                            date: date,
-                            depAmt: depAmt
-                        });
-                    } else {
-                        for(let j = 0; j < this.depositsArray.length; j++) {
-                            if(this.depositsArray[j].date === date) {
-                                this.depositsArray[j].depAmt += depAmt;
-                                alreadyExists = true;
-                                break;
-                            }
-                        }
-                        if(!alreadyExists) {
+                        // first time
+                        if(this.depositsArray.length === 0) {
                             this.depositsArray.push({
                                 date: date,
                                 depAmt: depAmt
                             });
+                        } else {
+                            for(let j = 0; j < this.depositsArray.length; j++) {
+                                if(this.depositsArray[j].date === date) {
+                                    this.depositsArray[j].depAmt += depAmt;
+                                    alreadyExists = true;
+                                    break;
+                                }
+                            }
+                            if(!alreadyExists) {
+                                this.depositsArray.push({
+                                    date: date,
+                                    depAmt: depAmt
+                                });
+                            }
                         }
                     }
                 }
+                
 
             }
 
@@ -420,7 +421,7 @@ export default {
     },
     created() {
         this.loadData();
-        // this.setTheme();
+        this.setTheme();
     }
   
 }
