@@ -28,7 +28,7 @@
      
         <section class="depositChartWrapper">
             <section class="depositChartHeading">
-                <h2>Deposits & Withdrawals</h2>
+                <h2>Deposits & Withdrawals <span class="chartDataTypeStyling">| Cumulative</span></h2>
                 <transition name="slide-fade" mode="out-in">
                     <p :key="selectedTimeFrame">
                         <span class="chartResultValue">
@@ -430,6 +430,11 @@ export default {
 <style scoped>
 h2 {
     color: var(--clr-dark-grey);
+}
+
+.chartDataTypeStyling {
+    color: var(--clr-grey);
+    font-weight: 300;
 }
 
 .chartErrorMsg {
