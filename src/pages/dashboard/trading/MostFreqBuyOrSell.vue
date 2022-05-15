@@ -6,7 +6,7 @@
         <section>
             <ResultCard class="card"
                 :title="title"
-                :resultValue="mostFreqTraded + ' (' + timesTraded + ' time' + (timesTraded > 1 ? 's' : '') + ')'" 
+                :resultValue="mostFreqTraded + ' (' + timesTraded + ' time' + ((timesTraded > 1 || timesTraded == 0) ? 's' : '')  + ')'" 
                 :withBtn="false"
                 :numberResult="false"
             />
@@ -64,9 +64,9 @@ export default {
         },
         timesTraded() {
             if(this.isThereData) {
-                return this.mostFreqBuyOrSellList ? this.mostFreqBuyOrSellList[0][1] : '0';
+                return this.mostFreqBuyOrSellList ? this.mostFreqBuyOrSellList[0][1] : 0;
             }
-            return '0';
+            return 0;
         },
         title() {
             if(this.isThereData) {

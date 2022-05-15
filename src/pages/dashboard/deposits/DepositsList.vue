@@ -22,34 +22,35 @@
                     </select>
                 </section>
             </section>
-            
-            <table class="depositsTable">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Type</th>
-                        <th class="number">Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr :key="deposit.id" v-for="deposit in deposits">
-                        <DepositsListItem 
-                            :deposit="deposit"   
-                        />
-                    </tr>
-                    <tr v-if="deposits.length < 1 && !isLoading">
-                        <td class="noDeposits" colspan="3">
-                            <p>No results</p>
-                        </td>
-                    </tr> 
-                      <!-- 
-                   <tr v-if="isLoading">
-                        <td colspan="3" class="loading">
-                            Loading...
-                        </td>
-                    </tr> -->
-                </tbody>
-            </table>
+            <section class="depositsTableWrapper">
+                <table class="depositsTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th class="number">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr :key="deposit.id" v-for="deposit in deposits">
+                            <DepositsListItem 
+                                :deposit="deposit"   
+                            />
+                        </tr>
+                        <tr v-if="deposits.length < 1 && !isLoading">
+                            <td class="noDeposits" colspan="3">
+                                <p>No results</p>
+                            </td>
+                        </tr> 
+                        <!-- 
+                    <tr v-if="isLoading">
+                            <td colspan="3" class="loading">
+                                Loading...
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </section>
         </section>
     </div>
 </template>
@@ -176,11 +177,9 @@ select:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.tablecontainerHeading {
     padding: 2rem;
 }
+
 
 .number {
     text-align: right;
@@ -199,7 +198,6 @@ select:hover {
     width: 100%;
     border-radius: var(--card-border-radius);
     border-collapse: collapse;
-
 }
 
 .noDeposits {
@@ -213,6 +211,7 @@ select:hover {
 
 table {
     width: 100%;
+    min-width: 28rem;
     background-color: var(--clr-very-light-blue);
 }
 
@@ -237,13 +236,20 @@ tr:nth-last-child(1) {
     border-bottom: none;
 }
 
-@media screen and (max-width: 350px) {
-    .tablecontainer {
+@media screen and (max-width: 650px) {
+    .depositsTableWrapper {
         overflow-x: scroll;
-        padding: 2rem;
-        margin-left: -2rem;
-        margin-top: 0;
-        min-width: 20rem;
     }
+
+    th {
+        padding: 1.5rem;
+    }
+
+    .tablecontainerHeading {
+        align-items: baseline;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
 }
 </style>

@@ -68,4 +68,10 @@ td {
     font-size: 0.95rem;
 }
 
+@media screen and (max-width: 550px) {
+    td {
+        padding: 1.5rem;
+    }
+}
+
 </style>
