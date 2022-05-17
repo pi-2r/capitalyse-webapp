@@ -19,7 +19,7 @@ export default {
     },
     methods: {
         googleSignIn() {
-            alert('google sign in not available')
+            alert('Unfortunately, Google Signin is not supported yet.');
         },
         log() {
             console.log(this.token, this.user);

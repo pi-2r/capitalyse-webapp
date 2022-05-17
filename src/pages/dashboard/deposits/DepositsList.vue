@@ -13,12 +13,12 @@
                         id="sortDeposits" 
                         class="tableSelect"
                     >
-                        <option value="dateNewToOld">Date (new-old)</option>
-                        <option value="dateOldToNew">Date (old-new)</option>
-                        <option value="amountHighToLow">Amount (high-low)</option>
-                        <option value="amountLowToHigh">Amount (low-high)</option>
-                        <option value="typeDeposit">Deposits only</option>
-                        <option value="typeWithdrawal">Withdrawals only</option>
+                    <option value="dateNewToOld">Date (new-old)</option>
+                    <option value="dateOldToNew">Date (old-new)</option>
+                    <option value="amountHighToLow">Amount (high-low)</option>
+                    <option value="amountLowToHigh">Amount (low-high)</option>
+                    <option value="typeDeposit">Deposits only</option>
+                    <option value="typeWithdrawal">Withdrawals only</option>
                     </select>
                 </section>
             </section>

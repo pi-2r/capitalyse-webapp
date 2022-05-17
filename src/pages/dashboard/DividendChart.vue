@@ -169,6 +169,7 @@ export default {
             this.labelsHolder = [];
 
             for(let i = 0; i < data.length - 1; i++) {
+
                 const validDividend = 
                     this.includesFromArray(dividendNames, data[i][searchIndex]) &&
                     data[i][currencyIndex] === "EUR" ||
