@@ -20,16 +20,19 @@
                                 <p class="filesLabelP">
                                     Files
                                     <Icon 
-                                        @mouseenter="isHoveringOverTooltip = true" @mouseleave="isHoveringOverTooltip = false"
+                                        @click="toggleTooltip"
                                         class="uploadFilesTooltipBtn" icon="clarity:help-info-solid" color="var(--clr-blue)" height="18" />
                                 </p>
                             </section>
+                            <div v-if="isTooltipOpen" @click="toggleTooltip" class="overlay"></div>
                             <transition name="slide-fade" mode="out-in">
-                                <section class="uploadFilesTooltipWrapper" v-show="isUploadFilesTooltipPopupOpen"  @mouseenter="isHoveringOverTooltip = true" @mouseleave="isHoveringOverTooltip = false"> 
+                                <section class="uploadFilesTooltipWrapper" v-if="isTooltipOpen"> 
                                     <section class="uploadFilesTooltip">
-                                        <p>Upload the <strong>Transactions.csv</strong> and <strong>Account.csv</strong> files found in your <strong>Degiro App or Web-App</strong>.
+                                        <p>Upload the <strong>Transactions.csv</strong> and <strong>Account.csv</strong> files found in your Degiro 
+                                        Transactions and Account Statements on the Activity page.
                                             <br><br>
-                                            For more information on where to find these files and how to correctly download them, see below.
+                                            Before downloading, select a start date of before you started your account to include everything. 
+                                            Then export as CSV and upload them here.
                                         </p>
                                     </section>
                                 </section>
@@ -112,8 +115,7 @@ export default {
             transactionsFileIsEmpty: null,
             portfolioNameIsValidClass: '',
             isLoading: false,
-            isHoveringOverTooltip: false,
-            isUploadFilesTooltipPopupOpen: false,
+            isTooltipOpen: false,
         }
     },
     watch: {
@@ -130,9 +132,6 @@ export default {
         getPortfolios() {
             this.alreadyHasPortfolios();
         },
-        isHoveringOverTooltip() {
-            this.toggleTooltipPopup();
-        }
     },
     computed: {
         inputText() {
@@ -171,19 +170,8 @@ export default {
         },
     },
     methods: {
-        toggleTooltipPopup() {
-            // if is hovering when function triggered
-            if(this.isHoveringOverTooltip) {
-                setTimeout(() => {
-                    // if is still hovering when timeout over
-                    if (this.isHoveringOverTooltip) {
-                        this.isUploadFilesTooltipPopupOpen = true;
-                    }
-                }, 100);
-            // if not hovering when function triggered
-            } else if (!this.isHoveringOverTooltip) {
-                this.isUploadFilesTooltipPopupOpen = false;
-            }
+        toggleTooltip() {
+            this.isTooltipOpen = !this.isTooltipOpen;
         },
         resetInputStyling() {
             this.portfolioNameIsValidClass = '';
@@ -295,6 +283,16 @@ export default {
 </script>
 
 <style scoped>
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    z-index: 2;
+}
+
 .portfolioNameInvalid__label {
     color: var(--clr-red);
 }
@@ -384,7 +382,8 @@ input[type="text"]::placeholder {
 
 .uploadFilesTooltipWrapper {
     position: relative;
-     box-shadow: var(--box-shadow);
+    box-shadow: var(--box-shadow);
+   
 }
 
 .uploadFilesTooltip {
@@ -396,7 +395,7 @@ input[type="text"]::placeholder {
     padding: 1rem;
     border-radius: var(--btn-radius);
     box-shadow: var(--box-shadow);
-    
+    z-index: 3;
 }
 
 .uploadFilesTooltip::after {
