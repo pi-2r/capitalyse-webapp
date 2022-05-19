@@ -254,7 +254,22 @@ select:hover {
     border-radius: var(--card-border-radius);
     box-shadow: var(--box-shadow-big);
     padding-bottom: 1rem;
+}
 
+.depositsTableWrapper {
+     height: 70vh;
+    overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--clr-light-grey); 
+  border-radius: 200rem;
+  transition: 0.2s all;
 }
 
 .depositsTable {
