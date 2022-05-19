@@ -17,7 +17,7 @@ export default {
             let vol = 0;
             let tot = 0;
             
-            for (let i = 0; i < data.length - 1; i++) {
+            for (let i = 0; i < data.length; i++) {
                 
                 if (data[i][searchIndex] !== "" && data[i][currencyIndex] === "EUR") {
 
