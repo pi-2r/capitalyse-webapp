@@ -257,7 +257,7 @@ select:hover {
 }
 
 .depositsTableWrapper {
-     height: 70vh;
+    max-height: 70vh;
     overflow-y: scroll;
 }
 
