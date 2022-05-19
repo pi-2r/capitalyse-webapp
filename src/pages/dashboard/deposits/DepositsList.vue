@@ -6,12 +6,13 @@
 
         <section class="tablecontainer">
             <section class="tablecontainerHeading">
-                <h2 class="tableTitle">All Deposits & Withdrawals</h2>
+                <h2 class="tableTitle">All Deposits & Withdrawals <span class="amountOfDeposits">({{ amountOfDeposits }})</span> </h2>
                 <section class="tableContainerHeading__dropdown">
                     <select 
                         name="sortDeposits" 
                         id="sortDeposits" 
                         class="tableSelect"
+                        v-model="selectedSortType"
                     >
                     <option value="dateNewToOld">Date (new-old)</option>
                     <option value="dateOldToNew">Date (old-new)</option>
@@ -32,6 +33,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                 
                         <tr :key="deposit.id" v-for="deposit in deposits">
                             <DepositsListItem 
                                 :deposit="deposit"   
@@ -42,6 +44,7 @@
                                 <p>No results</p>
                             </td>
                         </tr> 
+                        
                         <!-- 
                     <tr v-if="isLoading">
                             <td colspan="3" class="loading">
@@ -71,10 +74,14 @@ export default {
             deposits: [],
             isLoading: false,
             error: false,
+            selectedSortType: 'dateNewToOld',
         }   
     },
     watch: {
         isThereData() {
+            this.loadData();
+        },
+        selectedSortType() {
             this.loadData();
         }
     },
@@ -96,7 +103,10 @@ export default {
         },
         isThereData() {
             return !!this.currentPortfolio.accountFile;
-        }
+        },
+        amountOfDeposits() {
+            return this.deposits.length;
+        },
     },
     methods: {
         loadData() {
@@ -117,6 +127,7 @@ export default {
             const searchIndex = this.indexes.searchIndex;
             const depositIndex = this.indexes.depositIndex;
 
+            this.deposits = [];
 
             for(let i = 0; i < data.length; i++) {
                 if(data[i][depositIndex]) {
@@ -149,7 +160,54 @@ export default {
                     // }
                 }
             }
-        }
+
+            this.sortItems();
+        },
+        sortItems() {
+            const sortType = this.selectedSortType;
+
+            if(sortType === 'dateNewToOld') {
+                this.deposits = this.sortByDateNewToOld(this.deposits);
+            } else if(sortType === 'dateOldToNew') {
+                this.deposits = this.sortByDateOldToNew(this.deposits);
+            } else if(sortType === 'amountHighToLow') {
+                this.deposits = this.sortByAmountHighToLow(this.deposits);
+            } else if(sortType === 'amountLowToHigh') {
+                this.deposits = this.sortByAmountLowToHigh(this.deposits);
+            } else if(sortType === 'typeDeposit') {
+                this.deposits = this.onlyTypeDeposit(this.deposits);
+            } else if(sortType === 'typeWithdrawal') {
+                this.deposits = this.onlyTypeWithdrawal(this.deposits);
+            }
+        },
+        sortByDateNewToOld(deposits) {
+            return deposits.filter(deposit => {
+                return deposit !== null;
+            });
+        },
+        sortByDateOldToNew(deposits) {
+            return this.sortByDateNewToOld(deposits).reverse();
+        },
+        sortByAmountHighToLow(deposits) {
+            return deposits.sort((a, b) => {
+                return b.amount - a.amount;
+            });
+        },
+        sortByAmountLowToHigh(deposits) {
+            return deposits.sort((a, b) => {
+                return a.amount - b.amount;
+            });
+        },
+        onlyTypeDeposit(deposits) {
+            return deposits.filter(deposit => {
+                return deposit.amount > 0;
+            });
+        },
+        onlyTypeWithdrawal(deposits) {
+            return deposits.filter(deposit => {
+                return deposit.amount < 0;
+            });
+        },
     },
     created() {
         this.loadData();
@@ -157,6 +215,11 @@ export default {
 }
 </script>
 <style scoped>
+.amountOfDeposits {
+    color: var(--clr-grey);
+    font-size: 1rem;
+}
+
 select {
     padding: 0.6rem;
     border-radius: 0.75rem;

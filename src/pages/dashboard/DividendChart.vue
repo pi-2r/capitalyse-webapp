@@ -21,6 +21,16 @@
                     :class="{ btnActive : selectedTimeFrame == timeFrameOptions.oneYear }" 
                     class="timeFrame__btn">{{timeFrameOptions.oneYear}}
                 </button>
+                <button 
+                    @click="timeFrameChange" 
+                    :class="{ btnActive : selectedTimeFrame == timeFrameOptions.threeYears }" 
+                    class="timeFrame__btn">{{timeFrameOptions.threeYears}}
+                </button>
+                <button 
+                    @click="timeFrameChange" 
+                    :class="{ btnActive : selectedTimeFrame == timeFrameOptions.fiveYears }" 
+                    class="timeFrame__btn">{{timeFrameOptions.fiveYears}}
+                </button>
                 <!-- <button class="timeFrame__btn" id="js--timeFrame__btn--pastThreeYears">3 Years</button>
                 <button class="timeFrame__btn" id="js--timeFrame__btn--pastFiveYears">5 Years</button> -->
             </section>
@@ -79,6 +89,8 @@ export default {
                 'allTime': 'All Time',
                 'yearToDate': 'YTD',
                 'oneYear': '1 Year',
+                'threeYears': '3 Years',
+                'fiveYears': '5 Years',
             }, 
             chartData: {
                 labels: [],
@@ -308,7 +320,11 @@ export default {
             if (this.selectedTimeFrame === this.timeFrameOptions.yearToDate) {
                 this.setYearToDateData();
             } else if (this.selectedTimeFrame === this.timeFrameOptions.oneYear) {
-                this.setOneYearData();
+                this.setYearDate(1);
+            } else if (this.selectedTimeFrame === this.timeFrameOptions.threeYear) {
+                this.setYearDate(3);
+            } else if (this.selectedTimeFrame === this.timeFrameOptions.fiveYear) {
+                this.setYearDate(5);
             }
 
             this.updateChart();
@@ -340,11 +356,11 @@ export default {
                 }
             }
         },
-        setOneYearData() {
+        setYearDate(years) {
             // get one year ago in MM-YYYY
             let currentYear = new Date().getFullYear();
             let currentMonth = new Date().getMonth() + 1;
-            let yearAgo = new Date(currentYear - 1, currentMonth);
+            let yearAgo = new Date(currentYear - years, currentMonth);
 
             // delete all months before yearAgo
             for (let i = 0; i < this.labelsHolder.length; i++) {
@@ -393,7 +409,7 @@ h2 {
 .chartErrorMsg {
     margin-top: 2rem;
     margin-bottom: 2rem;
-    color: var(--clr-blue);
+    color: var(--clr-grey);
 }
 
 .spinnerContainer {
@@ -465,6 +481,7 @@ h2 {
     user-select: none;
     box-shadow: -1px 0px 15px -9px rgba(0, 0, 0, 0.4);
     border: 1px solid var(--clr-very-light-blue);
+    
 }
 
 
@@ -499,5 +516,15 @@ h2 {
     opacity: 0;
 }
 
+@media screen and (max-width: 550px) {
+    .timeFrame__buttons {
+        overflow-x: scroll;
+    }
+
+    .timeFrame__btn {
+        min-width: 6rem;
+    }
+    
+}
 
 </style>

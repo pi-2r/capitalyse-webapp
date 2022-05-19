@@ -61,7 +61,7 @@ export default {
 }
 
 td {
-    padding: 1.25rem 2rem;
+    padding: 1.1rem 2rem;
     background-color: transparent;
     color: var(--clr-grey);
     font-weight: 400;
