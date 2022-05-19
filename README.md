@@ -1,2 +1,9 @@
-# degiro-analytics
-DEGIRO Portfolio Analytics
+# DEGIRO Analytics
+Webapp for DEGIRO account analytics
+https://degiro-analytics.netlify.app/
+
+
+Tested for:
+- Countries: NL, DE, FR (mostly)
+- Currency: EUR
+- Dividend Payments: EUR
