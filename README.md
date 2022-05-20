@@ -1,6 +1,6 @@
 # DEGIRO Analytics
 Webapp for DEGIRO account analytics
-https://degiro-analytics.netlify.app/
+https://capitalyse.app/
 
 
 Tested for:
