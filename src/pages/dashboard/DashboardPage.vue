@@ -8,8 +8,12 @@
             :secondLinkName="'Dashboard ' + (portfolioName ? portfolioName : '')"
         />
         <section class="head">
-            <h1>Dashboard {{ portfolioName }}</h1>
+            <section class="titleAndBackButtonContainer">
+                <BackButton/>
+                <h1>Dashboard {{ portfolioName }}</h1>
+            </section>
             <p class="startDate">You started {{accountAge ? accountAge : 'Loading...'}} ago</p>
+            
         </section>
 
         <DividendChart class="dividendChartDashboard"/>
@@ -30,6 +34,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs.vue';
 import DepositsCard from './DepositsCard.vue';
 import TradingVolCard from './TradingVolCard.vue';
 import TransFeesCard from './TransFeesCard.vue';
+import BackButton from '../../components/ui/BackButton.vue';
 
 export default {
     name: 'Dashboard',
@@ -39,7 +44,8 @@ export default {
         TradingVolCard,
         TransFeesCard,
         Header,
-        Breadcrumbs
+        Breadcrumbs,
+        BackButton
     },
     data() {
         return {
@@ -134,10 +140,13 @@ export default {
 </script>
 
 <style scoped>
+.titleAndBackButtonContainer {
+    margin-bottom: 0;
+}
+
 .startDate {
-    color: rgb(179, 179, 179);
-    font-weight: 500;
-    font-size: 0.75rem;
+    color: var(--clr-grey);
+    font-size: 0.7rem;
 }
 
 .upload {

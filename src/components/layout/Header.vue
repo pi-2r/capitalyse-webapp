@@ -12,11 +12,11 @@
                         <!-- <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li> -->
-                        <li>
+                        <!-- <li>
                             <router-link class="routerLink" to="/portfolios">
                                 My Portfolios
                             </router-link>
-                        </li> 
+                        </li>  -->
                     </ul>
                 </section>
                 
