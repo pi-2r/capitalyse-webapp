@@ -1,6 +1,7 @@
 <template>
-  <Header></Header>
-    <section class="container" >
+    <Header></Header>
+
+    <section class="container">
         <Breadcrumbs 
             baseLink="/portfolios"
             baseLinkName="My Portfolios" 
@@ -45,7 +46,7 @@ export default {
         TransFeesCard,
         Header,
         Breadcrumbs,
-        BackButton
+        BackButton,
     },
     data() {
         return {

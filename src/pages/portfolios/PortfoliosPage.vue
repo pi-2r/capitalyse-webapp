@@ -61,6 +61,8 @@
             </table>
         </section>
     </section>
+
+    <NotificationBar>Text</NotificationBar>
 </template>
 
 <script>
@@ -68,13 +70,15 @@ import { Icon } from '@iconify/vue';
 import Header from '../../components/layout/Header.vue';
 import PortfolioCard from './PortfolioCard.vue';
 import ConfirmModal from '../../components/ui/ConfirmModal.vue';
+import NotificationBar from '../../components/ui/NotificationBar.vue';
 
 export default {
     components: {
         Header,
         PortfolioCard,
         Icon,
-        ConfirmModal
+        ConfirmModal,
+        NotificationBar,
     },
     data() {
         return {
