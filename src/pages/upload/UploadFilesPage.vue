@@ -28,10 +28,11 @@
                             <transition name="slide-fade" mode="out-in">
                                 <section class="uploadFilesTooltipWrapper" v-if="isTooltipOpen"> 
                                     <section class="uploadFilesTooltip">
-                                        <p>Upload the <strong>Transactions.csv</strong> and <strong>Account.csv</strong> files found in your Degiro 
-                                        Transactions and Account Statements on the Activity page.
+                                        <p>Upload the <strong>Transactions.csv</strong>, <strong>Account.csv</strong> and <strong>Portfolio.csv</strong> 
+                                        files found in your Degiro 
+                                        Transactions & Account Statements on the Activity page. The Portfolio.csv file can be found next to your current holdings.
                                             <br><br>
-                                            Before downloading, select a start date of before you started your account to include everything. 
+                                            For the Transactions.csv and Account.csv files: before downloading, select a start date of before you started your account to include everything. 
                                             Then export as CSV and upload them here.
                                         </p>
                                     </section>
@@ -46,6 +47,17 @@
                         <section class="btnAndFileNames">
                             <section class="fileNames">
                                 <section class="fileNamesAndBtn u-noselect">
+                                    <p class="fileName" :class="(portfolioFileIsValid) ? 'fileValid' : 'fileInvalid'">
+                                        
+                                        <span v-if="portfolioFileIsValid">
+                                            <CheckMarkIcon class="fileIcon"/>
+                                        </span> 
+                                        <span v-else>
+                                            <CloseIcon class="fileIcon"/>
+                                        </span> 
+                                    
+                                        <span>{{ portfolioFileName }}</span>
+                                    </p>
                                     <p class="fileName" :class="(transactionsFileIsValid) ? 'fileValid' : 'fileInvalid'">
                                     
                                     <span v-if="transactionsFileIsValid">
@@ -68,6 +80,7 @@
                                     
                                         <span>{{ accountFileName }}</span>
                                     </p>
+                                    
                                 </section>
                             </section>
                             <button class="resetUploadedBtn" @click="resetFiles">Reset Uploads</button>
@@ -108,11 +121,14 @@ export default {
         return {
             transactionsFile: null,
             accountFile: null,
+            portfolioFile: null,
             transactionsFileName: 'Transactions File',
             accountFileName: 'Account File',
+            portfolioFileName: 'Portfolio File',
             portfolioName: '',
             accountFileIsEmpty: null,
             transactionsFileIsEmpty: null,
+            portfolioFileIsEmpty: null,
             portfolioNameIsValidClass: '',
             isLoading: false,
             isTooltipOpen: false,
@@ -138,11 +154,12 @@ export default {
             let tot = 0
             this.transactionsFile ? tot++ : null
             this.accountFile ? tot++ : null
-            return "Upload Files (" + tot + "/2)";
+            this.portfolioFile ? tot++ : null
+            return "Upload Files (" + tot + "/3)";
         }, 
         formIsValid() {
             // if portfolio is valid and files are uploaded after passing checks then return true
-            if (this.portfolioNameIsValid && this.transactionsFileIsValid && this.accountFileIsValid) {
+            if (this.portfolioNameIsValid && this.transactionsFileIsValid && this.accountFileIsValid && this.portfolioFileIsValid) {
                 return true;
             } else {
                 return false;
@@ -167,6 +184,9 @@ export default {
         },
         transactionsFileIsValid() {
             return !!this.transactionsFile;
+        },
+        portfolioFileIsValid() {
+            return !!this.portfolioFile;
         },
     },
     methods: {
@@ -195,6 +215,7 @@ export default {
                     portfolioName: this.portfolioName,
                     transactionsFile: this.transactionsFile,
                     accountFile: this.accountFile,
+                    portfolioFile: this.portfolioFile,
                     addedAt: new Date(),
                 });
             } else {
@@ -225,7 +246,7 @@ export default {
             this.checkFileValidity(event.target.files);
         },
         checkFileValidity(file) {
-            const maxFileSizeKB = 5000;
+            const maxFileSizeKB = 10000;
 
             for(let i = 0; i < file.length; i++) {
                 const valid = file[i].size > 0 && 
@@ -243,6 +264,9 @@ export default {
             } else if(file.name.includes('Account')) {
                 this.accountFile = file;
                 this.accountFileName = file.name;
+            } else if(file.name.includes('Portfolio')) {
+                this.portfolioFile = file;
+                this.portfolioFileName = file.name;
             }
         },
         incorrectFile(file) {
@@ -252,13 +276,18 @@ export default {
             } else if(file.name.includes('Account')) {
                 this.accountFile = null;
                 this.accountFileName = file.name;
+            } else if(file.name.includes('Portfolio')) {
+                this.portfolioFile = null;
+                this.portfolioFileName = file.name;
             }
         },
         resetFiles() {
             this.transactionsFile = null;
             this.accountFile = null;
+            this.portfolioFile = null;
             this.transactionsFileName = 'Transactions File';
             this.accountFileName = 'Account File';
+            this.portfolioFileName = 'Portfolio File';
         },
         getDate() {
              // get date DD-MM-YYYY
@@ -383,16 +412,16 @@ input[type="text"]::placeholder {
 .uploadFilesTooltipWrapper {
     position: relative;
     box-shadow: var(--box-shadow);
-   
+    
 }
 
 .uploadFilesTooltip {
     position: absolute;
-    top: -2.5rem;
-    left: 4.8rem;
-    font-size: 0.9rem;
+    top: -2.8rem;
+    left: 4.4rem;
+    font-size: 0.8rem;
     background-color: var(--clr-white);
-    padding: 1rem;
+    padding: 0.65rem;
     border-radius: var(--btn-radius);
     box-shadow: var(--box-shadow);
     z-index: 3;
@@ -451,7 +480,9 @@ input[type="submit"] {
 }
 
 .fileIcon {
-    margin-right: 0.4rem;
+    margin-right: 0.3rem;
+    height: 0px;
+    width: 20px;
 }
 
 .uploadFilesForm {
@@ -501,6 +532,7 @@ input[type="submit"] {
     display: flex;
     align-items: center;
     margin-bottom: 0.2rem;
+    font-size: 0.9rem;
 }
 
 .btnAndFileNames {

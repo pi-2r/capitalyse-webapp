@@ -1,16 +1,14 @@
 <template>
-    <transition name="slide-fade" mode="out-in">
-        <section class="bottomNotifBar__container" v-if="isVisible">
+        <section class="bottomNotifBar__container" v-if="isVisible" :key="isVisible">
             <section class="bottomNotifBar" :class="type">
                 <section class="bottomNotifBar__text">
                     {{ message }}
                 </section>
                 <section class="bottomNotifBar__close" >
-                    <Icon @click="close" class="bottomNotifBar__closeIcon" icon="ep:close-bold" height="20" />
+                    <Icon @click="close" class="bottomNotifBar__closeIcon" icon="ep:close-bold" height="25" />
                 </section>
             </section>
         </section>
-    </transition>
 </template>
 <script>
 import { Icon } from '@iconify/vue';
@@ -34,7 +32,7 @@ export default {
     },
     data() {
         return {
-            isVisible: false,
+            isVisible: true,
         }
     },
     methods: {
@@ -46,20 +44,20 @@ export default {
 </script>
 <style scoped>
 .info {
-    background-color: rgba(0, 187, 255, 0.1);
-    border: 1px solid var(--clr-blue);
+    background-color: var(--clr-light-blue);
+    border: 2px solid var(--clr-blue);
     color: var(--clr-blue);
 }
 
 .success {
-    background-color: rgba(0, 255, 115, 0.1);
-    border: 1px solid var(--clr-green);
+    background-color: var(--clr-very-light-blue);
+    border: 2px solid var(--clr-green);
     color: var(--clr-green);
 }
 
 .error {
-    background-color: rgba(255, 0, 0, 0.1);
-    border: 1px solid var(--clr-red);
+    background-color: var(--clr-very-light-blue);
+    border: 2px solid var(--clr-red);
     color: var(--clr-red);
 }
 
@@ -74,15 +72,15 @@ export default {
     justify-content: space-between;
     align-items: center;
     bottom: 1.5rem;
-    width: 30rem;
+    width: 40rem;
     max-width: 90%;
-    height: 4rem;
+    min-height: 4rem;
     z-index: 100;
     border-radius: var(--btn-radius);
 }
 
 .bottomNotifBar__text {
-    padding: 0 1rem;
+    padding: 1rem;
 }
 
 .bottomNotifBar__close {
@@ -102,20 +100,6 @@ export default {
     transform: scale(1.02);
 }
 
-/* anims */
-.slide-fade-enter-active {
-    transition: all .25s ease-in-out;
-}
-.slide-fade-leave-active {
-    transition: all .25s ease-in-out;
-}
-.slide-fade-enter-from {
-    opacity: 0;
-}
-
-.slide-fade-leave-to {
-    opacity: 0;
-}
 
 @media screen and (max-width: 400px) {
     .bottomNotifBar__container {

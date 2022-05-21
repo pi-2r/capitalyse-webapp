@@ -10,6 +10,7 @@ export default {
             currentPortfolio: {
                 accountFile: null,
                 transactionsFile: null,
+                portfolioFile: null,
             },
             uploadingState: 'none',
         };

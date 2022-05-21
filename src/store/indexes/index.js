@@ -32,6 +32,17 @@ export default {
                     searchIndex: 2,
                     buyOrSellIndex: 6,
                 },
+                portfolio: {
+                    productIndex: 0,
+                    isinIndex: 1,
+                    amountIndex: 2,
+                    priceIndex: 3,
+                    localCurrencyIndex: 4,
+                    eurTotalIndex: 5,
+                },
+                profitLossTransactionsIndexes: {
+                    eurAmount: 16,
+                },
             },
         };
     },

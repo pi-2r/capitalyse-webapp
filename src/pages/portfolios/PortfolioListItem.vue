@@ -5,13 +5,10 @@
             </router-link>
         </td>
         <td class="dateAdded">
-            {{ portfolioDate() }}
+            {{ dateToWords(portfolio.addedAt) }}
         </td>
         <td class="fileSize">
-            {{ transactionsFileSize }}
-        </td>
-        <td class="fileSize">
-            {{ accountFileSize }} 
+            {{ totalFileSize }} KB
         </td>
         <td class="actionsTd">
             <!-- <Icon icon="fluent:new-16-filled" color="var(--clr-blue)" height="22" class="actionBtn"/> -->
@@ -23,7 +20,10 @@
 <script>
 import { Icon } from '@iconify/vue';
 
+import dateToWords from '../../mixins/dateToWords';
+
 export default {
+    mixins: [dateToWords],
     components: {
         Icon,
     },
@@ -39,44 +39,21 @@ export default {
             return this.portfolio.length;
         },
         transactionsFileSize() {
-            return this.portfolio.transactionsFileSize ? Math.floor(this.portfolio.transactionsFileSize) + ' KB' : 'No data';
+            return this.portfolio.transactionsFileSize ? Math.floor(this.portfolio.transactionsFileSize): 0;
         },
         accountFileSize() {
-            return this.portfolio.accountFileSize ? Math.floor(this.portfolio.accountFileSize) + ' KB' : 'No data';
+            return this.portfolio.accountFileSize ? Math.floor(this.portfolio.accountFileSize): 0;
+        },
+        portfolioFileSize() {
+            return this.portfolio.portfolioFileSize ? Math.floor(this.portfolio.portfolioFileSize): 0;
+        },
+        totalFileSize() {
+            return this.portfolioFileSize + this.transactionsFileSize + this.accountFileSize;
         },
     },
     methods: {
         openPortfolio(id) {
             this.$router.push(`/portfolios/${id}`);
-        },
-        portfolioDate() {
-            let dateTime = this.portfolio.addedAt;
-
-            const splitDate = dateTime.split(' ');
-            const newDate = splitDate[0] + ' ' + splitDate[1] + ' ' + splitDate[2];
-
-            const date = new Date(dateTime);
-            const now = new Date();
-            const diff = now - date;
-            const diffInMinutes = Math.round(diff / 60000);
-            const diffInHours = Math.round(diff / 3600000);
-            const diffInDays = Math.round(diff / 86400000);
-
-            if (diffInMinutes < 1) {
-                return 'Just now';
-            } else if (diffInMinutes < 60) {
-                return diffInMinutes + ' minute' + (diffInMinutes > 1 ? 's' : '') + ' ago';
-            } else if (diffInHours < 24) {
-                return diffInHours + ' hour' + (diffInHours > 1 ? 's' : '') + ' ago';
-            } else if (diffInDays < 7) {
-                if(diffInDays === 1) {
-                    return 'Yesterday';
-                } else {
-                    return diffInDays + ' day' + (diffInDays > 1 ? 's' : '') + ' ago';
-                }
-            } else {
-                return newDate;
-            }
         },
     },
 }
@@ -140,7 +117,7 @@ td {
     opacity: 0;
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 600px) {
     .fileSize {
         display: none;
     }

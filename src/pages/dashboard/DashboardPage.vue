@@ -2,20 +2,33 @@
     <Header></Header>
 
     <section class="container">
-        <Breadcrumbs 
-            baseLink="/portfolios"
-            baseLinkName="My Portfolios" 
-            secondLink="#"
-            :secondLinkName="'Dashboard ' + (portfolioName ? portfolioName : '')"
-        />
         <section class="head">
-            <section class="titleAndBackButtonContainer">
-                <BackButton/>
-                <h1>Dashboard {{ portfolioName }}</h1>
+            <section>
+                <Breadcrumbs 
+                baseLink="/portfolios"
+                baseLinkName="My Portfolios" 
+                secondLink="#"
+                :secondLinkName="'Dashboard ' + (portfolioName ? portfolioName : '')"
+                />
+                <section >
+                    <section class="titleAndBackButtonContainer">
+                        <BackButton/>
+                        <h1>Dashboard {{ portfolioName }}</h1>
+                    </section>
+                </section>
             </section>
-            <p class="startDate">You started {{accountAge ? accountAge : 'Loading...'}} ago</p>
-            
+            <section class="head__rightSection">
+                <section class="header__rightSection-dates">
+                    <p class="startDate">Portfolio: {{ accountAge ? accountAge : '--/--/--' }}</p>
+                    <p class="startDate">Uploaded: {{ addedAt ? addedAt : '--/--/--' }}</p>
+                </section>
+                <section class="head__rightSection-icon">
+                    <Icon @click="openThreeDots" class="head_" icon="entypo:dots-three-vertical" color="var(--clr-grey)" height="22" />
+                </section>
+            </section>
         </section>
+        
+        <PortfolioCards/>
 
         <DividendChart class="dividendChartDashboard"/>
         
@@ -36,8 +49,14 @@ import DepositsCard from './DepositsCard.vue';
 import TradingVolCard from './TradingVolCard.vue';
 import TransFeesCard from './TransFeesCard.vue';
 import BackButton from '../../components/ui/BackButton.vue';
+import PortfolioCards from './PortfolioCards.vue';
+
+import firebaseDate from '../../mixins/dateToWords.js';
+
+import { Icon } from '@iconify/vue';
 
 export default {
+    mixins: [firebaseDate],
     name: 'Dashboard',
     components: {
         DividendChart,
@@ -47,10 +66,13 @@ export default {
         Header,
         Breadcrumbs,
         BackButton,
+        PortfolioCards,
+        Icon
     },
     data() {
         return {
             accountAge: '',
+            addedAt: null,
         }
     },
     computed: {
@@ -91,9 +113,13 @@ export default {
         },
         hasCurrentFiles() {
             this.calculateStartAndEndDates();
+            this.convertFirebaseTime();
         }
     },
     methods: {
+        openThreeDots() {
+            window.alert('Coming soon!');
+        },
         calculateStartAndEndDates() {
             const today = new Date();
             const accountFile = this.files.accountFile;
@@ -110,6 +136,27 @@ export default {
                 this.accountAge = months + ' month' + (months > 1 ? 's' : '') + ' and ' + (days - (months * 30)) + ' day' + (days - (months * 30) > 1 ? 's' : '');
             } else {
                 this.accountAge = days + ' day' + (days > 1 ? 's' : '');
+            }
+        },
+        convertFirebaseTime() {
+            if(this.files.addedAt.seconds && this.files.addedAt.nanoseconds) {
+                const firebaseDateTime = new Date(
+                    this.files.addedAt.seconds * 1000 +
+                    this.files.addedAt.nanoseconds / 1000000,
+                );
+                const firebaseDate = firebaseDateTime.toLocaleDateString('en-US', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                });
+                const firebaseTime = firebaseDateTime.toLocaleTimeString('en-US', {
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        hour12: false,
+                    });
+                this.addedAt = firebaseDate + ' ' + firebaseTime;
+            } else {
+                this.addedAt = this.files.addedAt
             }
         },
         loadData() {
@@ -135,6 +182,8 @@ export default {
 
         if(this.hasCurrentFiles) {
             this.calculateStartAndEndDates();
+            this.convertFirebaseTime();
+            
         }
     }
 }
@@ -147,7 +196,8 @@ export default {
 
 .startDate {
     color: var(--clr-grey);
-    font-size: 0.7rem;
+    font-size: 0.8rem;
+    text-align: right;
 }
 
 .upload {
@@ -159,8 +209,26 @@ h1 {
 }
 
 .head {
- 
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 3rem;
+}
+
+.head__rightSection {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.head__rightSection-icon {
+    display: flex;
+    align-items: center;
+    border-radius: 2rem;
+}
+
+.head__rightSection-icon:hover {
+    cursor: pointer;
+    background-color: var(--clr-very-light-blue);
 }
 
 .dividendChartDashboard {
@@ -205,6 +273,24 @@ h1 {
         max-width: 1000px;
     }
 
+}
+
+@media screen and (max-width: 700px) {
+    .head {
+        flex-direction: column;
+    }
+
+    .head__rightSection {
+        margin-top: 1rem;
+    }
+
+    .header__rightSection-dates {
+        order: 2;
+    }
+
+    .head__rightSection-icon {
+        order: 1;
+    }
 }
 
 </style>

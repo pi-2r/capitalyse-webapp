@@ -19,5 +19,11 @@ export default {
     },
     tradingFrequency(state) {
         return state.indexes.tradingFrequency;
+    },
+    portfolio(state) {
+        return state.indexes.portfolio;
+    },
+    profitLossTransactionsIndexes(state) {
+        return state.indexes.profitLossTransactionsIndexes;
     }
 };

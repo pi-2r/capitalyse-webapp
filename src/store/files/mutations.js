@@ -29,6 +29,14 @@ export default {
             return portfolio;
         });
     },
+    setPortfolioFile(state, { portfolioFile, portfolioId }) {
+        state.portfolios = state.portfolios.map(portfolio => {
+            if (portfolio.id === portfolioId) {
+                portfolio.portfolioFile = portfolioFile;
+            }
+            return portfolio;
+        });
+    },
     setUploadingState(state, uploadingState) {
         state.uploadingState = uploadingState;
     },

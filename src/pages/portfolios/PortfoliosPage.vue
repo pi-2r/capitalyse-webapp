@@ -31,14 +31,13 @@
                     <tr>
                         <th>Portfolio</th>
                         <th>Date Added</th>
-                        <th class="fileSize">Transactions File</th>
-                        <th class="fileSize">Account File</th>
+                        <th class="fileSize">Portfolio size</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr  :key="portfolio.id" v-for="portfolio in portfolios">
-                        <PortfolioCard @toggleDeletePopup="toggleDeletePopup"
+                        <PortfolioListItem @toggleDeletePopup="toggleDeletePopup"
                             :portfolio="portfolio"   
                         />
                     </tr>
@@ -61,24 +60,20 @@
             </table>
         </section>
     </section>
-
-    <NotificationBar>Text</NotificationBar>
 </template>
 
 <script>
 import { Icon } from '@iconify/vue';
 import Header from '../../components/layout/Header.vue';
-import PortfolioCard from './PortfolioCard.vue';
+import PortfolioListItem from './PortfolioListItem.vue';
 import ConfirmModal from '../../components/ui/ConfirmModal.vue';
-import NotificationBar from '../../components/ui/NotificationBar.vue';
 
 export default {
     components: {
         Header,
-        PortfolioCard,
+        PortfolioListItem,
         Icon,
         ConfirmModal,
-        NotificationBar,
     },
     data() {
         return {
@@ -107,10 +102,9 @@ export default {
     methods: {
         addPortfolio() {
             // if(this.amountOfPortfolios >= 1) {
-            //     window.alert('You can only have one portfolio, delete the existing one or upgrade your account to add more');
-
-            // } else {
+                //     window.alert('You can only have one portfolio, delete the existing one or upgrade your account to add more');
             this.$router.push('/portfolios/new');
+            // } else {
             // }
         },
         loadData() {
@@ -354,11 +348,6 @@ tr:nth-last-child(1) {
     }
 }
 
-@media screen and (max-width: 650px) {
-    .fileSize {
-        display: none;
-    }
-}
 
 @media screen and (max-width: 600px) {
     .myPortfolios__header {
@@ -384,6 +373,10 @@ tr:nth-last-child(1) {
 
     .noBtn {
         order: 2;
+    }
+
+    .fileSize {
+        display: none;
     }
 }
 

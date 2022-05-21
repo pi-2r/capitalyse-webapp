@@ -12,9 +12,10 @@ import ResultCard from './ResultCard.vue';
 
 
 import getTotalDepositsMixin from '../../mixins/analytics/getTotalDeposits';
+import currencyMarkup from '../../mixins/currencyMarkup';
 
 export default {
-    mixins: [getTotalDepositsMixin],
+    mixins: [getTotalDepositsMixin, currencyMarkup],
 
     components: {
         ResultCard
@@ -49,11 +50,11 @@ export default {
     methods: {
         loadData() {
             if(this.isThereData) {
-                this.totDeposits = this.getTotalDeposits(this.currentPortfolio.accountFile);
+                this.totDeposits = this.currencyMarkup(this.getTotalDeposits(this.currentPortfolio.accountFile));
             }
         },
     },
-    async created() {
+    created() {
         this.loadData();
     },
 }

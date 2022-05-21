@@ -21,7 +21,7 @@ export default {
         if (payload) {
             for (let i = 0; i < state.portfolios.length; i++) {
                 if (state.portfolios[i].id === payload.portfolioId) {
-                    return !!state.portfolios[i].transactionsFile && !!state.portfolios[i].accountFile;
+                    return !!state.portfolios[i].transactionsFile && !!state.portfolios[i].accountFile && !!state.portfolios[i].portfolioFile;
                 }
             }
         }
