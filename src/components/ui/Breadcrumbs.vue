@@ -5,12 +5,12 @@
             
         </section>
         <section class="linkPart">
-        <Icon class="u-margin-right" icon="ep:arrow-right" color="var(--clr-grey)" height="15" />
+        <Icon class="u-margin-right" icon="ep:arrow-right" color="var(--clr-grey)" height="12" />
         <router-link class="u-margin-right" :to="secondLink">{{ secondLinkName }}</router-link>
 
         </section>
         <section class="linkPart">
-        <Icon v-if="thirdLink !== ''" class="u-margin-right" icon="ep:arrow-right" color="var(--clr-grey)" height="15" />
+        <Icon v-if="thirdLink !== ''" class="u-margin-right" icon="ep:arrow-right" color="var(--clr-grey)" height="12" />
         <router-link v-if="thirdLink !== ''" class="u-margin-right" :to="thirdLink">{{ thirdLinkName }}</router-link>
 
         </section>
@@ -70,7 +70,7 @@ export default {
     display: flex;
     color: var(--clr-grey);
     font-weight: 400;
-    
+    font-size: 0.85rem;
 }
 
 .breadcrumbs > * {

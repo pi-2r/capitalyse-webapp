@@ -19,7 +19,7 @@
 
         <section class="myPortfolios__header">
             <section class="heading">
-                <Icon icon="bi:bar-chart-fill" class="headingIcon" height="30" color="var(--clr-blue)"/>
+                <Icon icon="bi:bar-chart-fill" class="headingIcon" height="20" color="var(--clr-black)"/>
                 <h1>My Portfolios</h1>
             </section>
             <Button class="addPortfolioBtn" link @click="addPortfolio">+ Add Portfolio</Button>
@@ -136,11 +136,13 @@ export default {
                     const firebaseTime = firebaseDateTime.toLocaleTimeString('en-US', {
                         hour: 'numeric',
                         minute: 'numeric',
-                        hour12: false,
+                        hour12: true,
                     });
                     this.portfolios[i].addedAt = firebaseDate + ' ' + firebaseTime;
+                    console.log(this.portfolios[i].addedAt);
                 }
             }
+            console.log(this.portfolios);
             this.sortByDateAdded();
         },
         sortByDateAdded() {
@@ -225,9 +227,16 @@ export default {
 }
 
 .addPortfolioBtn {
-    color: var(--clr-blue) !important;
+    color: var(--clr-dark-grey) !important;
+    background-color: var(--clr-very-light-blue);
+    border: 1px solid var(--clr-medium-light-grey);
+    box-shadow: var(--btn-shadow);
     padding: 0.4rem 1.2rem;
     font-size: 1.1rem;
+}
+
+.addPortfolioBtn:hover {
+    border-color: var(--clr-medium-light-grey-2);
 }
 
 table {
@@ -245,6 +254,7 @@ th {
     padding: 1.2rem 2rem;
     text-align: left;
     font-weight: 500;
+    font-size: 0.9rem;
     color: var(--clr-black)
 }
 

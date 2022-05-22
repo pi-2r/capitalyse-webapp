@@ -9,7 +9,7 @@
           <div class="form-wrapper">
          
             
-            <h1><BackButton :toHome="true"/>Log in</h1>
+            <h1><BackButton color="var(--clr-blue)" :toHome="true"/>Log in</h1>
             <form @submit.prevent="submitForm" autocomplete="off">
               <div class="form-group">
                 <div class="error-wrapper">

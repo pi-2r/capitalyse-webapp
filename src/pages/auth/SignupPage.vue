@@ -6,7 +6,7 @@
         <div class="content">
           <Spinner class="spinner" v-if="isLoading"/>
           <div class="form-wrapper">
-            <h1><BackButton :toHome="true"/>Sign up</h1>
+            <h1><BackButton color="var(--clr-blue)" :toHome="true"/>Sign up</h1>
             <form @submit.prevent="submitForm" autocomplete="off">
               <div class="form-group">
                 <div class="error-wrapper">

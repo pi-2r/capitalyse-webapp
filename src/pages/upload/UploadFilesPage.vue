@@ -4,7 +4,10 @@
         <Spinner class="spinner" v-if="isLoading"/>
       
         <Breadcrumbs baseLink="/portfolios" baseLinkName="My Portfolios" secondLink="/portfolios/new" secondLinkName="Add Portfolio"/>
-        <h1 class="uploadFilesTitle">Add Portfolio</h1>
+        <section class="titleAndBackButtonContainer">
+            <BackButton/>
+            <h1 class="uploadFilesTitle">Add Portfolio</h1>
+        </section>
         <section class="formCardContainer">
             <section class="formCard" v-if="!isLoading">
 
@@ -108,6 +111,8 @@ import Header from '../../components/layout/Header.vue';
 import csvToArrayMixin from '../../mixins/csvToArray.js';
 import includesFromArray from '../../mixins/includesFromArray.js';
 
+import BackButton from '../../components/ui/BackButton.vue';
+
 export default {
     mixins: [csvToArrayMixin, includesFromArray],
     components: {
@@ -115,7 +120,8 @@ export default {
         CheckMarkIcon,
         Header,
         Breadcrumbs,
-        Icon
+        Icon,
+        BackButton
     },
     data() {
         return {
@@ -312,6 +318,10 @@ export default {
 </script>
 
 <style scoped>
+.uploadFilesTitle {
+    margin: 0;
+}
+
 .overlay {
     position: fixed;
     top: 0;

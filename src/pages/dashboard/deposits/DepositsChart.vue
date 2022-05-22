@@ -466,7 +466,7 @@ h2 {
 }
 
 .depositChartContainer {
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
 }
 
 .depositChartHeading {
@@ -507,25 +507,23 @@ h2 {
 }
 
 .timeFrame__btn {
-    padding: 0.65rem 0.9rem;
+    padding: 0.6rem 0.85rem;
     font-weight: 600;
-    font-size: 0.9rem;
-    margin-right: 0.25rem;
+    font-size: 0.85rem;
+    margin-right: 0.5rem;
     background-color: var(--clr-very-light-blue);
     color: var(--clr-grey);
     transform: translateY(0px);
-    border:none;
-    border-radius: 200px;
+    border:1px solid var(--clr-medium-light-grey);
+    border-radius: var(--btn-radius);
     user-select: none;
-    box-shadow: -1px 0px 15px -9px rgba(0, 0, 0, 0.4);
-    border: 1px solid var(--clr-very-light-blue);
+    box-shadow: var(--btn-shadow);
+    
 }
 
 
 .timeFrame__btn:hover {
     cursor: pointer;
-    background-color: var(--clr-very-light-blue);
-    transform: translateY(0px);
 }
 
 .btnActive {

@@ -226,14 +226,14 @@ select {
     background-color: var(--clr-very-light-blue);
     color: var(--clr-dark-grey);
     font-weight: 600;
-    font-size: 1rem;
-    border: 1px solid var(--clr-light-grey);
+    font-size: 0.85rem;
+    border: 1px solid var(--clr-medium-light-grey);
     box-shadow: var(--box-shadow-small);
 }
 
 select:hover {
     cursor: pointer;
-    
+    border-color: var(--clr-medium-light-grey-2);
 }
 
 .tablecontainerHeading {
@@ -249,7 +249,6 @@ select:hover {
 }
 
 .tablecontainer {
-    margin-top: 2rem;
     background-color: var(--clr-very-light-blue);
     border-radius: var(--card-border-radius);
     box-shadow: var(--box-shadow-big);

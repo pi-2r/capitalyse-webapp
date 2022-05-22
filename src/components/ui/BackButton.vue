@@ -1,5 +1,5 @@
 <template >
-    <Icon icon="akar-icons:arrow-left" @click="goBack" color="var(--clr-blue)" height="28" class="backBtn"/>
+    <Icon icon="akar-icons:arrow-left" @click="goBack" color="var(--clr-black)" height="25" class="backBtn"/>
 </template>
 <script>
 import { Icon } from '@iconify/vue';
@@ -29,7 +29,7 @@ export default {
 </script>
 <style scoped>
 .backBtn {
-  margin-right: 0.5rem;
+  margin-right: 0.1rem;
   cursor: pointer;
   transition: 0.2s all;
 }

@@ -1,7 +1,8 @@
 <template >
         <td class="portfolioNameTd">
             <router-link class="portfolioName" :to="'/dashboard/' + portfolio.id">
-                {{ portfolio.portfolioName }}
+                {{ portfolio.portfolioName }} 
+                <Icon class="portfolioName__icon" icon="charm:arrow-right" color="var(--clr-blue)" height="15" />
             </router-link>
         </td>
         <td class="dateAdded">
@@ -13,7 +14,7 @@
         <td class="actionsTd">
             <!-- <Icon icon="fluent:new-16-filled" color="var(--clr-blue)" height="22" class="actionBtn"/> -->
             <!-- <Icon icon="ci:edit"  height="22" color="orange" class="actionBtn"/> -->
-            <Icon icon="bxs:trash" color="var(--clr-red)" height="22" class="actionBtn" @click="$emit('toggleDeletePopup', portfolio.id)"/>
+            <Icon icon="bxs:trash" color="var(--clr-red)" height="20" class="actionBtn" @click="$emit('toggleDeletePopup', portfolio.id)"/>
         </td>
 </template>
 
@@ -60,8 +61,6 @@ export default {
 </script>
 
 <style scoped>
-
-
 .actionsTd {
     display: flex;
     justify-content: flex-end;
@@ -85,18 +84,29 @@ export default {
 .portfolioName {
     color: var(--clr-blue);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
 }
 
 .portfolioName:hover {
     cursor: pointer;
-    text-decoration:underline;
+}
+
+.portfolioName:hover .portfolioName__icon {
+    transform: translateX(3px);
+}
+
+.portfolioName__icon {
+    margin-left: 0.25rem;
+    transition: 0.2s all;
 }
 
 td {
     padding: 1.25rem 2rem;
     background-color: transparent;
     color: var(--clr-grey);
+    font-size: 0.9rem;
     font-weight: 400;
 }
 

@@ -107,7 +107,7 @@ export default {
 .cardsContainer {
     display: grid;
     grid-template-columns: 1fr;
-    grid-gap: 2rem;
+    grid-gap: 1rem;
 }
 
 @media screen and (min-width: 400px) {

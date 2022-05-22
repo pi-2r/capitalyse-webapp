@@ -23,7 +23,7 @@
                     <p class="startDate">Uploaded: {{ addedAt ? addedAt : '--/--/--' }}</p>
                 </section>
                 <section class="head__rightSection-icon">
-                    <Icon @click="openThreeDots" class="head_" icon="entypo:dots-three-vertical" color="var(--clr-grey)" height="22" />
+                    <Icon @click="openThreeDots" class="head_" icon="entypo:dots-three-vertical" color="var(--clr-grey)" height="18" />
                 </section>
             </section>
         </section>
@@ -150,10 +150,10 @@ export default {
                     year: 'numeric',
                 });
                 const firebaseTime = firebaseDateTime.toLocaleTimeString('en-US', {
-                        hour: 'numeric',
-                        minute: 'numeric',
-                        hour12: false,
-                    });
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    hour12: true,
+                });
                 this.addedAt = firebaseDate + ' ' + firebaseTime;
             } else {
                 this.addedAt = this.files.addedAt
@@ -196,7 +196,7 @@ export default {
 
 .startDate {
     color: var(--clr-grey);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     text-align: right;
 }
 
@@ -204,9 +204,6 @@ export default {
  margin-bottom: 2.5rem;
 }
 
-h1 {
-    margin-bottom: 0.2rem;
-}
 
 .head {
     display: flex;
@@ -232,14 +229,14 @@ h1 {
 }
 
 .dividendChartDashboard {
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
 }
 
 .cardsContainer {
     
     display: grid;
     grid-template-columns: 1fr;
-    grid-gap: 2rem;
+    grid-gap: 1rem;
 }
 
 .container {
@@ -286,6 +283,10 @@ h1 {
 
     .header__rightSection-dates {
         order: 2;
+    }
+
+    .header__rightSection-dates p {
+        text-align: left;
     }
 
     .head__rightSection-icon {

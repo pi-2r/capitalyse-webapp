@@ -147,8 +147,8 @@ export default {
 .portfolioCards__container {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
-    margin-bottom: 4rem;
+    gap: 1rem;
+    margin-bottom: 3rem;
 }
 
 

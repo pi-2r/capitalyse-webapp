@@ -1,7 +1,7 @@
 export default {
     methods: {
-        dateToWords(dateArray) {
-            let dateTime = dateArray;
+        dateToWords(dateString) {
+            let dateTime = dateString;
 
             const splitDate = dateTime.split(' ');
             const newDate = splitDate[0] + ' ' + splitDate[1] + ' ' + splitDate[2];
@@ -26,6 +26,7 @@ export default {
                     return diffInDays + ' day' + (diffInDays > 1 ? 's' : '') + ' ago';
                 }
             } else {
+             
                 return newDate;
             }
         },

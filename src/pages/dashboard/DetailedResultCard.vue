@@ -91,7 +91,7 @@ export default {
 <style scoped>
 h2 {
     text-align: center;
-    color: var(--clr-dark-grey);
+    color: var(--clr-grey);
 }
 
 .textResult {
@@ -112,6 +112,7 @@ h2 {
 .resultValue {
     font-size: 1.5rem;
     font-weight: 600;
+    color: var(--clr-blue);
 }
 
 .subResultValue {
@@ -121,7 +122,7 @@ h2 {
 }
 
 .cardContent {
-    padding: 2rem;
+    padding: 1.5rem;
     padding-bottom: 0rem;
     display: flex;
     align-items: center;
@@ -129,7 +130,7 @@ h2 {
 }
 
 .cardContentNoBtn {
-    padding: 2rem;
+    padding: 1.5rem;
     display: flex;
     align-items: center;
     flex-direction: column;

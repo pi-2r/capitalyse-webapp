@@ -38,7 +38,7 @@ export default {
 .titleAndBackButtonContainer {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
   margin-bottom: 2rem;
 }
 
@@ -58,17 +58,17 @@ html {
 }
 
 h1 {
-    font-size: 2.25rem;
+    font-size: 1.8rem;
     font-family: 'Lexend', sans-serif;
     font-weight: 500;
     margin: 0;
     padding: 0;
-    color: var(--clr-blue);
+    color: var(--clr-black);
     user-select: none;
 }
 
 h2 {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
     margin: 0;
     padding: 0;

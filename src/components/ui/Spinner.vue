@@ -13,11 +13,11 @@
 
 .loader {
   display: block;
-  border: 3px solid var(--clr-blue);
+  border: 2px solid var(--clr-black);
   border-radius: 100%;
-  border-top: 3px solid transparent;
-  border-right: 3px solid transparent;
-  border-bottom: 3px solid transparent;
+  border-top: 2px solid transparent;
+  border-right: 2px solid transparent;
+  border-bottom: 2px solid transparent;
   width: 30px;
   height: 30px;
   animation: spin 0.75s ease-in-out infinite;

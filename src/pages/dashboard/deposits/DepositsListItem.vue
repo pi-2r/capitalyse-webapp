@@ -61,17 +61,11 @@ export default {
 }
 
 td {
-    padding: 1.1rem 2rem;
+    padding: 1rem 2rem;
     background-color: transparent;
     color: var(--clr-grey);
     font-weight: 400;
-    font-size: 0.95rem;
-}
-
-@media screen and (max-width: 550px) {
-    td {
-        padding: 1.5rem;
-    }
+    font-size: 0.9rem;
 }
 
 </style>

@@ -63,7 +63,7 @@ button:hover {
     color: var(--clr-blue);
     font-weight: 400;
     text-align: center;
-    font-size: calc(var(--btn-font-size) / 1.3);
+    font-size: calc(var(--btn-font-size) / 1.4);
     padding: 0.6rem 1.5rem;
     width: 100%;
     transition: 0.2s all;
@@ -77,23 +77,30 @@ button:hover {
 
 .link {
     text-decoration: none;
-    color: var(--clr-blue);
+    color: var(--clr-dark-grey);
     border: none;
     box-shadow: none;
-    background-color: rgba(35, 138, 217, 0.081);  
+    border: 1px solid var(--clr-medium-light-grey);
+    box-shadow: var(--btn-shadow);
+    background-color: transparent;
+}
+
+.link:hover {
+    background-color: var(--clr-very-light-blue);
+    border-color: var(--clr-medium-light-grey-2);
 }
 
 
 .secondary {
-    background-color: rgba(133, 168, 194, 0.081);  
     color: var(--clr-blue);
     border: none;
     border: 1px solid var(--clr-blue);
+    background-color: transparent;
     box-shadow: none;
 }
 
 .secondary:hover{
-    background-color: rgba(133, 168, 194, 0.081);  
+    background-color: rgba(24, 124, 195, 0.04);  
 }
 
 

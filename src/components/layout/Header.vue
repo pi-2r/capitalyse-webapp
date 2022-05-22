@@ -29,7 +29,7 @@
                     </section> -->
                     <section class="u-displayflex">
                         <router-link to="/settings" class="u-displayflex settingsSection">
-                            <Icon class="settingsIcon" tabindex="0" icon="ci:settings" height="25" />
+                            <Icon class="settingsIcon" tabindex="0" icon="ci:settings" height="23" />
                         </router-link>
                     </section>
                 </section>
@@ -40,10 +40,10 @@
                     <Logo/>
                 </router-link>
                 
-                <Icon @click="toggleMobileNav" class="hamburgerMenuIcon" icon="eva:menu-outline" color="var(--clr-grey)" height="40" />
+                <Icon @click="toggleMobileNav" class="hamburgerMenuIcon" icon="eva:menu-outline" color="var(--clr-grey)" height="30" />
                 <transition name="slide-fade" mode="out-in">
                     <div class="nav-menu-mobile" :class="[{open : isMobileNavOpen}]">
-                        <Icon @click="toggleMobileNav" icon="carbon:close" class="closeMobileNav" color="var(--clr-black)" height="50" />
+                        <Icon @click="toggleMobileNav" icon="carbon:close" class="closeMobileNav" color="var(--clr-black)" height="35" />
                         <section class="nav-mobile-content">
                             <ul>
                                 <router-link class="routerLinkLogo" to="/portfolios">
@@ -116,7 +116,7 @@ export default {
 .closeMobileNav {
     position: absolute;
     right: 2rem;
-    top: 1rem;
+    top: 2rem;
     transition: all 0.3s;
 }
 

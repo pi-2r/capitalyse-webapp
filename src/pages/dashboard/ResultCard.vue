@@ -14,7 +14,7 @@
         <section class="cardBtnSection" v-if="withBtn">
             <Button class="card link cardBtnSection__btn" link :to="to">
                 {{ btnText }}
-                <Icon class="cardBtnSection__btnIcon" icon="charm:arrow-right" color="var(--clr-blue)" height="15" />
+                <Icon class="cardBtnSection__btnIcon" icon="charm:arrow-right" color="var(--clr-dark-grey)" height="15" />
             </Button>
         </section>
     </div>
@@ -65,7 +65,7 @@ export default {
 <style scoped>
 h2 {
     text-align: center;
-    color: var(--clr-dark-grey);
+    color: var(--clr-grey);
 }
 
 .textResult {
@@ -86,10 +86,11 @@ h2 {
 .resultValue {
     font-size: 1.5rem;
     font-weight: 600;
+    color: var(--clr-blue);
 }
 
 .cardContent {
-    padding: 2rem;
+    padding: 1.5rem;
     padding-bottom: 0rem;
     display: flex;
     align-items: center;
@@ -97,7 +98,7 @@ h2 {
 }
 
 .cardContentNoBtn {
-    padding: 2rem;
+    padding: 1.5rem;
     display: flex;
     align-items: center;
     flex-direction: column;
