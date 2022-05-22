@@ -98,7 +98,7 @@ export default {
 }
 
 .portfolioName__icon {
-    margin-left: 0.25rem;
+    margin-left: 0.35rem;
     transition: 0.2s all;
 }
 
