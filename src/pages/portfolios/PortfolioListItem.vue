@@ -105,9 +105,8 @@ export default {
 td {
     padding: 1.1rem 1.5rem;
     background-color: transparent;
-    color: var(--clr-dark-grey);
+    color: var(--clr-grey);
     font-size: 0.9rem;
-    font-weight: 400;
 }
 
 
