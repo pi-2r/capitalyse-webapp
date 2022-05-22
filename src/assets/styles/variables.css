@@ -6,6 +6,7 @@
     --clr-black: #3c3c3c;
     --clr-red: #da6a68;
     --clr-green: #008d38;
+    --clr-very-light-grey: #f1f1f1;
     --clr-light-grey: #ececec;
     --clr-medium-light-grey: #dbdbdb;
     --clr-medium-light-grey-2: #bbbbbb;
@@ -18,7 +19,7 @@
     --btn-padding: 0.75rem 2.5rem;
     --btn-font-size: 1.2rem;
     --btn-font-weight: 500;
-    --btn-shadow: 0px 0px 10px -2px rgba(101, 101, 101, 0.074);
+    --btn-shadow: 0px 0px 10px -2px rgba(95, 95, 95, 0.09);
     --btn-small-padding: 0.5rem 1rem;
     
     --container-width: 92%;
@@ -58,6 +59,7 @@
     --clr-black: #3c3c3c;
     --clr-red: #da6a68;
     --clr-green: #008d38;
+    --clr-very-light-grey: #f1f1f1;
     --clr-light-grey: #ececec;
     --clr-medium-light-grey: #dbdbdb;
     --clr-medium-light-grey-2: #bbbbbb;
@@ -72,8 +74,9 @@
     --clr-white: rgb(33, 33, 33);
     --clr-dark-grey: rgb(237, 237, 237);
     --clr-grey: rgb(168, 168, 168);
-    --clr-medium-light-grey: #464646;
+    --clr-medium-light-grey: #424242;
     --clr-medium-light-grey-2: #545454;
+    --clr-very-light-grey: rgb(53, 53, 53);
     --clr-light-grey: rgb(69, 69, 69);
     --clr-black: #eeeeee;
     --clr-red: #be4947;

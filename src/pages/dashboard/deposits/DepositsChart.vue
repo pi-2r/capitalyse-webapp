@@ -95,12 +95,10 @@ export default {
                 labels: [],
                 datasets: [{
                     data: [],
+                    fill: true,
                     borderColor: "#0084ff",
-                    backgroundColor: "#0084ff",
-                    pointBackgroundColor: "#0084ff",
-                    pointBorderColor: "#0084ff",
-                    pointHoverBackgroundColor: "#0084ff",
-                    pointHoverBorderColor: "#0084ff",
+                    backgroundColor: "red",
+                    borderWidth: 2,
                     cubicInterpolationMode: 'monotone',
                 }]
             }, 
@@ -149,7 +147,6 @@ export default {
             } else {
                 this.chartData.datasets[0].backgroundColor = '#e1f1fb';
                 this.chartData.datasets[0].borderColor = '#0091ff';
-                this.chartData.datasets[0].hoverBorderColor = '#0091ff';
             }
         },
         loadData() {
@@ -463,6 +460,7 @@ h2 {
     background-color: var(--clr-very-light-blue);
     border-radius: var(--card-border-radius);
     box-shadow: var(--box-shadow-big);
+    border: 1px solid var(--clr-very-light-grey);
 }
 
 .depositChartContainer {

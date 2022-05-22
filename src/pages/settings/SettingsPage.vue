@@ -96,9 +96,13 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: var(--clr-medium-light-grey);
   -webkit-transition: .2s ease-in-out;
   transition: .2s ease-in-out;
+}
+
+.slider:hover {
+    background-color: var(--clr-medium-light-grey-2);
 }
 
 .slider:before {
@@ -115,10 +119,6 @@ export default {
 
 input:checked + .slider {
     background-color: var(--clr-blue);
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px var(--clr-blue);
 }
 
 input:checked + .slider:before {

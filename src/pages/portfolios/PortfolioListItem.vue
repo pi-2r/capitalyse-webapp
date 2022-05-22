@@ -71,13 +71,13 @@ export default {
 
 .actionBtn {
     margin-left: 0.5rem;
-    transition: 0.2s all;
+    transition: 0.3s all;
     border-radius: 1000rem;
 }
 
 .actionBtn:hover {
     cursor: pointer;
-    background-color: var(--clr-light-blue);
+    background-color: var(--clr-very-light-grey);
     transform: scale(1.06)
 }
 
@@ -103,9 +103,9 @@ export default {
 }
 
 td {
-    padding: 1.25rem 2rem;
+    padding: 1.1rem 1.5rem;
     background-color: transparent;
-    color: var(--clr-grey);
+    color: var(--clr-dark-grey);
     font-size: 0.9rem;
     font-weight: 400;
 }

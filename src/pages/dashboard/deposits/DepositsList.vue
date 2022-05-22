@@ -226,9 +226,10 @@ select {
     background-color: var(--clr-very-light-blue);
     color: var(--clr-dark-grey);
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     border: 1px solid var(--clr-medium-light-grey);
-    box-shadow: var(--box-shadow-small);
+    box-shadow: var(--btn-shadow);
+    transition: 0.2s all;
 }
 
 select:hover {
@@ -252,6 +253,7 @@ select:hover {
     background-color: var(--clr-very-light-blue);
     border-radius: var(--card-border-radius);
     box-shadow: var(--box-shadow-big);
+    border: 1px solid var(--clr-very-light-grey);
     padding-bottom: 1rem;
 }
 

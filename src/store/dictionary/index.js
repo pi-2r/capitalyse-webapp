@@ -6,8 +6,8 @@ export default {
     state() {
         return {
             dictionary: {
-                currency: ["Valuta", "Währungswechsel"],
-                dividend: ["Dividend", "Dividende"],
+                currency: ["Valuta", "Währungswechsel", "de change"],
+                dividendEUR: ["Dividend", "Dividende"],
                 dividendTax: ["Impôts sur dividende"],
                 // iDEAL storting is support voor oude benaming
                 deposit: [

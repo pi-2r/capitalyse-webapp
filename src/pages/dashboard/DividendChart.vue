@@ -98,11 +98,11 @@ export default {
                     {
                         label: 'Dividends Received',
                         backgroundColor: "#e1f1fb",
-                        borderWidth: 2,
+                        borderWidth: 1,
                         borderRadius: 7,
                         borderSkipped: 'bottom',
                         borderColor: '#0091ff',
-                        hoverBorderWidth: 2,
+                        hoverBorderWidth: 1,
                         hoverBorderColor: '#0091ff',
                         data: []
                     }
@@ -114,8 +114,8 @@ export default {
         indexes() {
             return this.$store.getters['indexes/dividendChart'];
         },
-        dividendNames() {
-            return this.$store.getters['dictionary/dividend'];
+        dividendNamesEUR() {
+            return this.$store.getters['dictionary/dividendEUR'];
         },
         currencyNames() {
             return this.$store.getters['dictionary/currency'];
@@ -148,7 +148,7 @@ export default {
                 this.chartData.datasets[0].backgroundColor = '#223443';
                 this.chartData.datasets[0].borderColor = '#0084ff';
             } else {
-                this.chartData.datasets[0].backgroundColor = '#e1f1fb';
+                this.chartData.datasets[0].backgroundColor = '#0091ff30';
                 this.chartData.datasets[0].borderColor = '#0091ff';
                 this.chartData.datasets[0].hoverBorderColor = '#0091ff';
             }
@@ -173,7 +173,8 @@ export default {
             const currencyIndex = this.indexes.currencyIndex;
             const productIndex = this.indexes.productIndex;
             const dividendIndex = this.indexes.dividendIndex;
-            const dividendNames = this.dividendNames;
+            // log all index values
+            const dividendNamesEUR = this.dividendNamesEUR;
             const currencyNames = this.currencyNames;
 
             this.dividendsArray = [];
@@ -181,15 +182,16 @@ export default {
             this.labelsHolder = [];
 
             for(let i = 0; i < data.length - 1; i++) {
-
-                const validDividend = 
-                    this.includesFromArray(dividendNames, data[i][searchIndex]) &&
+             
+                const validDividendEUR = 
+                    this.includesFromArray(dividendNamesEUR, data[i][searchIndex]) &&
                     data[i][currencyIndex] === "EUR" ||
                     this.includesFromArray(currencyNames, data[i][searchIndex]) &&
                     data[i][currencyIndex] === "EUR" &&
                     data[i][productIndex] === "";
 
-                if(validDividend) {
+             
+                if(validDividendEUR) {
                     let alreadyExists = false;
                     let date = data[i][dateIndex].slice(3, 10);
                     
@@ -426,6 +428,7 @@ h2 {
     background-color: var(--clr-very-light-blue);
     border-radius: var(--card-border-radius);
     box-shadow: var(--box-shadow-big);
+    border: 1px solid var(--clr-very-light-grey);
 }
 
 

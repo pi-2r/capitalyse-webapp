@@ -1,7 +1,7 @@
 <template>
     <button class="logoutWrapper"  @click="logoutUser">
-        <Icon icon="ic:baseline-log-out" class="logout" color="var(--clr-red)" height="18" />
-        Log out
+        <Icon icon="ic:baseline-log-out" class="logout" color="var(--clr-red)" height="16" />
+        Sign out
         <!-- <LogoutIcon @click="logoutUser" class="logout"/> -->
     </button>
 </template>
@@ -34,14 +34,14 @@ export default {
     border-radius: var(--btn-radius);
     transition: 0.2s all;
     background-color: rgba(255, 0, 0, 0.05);
-    border: none; 
+    border: 1px solid var(--clr-red);
+    box-shadow: var(--btn-shadow);
     color: var(--clr-red);
-    font-size: 1.1rem;  
+    font-size: 1rem;  
 }
 
 .logoutWrapper:hover {
     cursor: pointer;
-    background-color: rgba(255, 0, 0, 0.075);
 }	
 
 .logout {

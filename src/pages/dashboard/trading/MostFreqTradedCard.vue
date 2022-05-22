@@ -1,7 +1,7 @@
 <template>
     <ResultCard 
         title="Most Times Traded Overall" 
-        :resultValue="mostFreqTraded + ' (' + timesTraded + ' time' + ((timesTraded > 1 || timesTraded == 0) ? 's' : '')  + ')'" 
+        :resultValue="capitalizeEachWord(mostFreqTraded) + ' (' + timesTraded + ' time' + ((timesTraded > 1 || timesTraded == 0) ? 's' : '')  + ')'" 
         :withBtn="false"
         :numberResult="false"
     />
@@ -10,10 +10,11 @@
 <script>
 import ResultCard from '../ResultCard.vue';
 
+import capitalizeEachWord from '../../../mixins/capitalizeEachWord.js'
 import getMostFrequentlyTraded from '../../../mixins/analytics/getMostFrequentlyTraded.js';
 
 export default {
-    mixins: [getMostFrequentlyTraded],
+    mixins: [getMostFrequentlyTraded, capitalizeEachWord],
     components: {
         ResultCard
     },

@@ -139,10 +139,8 @@ export default {
                         hour12: true,
                     });
                     this.portfolios[i].addedAt = firebaseDate + ' ' + firebaseTime;
-                    console.log(this.portfolios[i].addedAt);
                 }
             }
-            console.log(this.portfolios);
             this.sortByDateAdded();
         },
         sortByDateAdded() {
@@ -231,8 +229,8 @@ export default {
     background-color: var(--clr-very-light-blue);
     border: 1px solid var(--clr-medium-light-grey);
     box-shadow: var(--btn-shadow);
-    padding: 0.4rem 1.2rem;
-    font-size: 1.1rem;
+    padding: var(--btn-small-padding);
+    font-size: 1rem;
 }
 
 .addPortfolioBtn:hover {
@@ -251,10 +249,10 @@ thead {
 }
 
 th {
-    padding: 1.2rem 2rem;
+    padding: 1.1rem 1.5rem;
     text-align: left;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--clr-black)
 }
 

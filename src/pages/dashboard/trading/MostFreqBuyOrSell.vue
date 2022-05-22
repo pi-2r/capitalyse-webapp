@@ -6,7 +6,7 @@
         <section>
             <ResultCard class="card"
                 :title="title"
-                :resultValue="mostFreqTraded + ' (' + timesTraded + ' time' + ((timesTraded > 1 || timesTraded == 0) ? 's' : '')  + ')'" 
+                :resultValue="capitalizeEachWord(mostFreqTraded) + ' (' + timesTraded + ' time' + ((timesTraded > 1 || timesTraded == 0) ? 's' : '')  + ')'" 
                 :withBtn="false"
                 :numberResult="false"
             />
@@ -16,12 +16,14 @@
 
 <script>
 import ResultCard from '../ResultCard.vue';
+
+import capitalizeEachWord from '../../../mixins/capitalizeEachWord.js'
 import getMostFrequentBuyOrSell from '../../../mixins/analytics/getMostFrequentBuyOrSell.js';
 
 import { Icon } from '@iconify/vue';
 
 export default {
-    mixins: [getMostFrequentBuyOrSell],
+    mixins: [getMostFrequentBuyOrSell, capitalizeEachWord],
     components: {
         ResultCard,
         Icon
@@ -120,6 +122,7 @@ export default {
     padding: 0;
     height: 100%;	
     grid-gap: 0;
+    border: none;
 }
 
 
@@ -131,5 +134,6 @@ export default {
     justify-content: center;
     border-radius: var(--card-border-radius);
     box-shadow: var(--box-shadow-big);
+    border: 1px solid var(--clr-very-light-grey);
 }
 </style>

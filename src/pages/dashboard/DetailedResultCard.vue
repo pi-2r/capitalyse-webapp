@@ -107,6 +107,7 @@ h2 {
     border-radius: var(--card-border-radius);
     flex-direction: column;
     box-shadow: var(--box-shadow-big);
+    border: 1px solid var(--clr-very-light-grey);
 }
 
 .resultValue {

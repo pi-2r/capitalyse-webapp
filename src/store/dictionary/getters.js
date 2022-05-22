@@ -5,8 +5,8 @@ export default {
     currency(state) {
         return state.dictionary.currency;
     },
-    dividend(state) {
-        return state.dictionary.dividend;
+    dividendEUR(state) {
+        return state.dictionary.dividendEUR;
     },
     deposit(state) {
         return state.dictionary.deposit;
