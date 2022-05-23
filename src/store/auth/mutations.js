@@ -15,4 +15,7 @@ export default {
         state.hasPremium = false;
         state.error = null;
     },
+    setProfileData(state, payload) {
+        state.profileData = payload;
+    }
 };

@@ -8,10 +8,10 @@ export default {
     isAuthenticated(state) {
         return !!state.token;
     },
-    hasPremium(state) {
-        return state.hasPremium;
-    },
     getAuthError(state) {
         return state.error;
+    },
+    getProfileData(state) {
+        return state.userData;
     },
 };

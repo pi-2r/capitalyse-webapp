@@ -15,7 +15,7 @@
                     <form  @submit.prevent="submitForm" class="uploadFilesForm">
                         <section class="portfolioName">
                             <label for="portfolioName">Portfolio name</label>
-                            <input type="text" id="portfolioName" @blur="checkPortfolioNameValidity" @focus="resetInputStyling" v-model.trim="portfolioName" :class="portfolioNameIsValidClass" autocomplete="off" placeholder="e.g. Degiro Portfolio"/>
+                            <input type="text" id="portfolioName" @blur="checkPortfolioNameValidity" @focus="resetInputStyling" v-model.trim="portfolioName" :class="portfolioNameIsValidClass" autocomplete="off" />
                         </section>
 
                         <section class="uploadFilesGroup">
@@ -31,12 +31,19 @@
                             <transition name="slide-fade" mode="out-in">
                                 <section class="uploadFilesTooltipWrapper" v-if="isTooltipOpen"> 
                                     <section class="uploadFilesTooltip">
-                                        <p>Upload the <strong>Transactions.csv</strong>, <strong>Account.csv</strong> and <strong>Portfolio.csv</strong> 
-                                        files found in your Degiro 
-                                        Transactions & Account Statements on the Activity page. The Portfolio.csv file can be found next to your current holdings.
-                                            <br><br>
-                                            For the Transactions.csv and Account.csv files: before downloading, select a start date of before you started your account to include everything. 
-                                            Then export as CSV and upload them here.
+                                        <p>Get your <strong>Portfolio.csv</strong> file from the <a href="https://trader.degiro.nl/staging-trader/#/portfolio" target="_blank">
+                                        Portfolio page.</a></p><br>
+
+                                        <p>Get your <strong>Transactions.csv</strong> file from the<a :href="transactionsLink" target="_blank">
+                                        Transactions page.</a></p><br>
+
+                                        <p>Get your <strong>Account.csv</strong> file from the <a :href="accountLink" target="_blank">
+                                        Account Statements page.</a></p><br>
+
+                                        
+
+                                        <p>
+                                            Make sure that for only the <strong>Account.csv</strong> and <strong>Transactions.csv</strong> file, the start date is set to before you started investing.
                                         </p>
                                     </section>
                                 </section>
@@ -194,6 +201,24 @@ export default {
         portfolioFileIsValid() {
             return !!this.portfolioFile;
         },
+        accountLink() {
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const yyyy = today.getFullYear();
+            const date = yyyy + '-' + mm + '-' + dd;
+
+            return `https://trader.degiro.nl/staging-trader/#/account-overview?fromDate=2000-01-01&toDate=${date}&aggregateCashFunds=true&currency=Alle`;
+        },
+        transactionsLink() {
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const yyyy = today.getFullYear();
+            const date = yyyy + '-' + mm + '-' + dd;
+
+            return `https://trader.degiro.nl/staging-trader/#/transactions?fromDate=2000-01-01&toDate=${date}&aggregateCashFunds=true&currency=Alle`;
+        },
     },
     methods: {
         toggleTooltip() {
@@ -318,6 +343,11 @@ export default {
 </script>
 
 <style scoped>
+a {
+    color: #00a8ff;
+}
+
+
 .uploadFilesTitle {
     margin: 0;
 }
@@ -393,30 +423,26 @@ input {
 
 input[type="text"] {
     width: 100%;
-    padding: 1.1rem;
-    background-color: var(--clr-very-light-blue);
-    border: 1px solid var(--clr-grey);
+    padding: 1rem;
+    background-color: var(--clr-white);
+    border: 1px solid var(--clr-medium-light-grey-2);
     border-radius: var(--btn-radius);
     font-size: 16px;
     font-weight: 500;
     color: var(--clr-black);
-    box-shadow: none;
+    box-shadow: var(--box-shadow-small);
     margin-top: 0.3rem;
 }
 
-input[type="text"]::placeholder {
-    color: var(--clr-grey);
-}
 
 .filesLabelP {
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-bottom: 0.5rem;
     margin-top: 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 0.4rem;
-
 }
 
 .uploadFilesTooltipWrapper {
@@ -429,10 +455,10 @@ input[type="text"]::placeholder {
     position: absolute;
     top: -2.8rem;
     left: 4.4rem;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     background-color: var(--clr-white);
-    padding: 0.65rem;
-    border-radius: var(--btn-radius);
+    padding: 0.7rem;
+    border-radius: var(--card-border-radius);
     box-shadow: var(--box-shadow);
     z-index: 3;
 }
@@ -459,7 +485,7 @@ input[type="text"]::placeholder {
 }
 
 label {
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 input[type="file"] {
@@ -482,11 +508,10 @@ input[type="submit"] {
     transition: 0.2s all;
     border: 2px solid var(--clr-blue);
     border-radius: var(--btn-radius);
-    user-select: none;
 }
 
 .uploadFilesLabelText {
-    font-size: var(--btn-font-size);
+    font-size: 1.1rem;
 }
 
 .fileIcon {
@@ -524,11 +549,10 @@ input[type="submit"] {
     background-color: var(--clr-light-blue);
     border-radius: var(--btn-radius);
     width: 100%;
-    padding: var(--btn-padding);
+    padding: 0.7rem;
     border: 3px dashed var(--clr-blue);
     color: var(--clr-blue);
     text-align: center;
-  
 }
 
 .uploadFilesLabel:hover, .uploadFilesLabel:hover * {

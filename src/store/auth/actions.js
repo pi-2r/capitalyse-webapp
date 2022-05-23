@@ -1,4 +1,9 @@
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword  } from 'firebase/auth';
+
+import '../../../firebase'
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+
+const db = getFirestore();
 
 export default {
     login(context, payload) {
@@ -53,4 +58,18 @@ export default {
             });
         }
     },
+    async fetchProfileData(context) {
+        const userId = localStorage.getItem("userId");
+        
+        const docRef = doc(db, `users/${userId}`);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            console.log(docSnap.data());
+        } else {
+            console.log("No such document!");
+        }
+
+        context.commit("setProfileData", docSnap.data());
+    }
 };

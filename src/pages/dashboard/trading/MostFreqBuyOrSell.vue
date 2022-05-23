@@ -59,13 +59,13 @@ export default {
             return !!this.currentPortfolio.transactionsFile;
         },
         mostFreqTraded() {
-            if(this.isThereData) {
+            if(this.isThereData && this.mostFreqBuyOrSellList[0]) {
                 return this.mostFreqBuyOrSellList ? this.mostFreqBuyOrSellList[0][0] : 'No data';
             }
-            return 'No data';
+            return 'No products';
         },
         timesTraded() {
-            if(this.isThereData) {
+            if(this.isThereData && this.mostFreqBuyOrSellList[0]) {
                 return this.mostFreqBuyOrSellList ? this.mostFreqBuyOrSellList[0][1] : 0;
             }
             return 0;
@@ -124,7 +124,6 @@ export default {
     grid-gap: 0;
     border: none;
 }
-
 
 .cardWrapper {
     position: relative;

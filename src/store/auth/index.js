@@ -7,8 +7,12 @@ export default {
         return {
             userId: null,
             token: null,
-            hasPremium: false,
             error: null,
+            profileData: {
+                theme: null,
+                language: null,
+                plan: null,
+            },
         };
     },
     mutations,

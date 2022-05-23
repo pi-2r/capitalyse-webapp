@@ -226,7 +226,7 @@ select {
     background-color: var(--clr-very-light-blue);
     color: var(--clr-dark-grey);
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 1rem;
     border: 1px solid var(--clr-medium-light-grey);
     box-shadow: var(--btn-shadow);
     transition: 0.2s all;
