@@ -100,21 +100,22 @@ export default {
 <style scoped>
 .toggleBuySellBtn {
     position: absolute;
-    padding: 0.4rem 0.5rem; 
+    padding: 0.3rem 0.4rem; 
     right: 0.5rem;
     top: 0.5rem;
     font-size: 0.8rem;
     font-weight: 600;    
     text-transform: uppercase;
-    border: none;
     box-shadow: none;
     background-color: transparent;  
+    border: 1px solid transparent;
 }
 
 .toggleBuySellBtn:hover {
     cursor: pointer;
-    box-shadow: none;
-    background-color: var(--clr-light-blue);
+    box-shadow: var(--box-shadow-small);
+    background-color: var(--clr-white);
+    border: 1px solid var(--clr-medium-light-grey);
 }
 
 .card {

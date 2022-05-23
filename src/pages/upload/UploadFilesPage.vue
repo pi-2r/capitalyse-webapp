@@ -434,7 +434,6 @@ input[type="text"] {
     margin-top: 0.3rem;
 }
 
-
 .filesLabelP {
     font-size: 1rem;
     margin-bottom: 0.5rem;
