@@ -3,7 +3,7 @@ Webapp for DEGIRO account analytics
 https://capitalyse.app/
 
 
-Tested for:
-- Countries: NL, DE, FR (mostly)
+Supported:
+- Countries: NL, DE, FR
 - Currency: EUR
-- Dividend Payments: EUR
+- Dividend Payments: EUR, USD
