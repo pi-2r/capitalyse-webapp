@@ -246,7 +246,7 @@ export default {
                    
                     // find date in depositsArray, if found add to chart
                     for (let x = 0; x < this.depositsArray.length; x++) {
-                        let dateFromArray = this.depositsArray[x].date.split("-");
+                        let dateFromArray = this.splitDate(this.depositsArray[x].date);
                         let newDateFromArray = new Date(dateFromArray[1], dateFromArray[0] -1).toLocaleDateString();
 
                         if (date === newDateFromArray) {
@@ -278,7 +278,15 @@ export default {
 
                     // date to month and year only
                     date = this.splitDate(date);
-                    date = date[1] + "-" + date[2];
+
+                    // if american notation
+                    if(this.splitDate(dateArray[1])[0] !== this.splitDate(dateArray[0])[0]) {
+                        date = date[0] + "-" + date[2];
+                    } else {
+                        // if normal notation
+                        date = date[1] + "-" + date[2];
+                    }
+
                     this.labelsHolder.push(date)           
                 }
 
