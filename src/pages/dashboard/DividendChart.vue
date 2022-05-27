@@ -234,6 +234,7 @@ export default {
                 let newFirstDate = new Date(lastDate[1], lastDate[0]  -1)
                 let newLastDate = new Date(firstDate[1], firstDate[0])
 
+
                 // create array from first date to last date
                 let dateArray = [];
                 while (newFirstDate < newLastDate) {

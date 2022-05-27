@@ -42,7 +42,7 @@
                 <transition name="slide-fade" mode="out-in">
                     <p :key="selectedTimeFrame">
                         <span class="chartResultValue greenNumber">
-                        €{{ totalDividends }}
+                        €{{ (totalExchangeFees + totalTransactionFees).toFixed(2) }}
                         </span>
                     </p>
                 </transition>
@@ -81,10 +81,15 @@ export default {
         return {
             isLoading: true,
             selectedTimeFrame: 'All Time',
-            dividendsArray: [],
+            exFeesArray: [],
+            transFeesArray: [],
+            totalExchangeFees: 0,
+            totalTransactionFees: 0,
             chartErrorMsg: null,
             dataHolder: [],
+            dataHolderTransFees: [],
             labelsHolder: [],
+            labelsHolderTransLabels: [],
             timeFrameOptions: {
                 'allTime': 'All Time',
                 'yearToDate': 'YTD',
@@ -96,7 +101,7 @@ export default {
                 labels: [],
                 datasets: [
                     {
-                        label: 'Dividends Received',
+                        label: 'Fees',
                         backgroundColor: "#e1f1fb",
                         borderWidth: 1,
                         borderRadius: 7,
@@ -107,15 +112,24 @@ export default {
                         data: []
                     },
                     {
-                        data: [2,3,5,6],
+                        data: [],
                     }
                 ]
             }, 
         }
     },
     computed: {
-        indexes() {
-            return this.$store.getters['indexes/dividendChart'];
+        exchangeFeesIndexes() {
+            return this.$store.getters['indexes/exchangeFees'];
+        },
+        exchangeFeesNames() {
+            return this.$store.getters['dictionary/exchangeFees'];
+        },
+        transactionsFeesIndexes() {
+            return this.$store.getters['indexes/transactions'];
+        },
+        transactionsFeesNames() {
+            return this.$store.getters['dictionary/transactions'];
         },
         dividendNamesEUR() {
             return this.$store.getters['dictionary/dividendEUR'];
@@ -125,15 +139,6 @@ export default {
         },
         currentPortfolio() {
             return this.$store.getters['files/getCurrentPortfolio'];
-        },
-        totalDividends() {
-            let total = 0;
-            for(let i = 0; i < this.dividendsArray.length; i++) {
-                total += this.dividendsArray[i].divAmt;
-            }
-            total = total.toFixed(2);
-            total = parseFloat(total).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
-            return total;
         },
         isThereData() {
             return !!this.currentPortfolio.accountFile;
@@ -170,105 +175,129 @@ export default {
             this.timeFrameDataUpdate();
         },
         getDividends() {
-            const data = this.currentPortfolio.accountFile;
-            const dateIndex = this.indexes.dateIndex;
-            const searchIndex = this.indexes.searchIndex;
-            const currencyIndex = this.indexes.currencyIndex;
-            const productIndex = this.indexes.productIndex;
-            const dividendIndex = this.indexes.dividendIndex;
-            // log all index values
-            const dividendNamesEUR = this.dividendNamesEUR;
-            const currencyNames = this.currencyNames;
+            const accountData = this.currentPortfolio.accountFile;
+            const transactionsData = this.currentPortfolio.transactionsFile;
 
-            this.dividendsArray = [];
-            this.dataHolder = [];
+            const exFeesSearchIndex = this.exchangeFeesIndexes.searchIndex;
+            const exFeesFeeIndex = this.exchangeFeesIndexes.feeIndex;
+            const exFeesDateIndex = this.exchangeFeesIndexes.dateIndex;
+            const exFeesNames = this.exchangeFeesNames;
+
+            const transFeesDateIndex = this.transactionsFeesIndexes.dateIndex;
+            const transFeesFeeIndex = this.transactionsFeesIndexes.searchIndex;
+
+            // let totalTransactionFees = 0;
+
+            this.exFeesArray = [];
+            this.transFeesArray = [];
             this.labelsHolder = [];
-
-            for(let i = 0; i < data.length - 1; i++) {
-             
-                const validDividendEUR = 
-                    this.includesFromArray(dividendNamesEUR, data[i][searchIndex]) &&
-                    data[i][currencyIndex] === "EUR" ||
-                    this.includesFromArray(currencyNames, data[i][searchIndex]) &&
-                    data[i][currencyIndex] === "EUR" &&
-                    data[i][productIndex] === "";
-
-             
-                if(validDividendEUR) {
+            this.dataHolder = [];
+            this.totalExchangeFees = 0;
+            this.totalTransactionFees = 0;
+            
+            // get the exchange fees from account file
+            for(let i = 0; i < accountData.length -1; i++) {
+                if(this.includesFromArray(exFeesNames, accountData[i][exFeesSearchIndex])) {
                     let alreadyExists = false;
-                    let date = data[i][dateIndex].slice(3, 10);
-                    
-                    let divAmt = this.cleanNumber(data[i][dividendIndex]);
 
-                    // first time
-                    if(this.dividendsArray.length === 0) {
-                        this.dividendsArray.push({
-                            date: date,
-                            divAmt: divAmt,
+                    let feeDate = accountData[i][exFeesDateIndex].slice(3, 10);
+                    let feeAmount = this.cleanNumber(accountData[i][exFeesFeeIndex]) * -1;
+                    this.totalExchangeFees += feeAmount;
+
+                    if(this.exFeesArray.length === 0) {
+                        this.exFeesArray.push({
+                            date: feeDate,
+                            feeAmt: feeAmount
                         });
                     } else {
-                        // if already exists, find and add to existing
-                        for(let j = 0; j < this.dividendsArray.length; j++) {
-                            if(this.dividendsArray[j].date === date) {
-                                this.dividendsArray[j].divAmt += divAmt;
+                        for(let j = 0; j < this.exFeesArray.length; j++) {
+                            if(this.exFeesArray[j].date === feeDate) {
+                                this.exFeesArray[j].feeAmt += feeAmount;
                                 alreadyExists = true;
                                 break;
                             }
                         }
-                        // if doesnt already exists, add new
                         if(!alreadyExists) {
-                            this.dividendsArray.push({
-                                date: date,
-                                divAmt: divAmt,
+                            this.exFeesArray.push({
+                                date: feeDate,
+                                feeAmt: feeAmount
                             });
                         }
                     }
                 }
             }
-            
-            if(this.dividendsArray.length > 0) {
-                // sort array by date if exists
-                this.dividendsArray ? this.dividendsArray.sort((a, b) => {
-                    return new Date(b.date) - new Date(a.date);
-                }) : null;
+            // get transaction fees from transactions file
+            for(let i = 0; i < transactionsData.length -1; i++) {
+                if(transactionsData[i][transFeesFeeIndex] !== '') {
+                    let alreadyExists = false;
 
-                let firstDate = this.dividendsArray[0].date.split("-");
-                let lastDate = this.dividendsArray[this.dividendsArray.length - 1].date.split("-");
-                let newFirstDate = new Date(lastDate[1], lastDate[0]  -1)
-                let newLastDate = new Date(firstDate[1], firstDate[0])
+                    let feeDate = transactionsData[i][transFeesDateIndex].slice(3, 10);
+                    let feeAmount = parseFloat(transactionsData[i][transFeesFeeIndex]) * -1;
+                    this.totalTransactionFees += feeAmount;
 
-                // create array from first date to last date
+                    if(this.transFeesArray.length === 0) {
+                        this.transFeesArray.push({
+                            date: feeDate,
+                            feeAmt: feeAmount
+                        });
+                    } else {
+                        for(let j = 0; j < this.transFeesArray.length; j++) {
+                            if(this.transFeesArray[j].date === feeDate) {
+                                this.transFeesArray[j].feeAmt += feeAmount;
+                                alreadyExists = true;
+                                break;
+                            }
+                        }
+                        if(!alreadyExists) {
+                            this.transFeesArray.push({
+                                date: feeDate,
+                                feeAmt: feeAmount
+                            });
+                        }
+                    }
+                }
+                
+            }
+            console.log(this.transFeesArray);
+                
+            if(this.exFeesArray.length > 0) {
+                this.exFeesArray.sort((a, b) => {
+                    return new Date(a.date) - new Date(b.date);
+                });
+
+                let firstDate = this.exFeesArray[0].date.split('-');
+                let lastDate = this.exFeesArray[this.exFeesArray.length - 1].date.split('-');
+                let newFirstDate = new Date(lastDate[1], lastDate[0] - 1);
+                let newLastDate = new Date(firstDate[1], firstDate[0]);
+
                 let dateArray = [];
-                while (newFirstDate < newLastDate) {
+                while(newFirstDate < newLastDate) {
                     dateArray.push(newFirstDate.toLocaleDateString());
                     newFirstDate.setMonth(newFirstDate.getMonth() + 1);
                 }
 
-                this.dividendsArray.reverse();
-                // fill chart
-                for (let i = 0; i < dateArray.length; i++) {
-                    
+                this.exFeesArray.reverse();
+
+                for(let i = 0; i < dateArray.length; i++) {
                     let date = dateArray[i];
                     let found = false;
 
                     // find date in dividendsArray, if found add to chart
-                    for (let x = 0; x < this.dividendsArray.length; x++) {
-                        let dateFromArray = this.splitDate(this.dividendsArray[x].date);
+                    for (let x = 0; x < this.exFeesArray.length; x++) {
+                        let dateFromArray = this.splitDate(this.exFeesArray[x].date);
                         let newDateFromArray = new Date(dateFromArray[1], dateFromArray[0] -1).toLocaleDateString();
 
                         if (date === newDateFromArray) {
                             found = true;
-                            let dividend = this.dividendsArray[x].divAmt;
-                            this.dataHolder.push(dividend);
+                            let fee = this.exFeesArray[x].feeAmt;
+                            this.dataHolder.push(fee);
                         } 
                     }
-            
-                    // if not found push 0 aka null
+
                     if(!found) {
-                        this.dataHolder.push(null);
+                    this.dataHolder.push(null);
                     }
 
-                    // date to month and year only
                     date = this.splitDate(date);
 
                     // if american notation
@@ -279,18 +308,74 @@ export default {
                         date = date[1] + "-" + date[2];
                     }
 
-                    this.labelsHolder.push(date)           
+                    this.labelsHolder.push(date)  
                 }
-            
+
                 this.addMissingMonthsToChart();
+
+                console.log(this.dataHolder);
 
                 this.chartData.labels = this.labelsHolder;
                 this.chartData.datasets[0].data = this.dataHolder;
-            } else {
-                this.chartData.labels = [];
-                this.chartData.datasets[0].data = [];
+            }
 
-                this.chartErrorMsg = "You haven't received any dividends yet.";
+            if(this.transFeesArray.length > 0) {
+                this.transFeesArray.sort((a, b) => {
+                    return new Date(a.date) - new Date(b.date);
+                });
+
+                let firstDate = this.transFeesArray[0].date.split('-');
+                let lastDate = this.transFeesArray[this.transFeesArray.length - 1].date.split('-');
+                let newFirstDate = new Date(lastDate[1], lastDate[0] - 1);
+                let newLastDate = new Date(firstDate[1], firstDate[0]);
+
+                let dateArray = [];
+                while(newFirstDate < newLastDate) {
+                    dateArray.push(newFirstDate.toLocaleDateString());
+                    newFirstDate.setMonth(newFirstDate.getMonth() + 1);
+                }
+
+                this.transFeesArray.reverse();
+
+                for(let i = 0; i < dateArray.length; i++) {
+                    let date = dateArray[i];
+                    let found = false;
+
+                    // find date in dividendsArray, if found add to chart
+                    for (let x = 0; x < this.transFeesArray.length; x++) {
+                        let dateFromArray = this.splitDate(this.transFeesArray[x].date);
+                        let newDateFromArray = new Date(dateFromArray[1], dateFromArray[0] -1).toLocaleDateString();
+
+                        if (date === newDateFromArray) {
+                            found = true;
+                            let fee = this.transFeesArray[x].feeAmt;
+                            this.dataHolderTransFees.push(fee);
+                        } 
+                    }
+
+                    if(!found) {
+                    this.dataHolderTransFees.push(null);
+                    }
+
+                    date = this.splitDate(date);
+
+                    // if american notation
+                    if(this.splitDate(dateArray[1])[0] !== this.splitDate(dateArray[0])[0]) {
+                        date = date[0] + "-" + date[2];
+                    } else {
+                        // if normal notation
+                        date = date[1] + "-" + date[2];
+                    }
+
+                    this.labelsHolderTransLabels.push(date)  
+                }
+
+                this.addMissingMonthsToChart();
+
+        
+
+                this.chartData.labels = this.labelsHolderTransLabels;
+                this.chartData.datasets[1].data = this.dataHolderTransFees;
             }
         },
         addMissingMonthsToChart() {
@@ -361,10 +446,10 @@ export default {
                 }
             }
             // delete all dividends before this year
-            for (let i = 0; i < this.dividendsArray.length; i++) {
-                let dividendYear = this.dividendsArray[i].date.split("-")[1];
+            for (let i = 0; i < this.exFeesArray.length; i++) {
+                let dividendYear = this.exFeesArray[i].date.split("-")[1];
                 if (dividendYear < currentYear) {
-                    this.dividendsArray.splice(i, 1);
+                    this.exFeesArray.splice(i, 1);
                     i--;
                 }
             }
@@ -390,13 +475,13 @@ export default {
             }
 
             // delete all dividends of more than one year ago
-            for (let i = 0; i < this.dividendsArray.length; i++) {
-                let dividendYear = this.dividendsArray[i].date.split("-")[1];
-                let dividendMonth = this.dividendsArray[i].date.split("-")[0];
+            for (let i = 0; i < this.exFeesArray.length; i++) {
+                let dividendYear = this.exFeesArray[i].date.split("-")[1];
+                let dividendMonth = this.exFeesArray[i].date.split("-")[0];
                 let dividendDate = new Date(dividendYear, dividendMonth - 1);
 
                 if (dividendDate < yearAgo || dividendDate < yearAgo + 1) {
-                    this.dividendsArray.splice(i, 1);
+                    this.exFeesArray.splice(i, 1);
                     i--;
                 }
             }
@@ -415,6 +500,10 @@ export default {
 </script>
 
 <style scoped>
+.dividendChartContainer {
+    margin-top: 3rem;
+}
+
 h2 {
     color: var(--clr-dark-grey);
 }
