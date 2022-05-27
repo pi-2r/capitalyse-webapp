@@ -280,12 +280,22 @@ export default {
                     date = this.splitDate(date);
 
                     // if american notation
-                    if(this.splitDate(dateArray[1])[0] !== this.splitDate(dateArray[0])[0]) {
+                    if(dateArray.length > 1) {
+                        if(this.splitDate(dateArray[1])[0] !== this.splitDate(dateArray[0])[0]) {
                         date = date[0] + "-" + date[2];
+                        } else {
+                            // if normal notation
+                            date = date[1] + "-" + date[2];
+                        }
+                    // second check, less reliable than first (if starts in jan can be inaccurate)
                     } else {
-                        // if normal notation
-                        date = date[1] + "-" + date[2];
+                        if(this.splitDate(dateArray[0])[0] == 1) {
+                            date = date[1] + "-" + date[2];
+                        } else {
+                            date = date[0] + "-" + date[2];
+                        }
                     }
+                    
 
                     this.labelsHolder.push(date)           
                 }
