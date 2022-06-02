@@ -31,19 +31,17 @@
                             <transition name="slide-fade" mode="out-in">
                                 <section class="uploadFilesTooltipWrapper" v-if="isTooltipOpen"> 
                                     <section class="uploadFilesTooltip">
-                                        <p>Get your <strong>Portfolio.csv</strong> file from the <a href="https://trader.degiro.nl/staging-trader/#/portfolio" target="_blank">
+                                        <p>Export your <strong>Portfolio.csv</strong> file from the <a href="https://trader.degiro.nl/staging-trader/#/portfolio" target="_blank">
                                         Portfolio page.</a></p><br>
 
-                                        <p>Get your <strong>Transactions.csv</strong> file from the<a :href="transactionsLink" target="_blank">
+                                        <p>Export your <strong>Transactions.csv</strong> file from the<a :href="transactionsLink" target="_blank">
                                         Transactions page.</a></p><br>
 
-                                        <p>Get your <strong>Account.csv</strong> file from the <a :href="accountLink" target="_blank">
+                                        <p>Export your <strong>Account.csv</strong> file from the <a :href="accountLink" target="_blank">
                                         Account Statements page.</a></p><br>
 
-                                        
-
                                         <p>
-                                            Make sure that for only the <strong>Account.csv</strong> and <strong>Transactions.csv</strong> file, the start date is set to before you started investing.
+                                            Make sure that for the <strong>Account.csv</strong> and <strong>Transactions.csv</strong> file, the start date is set to before you started investing.
                                         </p>
                                     </section>
                                 </section>
