@@ -19,7 +19,7 @@
             <TransFeesCard :withBtn="false"/>
             <ExchangeFeesCard />
         </section>
-            <FeesChart/>
+            <!-- <FeesChart/> -->
     </section>
 </template>
 
@@ -30,7 +30,7 @@ import BackButton from '@/components/ui/BackButton.vue';
 import TransFeesCard from '@/components/dashboard/TransFeesCard.vue';
 
 import ExchangeFeesCard from './components/ExchangeFeesCard.vue';
-import FeesChart from './components/FeesChart.vue';
+// import FeesChart from './components/FeesChart.vue';
 
 export default {
     components: {
@@ -39,7 +39,7 @@ export default {
         TransFeesCard,
         ExchangeFeesCard,
         BackButton,
-        FeesChart
+        // FeesChart
     },
     computed: {
         portfolioName() {
