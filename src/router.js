@@ -6,8 +6,7 @@ const router = createRouter({
     routes: [
         {
             path: "/",
-            component: () => import("./pages/landing/LandingPage.vue"),
-            meta: { requiresLightmode: true },
+            redirect: "/login"
         },
         {
             path: "/portfolios",
@@ -64,7 +63,6 @@ const router = createRouter({
 const root = document.querySelector(":root");
 
 router.beforeEach((to, _2, next) => {
-  
 
     if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
         next('/login')
