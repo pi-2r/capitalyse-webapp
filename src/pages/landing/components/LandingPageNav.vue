@@ -20,7 +20,7 @@
             </section>
             <section class="navWrapper__buttons">
                 <Button class="secondary navLogin u-router-destyle" link to="/login">{{loginText}}</Button>
-                <Button v-if="!isAuthenticated" class="navSignup" :class="[{ isAuthenticated : isAuthenticatedBtnStyling }]" link to="/signup">Sign up</Button>
+                <Button v-if="!isAuthenticated" class="navSignup" :class="{'isAuthenticated' : isAuthenticatedBtnStyling}" link to="/signup">Sign up</Button>
             </section>
 
             <section class="hamburgerIcon">
@@ -30,7 +30,7 @@
 
          <div class="nav-container-mobile">
                 <transition name="slide-fade" mode="out-in">
-                    <div class="nav-menu-mobile" :class="[{open : isMobileNavOpen}]">
+                    <div class="nav-menu-mobile" :class="{'open' : isMobileNavOpen}">
                         <Icon @click="toggleMobileNav" icon="carbon:close" class="closeMobileNav" color="var(--clr-white)" height="50" />
                         <section class="nav-mobile-content">
                             <ul>
@@ -56,7 +56,7 @@
                                 </li> 
                                 <section class="mobileNavButtons">
                                     <Button class="secondary navLogin u-router-destyle" link to="/login">{{loginText}}</Button>
-                                    <Button v-if="!isAuthenticated" class="navSignup" :class="[{ isAuthenticated : isAuthenticatedBtnStyling }]" link to="/signup">Sign up</Button>
+                                    <Button v-if="!isAuthenticated" class="navSignup" :class="{'isAuthenticated' : isAuthenticatedBtnStyling}" link to="/signup">Sign up</Button>
                                 </section>
                             </ul>
                         </section>
@@ -67,8 +67,9 @@
 </template>
 
 <script>
-import Logo from '../../components/ui/Logo.vue';
 import { Icon } from '@iconify/vue';
+
+import Logo from '@/components/ui/Logo.vue';
 
 export default {
     components: {

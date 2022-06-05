@@ -42,7 +42,7 @@
                 
                 <Icon @click="toggleMobileNav" class="hamburgerMenuIcon" icon="eva:menu-outline" color="var(--clr-grey)" height="30" />
                 <transition name="slide-fade" mode="out-in">
-                    <div class="nav-menu-mobile" :class="[{open : isMobileNavOpen}]">
+                    <div class="nav-menu-mobile" :class="{'open' : isMobileNavOpen}">
                         <Icon @click="toggleMobileNav" icon="carbon:close" class="closeMobileNav" color="var(--clr-black)" height="35" />
                         <section class="nav-mobile-content">
                             <ul>
@@ -71,7 +71,7 @@
 
 <script>
 import { Icon } from '@iconify/vue';
-import Logo from '../ui/Logo.vue'
+import Logo from '@/components/ui/Logo.vue'
 
 export default {
     components: {

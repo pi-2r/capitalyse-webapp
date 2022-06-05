@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import ResultCard from '../ResultCard.vue';
+import ResultCard from '@/components/dashboard/ResultCard.vue';
 
-import getTotalExchangeFeesMixin from '../../../mixins/analytics/getTotalExchangeFees';
+import getTotalExchangeFeesMixin from '@/mixins/analytics/getTotalExchangeFees';
 
 export default {
     mixins: [getTotalExchangeFeesMixin],

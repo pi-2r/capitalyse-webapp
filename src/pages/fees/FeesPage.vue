@@ -24,13 +24,13 @@
 </template>
 
 <script>
-import Breadcrumbs from '../../../components/ui/Breadcrumbs.vue';
-import Header from '../../../components/layout/Header.vue';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.vue';
+import Header from '@/components/layout/Header.vue';
+import BackButton from '@/components/ui/BackButton.vue';
+import TransFeesCard from '@/components/dashboard/TransFeesCard.vue';
 
-import BackButton from '../../../components/ui/BackButton.vue';
-import ExchangeFeesCard from './ExchangeFeesCard.vue';
-import TransFeesCard from '../TransFeesCard.vue';
-import FeesChart from './FeesChart.vue';
+import ExchangeFeesCard from './components/ExchangeFeesCard.vue';
+import FeesChart from './components/FeesChart.vue';
 
 export default {
     components: {

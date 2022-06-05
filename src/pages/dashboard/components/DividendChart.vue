@@ -65,11 +65,11 @@
 </template>
 
 <script>
-import BarChart from '../../components/ui/BarChart.vue'
+import BarChart from '@/components/ui/BarChart.vue'
 
-import cleanNumberMixin from '../../mixins/cleanNumber';
-import includesFromArrayMixin from '../../mixins/includesFromArray';
-import splitDateMixin from '../../mixins/splitDate';
+import cleanNumberMixin from '@/mixins/cleanNumber';
+import includesFromArrayMixin from '@/mixins/includesFromArray';
+import splitDateMixin from '@/mixins/splitDate';
 
 
 export default {

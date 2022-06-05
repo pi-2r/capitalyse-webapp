@@ -1,6 +1,6 @@
 <template>
 
-    <section class="depositChartContainer">
+    <section class="dividendChartContainer">
         <!-- time frame -->
         <section class="timeFrame">
             
@@ -36,13 +36,13 @@
             </section>
         </section>
      
-        <section class="depositChartWrapper">
-            <section class="depositChartHeading">
-                <h2>Deposits & Withdrawals <span class="chartDataTypeStyling">| Cumulative</span></h2>
+        <section class="dividendChartWrapper">
+            <section class="dividendChartHeading">
+                <h2>Dividend Payments</h2>
                 <transition name="slide-fade" mode="out-in">
                     <p :key="selectedTimeFrame">
-                        <span class="chartResultValue">
-                        €{{ totalDeposits }}
+                        <span class="chartResultValue greenNumber">
+                        €{{ (totalExchangeFees + totalTransactionFees).toFixed(2) }}
                         </span>
                     </p>
                 </transition>
@@ -51,8 +51,8 @@
             <p class="chartErrorMsg" v-if="chartErrorMsg">
                 {{ chartErrorMsg }}
             </p>
-            <section class="depositChart" v-else>
-                <LineChart v-if="!isLoading" 
+            <section class="dividendChart" v-else>
+                <StackedBarChart v-if="!isLoading" 
                     :chart-data="chartData"  
                 /> 
                 <section class="spinnerContainer" v-else>
@@ -63,27 +63,33 @@
         </section>
     </section>
 </template>
-<script>
-import LineChart from '../../../components/ui/LineChart.vue'
 
-import cleanNumberMixin from '../../../mixins/cleanNumber';
-import includesFromArrayMixin from '../../../mixins/includesFromArray';
-import splitDateMixin from '../../../mixins/splitDate';
+<script>
+import StackedBarChart from '@/components/ui/StackedBarChart.vue'
+
+import cleanNumberMixin from '@/mixins/cleanNumber';
+import includesFromArrayMixin from '@/mixins/includesFromArray';
+import splitDateMixin from '@/mixins/splitDate';
 
 
 export default {
     mixins: [cleanNumberMixin, includesFromArrayMixin, splitDateMixin],
     components: {
-        LineChart
+        StackedBarChart
     },
     data() {
         return {
             isLoading: true,
             selectedTimeFrame: 'All Time',
-            depositsArray: [],
+            exFeesArray: [],
+            transFeesArray: [],
+            totalExchangeFees: 0,
+            totalTransactionFees: 0,
             chartErrorMsg: null,
             dataHolder: [],
+            dataHolderTransFees: [],
             labelsHolder: [],
+            labelsHolderTransLabels: [],
             timeFrameOptions: {
                 'allTime': 'All Time',
                 'yearToDate': 'YTD',
@@ -93,41 +99,46 @@ export default {
             }, 
             chartData: {
                 labels: [],
-                datasets: [{
-                    data: [],
-                    fill: true,
-                    borderColor: "#0084ff",
-                    backgroundColor: "red",
-                    borderWidth: 2,
-                    cubicInterpolationMode: 'monotone',
-                }]
+                datasets: [
+                    {
+                        label: 'Fees',
+                        backgroundColor: "#e1f1fb",
+                        borderWidth: 1,
+                        borderRadius: 7,
+                        borderSkipped: 'bottom',
+                        borderColor: '#0091ff',
+                        hoverBorderWidth: 1,
+                        hoverBorderColor: '#0091ff',
+                        data: []
+                    },
+                    {
+                        data: [],
+                    }
+                ]
             }, 
         }
     },
     computed: {
-        indexes() {
-            return this.$store.getters['indexes/deposits'];
+        exchangeFeesIndexes() {
+            return this.$store.getters['indexes/exchangeFees'];
         },
-        depositNames() {
-            return this.$store.getters['dictionary/deposit'];
+        exchangeFeesNames() {
+            return this.$store.getters['dictionary/exchangeFees'];
         },
-        failedDepositNames() {
-            return this.$store.getters['dictionary/failedDeposit'];
+        transactionsFeesIndexes() {
+            return this.$store.getters['indexes/transactions'];
         },
-        withdrawalNames() {
-            return this.$store.getters['dictionary/withdrawal'];
+        transactionsFeesNames() {
+            return this.$store.getters['dictionary/transactions'];
+        },
+        dividendNamesEUR() {
+            return this.$store.getters['dictionary/dividendEUR'];
+        },
+        currencyNames() {
+            return this.$store.getters['dictionary/currency'];
         },
         currentPortfolio() {
             return this.$store.getters['files/getCurrentPortfolio'];
-        },
-        totalDeposits() {
-            let total = 0;
-            for(let i = 0; i < this.depositsArray.length; i++) {
-                total += this.depositsArray[i].depAmt;
-            }
-            total = total.toFixed(2);
-            total = parseFloat(total).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
-            return total;
         },
         isThereData() {
             return !!this.currentPortfolio.accountFile;
@@ -145,13 +156,14 @@ export default {
                 this.chartData.datasets[0].backgroundColor = '#223443';
                 this.chartData.datasets[0].borderColor = '#0084ff';
             } else {
-                this.chartData.datasets[0].backgroundColor = '#e1f1fb';
+                this.chartData.datasets[0].backgroundColor = '#0091ff30';
                 this.chartData.datasets[0].borderColor = '#0091ff';
+                this.chartData.datasets[0].hoverBorderColor = '#0091ff';
             }
         },
         loadData() {
             if(this.isThereData) {
-                this.getDeposits();
+                this.getDividends();
                 this.isLoading = false;
             } else {
                 this.isLoading = true;
@@ -159,75 +171,102 @@ export default {
         },
         timeFrameChange(e) {
             this.selectedTimeFrame = e.target.innerText
-            this.isThereData ? this.getDeposits() : null;
+            this.isThereData ? this.getDividends() : null;
             this.timeFrameDataUpdate();
         },
-        getDeposits() {
-            const depositNames = this.depositNames;
-            const withdrawalNames = this.withdrawalNames;
+        getDividends() {
+            const accountData = this.currentPortfolio.accountFile;
+            const transactionsData = this.currentPortfolio.transactionsFile;
 
-            const data = this.currentPortfolio.accountFile;
-            const dateIndex = this.indexes.dateIndex;
-            const searchIndex = this.indexes.searchIndex;
-            const depositIndex = this.indexes.depositIndex;
+            const exFeesSearchIndex = this.exchangeFeesIndexes.searchIndex;
+            const exFeesFeeIndex = this.exchangeFeesIndexes.feeIndex;
+            const exFeesDateIndex = this.exchangeFeesIndexes.dateIndex;
+            const exFeesNames = this.exchangeFeesNames;
 
-            this.depositsArray = [];
+            const transFeesDateIndex = this.transactionsFeesIndexes.dateIndex;
+            const transFeesFeeIndex = this.transactionsFeesIndexes.searchIndex;
+
+            // let totalTransactionFees = 0;
+
+            this.exFeesArray = [];
+            this.transFeesArray = [];
             this.labelsHolder = [];
             this.dataHolder = [];
-
+            this.totalExchangeFees = 0;
+            this.totalTransactionFees = 0;
             
-            for(let i = 0; i < data.length; i++) {
+            // get the exchange fees from account file
+            for(let i = 0; i < accountData.length -1; i++) {
+                if(this.includesFromArray(exFeesNames, accountData[i][exFeesSearchIndex])) {
+                    let alreadyExists = false;
 
-                if(data[i][depositIndex]) {
-                    const validDeposit = 
-                        (this.includesFromArray(depositNames, data[i][searchIndex]) &&
-                        this.cleanNumber(data[i][depositIndex]) > 0);
+                    let feeDate = accountData[i][exFeesDateIndex].slice(3, 10);
+                    let feeAmount = this.cleanNumber(accountData[i][exFeesFeeIndex]) * -1;
+                    this.totalExchangeFees += feeAmount;
 
-                    const validWithdrawal = 
-                        (this.includesFromArray(withdrawalNames, data[i][searchIndex]) &&
-                        this.cleanNumber(data[i][depositIndex]) < 0);
-
-                    if(validDeposit || validWithdrawal) {
-                        let alreadyExists = false;
-                        let date = data[i][dateIndex].slice(3, 10);
-
-                        let depAmt = this.cleanNumber(data[i][depositIndex]);
-
-                        // first time
-                        if(this.depositsArray.length === 0) {
-                            this.depositsArray.push({
-                                date: date,
-                                depAmt: depAmt
+                    if(this.exFeesArray.length === 0) {
+                        this.exFeesArray.push({
+                            date: feeDate,
+                            feeAmt: feeAmount
+                        });
+                    } else {
+                        for(let j = 0; j < this.exFeesArray.length; j++) {
+                            if(this.exFeesArray[j].date === feeDate) {
+                                this.exFeesArray[j].feeAmt += feeAmount;
+                                alreadyExists = true;
+                                break;
+                            }
+                        }
+                        if(!alreadyExists) {
+                            this.exFeesArray.push({
+                                date: feeDate,
+                                feeAmt: feeAmount
                             });
-                        } else {
-                            for(let j = 0; j < this.depositsArray.length; j++) {
-                                if(this.depositsArray[j].date === date) {
-                                    this.depositsArray[j].depAmt += depAmt;
-                                    alreadyExists = true;
-                                    break;
-                                }
+                        }
+                    }
+                }
+            }
+            // get transaction fees from transactions file
+            for(let i = 0; i < transactionsData.length -1; i++) {
+                if(transactionsData[i][transFeesFeeIndex] !== '') {
+                    let alreadyExists = false;
+
+                    let feeDate = transactionsData[i][transFeesDateIndex].slice(3, 10);
+                    let feeAmount = parseFloat(transactionsData[i][transFeesFeeIndex]) * -1;
+                    this.totalTransactionFees += feeAmount;
+
+                    if(this.transFeesArray.length === 0) {
+                        this.transFeesArray.push({
+                            date: feeDate,
+                            feeAmt: feeAmount
+                        });
+                    } else {
+                        for(let j = 0; j < this.transFeesArray.length; j++) {
+                            if(this.transFeesArray[j].date === feeDate) {
+                                this.transFeesArray[j].feeAmt += feeAmount;
+                                alreadyExists = true;
+                                break;
                             }
-                            if(!alreadyExists) {
-                                this.depositsArray.push({
-                                    date: date,
-                                    depAmt: depAmt
-                                });
-                            }
+                        }
+                        if(!alreadyExists) {
+                            this.transFeesArray.push({
+                                date: feeDate,
+                                feeAmt: feeAmount
+                            });
                         }
                     }
                 }
                 
-
             }
-
-            if(this.depositsArray.length > 0) {
-
-                this.depositsArray ? this.depositsArray.sort((a, b) => {
+            console.log(this.transFeesArray);
+                
+            if(this.exFeesArray.length > 0) {
+                this.exFeesArray.sort((a, b) => {
                     return new Date(a.date) - new Date(b.date);
-                }) : null;
+                });
 
-                let firstDate = this.depositsArray[0].date.split('-');
-                let lastDate = this.depositsArray[this.depositsArray.length - 1].date.split('-');
+                let firstDate = this.exFeesArray[0].date.split('-');
+                let lastDate = this.exFeesArray[this.exFeesArray.length - 1].date.split('-');
                 let newFirstDate = new Date(lastDate[1], lastDate[0] - 1);
                 let newLastDate = new Date(firstDate[1], firstDate[0]);
 
@@ -236,47 +275,29 @@ export default {
                     dateArray.push(newFirstDate.toLocaleDateString());
                     newFirstDate.setMonth(newFirstDate.getMonth() + 1);
                 }
-                this.depositsArray.reverse();
 
+                this.exFeesArray.reverse();
 
-                // fill chart
-                for (let i = 0; i < dateArray.length; i++) {
+                for(let i = 0; i < dateArray.length; i++) {
                     let date = dateArray[i];
                     let found = false;
-                   
-                    // find date in depositsArray, if found add to chart
-                    for (let x = 0; x < this.depositsArray.length; x++) {
-                        let dateFromArray = this.splitDate(this.depositsArray[x].date);
+
+                    // find date in dividendsArray, if found add to chart
+                    for (let x = 0; x < this.exFeesArray.length; x++) {
+                        let dateFromArray = this.splitDate(this.exFeesArray[x].date);
                         let newDateFromArray = new Date(dateFromArray[1], dateFromArray[0] -1).toLocaleDateString();
 
                         if (date === newDateFromArray) {
                             found = true;
-                            let deposit = this.depositsArray[x].depAmt;
-                            // if first iteration
-                            if(x !== 0) {
-                                // add all previous deposits
-                                for(let y = 0; y < x; y++) {
-                                    deposit += this.depositsArray[y].depAmt;
-                                }
-                            }
-                            
-                            this.dataHolder.push(deposit);
+                            let fee = this.exFeesArray[x].feeAmt;
+                            this.dataHolder.push(fee);
                         } 
                     }
 
                     if(!found) {
-                        this.dataHolder.push(0);
+                    this.dataHolder.push(null);
                     }
 
-                    // where there are no deposits, add previous month's deposits
-                    for(let y = 0; y < this.dataHolder.length; y++) {
-                        if(this.dataHolder[y] === 0) {
-                            this.dataHolder[y] = this.dataHolder[y-1];
-                        }
-                    }
-                
-
-                    // date to month and year only
                     date = this.splitDate(date);
 
                     // if american notation
@@ -287,21 +308,75 @@ export default {
                         date = date[1] + "-" + date[2];
                     }
 
-                    this.labelsHolder.push(date)           
+                    this.labelsHolder.push(date)  
                 }
 
-            
                 this.addMissingMonthsToChart();
+
+                console.log(this.dataHolder);
 
                 this.chartData.labels = this.labelsHolder;
                 this.chartData.datasets[0].data = this.dataHolder;
-            } else {
-                this.chartData.labels = [];
-                this.chartData.datasets[0].data = [];
-
-                this.chartErrorMsg = "Unfortunately, your language isn't supported yet. Please contact us to include your language for you and your country.";
             }
 
+            if(this.transFeesArray.length > 0) {
+                this.transFeesArray.sort((a, b) => {
+                    return new Date(a.date) - new Date(b.date);
+                });
+
+                let firstDate = this.transFeesArray[0].date.split('-');
+                let lastDate = this.transFeesArray[this.transFeesArray.length - 1].date.split('-');
+                let newFirstDate = new Date(lastDate[1], lastDate[0] - 1);
+                let newLastDate = new Date(firstDate[1], firstDate[0]);
+
+                let dateArray = [];
+                while(newFirstDate < newLastDate) {
+                    dateArray.push(newFirstDate.toLocaleDateString());
+                    newFirstDate.setMonth(newFirstDate.getMonth() + 1);
+                }
+
+                this.transFeesArray.reverse();
+
+                for(let i = 0; i < dateArray.length; i++) {
+                    let date = dateArray[i];
+                    let found = false;
+
+                    // find date in dividendsArray, if found add to chart
+                    for (let x = 0; x < this.transFeesArray.length; x++) {
+                        let dateFromArray = this.splitDate(this.transFeesArray[x].date);
+                        let newDateFromArray = new Date(dateFromArray[1], dateFromArray[0] -1).toLocaleDateString();
+
+                        if (date === newDateFromArray) {
+                            found = true;
+                            let fee = this.transFeesArray[x].feeAmt;
+                            this.dataHolderTransFees.push(fee);
+                        } 
+                    }
+
+                    if(!found) {
+                    this.dataHolderTransFees.push(null);
+                    }
+
+                    date = this.splitDate(date);
+
+                    // if american notation
+                    if(this.splitDate(dateArray[1])[0] !== this.splitDate(dateArray[0])[0]) {
+                        date = date[0] + "-" + date[2];
+                    } else {
+                        // if normal notation
+                        date = date[1] + "-" + date[2];
+                    }
+
+                    this.labelsHolderTransLabels.push(date)  
+                }
+
+                this.addMissingMonthsToChart();
+
+        
+
+                this.chartData.labels = this.labelsHolderTransLabels;
+                this.chartData.datasets[1].data = this.dataHolderTransFees;
+            }
         },
         addMissingMonthsToChart() {
             // add potentially missing months untill current month
@@ -329,10 +404,7 @@ export default {
                     let pushedDate = pushedMonth + "-" + pushedYear;
                     this.labelsHolder.push(pushedDate);
                     newLastMonth.setMonth(newLastMonth.getMonth() + 1);
-
-                    this.dataHolder.push(this.dataHolder[this.dataHolder.length - 1]);
                 }
-                this.dataHolder.push(this.dataHolder[this.dataHolder.length - 1]);
                 this.labelsHolder.push(currentMonth);
             }
 
@@ -347,15 +419,19 @@ export default {
                 this.setYearToDateData();
             } else if (this.selectedTimeFrame === this.timeFrameOptions.oneYear) {
                 this.setYearDate(1);
-            } else if (this.selectedTimeFrame === this.timeFrameOptions.threeYears) {
+            } else if (this.selectedTimeFrame === this.timeFrameOptions.threeYear) {
                 this.setYearDate(3);
-            } else if (this.selectedTimeFrame === this.timeFrameOptions.fiveYears) {
+            } else if (this.selectedTimeFrame === this.timeFrameOptions.fiveYear) {
                 this.setYearDate(5);
             }
 
             this.updateChart();
 
-          
+            // } else if (this.selectedTimeFrame === "threeyears") {
+            //     console.log("threeyears");
+            // } else if (this.selectedTimeFrame === "fiveyears") {
+            //     console.log("fiveyears");
+            // }
         },
         setYearToDateData() {
             // delete all months before this year
@@ -369,21 +445,14 @@ export default {
                     i--;
                 }
             }
-
-            let total = 0;
-
-            // delete all deposits before this year
-            for (let i = 0; i < this.depositsArray.length; i++) {
-                let depositYear = this.depositsArray[i].date.split("-")[1];
-                if (depositYear < currentYear) {
-                    total += this.depositsArray[i].depAmt;
-                    this.depositsArray.splice(i, 1);
+            // delete all dividends before this year
+            for (let i = 0; i < this.exFeesArray.length; i++) {
+                let dividendYear = this.exFeesArray[i].date.split("-")[1];
+                if (dividendYear < currentYear) {
+                    this.exFeesArray.splice(i, 1);
                     i--;
                 }
             }
-
-            this.countFromZero(total);
-            
         },
         setYearDate(years) {
             // get one year ago in MM-YYYY
@@ -406,13 +475,13 @@ export default {
             }
 
             // delete all dividends of more than one year ago
-            for (let i = 0; i < this.depositsArray.length; i++) {
-                let depositYear = this.depositsArray[i].date.split("-")[1];
-                let depositMonth = this.depositsArray[i].date.split("-")[0];
-                let depositDate = new Date(depositYear, depositMonth - 1);
+            for (let i = 0; i < this.exFeesArray.length; i++) {
+                let dividendYear = this.exFeesArray[i].date.split("-")[1];
+                let dividendMonth = this.exFeesArray[i].date.split("-")[0];
+                let dividendDate = new Date(dividendYear, dividendMonth - 1);
 
-                if (depositDate < yearAgo || depositDate < yearAgo + 1) {
-                    this.depositsArray.splice(i, 1);
+                if (dividendDate < yearAgo || dividendDate < yearAgo + 1) {
+                    this.exFeesArray.splice(i, 1);
                     i--;
                 }
             }
@@ -421,14 +490,6 @@ export default {
             this.chartData.labels = this.labelsHolder;
             this.chartData.datasets[0].data = this.dataHolder;
         },
-        countFromZero(prevTotal) {
-            const diff = prevTotal - this.dataHolder[0];
-            const firstDate = this.dataHolder[0];
-            for(let i = 0; i < this.dataHolder.length; i++) {
-                const currentDate = this.dataHolder[i];
-                this.dataHolder[i] = currentDate - firstDate - diff;
-            }
-        }
     },
     created() {
         this.loadData();
@@ -439,19 +500,18 @@ export default {
 </script>
 
 <style scoped>
-h2 {
-    color: var(--clr-dark-grey);
+.dividendChartContainer {
+    margin-top: 3rem;
 }
 
-.chartDataTypeStyling {
-    color: var(--clr-grey);
-    font-weight: 300;
+h2 {
+    color: var(--clr-dark-grey);
 }
 
 .chartErrorMsg {
     margin-top: 2rem;
     margin-bottom: 2rem;
-    color: var(--clr-blue);
+    color: var(--clr-grey);
 }
 
 .spinnerContainer {
@@ -462,7 +522,7 @@ h2 {
     height: 100%;
 }
 
-.depositChartWrapper {
+.dividendChartWrapper {
     padding: 2rem;
     padding-bottom: 0.1rem;
     background-color: var(--clr-very-light-blue);
@@ -471,22 +531,19 @@ h2 {
     border: 1px solid var(--clr-very-light-grey);
 }
 
-.depositChartContainer {
-    margin-bottom: 3rem;
-}
 
-.depositChartHeading {
+.dividendChartHeading {
     margin-bottom: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.depositChartHeading p {
+.dividendChartHeading p {
     text-align: right;
 }
 
-.depositChart {
+.dividendChart {
     width: 100%;
     height: 20rem;
     background-color: var(--clr-very-light-blue);
@@ -504,7 +561,6 @@ h2 {
 .chartResultValue {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--clr-blue);
 }
 
 .timeFrame__buttons {
@@ -567,4 +623,5 @@ h2 {
     }
     
 }
+
 </style>

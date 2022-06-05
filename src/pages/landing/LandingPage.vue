@@ -85,7 +85,7 @@
     </article>
 </template>
 <script>
-import LandingPageNav from './LandingPageNav.vue';
+import LandingPageNav from './components/LandingPageNav.vue';
 
 export default {
     components: {

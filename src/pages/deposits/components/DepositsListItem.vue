@@ -6,7 +6,7 @@
         {{ deposit.amount > 0 ? 'Deposit' : 'Withdrawal' }}
     </td>
     
-    <td class="number" :class="[{ depositGreen : isDeposit }, { withdrawalRed : !isDeposit }]">
+    <td class="number" :class="{'depositGreen' : isDeposit, 'withdrawalRed' : !isDeposit}">
         {{ depositAmount }}
     </td>
 </template>

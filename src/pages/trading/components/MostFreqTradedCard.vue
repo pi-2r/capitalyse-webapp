@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import ResultCard from '../ResultCard.vue';
+import ResultCard from '@/components/dashboard/ResultCard.vue';
 
-import capitalizeEachWord from '../../../mixins/capitalizeEachWord.js'
-import getMostFrequentlyTraded from '../../../mixins/analytics/getMostFrequentlyTraded.js';
+import capitalizeEachWord from '@/mixins/capitalizeEachWord.js'
+import getMostFrequentlyTraded from '@/mixins/analytics/getMostFrequentlyTraded.js';
 
 export default {
     mixins: [getMostFrequentlyTraded, capitalizeEachWord],

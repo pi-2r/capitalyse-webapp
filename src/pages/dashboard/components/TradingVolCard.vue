@@ -1,22 +1,20 @@
 <template>
     <ResultCard 
-        title="Total Deposited" 
-        :resultValue="totDeposits" 
-        :to="'/dashboard/' + portfolioId + '/deposits'"
-        btnText="My Deposits"
+        title="Total Trading Volume" 
+        :resultValue="totTradingVol" 
+        :to="'/dashboard/' + portfolioId + '/trading'" 
+        btnText="Trading Details"
         :withBtn="true"
     />
 </template>
+
 <script>
-import ResultCard from './ResultCard.vue';
+import ResultCard from '@/components/dashboard/ResultCard.vue';
 
-
-import getTotalDepositsMixin from '../../mixins/analytics/getTotalDeposits';
-import currencyMarkup from '../../mixins/currencyMarkup';
+import getTotalTradingVolumeMixin from '@/mixins/analytics/getTotalTradingVolume';
 
 export default {
-    mixins: [getTotalDepositsMixin, currencyMarkup],
-
+    mixins: [getTotalTradingVolumeMixin],
     components: {
         ResultCard
     },
@@ -28,7 +26,12 @@ export default {
     },
     data() {
         return {
-            totDeposits: 0,
+            totTradingVol: 0,
+        }
+    },
+    watch: {
+        isThereData() {
+            this.loadData();
         }
     },
     computed: {
@@ -39,28 +42,22 @@ export default {
             return this.$store.getters['files/getCurrentPortfolio'];
         },
         isThereData() {
-            return !!this.currentPortfolio.accountFile;
-        }
-    },
-    watch: {
-        isThereData() {
-            this.loadData();
+            return !!this.currentPortfolio.transactionsFile;
         }
     },
     methods: {
         loadData() {
             if(this.isThereData) {
-                this.totDeposits = this.currencyMarkup(this.getTotalDeposits(this.currentPortfolio.accountFile));
+                this.totTradingVol = this.getTotalTradingVolume(this.currentPortfolio.transactionsFile);
             }
         },
     },
     created() {
         this.loadData();
-    },
+    }
 }
 </script>
 
 <style>
-
-
+    
 </style>

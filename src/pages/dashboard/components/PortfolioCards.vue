@@ -35,13 +35,14 @@
    
 </template>
 <script>
-import getTotalBalance from '../../mixins/analytics/getTotalBalance';
-import getTotalInvestedAmount from '../../mixins/analytics/getTotalInvestedAmount';
-import getTotalProfitLoss from '../../mixins/analytics/getTotalProfitLoss';
-import currencyMarkup from '../../mixins/currencyMarkup';
+import NotificationBar from '@/components/ui/NotificationBar';
+
+import getTotalBalance from '@/mixins/analytics/getTotalBalance';
+import getTotalInvestedAmount from '@/mixins/analytics/getTotalInvestedAmount';
+import getTotalProfitLoss from '@/mixins/analytics/getTotalProfitLoss';
+import currencyMarkup from '@/mixins/currencyMarkup';
 
 import DetailedResultCard from './DetailedResultCard.vue';
-import NotificationBar from '../../components/ui/NotificationBar';
 
 export default {
     components: {

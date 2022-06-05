@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import Header from '../../components/layout/Header.vue';
-import LogoutButton from '../../components/ui/LogoutButton.vue';
-import BackButton from '../../components/ui/BackButton.vue';
+import Header from '@/components/layout/Header.vue';
+import LogoutButton from '@/components/ui/LogoutButton.vue';
+import BackButton from '@/components/ui/BackButton.vue';
 
 export default {
     components: {

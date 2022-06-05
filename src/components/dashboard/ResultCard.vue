@@ -1,22 +1,12 @@
 <template>
     <div class="cardContainer">
-        <section :class="[{cardContentNoBtn : !withBtn},{cardContent : withBtn}]">
+        <section :class="{'cardContentNoBtn' : !withBtn , 'cardContent' : withBtn}">
                 <h2>{{ title }}</h2>
                 <transition name="slide-fade" mode="out-in">
                     <p class="cardText" :key="resultValue">
-                        <span class="resultValue" :class="[{redNumber : isNegative}, { greenNumber : !isNegative && colorType == 'greenRed'}]">
+                        <span class="resultValue" :class="{'redNumber' : isNegative}">
                             <span v-if="numberResult">€</span>
-                            <span>{{ resultValue }}</span>
-                        </span>
-                    </p>
-                </transition>
-
-                <transition name="slide-fade" mode="out-in">
-                    <p class="subCardText" :key="subResultValue">
-                        <span class="subResultValue">
-                            <span>{{ subResultValuePrefix }}</span>
-                            <span :class="[{redNumber : isNegative}, { greenNumber : !isNegative && colorType == 'greenRed'}]">{{ subResultValue }}</span>
-                            <span :class="[{redNumber : isNegative}, { greenNumber : !isNegative && colorType == 'greenRed'}]">{{ subResultValuePostfix }}</span>
+                            <span :class="{'textResult' : !numberResult}">{{ resultValue }}</span>
                         </span>
                     </p>
                 </transition>
@@ -24,7 +14,7 @@
         <section class="cardBtnSection" v-if="withBtn">
             <Button class="card link cardBtnSection__btn" link :to="to">
                 {{ btnText }}
-                <Icon class="cardBtnSection__btnIcon" icon="charm:arrow-right" color="var(--clr-blue)" height="15" />
+                <Icon class="cardBtnSection__btnIcon" icon="charm:arrow-right" color="var(--clr-dark-grey)" height="15" />
             </Button>
         </section>
     </div>
@@ -50,15 +40,6 @@ export default {
         {
             default: 0,
         },
-        subResultValue: {
-            default: 0,
-        },
-        subResultValuePrefix: {
-            default: '',
-        },
-        subResultValuePostfix: {
-            default: '',
-        },
         to: {
             type: String,
             default: '/',
@@ -71,17 +52,10 @@ export default {
             type: Boolean,
             default: true,
         },
-        colorType: {
-            type: String,
-            default: '',
-        },
     },
     computed: {
         isNegative() {
             return this.resultValue < 0 || this.resultValue.toLocaleString('de-DE').includes('-');
-        },
-        isPositive() {
-            return this.resultValue > 0 || this.resultValue.toLocaleString('de-DE').includes('+');
         }
     }
 
@@ -116,12 +90,6 @@ h2 {
     color: var(--clr-blue);
 }
 
-.subResultValue {
-    font-size: 0.9rem;
-    font-weight: 400;
-    color: var(--clr-blue);
-}
-
 .cardContent {
     padding: 1.5rem;
     padding-bottom: 0rem;
@@ -138,6 +106,7 @@ h2 {
 }
 
 .cardText {
+    margin-bottom: 0.5rem;
     text-align: center;
 }
 
@@ -163,10 +132,6 @@ h2 {
 
 .redNumber {
     color: var(--clr-red);
-}
-
-.greenNumber {
-    color: var(--clr-green);
 }
 
 
