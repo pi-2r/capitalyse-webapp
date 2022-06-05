@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import GoogleIcon from '../../../node_modules/vue-material-design-icons/Google.vue'
+import GoogleIcon from '/node_modules/vue-material-design-icons/Google.vue'
 
 export default {
     components: {
