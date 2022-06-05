@@ -1,22 +1,16 @@
 <template>
     <p class="breadcrumbs u-flex-align-center">
         <section class="linkPart">
-        <router-link class="u-margin-right" :to="baseLink">{{ baseLinkName }}</router-link>
-            
+            <router-link class="u-margin-right" :to="baseLink">{{ baseLinkName }}</router-link>
         </section>
         <section class="linkPart">
-        <Icon class="u-margin-right" icon="ep:arrow-right" color="var(--clr-grey)" height="12" />
-        <router-link class="u-margin-right" :to="secondLink">{{ secondLinkName }}</router-link>
-
+            <Icon class="u-margin-right" icon="ep:arrow-right" color="var(--clr-grey)" height="12" />
+            <router-link class="u-margin-right" :to="secondLink">{{ secondLinkName }}</router-link>
         </section>
         <section class="linkPart">
-        <Icon v-if="thirdLink !== ''" class="u-margin-right" icon="ep:arrow-right" color="var(--clr-grey)" height="12" />
-        <router-link v-if="thirdLink !== ''" class="u-margin-right" :to="thirdLink">{{ thirdLinkName }}</router-link>
-
+            <Icon v-if="thirdLink !== ''" class="u-margin-right" icon="ep:arrow-right" color="var(--clr-grey)" height="12" />
+            <router-link v-if="thirdLink !== ''" class="u-margin-right" :to="thirdLink">{{ thirdLinkName }}</router-link>
         </section>
-
-
-
     </p>
 </template>
 

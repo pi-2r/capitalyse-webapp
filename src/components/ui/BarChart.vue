@@ -27,7 +27,6 @@ export default {
               beginAtZero: true,
               grid: {
                 color: 'rgba(0, 0, 0, 0.06)',
-                
                 drawBorder: false,
               },
               ticks: {
