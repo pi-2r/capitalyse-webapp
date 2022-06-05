@@ -64,9 +64,11 @@
 
 <script>
 import { Icon } from '@iconify/vue';
-import Header from '../../components/layout/Header.vue';
+
+import Header from '@/components/layout/Header.vue';
+import ConfirmModal from '@/components/ui/ConfirmModal.vue';
+
 import PortfolioListItem from './PortfolioListItem.vue';
-import ConfirmModal from '../../components/ui/ConfirmModal.vue';
 
 export default {
     components: {
@@ -162,7 +164,6 @@ export default {
     created() {
         this.isLoading = true;
         this.loadData();
-      
     }
 }
 </script>

@@ -65,11 +65,11 @@
 </template>
 
 <script>
-import BarChart from '../../components/ui/BarChart.vue'
+import BarChart from '@/components/ui/BarChart.vue'
 
-import cleanNumberMixin from '../../mixins/cleanNumber';
-import includesFromArrayMixin from '../../mixins/includesFromArray';
-import splitDateMixin from '../../mixins/splitDate';
+import cleanNumberMixin from '@/mixins/cleanNumber';
+import includesFromArrayMixin from '@/mixins/includesFromArray';
+import splitDateMixin from '@/mixins/splitDate';
 
 
 export default {
@@ -233,6 +233,7 @@ export default {
                 let lastDate = this.dividendsArray[this.dividendsArray.length - 1].date.split("-");
                 let newFirstDate = new Date(lastDate[1], lastDate[0]  -1)
                 let newLastDate = new Date(firstDate[1], firstDate[0])
+
 
                 // create array from first date to last date
                 let dateArray = [];

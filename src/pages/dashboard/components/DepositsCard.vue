@@ -1,22 +1,21 @@
 <template>
     <ResultCard 
-        title="Total Transaction Fees" 
-        :resultValue="totTransFees" 
-        :to="'/dashboard/'+ portfolioId + '/fees'" 
-        btnText="Fees and Costs"
+        title="Total Deposited" 
+        :resultValue="totDeposits" 
+        :to="'/dashboard/' + portfolioId + '/deposits'"
+        btnText="My Deposits"
         :withBtn="true"
     />
 </template>
-
 <script>
-import ResultCard from './ResultCard.vue';
+import ResultCard from '@/components/dashboard/ResultCard.vue';
 
-import cleanNumberMixin from '../../mixins/cleanNumber';
-import includesFromArrayMixin from '../../mixins/includesFromArray';
-import getTotalTransactionsFeesMixin from '../../mixins/analytics/getTotalTransactionsFees';
+import getTotalDepositsMixin from '@/mixins/analytics/getTotalDeposits';
+import currencyMarkup from '@/mixins/currencyMarkup';
 
 export default {
-    mixins: [cleanNumberMixin, includesFromArrayMixin, getTotalTransactionsFeesMixin],
+    mixins: [getTotalDepositsMixin, currencyMarkup],
+
     components: {
         ResultCard
     },
@@ -28,7 +27,7 @@ export default {
     },
     data() {
         return {
-            totTransFees: 0,
+            totDeposits: 0,
         }
     },
     computed: {
@@ -39,7 +38,7 @@ export default {
             return this.$store.getters['files/getCurrentPortfolio'];
         },
         isThereData() {
-            return !!this.currentPortfolio.transactionsFile;
+            return !!this.currentPortfolio.accountFile;
         }
     },
     watch: {
@@ -50,16 +49,12 @@ export default {
     methods: {
         loadData() {
             if(this.isThereData) {
-                this.totTransFees = this.getTotalTransactionsFees(this.currentPortfolio.transactionsFile);
+                this.totDeposits = this.currencyMarkup(this.getTotalDeposits(this.currentPortfolio.accountFile));
             }
         },
     },
     created() {
         this.loadData();
-    }
+    },
 }
 </script>
-
-<style>
-    
-</style>

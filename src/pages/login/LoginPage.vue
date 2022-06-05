@@ -47,10 +47,9 @@
 </template>
 
 <script>
-import GoogleAuth from './GoogleAuth.vue';
-import BackButton from '../../components/ui/BackButton.vue';
-
-import Logo from '../../components/ui/Logo.vue';
+import GoogleAuth from '@/components/auth/GoogleAuth.vue';
+import BackButton from '@/components/ui/BackButton.vue';
+import Logo from '@/components/ui/Logo.vue';
 
 export default {
     components: {

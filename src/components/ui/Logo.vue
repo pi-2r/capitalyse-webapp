@@ -1,7 +1,7 @@
 <template>
     <section class="logoContainer">
         <Icon icon="bxs:doughnut-chart" :color="color" height="20" />
-        <h2 :style="{ 'color': color }">Capitalyse</h2>
+        <h2 :style="{'color': color}">Capitalyse</h2>
     </section>
 </template>
 

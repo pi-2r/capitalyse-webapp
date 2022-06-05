@@ -18,6 +18,7 @@ export default {
                     depositIndex: 8,
                 },
                 transactions: {
+                    dateIndex: 0,
                     searchIndex: 14,
                 },
                 tradingVolume: {
@@ -27,6 +28,7 @@ export default {
                 exchangeFees: {
                     searchIndex: 5,
                     feeIndex: 8,
+                    dateIndex: 0,
                 },
                 tradingFrequency: {
                     searchIndex: 2,

@@ -58,9 +58,9 @@
     </div>
 </template>
 <script>
-import cleanNumberMixin from '../../../mixins/cleanNumber';
-import includesFromArrayMixin from '../../../mixins/includesFromArray';
-import splitDateMixin from '../../../mixins/splitDate';
+import cleanNumberMixin from '@/mixins/cleanNumber';
+import includesFromArrayMixin from '@/mixins/includesFromArray';
+import splitDateMixin from '@/mixins/splitDate';
 
 import DepositsListItem from './DepositsListItem';
 

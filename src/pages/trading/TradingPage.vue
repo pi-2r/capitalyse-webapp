@@ -23,12 +23,12 @@
 </template>
 
 <script>
-import Breadcrumbs from '../../../components/ui/Breadcrumbs.vue';
-import Header from '../../../components/layout/Header.vue';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.vue';
+import Header from '@/components/layout/Header.vue';
+import BackButton from '@/components/ui/BackButton.vue';
 
-import BackButton from '../../../components/ui/BackButton.vue';
-import MostFreqTradedCard from './MostFreqTradedCard.vue';
-import MostFreqBuyOrSell from './MostFreqBuyOrSell.vue';
+import MostFreqTradedCard from './components/MostFreqTradedCard.vue';
+import MostFreqBuyOrSell from './components/MostFreqBuyOrSell.vue';
 
 export default {
     components: {

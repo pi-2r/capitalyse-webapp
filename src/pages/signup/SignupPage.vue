@@ -70,9 +70,9 @@
 </template>
 
 <script>
-import GoogleAuth from './GoogleAuth.vue';
-import Logo from '../../components/ui/Logo.vue';
-import BackButton from '../../components/ui/BackButton.vue';
+import GoogleAuth from '@/components/auth/GoogleAuth.vue';
+import Logo from '@/components/ui/Logo.vue';
+import BackButton from '@/components/ui/BackButton.vue';
 
 export default {
   components: {

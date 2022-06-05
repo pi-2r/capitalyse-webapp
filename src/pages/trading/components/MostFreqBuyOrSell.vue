@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import ResultCard from '../ResultCard.vue';
+import ResultCard from '@/components/dashboard/ResultCard.vue';
 
-import capitalizeEachWord from '../../../mixins/capitalizeEachWord.js'
-import getMostFrequentBuyOrSell from '../../../mixins/analytics/getMostFrequentBuyOrSell.js';
+import capitalizeEachWord from '@/mixins/capitalizeEachWord.js'
+import getMostFrequentBuyOrSell from '@/mixins/analytics/getMostFrequentBuyOrSell.js';
 
 import { Icon } from '@iconify/vue';
 

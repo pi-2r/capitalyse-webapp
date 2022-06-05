@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import Breadcrumbs from '../../../components/ui/Breadcrumbs.vue';
-import Header from '../../../components/layout/Header.vue';
-import BackButton from '../../../components/ui/BackButton.vue';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.vue';
+import Header from '@/components/layout/Header.vue';
+import BackButton from '@/components/ui/BackButton.vue';
 
-import DepositsChart from './DepositsChart.vue';
-import DepositsList from './DepositsList.vue';
+import DepositsChart from './components/DepositsChart.vue';
+import DepositsList from './components/DepositsList.vue';
 
 export default {
     components: {

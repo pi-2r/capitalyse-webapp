@@ -16,17 +16,17 @@ const router = createRouter({
         },
         {
             path: "/signup",
-            component: () => import("./pages/auth/SignupPage.vue"),
+            component: () => import("./pages/signup/SignupPage.vue"),
             meta: { requiresUnauth: true, requiresLightmode: true },
         },
         {
             path: "/login",
-            component: () => import("./pages/auth/LoginPage.vue"),
+            component: () => import("./pages/login/LoginPage.vue"),
             meta: { requiresUnauth: true, requiresLightmode: true },
         },
         {
             path: "/portfolios/new",
-            component: () => import("./pages/upload/UploadFilesPage.vue"),
+            component: () => import("./pages/addportfolio/UploadFilesPage.vue"),
             meta: { requiresAuth: true },
         },
         {
@@ -36,17 +36,17 @@ const router = createRouter({
         },
         {
             path: "/dashboard/:id/deposits",
-            component: () => import("./pages/dashboard/deposits/DepositsPage.vue"),
+            component: () => import("./pages/deposits/DepositsPage.vue"),
             meta: { requiresAuth: true },
         },
         {
             path: "/dashboard/:id/fees",
-            component: () => import("./pages/dashboard/fees/FeesPage.vue"),
+            component: () => import("./pages/fees/FeesPage.vue"),
             meta: { requiresAuth: true },
         },
         {
             path: "/dashboard/:id/trading",
-            component: () => import("./pages/dashboard/trading/TradingPage.vue"),
+            component: () => import("./pages/trading/TradingPage.vue"),
             meta: { requiresAuth: true },
         },
         {
@@ -56,7 +56,7 @@ const router = createRouter({
         },
         {
             path: "/:notFound(.*)",
-            component: () => import("./pages/notfound/NotFoundPage.vue"),
+            component: () => import("./pages/error/NotFoundPage.vue"),
         },
     ],
 });

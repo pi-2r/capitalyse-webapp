@@ -42,18 +42,19 @@
 </template>
 
 <script>
-import Header from '../../components/layout/Header.vue';
-import DividendChart from './DividendChart.vue';
-import Breadcrumbs from '../../components/ui/Breadcrumbs.vue';
-import DepositsCard from './DepositsCard.vue';
-import TradingVolCard from './TradingVolCard.vue';
-import TransFeesCard from './TransFeesCard.vue';
-import BackButton from '../../components/ui/BackButton.vue';
-import PortfolioCards from './PortfolioCards.vue';
-
-import firebaseDate from '../../mixins/dateToWords.js';
-
 import { Icon } from '@iconify/vue';
+
+import Header from '@/components/layout/Header.vue';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.vue';
+import TransFeesCard from '@/components/dashboard/TransFeesCard.vue';
+import BackButton from '@/components/ui/BackButton.vue';
+
+import firebaseDate from '@/mixins/dateToWords.js';
+
+import DividendChart from './components/DividendChart.vue';
+import DepositsCard from './components/DepositsCard.vue';
+import TradingVolCard from './components/TradingVolCard.vue';
+import PortfolioCards from './components/PortfolioCards.vue';
 
 export default {
     mixins: [firebaseDate],
@@ -183,7 +184,6 @@ export default {
         if(this.hasCurrentFiles) {
             this.calculateStartAndEndDates();
             this.convertFirebaseTime();
-            
         }
     }
 }

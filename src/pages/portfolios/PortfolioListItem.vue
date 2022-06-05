@@ -12,8 +12,10 @@
             {{ totalFileSize }} KB
         </td>
         <td class="actionsTd">
+            <!-- update and edit -->
             <!-- <Icon icon="fluent:new-16-filled" color="var(--clr-blue)" height="22" class="actionBtn"/> -->
             <!-- <Icon icon="ci:edit"  height="22" color="orange" class="actionBtn"/> -->
+
             <Icon icon="bxs:trash" color="var(--clr-red)" height="20" class="actionBtn" @click="$emit('toggleDeletePopup', portfolio.id)"/>
         </td>
 </template>
@@ -21,7 +23,7 @@
 <script>
 import { Icon } from '@iconify/vue';
 
-import dateToWords from '../../mixins/dateToWords';
+import dateToWords from '@/mixins/dateToWords';
 
 export default {
     mixins: [dateToWords],
