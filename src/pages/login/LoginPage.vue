@@ -4,7 +4,9 @@
       <section class="content">
         <Spinner class="spinner" v-if="isLoading" />
         <section class="form-wrapper">
-          <Logo class="logo" color="var(--clr-black)" />
+          <a class="linkToMainSite" href="https://www.capitalyse.net">
+            <Logo class="logo" color="var(--clr-black)" />
+          </a>
           <h1>Log in</h1>
           <form @submit.prevent="submitForm" autocomplete="off">
             <section class="form-group">
@@ -126,6 +128,11 @@ export default {
 
 
 <style scoped>
+.linkToMainSite {
+  display: inline-block;
+  text-decoration: none;
+}
+
 .topItems {
   display: flex;
   align-items: center;
@@ -356,7 +363,7 @@ input[type="password"] {
   }
   25% {
     opacity: 100%;
-    content: "making it";
+    content: "growing";
   }
   30% {
     opacity: 0%;
@@ -370,7 +377,7 @@ input[type="password"] {
   }
   45% {
     opacity: 100%;
-    content: "growing";
+    content: "consistent";
   }
   50% {
     opacity: 0%;
@@ -384,7 +391,7 @@ input[type="password"] {
   }
   65% {
     opacity: 100%;
-    content: "making it";
+    content: "keeping track";
   }
   70% {
     opacity: 0%;
@@ -398,14 +405,14 @@ input[type="password"] {
   }
   85% {
     opacity: 100%;
-    content: "consistent";
+    content: "growing";
   }
   90% {
     opacity: 0%;
   }
   95% {
     opacity: 100%;
-    content: "keeping track";
+    content: "advancing";
   }
   100% {
     opacity: 0%;

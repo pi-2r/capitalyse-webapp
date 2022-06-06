@@ -4,7 +4,9 @@
       <section class="content">
         <Spinner class="spinner" v-if="isLoading" />
         <section class="form-wrapper">
-          <Logo class="logo" color="var(--clr-black)" />
+          <a class="linkToMainSite" href="https://www.capitalyse.net">
+            <Logo class="logo" color="var(--clr-black)" />
+          </a>
             <h1>Sign up</h1>
             <form @submit.prevent="submitForm" autocomplete="off">
               <section class="form-group">
@@ -214,6 +216,11 @@ export default {
 </script>
 
 <style scoped>
+.linkToMainSite {
+  display: inline-block;
+  text-decoration: none;
+}
+
 .topItems {
   display: flex;
   align-items: center;
