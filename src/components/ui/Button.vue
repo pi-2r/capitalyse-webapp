@@ -40,6 +40,7 @@ button,a{
     border: 2px solid var(--clr-blue);
     border-radius: var(--btn-radius);
     user-select: none;
+    box-shadow: var(--btn-shadow);
 } 
 
 /* button:hover, a:hover {
@@ -51,7 +52,6 @@ a {
 }
 
 button:hover {
-    transform: scale(1.01);
     box-shadow: var(--btn-shadow);
 }
 
@@ -87,9 +87,7 @@ button:hover {
 
 .link:hover {
     background-color: var(--clr-very-light-blue);
-    border-color: var(--clr-medium-light-grey-2);
 }
-
 
 .secondary {
     color: var(--clr-blue);
@@ -99,9 +97,8 @@ button:hover {
     box-shadow: none;
 }
 
-.secondary:hover{
-    background-color: rgba(24, 124, 195, 0.04);  
+.secondary:hover {
+    box-shadow: var(--box-shadow-small);
 }
-
 
 </style>

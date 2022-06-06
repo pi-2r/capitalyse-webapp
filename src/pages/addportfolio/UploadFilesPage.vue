@@ -599,10 +599,9 @@ input[type="submit"] {
     flex-direction: column;
 }
 
-.submitFiles:hover {
-    transform: scale(1.005);
+.submitFiles {
+  background-image: linear-gradient(to right,#008cff,#006eff 100%);   
 }
-
 /* anims */
 .slide-fade-enter-active {
   transition: all 0.125s ease-out;

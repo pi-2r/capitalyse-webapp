@@ -1,18 +1,17 @@
 <template>
-  <div class="page-wrapper">
-    <div class="containerwithtitle">
-      <Logo class="logo" color="var(--clr-white)"/>
-      <div class="container">
-        <div class="content">
-          <Spinner class="spinner" v-if="isLoading"/>
-          <div class="form-wrapper">
-            <h1><BackButton color="var(--clr-blue)" :toHome="true"/>Sign up</h1>
+  <section class="loginContainer">
+    <section class="contentWrapper">
+      <section class="content">
+        <Spinner class="spinner" v-if="isLoading" />
+        <section class="form-wrapper">
+          <Logo class="logo" color="var(--clr-black)" />
+            <h1>Sign up</h1>
             <form @submit.prevent="submitForm" autocomplete="off">
-              <div class="form-group">
-                <div class="error-wrapper">
+              <section class="form-group">
+                <section class="error-wrapper">
                   <label for="email">E-mail</label>
                   <p class="error">{{ emailErrorMsg }}</p>
-                </div>
+                </section>
                 <input
                   type="email"
                   id="email"
@@ -23,12 +22,12 @@
                   @blur="checkEmailFormControl"
                   @focus="resetEmailFormControl"
                 />
-              </div>
-              <div class="form-group">
-                <div class="error-wrapper">
+              </section>
+              <section class="form-group">
+                <section class="error-wrapper">
                   <label for="password">Password</label>
                   <p class="error">{{ passwordErrorMessage }}</p>
-                </div>
+                </section>
                 <input
                   type="password"
                   id="password"
@@ -38,12 +37,12 @@
                   @blur="checkPasswordFormControl"
                   @focus="resetPasswordFormControl"
                 />
-              </div>
-              <div class="form-group">
-                <div class="error-wrapper">
+              </section>
+              <section class="form-group">
+                <section class="error-wrapper">
                   <label for="repeat-password">Repeat Password</label>
                   <p class="error">{{ repeatPasswordErrorMessage }}</p>
-                </div>
+                </section>
                 <input
                   type="password"
                   id="repeat-password"
@@ -53,31 +52,38 @@
                   @blur="checkRepeatPasswordFormControl"
                   @focus="resetRepeatPasswordFormControl"
                 />
-              </div>
+              </section>
 
               <Button class="button">Sign up</Button>
-              <router-link to="/login">
-                <Button class="secondary tertiary">Log in instead</Button>
-              </router-link>
+              <router-link to="/login" class="secondaryLink">
+                Log in instead
+            </router-link>
 
-              <GoogleAuth />
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+            <!-- <GoogleAuth /> -->
+          </form>
+        </section>
+      </section>
+    </section>
+    <section class="imagesection">
+      <section class="appimageoverlay"></section>
+      <figure>
+        <img class="loginFormImage" loading="eager" src="@/assets/signup-bg.webp" alt="Big header image" />
+      </figure>
+      
+      <h1 class="centered"><Logo class="logo" color="var(--clr-white)" />Financial independence <br>starts with <span class="appmark"></span></h1>
+    </section>
+  </section>
 </template>
 
 <script>
-import GoogleAuth from '@/components/auth/GoogleAuth.vue';
+// import GoogleAuth from '@/components/auth/GoogleAuth.vue';
 import Logo from '@/components/ui/Logo.vue';
-import BackButton from '@/components/ui/BackButton.vue';
+// import BackButton from '@/components/ui/BackButton.vue';
 
 export default {
   components: {
-    GoogleAuth,
-    BackButton,
+    // GoogleAuth,
+    // BackButton,
     Logo
   },
   data() {
@@ -208,141 +214,290 @@ export default {
 </script>
 
 <style scoped>
+.topItems {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  margin-bottom: 1rem;
+}
+
+.imagesection {
+  position: relative;
+}
+
+.centered {
+  text-align: left;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 600;
+  color: white;
+  font-size: 2.5rem;
+}
+.appmark:after {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: #1b72d8;
+  content: "Capitalyse";
+  animation: appTitleTextChange 30s linear infinite;
+}
+
+.loginContainer {
+  display: grid;
+  grid-template-columns: 35% 65%;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--clr-white);
+  overflow: hidden;
+}
+
+.loginFormImage {
+  height: 100vh;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 30px 0px;
+}
+
+.appimageoverlay {
+  position: absolute;
+  height: 100vh;
+  width: 65vw;
+  background-color: black;
+  opacity: 0.65;
+}
+
+.content {
+  width: 80%;
+  max-width: 350px;
+}
+
+.backBtn {
+  margin-right: 0.5rem;
+  cursor: pointer;
+  transition: 0.2s all;
+}
+
+.backBtn:hover {
+  transform: translateX(-2px);
+}
+
 .spinner {
   position: absolute;
   width: 300px;
   top: 45%;
 }
 
-.page-wrapper {
-  min-height: 100vh;
-  background: url("~@/assets/auth-bg.webp") no-repeat center center;
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #2f2f2f;
+
+.button {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  margin-top: 2.2rem;
+  margin-bottom: 1rem;
 }
 
-.container {
-  background: #1b1b1be6;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.522);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(4px);
+button {
+  background-image: linear-gradient(to right,#008cff,#006eff 100%);
+}
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.secondary:hover {
+  transform: scale(1);
+}
 
-  margin: 0 auto;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  min-height: 35em;
-  margin-left: 1em;
-  margin-right: 1em;
-  max-width: 30em;
-  padding: 2.5em;
-  padding-top: 2em;
-  padding-bottom: 2em;
-  border-radius: var(--card-border-radius);
-
+.secondaryLink {
+  color: var(--clr-blue);
+  font-weight: 500;
+  text-decoration: none;
   transition: 0.2s all;
 }
-
-.content {
-  max-width: 300px;
+.secondaryLink:hover {
+  text-decoration: underline;
 }
 
-.valid {
+/* input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
   border: 1px solid var(--clr-blue);
-  background-color: #1b73d811;
+  -webkit-text-fill-color: white;
+  box-shadow: 0 0 0px 1000px #ebebeb inset;
+  -webkit-box-shadow: 0 0 0px 1000px #ececec inset;
+  transition: background-color 5000s ease-in-out 0s;
+  color: var(--clr-white);
+} */
+
+input[type="password"]:-webkit-autofill,
+input[type="password"]:-webkit-autofill:hover,
+input[type="password"]:-webkit-autofill:focus {
+  letter-spacing: 0.35rem;
 }
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* overflow-y: scroll; */
+}
+
 
 .invalid {
-  border: 1px solid var(--clr-red);
-  color: var(--clr-red);
+  border: 1px solid rgb(190, 19, 19);
+  color: rgb(231, 78, 78);
 }
 
 .error-wrapper {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   padding-bottom: 0.2em;
-  margin-top: 0.7em;
+  margin-top: 1em;
+}
+
+.invisible-error {
+  visibility: hidden;
 }
 
 .error {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
   color: var(--clr-red);
-  font-size: 0.75em;
-  font-weight: 400;
-  text-align: right;
+  font-size: 0.9em;
 }
 
 h1 {
-  font-weight: normal;
-  color: #1b72d8;
-  font-size: 225%;
-  margin-bottom: 0.8em;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: var(--clr-black);
+  font-size: 2rem;
 }
 
-.logo {
-  transform: scale(0.95);
-}
 
 label {
-  color: var(--clr-white);
-  font-size: 95%;
+  color: var(--clr-black);
+  font-size: 100%;
   display: block;
-    margin-bottom: 0.15rem;
-  font-weight: 300;
+  margin-bottom: 0.15rem;
 }
 
 input {
-  font-size: 90%;
-  padding: 1em;
-  width: 100%;
-  border-radius: 5px;
-  border: none;
-  background-color: #181818;
-  color: var(--clr-white);
   font-size: 16px;
+  padding: 1rem;
+  background-color: var(--clr-white);
+  border: 1px solid var(--clr-medium-light-grey-2);
+  font-weight: 500;
+  color: var(--clr-black);
+  box-shadow: var(--box-shadow-small), inset 0 0 5px #00000011;
+  width: 100%;
+  border-radius: var(--btn-radius);
 }
 
 input[type="password"] {
-  letter-spacing: 0.35rem;
-  color: var(--clr-white);
-  
+  letter-spacing: 0.25em;
 }
 
-button {
-  margin-top: 1.7rem;
-  width: 100%;
+/* media queries */
+
+@media (max-width: 1000px) {
+  .loginContainer {
+    grid-template-columns: 1fr;
+  }
+  .loginFormImage {
+    display: none;
+  }
+  .appimageoverlay {
+    display: none;
+  }
+  .centered {
+    display: none;
+  }
 }
 
-.button:hover {
-  background-color: var(--clr-blue);
-  box-shadow: none;
-}
 
-.secondary {
-    border: none;
-    color: #919498;
-    font-weight: 300;
-    font-size: 1rem;
-    padding: 0.8rem 1.25rem;
-    background-color: transparent;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
 
-.secondary:hover {
-    box-shadow: none;
-    background-color: #00000020;
-    transform: scale(1);
-}
-
-::placeholder {
-  color: #9d9d9d;
-  font-weight: 300;
+@keyframes appTitleTextChange {
+  0% {
+    opacity: 0%;
+  }
+  5% {
+    opacity: 100%;
+    content: "Capitalyse";
+  }
+  10% {
+    opacity: 0%;
+  }
+  15% {
+    opacity: 100%;
+    content: "consistency";
+  }
+  20% {
+    opacity: 0%;
+  }
+  25% {
+    opacity: 100%;
+    content: "tracking";
+  }
+  30% {
+    opacity: 0%;
+  }
+  35% {
+    opacity: 100%;
+    content: "analysing";
+  }
+  40% {
+    opacity: 0%;
+  }
+  45% {
+    opacity: 100%;
+    content: "dedication";
+  }
+  50% {
+    opacity: 0%;
+  }
+  55% {
+    opacity: 100%;
+    content: "Capitalyse";
+  }
+  60% {
+    opacity: 0%;
+  }
+  65% {
+    opacity: 100%;
+    content: "planning";
+  }
+  70% {
+    opacity: 0%;
+  }
+  75% {
+    opacity: 100%;
+    content: "investing";
+  }
+  80% {
+    opacity: 0%;
+  }
+  85% {
+    opacity: 100%;
+    content: "consistency";
+  }
+  90% {
+    opacity: 0%;
+  }
+  95% {
+    opacity: 100%;
+    content: "keeping track";
+  }
+  100% {
+    opacity: 0%;
+    content: "";
+  }
 }
 </style>
