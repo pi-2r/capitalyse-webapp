@@ -128,6 +128,22 @@ input {
     max-width: 92%;
 }
 
+.customUnderline {
+    padding: 30px 0 8px;
+    position: relative;
+}
+
+.customUnderline::before {
+    content: "";
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    height: 5px;
+    transform: skew(-29deg);
+    background: var(--clr-blue);
+    z-index: -1;
+}
+
 /* anim */
 
 .slide-fade-enter-active {

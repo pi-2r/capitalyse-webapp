@@ -52,7 +52,8 @@
         <img class="loginFormImage" loading="eager" src="@/assets/login-bg.webp" alt="Big header image" />
       </figure>
       
-      <h1 class="centered"><Logo class="logo" color="var(--clr-white)" />Welcome back, we hope you're  <span class="appmark"></span></h1>
+      <h1 class="centered"><Logo class="logo" color="var(--clr-white)" />Welcome back, we hope you're <span class="customUnderline">making progress</span></h1>
+      <!-- <span class="appmark"></span> -->
     </section>
   </section>
 </template>
