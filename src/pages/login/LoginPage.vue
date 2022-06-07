@@ -5,7 +5,7 @@
         <Spinner class="spinner" v-if="isLoading" />
         <section class="form-wrapper">
           <a class="linkToMainSite" href="https://www.capitalyse.net">
-            <Logo class="logo" color="var(--clr-black)" />
+            <Logo class="logo"  color="var(--clr-black)" />
           </a>
           <h1>Log in</h1>
           <form @submit.prevent="submitForm" autocomplete="off">
@@ -52,7 +52,7 @@
         <img class="loginFormImage" loading="eager" src="@/assets/login-bg.webp" alt="Big header image" />
       </figure>
       
-      <h1 class="centered"><Logo class="logo" color="var(--clr-white)" />Welcome back, we hope you're <span class="customUnderline">making progress</span></h1>
+      <h1 class="centered"><Logo class="logo" :ignoreTheme="true" color="var(--clr-white)" />Welcome back, we hope you're <span class="customUnderline">making progress</span></h1>
       <!-- <span class="appmark"></span> -->
     </section>
   </section>

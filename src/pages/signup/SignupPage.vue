@@ -72,7 +72,7 @@
         <img class="loginFormImage" loading="eager" src="@/assets/signup-bg.webp" alt="Big header image" />
       </figure>
       
-      <h1 class="centered"><Logo class="logo" color="var(--clr-white)" />Financial independence <br>starts with <span class="customUnderline">Capitalyse</span></h1>
+      <h1 class="centered"><Logo class="logo" :ignoreTheme="true" color="var(--clr-white)" />Financial independence <br>starts with <span class="customUnderline">Capitalyse</span></h1>
        <!-- <span class="appmark"></span> -->
     </section>
   </section>

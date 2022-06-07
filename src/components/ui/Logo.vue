@@ -1,7 +1,10 @@
 <template>
     <section class="logoContainer">
-        <Icon icon="bxs:doughnut-chart" :color="color" height="20" />
-        <h2 :style="{'color': color}">Capitalyse</h2>
+        <Icon v-if="!ignoreTheme" icon="bxs:doughnut-chart" :color="color" height="20" />
+        <Icon v-else icon="bxs:doughnut-chart" color="white" height="20" />
+
+        <h2 v-if="!ignoreTheme" :style="{'color': color}">Capitalyse</h2>
+        <h2 v-else style="color: white;">Capitalyse</h2>
     </section>
 </template>
 
@@ -17,6 +20,10 @@ export default {
             type: String,
             default: 'var(--clr-dark-grey)'
         },
+        ignoreTheme: {
+            type: Boolean,
+            default: false
+        }
     }
 }
 </script>

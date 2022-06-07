@@ -16,12 +16,12 @@ const router = createRouter({
         {
             path: "/signup",
             component: () => import("./pages/signup/SignupPage.vue"),
-            meta: { requiresUnauth: true, requiresLightmode: true },
+            meta: { requiresUnauth: true},
         },
         {
             path: "/login",
             component: () => import("./pages/login/LoginPage.vue"),
-            meta: { requiresUnauth: true, requiresLightmode: true },
+            meta: { requiresUnauth: true},
         },
         {
             path: "/portfolios/new",
