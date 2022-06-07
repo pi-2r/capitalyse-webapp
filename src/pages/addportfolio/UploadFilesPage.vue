@@ -23,12 +23,12 @@
                                 <p class="filesLabelP">
                                     Files
                                     <Icon 
-                                        @click="toggleTooltip"
+                                        @click="scrollToHelp"
                                         class="uploadFilesTooltipBtn" icon="clarity:help-info-solid" color="var(--clr-blue)" height="18" />
                                 </p>
                             </section>
-                            <section v-if="isTooltipOpen" @click="toggleTooltip" class="overlay"></section>
-                            <transition name="slide-fade" mode="out-in">
+                            <!-- <section v-if="isTooltipOpen" @click="toggleTooltip" class="overlay"></section> -->
+                            <!-- <transition name="slide-fade" mode="out-in">
                                 <section class="uploadFilesTooltipWrapper" v-if="isTooltipOpen"> 
                                     <section class="uploadFilesTooltip">
                                         <p>Export your <strong>Portfolio.csv</strong> file from the <a href="https://trader.degiro.nl/staging-trader/#/portfolio" target="_blank">
@@ -45,7 +45,7 @@
                                         </p>
                                     </section>
                                 </section>
-                            </transition>
+                            </transition> -->
                             <label class="uploadFilesLabel">
                                 <input @change="uploadFile" type="file" accept=".csv" multiple/>
                                 <span class="uploadFilesLabelText">{{ inputText }}</span>
@@ -108,19 +108,87 @@
             <h2>Need help?</h2>
             <button class="collapsible" @click="toggleCollapsible(0)">What files do I need?</button>
             <section class="content">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>
+                To add your Degiro portfolio to Capitalyse you'll need to export three CSV files from your Degiro account. This can be done through 
+                the app or website. The files are:
+            </p>
+            <p>
+                Portfolio.csv
+                <br>Transactions.csv
+                <br>Account.csv
+            </p>
+            <p>
+               Open the next dropdown box to see export instructions.
+            </p>
             </section>
             <button class="collapsible" @click="toggleCollapsible(1)">Export files from Degiro</button>
             <section class="content">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>
+                Choose one of the following methods to export your files from Degiro.
+            </p>
+            <h3 class="contentTitle">Easy Export 
+                <span class="contentTitleThin">
+                    <Icon icon="eva:checkmark-outline" color="var(--clr-green)" height="17" />
+                    Recommended
+                    </span>
+                </h3>
+            <p>
+                To quickly download the three files, follow the links below and log in to Degiro. 
+                For each link simply click the 'Export' button on the right, then select the 'CSV' format.
+            </p> 
+            <p>
+                <a href="https://trader.degiro.nl/staging-trader/#/portfolio" target="_blank">Portfolio</a>
+                <br>
+                <a :href="transactionsLink" target="_blank">Transactions</a>
+                <br>
+                <a :href="accountLink" target="_blank">Account Statements</a>
+            </p>
+            <h3 class="contentTitle">Manual Export</h3>
+            <p>
+                If the links do not work for you, or you wish to export manually:
+            </p>
+            <p>
+                <span class="listNumber">1.</span> Go to Activity > Transactions and set the start date to include your
+                portfolio's complete history.<br>
+                <span class="listNumber">2.</span> Click the 'Export' button and select 'CSV'.<br>
+                <span class="listNumber">3.</span> Go to Activity > Account Statements and set the start date to include your
+                portfolio's complete history.<br>
+                <span class="listNumber">4.</span> Click the 'Export' button and select 'CSV'.<br>
+                <span class="listNumber">5.</span> Go to the Portfolio page. Do not change any dates.<br>
+                <span class="listNumber">6.</span> Click the 'Export' button and select 'CSV'.<br>
+            </p>
             </section>
             <button class="collapsible" @click="toggleCollapsible(2)">Import files into Capitalyse  </button>
             <section class="content">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>
+                Once you've downloaded all CSV files onto your device, 
+                you can import them into Capitalyse by clicking blue 'Upload Files' button.
+            </p>
+            <p>
+                Next, select all files you wish to upload. If there appears a green checkmark, the upload was succesful.
+            </p>
+            <p>
+                If the files aren't uploading, please check that you have selected the correct files
+                or have the correct start dates set in Degiro before downloading.
+            </p>
+            <p>
+                After uploading all files, you can delete them from your device.
+            </p>
             </section>
-            <button class="collapsible" @click="toggleCollapsible(3)">What's in these files? </button>
+            <button class="collapsible" @click="toggleCollapsible(3)">What's in these files?</button>
             <section class="content">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>
+                    If you've correctly exported all files, they should contain your trades, fees, holdings
+                    and account statements.
+                </p>
+                <p>
+                    These files do not contain any personal data and you can permanently delete all data from Capitalyse anytime
+                    you wish to do so. 
+                </p>
+                <p>
+                    Your data will not be used for any other purpose than to show you your analytics
+                    and insights, unless you have explicitly given permission for it to be used for testing purposes.
+                </p>
             </section>
         </section>
     </section>
@@ -245,13 +313,21 @@ export default {
             collapsible.classList.toggle('active');
             if (content.style.maxHeight){
             content.style.maxHeight = null;
+            content.style.padding = '0 1rem';
+            content.style.borderBottom = 'none';
             } else {
-            content.style.maxHeight = content.scrollHeight + "px";
+                content.style.maxHeight = 'calc(' + content.scrollHeight + "px + 2rem)";
+                content.style.padding = '1rem';
+                content.style.borderBottom = '1px solid var(--clr-medium-light-grey)';
             } 
 
         },
-        toggleTooltip() {
-            this.isTooltipOpen = !this.isTooltipOpen;
+        // toggleTooltip() {
+        //     this.isTooltipOpen = !this.isTooltipOpen;
+        // },
+        scrollToHelp() {
+            const help = document.querySelector('.addPortfolioHelp');
+            help.scrollIntoView({ behavior: 'smooth' });
         },
         resetInputStyling() {
             this.portfolioNameIsValidClass = '';
@@ -385,19 +461,23 @@ export default {
 .collapsible {
   background-color: var(--clr-very-light-blue);
   border-radius: 0.6rem;
-  color: var(--clr-dark-grey);
+  color: var(--clr-black);
   cursor: pointer;
-  padding: 18px;
+  padding: 1rem;
   width: 100%;
   border: 1px solid var(--clr-medium-light-grey);
   text-align: left;
   outline: none;
-  font-size: 15px;
+  font-size: 1rem;
 }
 
 .active {
     border-radius: 0.6rem 0.6rem 0rem 0rem;
     border-bottom: none;
+}
+
+.listNumber {
+    color: var(--clr-blue);
 }
 
 .collapsible:after {
@@ -413,16 +493,42 @@ export default {
 }
 
 .content {
-    padding: 0 18px;
+    padding: 0 1rem;
     max-height: 0;
     overflow: hidden;
     border-radius: 0rem 0rem 0.6rem 0.6rem;
     transition: all 0.2s ease-out;
     background-color: var(--clr-very-light-blue);
-    margin-bottom: 1rem;
-    box-shadow: var(--box-shadow);
+    margin-bottom: 0.75rem;
     border: 1px solid var(--clr-medium-light-grey);
     border-top: none;
+    border-bottom: none;
+}
+
+.contentTitle {
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+.contentTitleThin {
+    font-weight: lighter;
+    font-size: 0.85rem;
+    color: var(--clr-green);
+    display: inline-flex;
+    margin-left: 0.5rem;
+    gap: 0.1rem;
+    align-items: center;
+}
+
+.content p {
+    color: var(--clr-dark-grey);
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    line-height: 1.15rem;
+}
+.content p:nth-last-child(1) {
+    margin-bottom: 0;
 }
 
 
