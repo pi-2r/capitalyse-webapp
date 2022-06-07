@@ -5,9 +5,9 @@
                 <section class="leftSide">
                     <ul>
                       
-                        <router-link class="routerLinkLogo" to="/portfolios">
+                        <a href="https://www.capitalyse.net/" class="routerLinkLogo">
                             <Logo/>
-                        </router-link>
+                        </a>
                         
                         <!-- <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
@@ -36,9 +36,9 @@
             </div>
             <div class="nav-container-mobile">
 
-                <router-link class="routerLinkLogo" to="/portfolios">
+                <a href="https://www.capitalyse.net/" class="routerLinkLogo">
                     <Logo/>
-                </router-link>
+                </a>
                 
                 <Icon @click="toggleMobileNav" class="hamburgerMenuIcon" icon="eva:menu-outline" color="var(--clr-grey)" height="30" />
                 <transition name="slide-fade" mode="out-in">

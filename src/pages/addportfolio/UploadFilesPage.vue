@@ -27,7 +27,7 @@
                                         class="uploadFilesTooltipBtn" icon="clarity:help-info-solid" color="var(--clr-blue)" height="18" />
                                 </p>
                             </section>
-                            <div v-if="isTooltipOpen" @click="toggleTooltip" class="overlay"></div>
+                            <section v-if="isTooltipOpen" @click="toggleTooltip" class="overlay"></section>
                             <transition name="slide-fade" mode="out-in">
                                 <section class="uploadFilesTooltipWrapper" v-if="isTooltipOpen"> 
                                     <section class="uploadFilesTooltip">
@@ -101,9 +101,28 @@
                     </form>
                 </article>
             </section>
+            
         </section>
         
-        
+        <section class="addPortfolioHelp">
+            <h2>Need help?</h2>
+            <button class="collapsible" @click="toggleCollapsible(0)">What files do I need?</button>
+            <section class="content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </section>
+            <button class="collapsible" @click="toggleCollapsible(1)">Export files from Degiro</button>
+            <section class="content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </section>
+            <button class="collapsible" @click="toggleCollapsible(2)">Import files into Capitalyse  </button>
+            <section class="content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </section>
+            <button class="collapsible" @click="toggleCollapsible(3)">What's in these files? </button>
+            <section class="content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </section>
+        </section>
     </section>
 </template>
 
@@ -219,6 +238,18 @@ export default {
         },
     },
     methods: {
+        toggleCollapsible(id) {
+            const collapsible = document.querySelectorAll('.collapsible')[id];
+            const content = document.querySelectorAll('.content')[id];
+            console.log(collapsible);
+            collapsible.classList.toggle('active');
+            if (content.style.maxHeight){
+            content.style.maxHeight = null;
+            } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+            } 
+
+        },
         toggleTooltip() {
             this.isTooltipOpen = !this.isTooltipOpen;
         },
@@ -341,6 +372,61 @@ export default {
 </script>
 
 <style scoped>
+.addPortfolioHelp {
+    margin-top: 4rem;
+}
+
+.addPortfolioHelp h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.collapsible {
+  background-color: var(--clr-very-light-blue);
+  border-radius: 0.6rem;
+  color: var(--clr-dark-grey);
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: 1px solid var(--clr-medium-light-grey);
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active {
+    border-radius: 0.6rem 0.6rem 0rem 0rem;
+    border-bottom: none;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: var(--clr-dark-grey);
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+    content: "\2212";
+}
+
+.content {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    border-radius: 0rem 0rem 0.6rem 0.6rem;
+    transition: all 0.2s ease-out;
+    background-color: var(--clr-very-light-blue);
+    margin-bottom: 1rem;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--clr-medium-light-grey);
+    border-top: none;
+}
+
+
+
 a {
     color: #00a8ff;
 }
@@ -489,7 +575,7 @@ input[type="file"] {
    display: none;
 }
 
-input[type="submit"]:hover, button:hover {
+input[type="submit"]:hover {
     transform: scale(1.01);
     box-shadow: var(--btn-shadow);
 }
