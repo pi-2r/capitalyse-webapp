@@ -129,7 +129,7 @@
             <h3 class="contentTitle">Easy Export 
                 <span class="contentTitleThin">
                     <Icon icon="eva:checkmark-outline" color="var(--clr-green)" height="17" />
-                    Recommended
+                    Recommended way
                     </span>
                 </h3>
             <p>
