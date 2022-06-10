@@ -1,39 +1,27 @@
 <template>
-  <article class="websiteWrapper">    
+  <article class="websiteWrapper">
     <main class="websiteWrapperMain">
       <router-view></router-view>
     </main>
-    <!-- <Footer></Footer> -->
   </article>
 </template>
 
 <script>
-// import Header from './components/layout/Header.vue';
-// import Footer from './components/layout/Footer.vue';
-
 export default {
-  name: 'App',
-  components: {
-    // Header,
-    // Footer
-  },
+  name: "App",
   created() {
-    this.$store.dispatch('tryLogin');
+    this.$store.dispatch("tryLogin");
   },
-}
+};
 </script>
 
 <style>
-/* Lexend */
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap');
-/* @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,600&display=swap');
-/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap'); */
-
-
+/* Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,600&display=swap");
 
 /* Variables */
-@import './assets/styles/variables.css';
+@import "./assets/styles/variables.css";
 
 .titleAndBackButtonContainer {
   display: flex;
@@ -53,30 +41,31 @@ export default {
 }
 
 html {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: var(--clr-white);
 }
 
 h1 {
-    font-size: 1.8rem;
-    font-family: 'Lexend', sans-serif;
-    font-weight: 500;
-    margin: 0;
-    padding: 0;
-    color: var(--clr-black);
-    user-select: none;
+  font-size: 1.8rem;
+  font-family: "Lexend", sans-serif;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+  color: var(--clr-black);
+  user-select: none;
 }
 
 h2 {
-    font-size: 1rem;
-    font-weight: 500;
-    margin: 0;
-    padding: 0;
-    color: var(--clr-black);
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+  color: var(--clr-black);
 }
 
-p, div {
-    color: var(--clr-black);
+p,
+div {
+  color: var(--clr-black);
 }
 
 button {
@@ -85,9 +74,9 @@ button {
 }
 
 input {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .material-design-icon {
@@ -97,51 +86,51 @@ input {
 }
 
 .greenNumber {
-    color: var(--clr-green);
+  color: var(--clr-green);
 }
 
 .redNumber {
-    color: var(--clr-red);
+  color: var(--clr-red);
 }
 
 .resultValue {
-    font-size: 2rem;
-    font-weight: 500;
-    color: var(--clr-blue);
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--clr-blue);
 }
 
 .chartResultValue {
-    font-size: 1.5rem;
-    font-weight: 500;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 
 .u-noselect {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .container {
-    max-width: 92%;
+  max-width: 92%;
 }
 
 .customUnderline {
-    padding: 30px 0 8px;
-    position: relative;
+  padding: 30px 0 8px;
+  position: relative;
 }
 
 .customUnderline::before {
-    content: "";
-    position: absolute;
-    bottom: 15px;
-    width: 100%;
-    height: 5px;
-    transform: skew(-29deg);
-    background: var(--clr-blue);
-    z-index: -1;
+  content: "";
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  height: 5px;
+  transform: skew(-29deg);
+  background: var(--clr-blue);
+  z-index: -1;
 }
 
 /* anim */
@@ -160,11 +149,8 @@ input {
 }
 
 @media screen and (max-width: 768px) {
-    h1 {
-        font-size: 1.75rem;
-    }
+  h1 {
+    font-size: 1.75rem;
+  }
 }
-
-
-
 </style>

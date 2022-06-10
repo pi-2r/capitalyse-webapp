@@ -16,12 +16,12 @@ const router = createRouter({
         {
             path: "/signup",
             component: () => import("./pages/signup/SignupPage.vue"),
-            meta: { requiresUnauth: true},
+            meta: { requiresUnauth: true },
         },
         {
             path: "/login",
             component: () => import("./pages/login/LoginPage.vue"),
-            meta: { requiresUnauth: true},
+            meta: { requiresUnauth: true },
         },
         {
             path: "/portfolios/new",
@@ -63,7 +63,6 @@ const router = createRouter({
 const root = document.querySelector(":root");
 
 router.beforeEach((to, _2, next) => {
-
     if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
         next('/login')
     } else if (to.meta.requiresUnauth && store.getters.isAuthenticated) {
@@ -77,14 +76,12 @@ router.afterEach((to) => {
     root.scrollTo(0, 0);
     let theme = localStorage.getItem('theme');
 
-    
     if (!to.meta.requiresLightmode) {
-        console.log('aftereach');
         root.setAttribute("data-theme", theme);
     } else {
         root.setAttribute("data-theme", 'light');
     }
-        
+
 });
-    
+
 export default router;

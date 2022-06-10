@@ -11,8 +11,8 @@
 <script>
 import ResultCard from '@/components/dashboard/ResultCard.vue';
 
-import cleanNumberMixin from '@/mixins/cleanNumber';
-import includesFromArrayMixin from '@/mixins/includesFromArray';
+import cleanNumberMixin from '@/mixins/helpers/cleanNumber';
+import includesFromArrayMixin from '@/mixins/helpers/includesFromArray';
 import getTotalTransactionsFeesMixin from '@/mixins/analytics/getTotalTransactionsFees';
 
 export default {

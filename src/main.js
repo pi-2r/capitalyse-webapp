@@ -41,4 +41,3 @@ const config = {
 };
 
 initializeApp(config);
-

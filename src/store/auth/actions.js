@@ -1,4 +1,3 @@
-
 import '../../../firebase'
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from "firebase/firestore";
@@ -60,7 +59,7 @@ export default {
     },
     async fetchProfileData(context) {
         const userId = localStorage.getItem("userId");
-        
+
         const docRef = doc(db, `users/${userId}`);
         const docSnap = await getDoc(docRef);
 

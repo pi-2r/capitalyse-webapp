@@ -1,6 +1,5 @@
 import getters from "./getters";
 
-
 export default {
     namespaced: true,
     state() {
@@ -9,7 +8,6 @@ export default {
                 currency: ["Valuta", "Währungswechsel", "de change"],
                 dividendEUR: ["Dividend", "Dividende"],
                 dividendTax: ["Impôts sur dividende"],
-                // iDEAL storting is support voor oude benaming
                 deposit: [
                     "iDEAL storting",
                     "Einzahlung",

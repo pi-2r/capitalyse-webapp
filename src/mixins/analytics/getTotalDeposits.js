@@ -1,5 +1,5 @@
-import cleanNumberMixin from '../../mixins/cleanNumber';
-import includesFromArrayMixin from '../../mixins/includesFromArray';
+import cleanNumberMixin from '../helpers/cleanNumber';
+import includesFromArrayMixin from '../helpers/includesFromArray';
 
 export default {
     mixins: [cleanNumberMixin, includesFromArrayMixin],

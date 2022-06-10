@@ -1,4 +1,4 @@
-import cleanNumber from "../cleanNumber";
+import cleanNumber from "../helpers/cleanNumber";
 import getTotalBalance from "./getTotalBalance";
 import getTotalDeposits from "./getTotalDeposits";
 

@@ -1,461 +1,521 @@
 <template>
-    <Header></Header>
-    <section class="container">
-        <Spinner class="spinner" v-if="isLoading"/>
-      
-        <Breadcrumbs baseLink="/portfolios" baseLinkName="My Portfolios" secondLink="/portfolios/new" secondLinkName="Add Portfolio"/>
-        <section class="titleAndBackButtonContainer">
-            <BackButton/>
-            <h1 class="uploadFilesTitle">Add Portfolio</h1>
-        </section>
-        <section class="formCardContainer">
-            <section class="formCard" v-if="!isLoading">
+  <Header/>
+  <section class="container">
+    <Spinner class="spinner" v-if="isLoading" />
 
-                <article class="wrapper" >
-                    <form  @submit.prevent="submitForm" class="uploadFilesForm">
-                        <section class="portfolioName">
-                            <label for="portfolioName">Portfolio name</label>
-                            <input type="text" id="portfolioName" @blur="checkPortfolioNameValidity" @focus="resetInputStyling" v-model.trim="portfolioName" :class="portfolioNameIsValidClass" autocomplete="off" />
-                        </section>
+    <Breadcrumbs
+      baseLink="/portfolios"
+      baseLinkName="My Portfolios"
+      secondLink="/portfolios/new"
+      secondLinkName="Add Portfolio"
+    />
 
-                        <section class="uploadFilesGroup">
-                            <section class="uploadFilesGroup__heading">
-                                <p class="filesLabelP">
-                                    Files
-                                    <Icon 
-                                        @click="scrollToHelp"
-                                        class="uploadFilesTooltipBtn" icon="clarity:help-info-solid" color="var(--clr-blue)" height="18" />
-                                </p>
-                            </section>
-                            <!-- <section v-if="isTooltipOpen" @click="toggleTooltip" class="overlay"></section> -->
-                            <!-- <transition name="slide-fade" mode="out-in">
-                                <section class="uploadFilesTooltipWrapper" v-if="isTooltipOpen"> 
-                                    <section class="uploadFilesTooltip">
-                                        <p>Export your <strong>Portfolio.csv</strong> file from the <a href="https://trader.degiro.nl/staging-trader/#/portfolio" target="_blank">
-                                        Portfolio page.</a></p><br>
-
-                                        <p>Export your <strong>Transactions.csv</strong> file from the<a :href="transactionsLink" target="_blank">
-                                        Transactions page.</a></p><br>
-
-                                        <p>Export your <strong>Account.csv</strong> file from the <a :href="accountLink" target="_blank">
-                                        Account Statements page.</a></p><br>
-
-                                        <p>
-                                            Make sure that for the <strong>Account.csv</strong> and <strong>Transactions.csv</strong> file, the start date is set to before you started investing.
-                                        </p>
-                                    </section>
-                                </section>
-                            </transition> -->
-                            <label class="uploadFilesLabel">
-                                <input @change="uploadFile" type="file" accept=".csv" multiple/>
-                                <span class="uploadFilesLabelText">{{ inputText }}</span>
-                            </label>
-                        </section>
-
-                        <section class="btnAndFileNames">
-                            <section class="fileNames">
-                                <section class="fileNamesAndBtn u-noselect">
-                                    <p class="fileName" :class="(portfolioFileIsValid) ? 'fileValid' : 'fileInvalid'">
-                                        
-                                        <span v-if="portfolioFileIsValid">
-                                            <CheckMarkIcon class="fileIcon"/>
-                                        </span> 
-                                        <span v-else>
-                                            <CloseIcon class="fileIcon"/>
-                                        </span> 
-                                    
-                                        <span>{{ portfolioFileName }}</span>
-                                    </p>
-                                    <p class="fileName" :class="(transactionsFileIsValid) ? 'fileValid' : 'fileInvalid'">
-                                    
-                                    <span v-if="transactionsFileIsValid">
-                                        <CheckMarkIcon class="fileIcon"/>
-                                    </span> 
-                                    <span v-else>
-                                        <CloseIcon class="fileIcon"/>
-                                    </span>
-                                    
-                                    <span>{{ transactionsFileName }}</span>
-                                    </p>
-                                    <p class="fileName" :class="(accountFileIsValid) ? 'fileValid' : 'fileInvalid'">
-                                        
-                                        <span v-if="accountFileIsValid">
-                                            <CheckMarkIcon class="fileIcon"/>
-                                        </span> 
-                                        <span v-else>
-                                            <CloseIcon class="fileIcon"/>
-                                        </span> 
-                                    
-                                        <span>{{ accountFileName }}</span>
-                                    </p>
-                                    
-                                </section>
-                            </section>
-                            <button class="resetUploadedBtn" @click="resetFiles">Reset Uploads</button>
-                        </section>
-                                
-                        <section class="fileButtons ">
-                            <Button type="submit" class="submitFiles">Add Portfolio</Button>
-                            <Button class="secondary" link to="/portfolios" >Cancel</Button>
-                        </section>
-                    </form>
-                </article>
-            </section>
-            
-        </section>
-        
-        <section class="addPortfolioHelp">
-            <h2>Need help?</h2>
-            <button class="collapsible" @click="toggleCollapsible(0)">What files do I need?</button>
-            <section class="content">
-            <p>
-                To add your Degiro portfolio to Capitalyse you'll need to export three CSV files from your Degiro account. This can be done through 
-                the app or website. The files are:
-            </p>
-            <p>
-                Portfolio.csv
-                <br>Transactions.csv
-                <br>Account.csv
-            </p>
-            <p>
-               Open the next dropdown box to see export instructions.
-            </p>
-            </section>
-            <button class="collapsible" @click="toggleCollapsible(1)">Export files from Degiro</button>
-            <section class="content">
-            <p>
-                Choose one of the following methods to export your files from Degiro.
-            </p>
-            <h3 class="contentTitle">Easy Export 
-                <span class="contentTitleThin">
-                    <Icon icon="eva:checkmark-outline" color="var(--clr-green)" height="17" />
-                    Recommended way
-                    </span>
-                </h3>
-            <p>
-                To quickly download the three files, follow the links below and log in to Degiro. 
-                For each link simply click the 'Export' button on the right, then select the 'CSV' format.
-            </p> 
-            <p>
-                <a href="https://trader.degiro.nl/staging-trader/#/portfolio" target="_blank">Portfolio</a>
-                <br>
-                <a :href="transactionsLink" target="_blank">Transactions</a>
-                <br>
-                <a :href="accountLink" target="_blank">Account Statements</a>
-            </p>
-            <h3 class="contentTitle">Manual Export</h3>
-            <p>
-                If the links do not work for you, or you wish to export manually:
-            </p>
-            <p>
-                <span class="listNumber">1.</span> Go to Activity > Transactions and set the start date to include your
-                portfolio's complete history.<br>
-                <span class="listNumber">2.</span> Click the 'Export' button and select 'CSV'.<br>
-                <span class="listNumber">3.</span> Go to Activity > Account Statements and set the start date to include your
-                portfolio's complete history.<br>
-                <span class="listNumber">4.</span> Click the 'Export' button and select 'CSV'.<br>
-                <span class="listNumber">5.</span> Go to the Portfolio page. Do not change any dates.<br>
-                <span class="listNumber">6.</span> Click the 'Export' button and select 'CSV'.<br>
-            </p>
-            </section>
-            <button class="collapsible" @click="toggleCollapsible(2)">Import files into Capitalyse  </button>
-            <section class="content">
-            <p>
-                Once you've downloaded all CSV files onto your device, 
-                you can import them into Capitalyse by clicking blue 'Upload Files' button.
-            </p>
-            <p>
-                Next, select all files you wish to upload. If there appears a green checkmark, the upload was succesful.
-            </p>
-            <p>
-                If the files aren't uploading, please check that you have selected the correct files
-                or have the correct start dates set in Degiro before downloading.
-            </p>
-            <p>
-                After uploading all files, you can delete them from your device.
-            </p>
-            </section>
-            <button class="collapsible" @click="toggleCollapsible(3)">What's in these files?</button>
-            <section class="content">
-                <p>
-                    If you've correctly exported all files, they should contain your trades, fees, holdings
-                    and account statements.
-                </p>
-                <p>
-                    These files do not contain any personal data and you can permanently delete all data from Capitalyse anytime
-                    you wish to do so. 
-                </p>
-                <p>
-                    Your data will not be used for any other purpose than to show you your analytics
-                    and insights, unless you have explicitly given permission for it to be used for testing purposes.
-                </p>
-            </section>
-        </section>
+    <section class="titleAndBackButtonContainer">
+      <BackButton />
+      <h1 class="uploadFilesTitle">Add Portfolio</h1>
     </section>
+
+    <section class="formCardContainer">
+      <section class="formCard" v-if="!isLoading">
+        <article class="wrapper">
+          <form @submit.prevent="submitForm" class="uploadFilesForm">
+            <section class="portfolioName">
+              <label for="portfolioName">Portfolio name</label>
+              <input
+                type="text"
+                id="portfolioName"
+                @blur="checkPortfolioNameValidity"
+                @focus="resetInputStyling"
+                v-model.trim="portfolioName"
+                :class="portfolioNameIsValidClass"
+                autocomplete="off"
+              />
+            </section>
+
+            <section class="uploadFilesGroup">
+              <section class="uploadFilesGroup__heading">
+                <p class="filesLabelP">
+                  Files
+                  <Icon
+                    @click="scrollToHelp"
+                    class="uploadFilesTooltipBtn"
+                    icon="clarity:help-info-solid"
+                    color="var(--clr-blue)"
+                    height="18"
+                  />
+                </p>
+              </section>
+              <label class="uploadFilesLabel">
+                <input
+                  @change="uploadFile"
+                  type="file"
+                  accept=".csv"
+                  multiple
+                />
+                <span class="uploadFilesLabelText">{{ inputText }}</span>
+              </label>
+            </section>
+
+            <section class="btnAndFileNames">
+              <section class="fileNames">
+                <section class="fileNamesAndBtn u-noselect">
+                  <p
+                    class="fileName"
+                    :class="portfolioFileIsValid ? 'fileValid' : 'fileInvalid'"
+                  >
+                    <span v-if="portfolioFileIsValid">
+                      <CheckMarkIcon class="fileIcon" />
+                    </span>
+                    <span v-else>
+                      <CloseIcon class="fileIcon" />
+                    </span>
+
+                    <span>{{ portfolioFileName }}</span>
+                  </p>
+                  <p
+                    class="fileName"
+                    :class="
+                      transactionsFileIsValid ? 'fileValid' : 'fileInvalid'
+                    "
+                  >
+                    <span v-if="transactionsFileIsValid">
+                      <CheckMarkIcon class="fileIcon" />
+                    </span>
+                    <span v-else>
+                      <CloseIcon class="fileIcon" />
+                    </span>
+
+                    <span>{{ transactionsFileName }}</span>
+                  </p>
+                  <p
+                    class="fileName"
+                    :class="accountFileIsValid ? 'fileValid' : 'fileInvalid'"
+                  >
+                    <span v-if="accountFileIsValid">
+                      <CheckMarkIcon class="fileIcon" />
+                    </span>
+                    <span v-else>
+                      <CloseIcon class="fileIcon" />
+                    </span>
+
+                    <span>{{ accountFileName }}</span>
+                  </p>
+                </section>
+              </section>
+              <button class="resetUploadedBtn" @click="resetFiles">
+                Reset Uploads
+              </button>
+            </section>
+
+            <section class="fileButtons">
+              <Button type="submit" class="submitFiles">Add Portfolio</Button>
+              <Button class="secondary" link to="/portfolios">Cancel</Button>
+            </section>
+          </form>
+        </article>
+      </section>
+    </section>
+
+    <section class="addPortfolioHelp">
+      <h2>Need help?</h2>
+      <button class="collapsible" @click="toggleCollapsible(0)">
+        What files do I need?
+      </button>
+      <section class="content">
+        <p>
+          To add your Degiro portfolio to Capitalyse you'll need to export three
+          CSV files from your Degiro account. This can be done through the app
+          or website. The files are:
+        </p>
+        <p>
+          Portfolio.csv
+          <br />Transactions.csv <br />Account.csv
+        </p>
+        <p>Open the next dropdown box to see export instructions.</p>
+      </section>
+      <button class="collapsible" @click="toggleCollapsible(1)">
+        Export files from Degiro
+      </button>
+      <section class="content">
+        <p>
+          Choose one of the following methods to export your files from Degiro.
+        </p>
+        <h3 class="contentTitle">
+          Easy Export
+          <span class="contentTitleThin">
+            <Icon
+              icon="eva:checkmark-outline"
+              color="var(--clr-green)"
+              height="17"
+            />
+            Recommended way
+          </span>
+        </h3>
+        <p>
+          To quickly download the three files, follow the links below and log in
+          to Degiro. For each link simply click the 'Export' button on the
+          right, then select the 'CSV' format.
+        </p>
+        <p>
+          <a
+            href="https://trader.degiro.nl/staging-trader/#/portfolio"
+            target="_blank"
+            >Portfolio</a
+          >
+          <br />
+          <a :href="transactionsLink" target="_blank">Transactions</a>
+          <br />
+          <a :href="accountLink" target="_blank">Account Statements</a>
+        </p>
+        <h3 class="contentTitle">Manual Export</h3>
+        <p>If the links do not work for you, or you wish to export manually:</p>
+        <p>
+          <span class="listNumber">1.</span> Go to Activity > Transactions and
+          set the start date to include your portfolio's complete history.<br />
+          <span class="listNumber">2.</span> Click the 'Export' button and
+          select 'CSV'.<br />
+          <span class="listNumber">3.</span> Go to Activity > Account Statements
+          and set the start date to include your portfolio's complete
+          history.<br />
+          <span class="listNumber">4.</span> Click the 'Export' button and
+          select 'CSV'.<br />
+          <span class="listNumber">5.</span> Go to the Portfolio page. Do not
+          change any dates.<br />
+          <span class="listNumber">6.</span> Click the 'Export' button and
+          select 'CSV'.<br />
+        </p>
+      </section>
+      <button class="collapsible" @click="toggleCollapsible(2)">
+        Import files into Capitalyse
+      </button>
+      <section class="content">
+        <p>
+          Once you've downloaded all CSV files onto your device, you can import
+          them into Capitalyse by clicking blue 'Upload Files' button.
+        </p>
+        <p>
+          Next, select all files you wish to upload. If there appears a green
+          checkmark, the upload was succesful.
+        </p>
+        <p>
+          If the files aren't uploading, please check that you have selected the
+          correct files or have the correct start dates set in Degiro before
+          downloading.
+        </p>
+        <p>After uploading all files, you can delete them from your device.</p>
+      </section>
+      <button class="collapsible" @click="toggleCollapsible(3)">
+        What's in these files?
+      </button>
+      <section class="content">
+        <p>
+          If you've correctly exported all files, they should contain your
+          trades, fees, holdings and account statements.
+        </p>
+        <p>
+          These files do not contain any personal data and you can permanently
+          delete all data from Capitalyse anytime you wish to do so.
+        </p>
+        <p>
+          Your data will not be used for any other purpose than to show you your
+          analytics and insights, unless you have explicitly given permission
+          for it to be used for testing purposes.
+        </p>
+      </section>
+    </section>
+  </section>
 </template>
 
 <script>
-import CloseIcon from 'vue-material-design-icons/Close.vue';
-import { Icon } from '@iconify/vue';
-import CheckMarkIcon from 'vue-material-design-icons/CheckDecagram.vue';
-import Breadcrumbs from '../../components/ui/Breadcrumbs.vue';
-import Header from '../../components/layout/Header.vue';
-import csvToArrayMixin from '../../mixins/csvToArray.js';
-import includesFromArray from '../../mixins/includesFromArray.js';
+import CloseIcon from "vue-material-design-icons/Close.vue";
+import { Icon } from "@iconify/vue";
+import CheckMarkIcon from "vue-material-design-icons/CheckDecagram.vue";
+import Breadcrumbs from "../../components/ui/Breadcrumbs.vue";
+import Header from "../../components/layout/Header.vue";
+import csvToArrayMixin from "../../mixins/helpers/csvToArray.js";
+import includesFromArray from "../../mixins/helpers/includesFromArray.js";
 
-import BackButton from '../../components/ui/BackButton.vue';
+import BackButton from "../../components/ui/BackButton.vue";
 
 export default {
-    mixins: [csvToArrayMixin, includesFromArray],
-    components: {
-        CloseIcon,
-        CheckMarkIcon,
-        Header,
-        Breadcrumbs,
-        Icon,
-        BackButton
+  mixins: [csvToArrayMixin, includesFromArray],
+  components: {
+    CloseIcon,
+    CheckMarkIcon,
+    Header,
+    Breadcrumbs,
+    Icon,
+    BackButton,
+  },
+  data() {
+    return {
+      transactionsFile: null,
+      accountFile: null,
+      portfolioFile: null,
+      transactionsFileName: "Transactions File",
+      accountFileName: "Account File",
+      portfolioFileName: "Portfolio File",
+      portfolioName: "",
+      accountFileIsEmpty: null,
+      transactionsFileIsEmpty: null,
+      portfolioFileIsEmpty: null,
+      portfolioNameIsValidClass: "",
+      isLoading: false,
+      isTooltipOpen: false,
+    };
+  },
+  watch: {
+    uploadingState() {
+      if (this.uploadingState === "success") {
+        this.$store.commit("files/setUploadingState", "none");
+        this.isLoading = false;
+        this.$router.push({ path: "/portfolios" });
+      } else if (this.uploadingState === "error") {
+        this.$store.commit("files/setUploadingState", "none");
+        this.isLoading = false;
+      }
     },
-    data() {
-        return {
-            transactionsFile: null,
-            accountFile: null,
-            portfolioFile: null,
-            transactionsFileName: 'Transactions File',
-            accountFileName: 'Account File',
-            portfolioFileName: 'Portfolio File',
-            portfolioName: '',
-            accountFileIsEmpty: null,
-            transactionsFileIsEmpty: null,
-            portfolioFileIsEmpty: null,
-            portfolioNameIsValidClass: '',
-            isLoading: false,
-            isTooltipOpen: false,
-        }
+    getPortfolios() {
+      this.alreadyHasPortfolios();
     },
-    watch: {
-        uploadingState() {
-            if (this.uploadingState === 'success') {
-                this.$store.commit('files/setUploadingState', 'none');
-                this.isLoading = false;
-                this.$router.push({ path: '/portfolios' });
-            } else if (this.uploadingState === 'error') {
-                this.$store.commit('files/setUploadingState', 'none');
-                this.isLoading = false;
-            }
-        },
-        getPortfolios() {
-            this.alreadyHasPortfolios();
-        },
+  },
+  computed: {
+    inputText() {
+      let tot = 0;
+      this.transactionsFile ? tot++ : null;
+      this.accountFile ? tot++ : null;
+      this.portfolioFile ? tot++ : null;
+      return "Upload Files (" + tot + "/3)";
     },
-    computed: {
-        inputText() {
-            let tot = 0
-            this.transactionsFile ? tot++ : null
-            this.accountFile ? tot++ : null
-            this.portfolioFile ? tot++ : null
-            return "Upload Files (" + tot + "/3)";
-        }, 
-        formIsValid() {
-            // if portfolio is valid and files are uploaded after passing checks then return true
-            if (this.portfolioNameIsValid && this.transactionsFileIsValid && this.accountFileIsValid && this.portfolioFileIsValid) {
-                return true;
-            } else {
-                return false;
-            }
-        },
-        portfolioNameIsValid() {
-            const forbiddenChars = ['/', '\\', '<', '>', ':', '"', '|', '?', '*', '&', '$', '#', '%', '@', '^', '+', '=', '~', '`', '{', '}', ';', '.', ','];
-            const valid = !this.includesFromArray(forbiddenChars, this.portfolioName) &&
-                this.portfolioName.length > 0 &&
-                this.portfolioName.length < 30;
-
-            return valid;
-        },
-        uploadingState(){
-            return this.$store.getters['files/getUploadingState'];
-        },
-        amountOfPortfolios() {
-            return this.$store.getters['files/amountOfPortfolios'];
-        },
-        accountFileIsValid() {
-            return !!this.accountFile;
-        },
-        transactionsFileIsValid() {
-            return !!this.transactionsFile;
-        },
-        portfolioFileIsValid() {
-            return !!this.portfolioFile;
-        },
-        accountLink() {
-            const today = new Date();
-            const dd = String(today.getDate()).padStart(2, '0');
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const yyyy = today.getFullYear();
-            const date = yyyy + '-' + mm + '-' + dd;
-
-            return `https://trader.degiro.nl/staging-trader/#/account-overview?fromDate=2000-01-01&toDate=${date}&aggregateCashFunds=true&currency=Alle`;
-        },
-        transactionsLink() {
-            const today = new Date();
-            const dd = String(today.getDate()).padStart(2, '0');
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const yyyy = today.getFullYear();
-            const date = yyyy + '-' + mm + '-' + dd;
-
-            return `https://trader.degiro.nl/staging-trader/#/transactions?fromDate=2000-01-01&toDate=${date}&aggregateCashFunds=true&currency=Alle`;
-        },
+    formIsValid() {
+      // if portfolio is valid and files are uploaded after passing checks then return true
+      if (
+        this.portfolioNameIsValid &&
+        this.transactionsFileIsValid &&
+        this.accountFileIsValid &&
+        this.portfolioFileIsValid
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     },
-    methods: {
-        toggleCollapsible(id) {
-            const collapsible = document.querySelectorAll('.collapsible')[id];
-            const content = document.querySelectorAll('.content')[id];
-            console.log(collapsible);
-            collapsible.classList.toggle('active');
-            if (content.style.maxHeight){
-            content.style.maxHeight = null;
-            content.style.padding = '0 1rem';
-            content.style.borderBottom = 'none';
-            } else {
-                content.style.maxHeight = 'calc(' + content.scrollHeight + "px + 2rem)";
-                content.style.padding = '1rem';
-                content.style.borderBottom = '1px solid var(--clr-medium-light-grey)';
-            } 
+    portfolioNameIsValid() {
+      const forbiddenChars = [
+        "/",
+        "\\",
+        "<",
+        ">",
+        ":",
+        '"',
+        "|",
+        "?",
+        "*",
+        "&",
+        "$",
+        "#",
+        "%",
+        "@",
+        "^",
+        "+",
+        "=",
+        "~",
+        "`",
+        "{",
+        "}",
+        ";",
+        ".",
+        ",",
+      ];
+      const valid =
+        !this.includesFromArray(forbiddenChars, this.portfolioName) &&
+        this.portfolioName.length > 0 &&
+        this.portfolioName.length < 30;
 
-        },
-        // toggleTooltip() {
-        //     this.isTooltipOpen = !this.isTooltipOpen;
-        // },
-        scrollToHelp() {
-            const help = document.querySelector('.addPortfolioHelp');
-            help.scrollIntoView({ behavior: 'smooth' });
-        },
-        resetInputStyling() {
-            this.portfolioNameIsValidClass = '';
-        },
-        checkPortfolioNameValidity() {
-            if (this.portfolioNameIsValid) {
-                this.portfolioNameIsValidClass = 'nameValid';
-            } else {
-                this.portfolioNameIsValidClass = 'nameInvalid';
-            }
-        },
-        getPortfolios() {
-            return this.$store.dispatch('files/fetchAllPortfolios');
-        },
-        submitForm() {
-            this.getPortfolios();
-            this.checkPortfolioNameValidity();
-            if(this.formIsValid) {
-                this.isLoading = true;
-                this.$store.dispatch('files/createNewPortfolio', {
-                    portfolioName: this.portfolioName,
-                    transactionsFile: this.transactionsFile,
-                    accountFile: this.accountFile,
-                    portfolioFile: this.portfolioFile,
-                    addedAt: new Date(),
-                });
-            } else {
-                this.isLoading = false;
-            }
-        },
-        // not used
-        validateFileContents(e) {
-            let isValid;
-            let reader = new FileReader();
-            
-            reader.onload = (e) => {
-                let text = e.target.result;
-                let fileAsArray = this.csvToArray(text);
-
-                const transactionsValid = fileAsArray[0].length === 19 &&
-                    fileAsArray.length !== 0;
-                const accountValid = fileAsArray[0].length === 12 &&
-                    fileAsArray.length !== 0;
-
-                isValid = !transactionsValid && !accountValid;
-            }
-            reader.readAsText(e);
-
-            return isValid;
-        },
-        uploadFile(event) {
-            this.checkFileValidity(event.target.files);
-        },
-        checkFileValidity(file) {
-            const maxFileSizeKB = 10000;
-
-            for(let i = 0; i < file.length; i++) {
-                const valid = file[i].size > 0 && 
-                    file[i].size < (maxFileSizeKB * 1024) &&
-                    file[i].type.includes('csv');
-                    // this.validateFileContents(file[i]);
-                
-                valid ? this.addFile(file[i]) : this.incorrectFile(file[i]);
-            }
-        },
-        addFile(file) {
-            if(file.name.includes('Transactions')) {
-                this.transactionsFile = file;
-                this.transactionsFileName = file.name;
-            } else if(file.name.includes('Account')) {
-                this.accountFile = file;
-                this.accountFileName = file.name;
-            } else if(file.name.includes('Portfolio')) {
-                this.portfolioFile = file;
-                this.portfolioFileName = file.name;
-            }
-        },
-        incorrectFile(file) {
-            if(file.name.includes('Transactions')) {
-                this.transactionsFile = null;
-                this.transactionsFileName = file.name;
-            } else if(file.name.includes('Account')) {
-                this.accountFile = null;
-                this.accountFileName = file.name;
-            } else if(file.name.includes('Portfolio')) {
-                this.portfolioFile = null;
-                this.portfolioFileName = file.name;
-            }
-        },
-        resetFiles() {
-            this.transactionsFile = null;
-            this.accountFile = null;
-            this.portfolioFile = null;
-            this.transactionsFileName = 'Transactions File';
-            this.accountFileName = 'Account File';
-            this.portfolioFileName = 'Portfolio File';
-        },
-        getDate() {
-             // get date DD-MM-YYYY
-            let date = new Date();
-            let dd = date.getDate();
-            let mm = date.getMonth() + 1;
-            let yyyy = date.getFullYear();
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-            date = dd + '-' + mm + '-' + yyyy;
-            return date;
-        }
+      return valid;
     },
-    created() {
-        this.$store.commit('files/setUploadingState', 'none');
-    }
-}
+    uploadingState() {
+      return this.$store.getters["files/getUploadingState"];
+    },
+    amountOfPortfolios() {
+      return this.$store.getters["files/amountOfPortfolios"];
+    },
+    accountFileIsValid() {
+      return !!this.accountFile;
+    },
+    transactionsFileIsValid() {
+      return !!this.transactionsFile;
+    },
+    portfolioFileIsValid() {
+      return !!this.portfolioFile;
+    },
+    accountLink() {
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, "0");
+      const mm = String(today.getMonth() + 1).padStart(2, "0");
+      const yyyy = today.getFullYear();
+      const date = yyyy + "-" + mm + "-" + dd;
+
+      return `https://trader.degiro.nl/staging-trader/#/account-overview?fromDate=2000-01-01&toDate=${date}&aggregateCashFunds=true&currency=Alle`;
+    },
+    transactionsLink() {
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, "0");
+      const mm = String(today.getMonth() + 1).padStart(2, "0");
+      const yyyy = today.getFullYear();
+      const date = yyyy + "-" + mm + "-" + dd;
+
+      return `https://trader.degiro.nl/staging-trader/#/transactions?fromDate=2000-01-01&toDate=${date}&aggregateCashFunds=true&currency=Alle`;
+    },
+  },
+  methods: {
+    toggleCollapsible(id) {
+      const collapsible = document.querySelectorAll(".collapsible")[id];
+      const content = document.querySelectorAll(".content")[id];
+      console.log(collapsible);
+      collapsible.classList.toggle("active");
+      if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+        content.style.padding = "0 1rem";
+        content.style.borderBottom = "none";
+      } else {
+        content.style.maxHeight = "calc(" + content.scrollHeight + "px + 2rem)";
+        content.style.padding = "1rem";
+        content.style.borderBottom = "1px solid var(--clr-medium-light-grey)";
+      }
+    },
+    scrollToHelp() {
+      const help = document.querySelector(".addPortfolioHelp");
+      help.scrollIntoView({ behavior: "smooth" });
+    },
+    resetInputStyling() {
+      this.portfolioNameIsValidClass = "";
+    },
+    checkPortfolioNameValidity() {
+      if (this.portfolioNameIsValid) {
+        this.portfolioNameIsValidClass = "nameValid";
+      } else {
+        this.portfolioNameIsValidClass = "nameInvalid";
+      }
+    },
+    getPortfolios() {
+      return this.$store.dispatch("files/fetchAllPortfolios");
+    },
+    submitForm() {
+      this.getPortfolios();
+      this.checkPortfolioNameValidity();
+      if (this.formIsValid) {
+        this.isLoading = true;
+        this.$store.dispatch("files/createNewPortfolio", {
+          portfolioName: this.portfolioName,
+          transactionsFile: this.transactionsFile,
+          accountFile: this.accountFile,
+          portfolioFile: this.portfolioFile,
+          addedAt: new Date(),
+        });
+      } else {
+        this.isLoading = false;
+      }
+    },
+    // not used
+    validateFileContents(e) {
+      let isValid;
+      let reader = new FileReader();
+
+      reader.onload = (e) => {
+        let text = e.target.result;
+        let fileAsArray = this.csvToArray(text);
+
+        const transactionsValid =
+          fileAsArray[0].length === 19 && fileAsArray.length !== 0;
+        const accountValid =
+          fileAsArray[0].length === 12 && fileAsArray.length !== 0;
+
+        isValid = !transactionsValid && !accountValid;
+      };
+      reader.readAsText(e);
+
+      return isValid;
+    },
+    uploadFile(event) {
+      this.checkFileValidity(event.target.files);
+    },
+    checkFileValidity(file) {
+      const maxFileSizeKB = 10000;
+
+      for (let i = 0; i < file.length; i++) {
+        const valid =
+          file[i].size > 0 &&
+          file[i].size < maxFileSizeKB * 1024 &&
+          file[i].type.includes("csv");
+        // this.validateFileContents(file[i]);
+
+        valid ? this.addFile(file[i]) : this.incorrectFile(file[i]);
+      }
+    },
+    addFile(file) {
+      if (file.name.includes("Transactions")) {
+        this.transactionsFile = file;
+        this.transactionsFileName = file.name;
+      } else if (file.name.includes("Account")) {
+        this.accountFile = file;
+        this.accountFileName = file.name;
+      } else if (file.name.includes("Portfolio")) {
+        this.portfolioFile = file;
+        this.portfolioFileName = file.name;
+      }
+    },
+    incorrectFile(file) {
+      if (file.name.includes("Transactions")) {
+        this.transactionsFile = null;
+        this.transactionsFileName = file.name;
+      } else if (file.name.includes("Account")) {
+        this.accountFile = null;
+        this.accountFileName = file.name;
+      } else if (file.name.includes("Portfolio")) {
+        this.portfolioFile = null;
+        this.portfolioFileName = file.name;
+      }
+    },
+    resetFiles() {
+      this.transactionsFile = null;
+      this.accountFile = null;
+      this.portfolioFile = null;
+      this.transactionsFileName = "Transactions File";
+      this.accountFileName = "Account File";
+      this.portfolioFileName = "Portfolio File";
+    },
+    getDate() {
+      // get date DD-MM-YYYY
+      let date = new Date();
+      let dd = date.getDate();
+      let mm = date.getMonth() + 1;
+      let yyyy = date.getFullYear();
+      if (dd < 10) {
+        dd = "0" + dd;
+      }
+      if (mm < 10) {
+        mm = "0" + mm;
+      }
+      date = dd + "-" + mm + "-" + yyyy;
+      return date;
+    },
+  },
+  created() {
+    this.$store.commit("files/setUploadingState", "none");
+  },
+};
 </script>
 
 <style scoped>
 .addPortfolioHelp {
-    margin-top: 4rem;
+  margin-top: 4rem;
 }
 
 .addPortfolioHelp h2 {
-    text-align: center;
-    margin-bottom: 1rem;
-    font-size: 1.25rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
 }
 
 .collapsible {
@@ -472,16 +532,16 @@ export default {
 }
 
 .active {
-    border-radius: 0.6rem 0.6rem 0rem 0rem;
-    border-bottom: none;
+  border-radius: 0.6rem 0.6rem 0rem 0rem;
+  border-bottom: none;
 }
 
 .listNumber {
-    color: var(--clr-blue);
+  color: var(--clr-blue);
 }
 
 .collapsible:after {
-  content: '\002B';
+  content: "\002B";
   color: var(--clr-dark-grey);
   font-weight: bold;
   float: right;
@@ -489,310 +549,304 @@ export default {
 }
 
 .active:after {
-    content: "\2212";
+  content: "\2212";
 }
 
 .content {
-    padding: 0 1rem;
-    max-height: 0;
-    overflow: hidden;
-    border-radius: 0rem 0rem 0.6rem 0.6rem;
-    transition: all 0.2s ease-out;
-    background-color: var(--clr-very-light-blue);
-    margin-bottom: 0.75rem;
-    border: 1px solid var(--clr-medium-light-grey);
-    border-top: none;
-    border-bottom: none;
+  padding: 0 1rem;
+  max-height: 0;
+  overflow: hidden;
+  border-radius: 0rem 0rem 0.6rem 0.6rem;
+  transition: all 0.2s ease-out;
+  background-color: var(--clr-very-light-blue);
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--clr-medium-light-grey);
+  border-top: none;
+  border-bottom: none;
 }
 
 .contentTitle {
-    margin-bottom: 0.4rem;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
 }
 .contentTitleThin {
-    font-weight: lighter;
-    font-size: 0.85rem;
-    color: var(--clr-green);
-    display: inline-flex;
-    margin-left: 0.5rem;
-    gap: 0.1rem;
-    align-items: center;
+  font-weight: lighter;
+  font-size: 0.85rem;
+  color: var(--clr-green);
+  display: inline-flex;
+  margin-left: 0.5rem;
+  gap: 0.1rem;
+  align-items: center;
 }
 
 .content p {
-    color: var(--clr-dark-grey);
-    margin-bottom: 1rem;
-    font-size: 0.875rem;
-    line-height: 1.15rem;
+  color: var(--clr-dark-grey);
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.15rem;
 }
 .content p:nth-last-child(1) {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
-
-
 
 a {
-    color: #00a8ff;
+  color: #00a8ff;
 }
 
-
 .uploadFilesTitle {
-    margin: 0;
+  margin: 0;
 }
 
 .overlay {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.1);
-    z-index: 2;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 2;
 }
 
 .portfolioNameInvalid__label {
-    color: var(--clr-red);
+  color: var(--clr-red);
 }
 
 .nameValid {
-    border: 1px solid var(--clr-blue) !important;
+  border: 1px solid var(--clr-blue) !important;
 }
 
 .nameInvalid {
-    color: var(--clr-red);
-    border: 1px solid var(--clr-red) !important;
+  color: var(--clr-red);
+  border: 1px solid var(--clr-red) !important;
 }
 
 .spinner {
-    position: absolute;
-    top: 50%;
-    left: 48%;
+  position: absolute;
+  top: 50%;
+  left: 48%;
 }
 
 h1 {
-    margin-bottom: 1rem;
-    margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  margin-top: 0.25rem;
 }
 
 .container {
-    margin: 0 auto;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    width: 28rem;
+  margin: 0 auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  width: 28rem;
 }
 
 .formCardContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .formCard {
-    width: 30rem;
-    padding: 1.25rem;
-    background-color: var(--clr-very-light-blue);
-    box-shadow: var(--box-shadow-big);
-    border-radius: var(--card-border-radius);
+  width: 30rem;
+  padding: 1.25rem;
+  background-color: var(--clr-very-light-blue);
+  box-shadow: var(--box-shadow-big);
+  border-radius: var(--card-border-radius);
 }
 
 .fileValid {
-    color: var(--clr-green);
+  color: var(--clr-green);
 }
 
 .fileInvalid {
-    color: var(--clr-red);
+  color: var(--clr-red);
 }
 
 input {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 input[type="text"] {
-    width: 100%;
-    padding: 1rem;
-    background-color: var(--clr-white);
-    border: 1px solid var(--clr-medium-light-grey-2);
-    border-radius: var(--btn-radius);
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--clr-black);
-    box-shadow: var(--box-shadow-small);
-    margin-top: 0.3rem;
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--clr-white);
+  border: 1px solid var(--clr-medium-light-grey-2);
+  border-radius: var(--btn-radius);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--clr-black);
+  box-shadow: var(--box-shadow-small);
+  margin-top: 0.3rem;
 }
 
 .filesLabelP {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    margin-top: 0.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.4rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .uploadFilesTooltipWrapper {
-    position: relative;
-    box-shadow: var(--box-shadow);
-    
+  position: relative;
+  box-shadow: var(--box-shadow);
 }
 
 .uploadFilesTooltip {
-    position: absolute;
-    top: -2.8rem;
-    left: 4.4rem;
-    font-size: 0.85rem;
-    background-color: var(--clr-white);
-    padding: 0.7rem;
-    border-radius: var(--card-border-radius);
-    box-shadow: var(--box-shadow);
-    z-index: 3;
+  position: absolute;
+  top: -2.8rem;
+  left: 4.4rem;
+  font-size: 0.85rem;
+  background-color: var(--clr-white);
+  padding: 0.7rem;
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--box-shadow);
+  z-index: 3;
 }
 
 .uploadFilesTooltip::after {
-    content: '';
-    position: absolute;
-    top: 1rem;
-    left: -0.2rem;
-    transform: translateX(-50%);
-    border-top: 0.5rem solid transparent;
-    border-bottom: 0.5rem solid transparent;
-    border-right: 0.5rem solid var(--clr-white);
+  content: "";
+  position: absolute;
+  top: 1rem;
+  left: -0.2rem;
+  transform: translateX(-50%);
+  border-top: 0.5rem solid transparent;
+  border-bottom: 0.5rem solid transparent;
+  border-right: 0.5rem solid var(--clr-white);
 }
 
 .uploadFilesTooltip p {
-    color: var(--clr-grey);
+  color: var(--clr-grey);
 }
 
 .uploadFilesTooltipBtn:hover {
-    cursor: pointer;
-    background-color: var(--clr-light-blue);
-    border-radius: 100px;
+  cursor: pointer;
+  background-color: var(--clr-light-blue);
+  border-radius: 100px;
 }
 
 label {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
 input[type="file"] {
-   display: none;
+  display: none;
 }
 
 input[type="submit"]:hover {
-    transform: scale(1.01);
-    box-shadow: var(--btn-shadow);
+  transform: scale(1.01);
+  box-shadow: var(--btn-shadow);
 }
 
 input[type="submit"] {
-    padding: var(--btn-padding);
-    font-size: var(--btn-font-size);
-    font-weight: var(--btn-font-weight);
-    font-family: var(--fnt-main);
-    background-color: var(--clr-blue);
-    color: var(--clr-white);
-    cursor: pointer;
-    transition: 0.2s all;
-    border: 2px solid var(--clr-blue);
-    border-radius: var(--btn-radius);
+  padding: var(--btn-padding);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  font-family: var(--fnt-main);
+  background-color: var(--clr-blue);
+  color: var(--clr-white);
+  cursor: pointer;
+  transition: 0.2s all;
+  border: 2px solid var(--clr-blue);
+  border-radius: var(--btn-radius);
 }
 
 .uploadFilesLabelText {
-    font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 
 .fileIcon {
-    margin-right: 0.3rem;
-    height: 0px;
-    width: 20px;
+  margin-right: 0.3rem;
+  height: 0px;
+  width: 20px;
 }
 
 .uploadFilesForm {
-    display: grid;
-    grid-template-columns: 1fr;
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 .uploadFilesGroup {
-    display: grid;
-    grid-template-columns: 1fr;
-
-    margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-top: 1rem;
 }
 
 .uploadFilesGroup__heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .uploadFilesGroup__help {
-    font-size: 1rem;
-    color: var(--clr-grey);
-    font-weight: lighter;
-    margin-top: 0.5rem;
+  font-size: 1rem;
+  color: var(--clr-grey);
+  font-weight: lighter;
+  margin-top: 0.5rem;
 }
 
 .uploadFilesLabel {
-    background-color: var(--clr-light-blue);
-    border-radius: var(--btn-radius);
-    width: 100%;
-    padding: 0.7rem;
-    border: 3px dashed var(--clr-blue);
-    color: var(--clr-blue);
-    text-align: center;
+  background-color: var(--clr-light-blue);
+  border-radius: var(--btn-radius);
+  width: 100%;
+  padding: 0.7rem;
+  border: 3px dashed var(--clr-blue);
+  color: var(--clr-blue);
+  text-align: center;
 }
 
-.uploadFilesLabel:hover, .uploadFilesLabel:hover * {
-    cursor: pointer;
-    text-decoration: underline;
-    user-select: none;
+.uploadFilesLabel:hover,
+.uploadFilesLabel:hover * {
+  cursor: pointer;
+  text-decoration: underline;
+  user-select: none;
 }
-
 
 .fileName {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.2rem;
-    font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.2rem;
+  font-size: 0.9rem;
 }
 
 .btnAndFileNames {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-    margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 }
 
 .resetUploadedBtn {
-    height: 2rem;
-  
-    border: none;
-    color: var(--clr-blue);
-    font-size: 1rem;
-    background-color: transparent;
+  height: 2rem;
+  border: none;
+  color: var(--clr-blue);
+  font-size: 1rem;
+  background-color: transparent;
 }
 
-.resetUploadedBtn:hover{
-    box-shadow: none;
-    cursor: pointer;
-    transform: scale(1);
-    text-decoration: underline;
+.resetUploadedBtn:hover {
+  box-shadow: none;
+  cursor: pointer;
+  transform: scale(1);
+  text-decoration: underline;
 }
 
 .secondary {
-    text-align: center;
-    margin-top: 1rem;
+  text-align: center;
+  margin-top: 1rem;
 }
 
 .fileButtons {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .submitFiles {
-  background-image: linear-gradient(to right,#008cff,#006eff 100%);   
+  background-image: linear-gradient(to right, #008cff, #006eff 100%);
 }
 /* anims */
 .slide-fade-enter-active {
@@ -806,41 +860,39 @@ input[type="submit"] {
   opacity: 0;
 }
 .slide-fade-leave-to {
-    transform: translateY(-10px) translateX(-20px) scale(0.75);
-    opacity: 0;
+  transform: translateY(-10px) translateX(-20px) scale(0.75);
+  opacity: 0;
 }
 
 @media screen and (min-width: 768px) {
-    .formCard {
-        padding: 2rem;
-    }
+  .formCard {
+    padding: 2rem;
+  }
 }
 
 @media screen and (min-width: 400px) {
-    .container {
-        max-width: 92%;
-    }
+  .container {
+    max-width: 92%;
+  }
 }
 
-
 @media screen and (min-width: 650px) {
-    .cardsContainer {
-        grid-template-columns: 1fr 1fr;
-    }
+  .cardsContainer {
+    grid-template-columns: 1fr 1fr;
+  }
 
-    .container {
-        max-width: 90%;
-    }
+  .container {
+    max-width: 90%;
+  }
 }
 
 @media screen and (min-width: 1050px) {
-    .cardsContainer {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
+  .cardsContainer {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 
-    .container {
-        max-width: 1000px;
-    }
+  .container {
+    max-width: 1000px;
+  }
 }
-    
 </style>

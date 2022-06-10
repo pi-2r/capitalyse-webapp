@@ -1,4 +1,4 @@
-import cleanNumber from "../cleanNumber";
+import cleanNumber from "../helpers/cleanNumber";
 
 export default {
     mixins: [cleanNumber],

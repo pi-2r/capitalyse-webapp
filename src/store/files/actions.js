@@ -4,7 +4,7 @@ import {
     getFirestore,
     collection,
     getDocs,
-    deleteDoc, 
+    deleteDoc,
     doc,
     // getDoc,
     addDoc,
@@ -21,8 +21,6 @@ import {
     uploadBytes,
     deleteObject,
 } from 'firebase/storage';
-
-// mixins
 
 const db = getFirestore();
 
@@ -44,7 +42,7 @@ export default {
         const transactionsFileSize = (transactionsFile.size / 1024).toFixed(2);
         const accountFileSize = (accountFile.size / 1024).toFixed(2);
         const portfolioFileSize = (portfolioFile.size / 1024).toFixed(2);
-           
+
         const firebaseDocData = {
             portfolioName: payload.portfolioName,
             addedAt: payload.addedAt,
@@ -55,10 +53,10 @@ export default {
             accountFileSize: accountFileSize,
             portfolioFileSize: portfolioFileSize,
         }
-     
+
         // firestore link
         const setFirestorePortfolioRef = collection(db, `users/${userId}/portfolios`);
-        
+
         // firestore upload
         addDoc(setFirestorePortfolioRef, firebaseDocData).then((docRef) => {
             const portfolioId = docRef.id;
@@ -94,7 +92,7 @@ export default {
                     });
                 }).catch((error) => {
                     context.commit("setUploadingState", "error");
-                    console.log( 'error at transactions file upload');
+                    console.log('error at transactions file upload');
                     console.log(error);
                 });
             }).catch((error) => {
@@ -105,14 +103,14 @@ export default {
         }).catch(error => {
             context.commit("setUploadingState", "error");
             console.log('error at firestore upload');
-            console.log( error);
+            console.log(error);
         });
     },
     async fetchAllPortfolios(context) {
         const userId = context.rootGetters.userId;
         const portfoliosRef = collection(db, `users/${userId}/portfolios`);
         const querySnapshot = await getDocs(portfoliosRef);
-       
+
         let portfolios = [];
         querySnapshot.forEach(doc => {
             portfolios.push({
@@ -126,7 +124,7 @@ export default {
     async fetchOnePortfolio(context, payload) {
         const userId = context.rootGetters.userId;
         const portfolioId = payload;
-       
+
         const transactionsFileUrl = `users/${userId}/portfolios/${portfolioId}/Transactions.csv`;
         const accountFileUrl = `users/${userId}/portfolios/${portfolioId}/Account.csv`;
         const portfolioFileUrl = `users/${userId}/portfolios/${portfolioId}/Portfolio.csv`;
@@ -145,9 +143,9 @@ export default {
                     const transactionsFile = e.target.result;
                     // turn into array of arrays
                     const rows = transactionsFile.slice(transactionsFile.indexOf("\n") + 1).split("\n");
-                    rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));  
+                    rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
                     const transactionsArray = rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
-     
+
                     context.commit("setTransactionsFile", {
                         transactionsFile: transactionsArray,
                         portfolioId: portfolioId,
@@ -172,9 +170,9 @@ export default {
                     const accountFile = e.target.result;
                     // turn into array of arrays
                     const rows = accountFile.slice(accountFile.indexOf("\n") + 1).split("\n");
-                    rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));  
+                    rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
                     const accountArray = rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
-     
+
                     context.commit("setAccountFile", {
                         accountFile: accountArray,
                         portfolioId: portfolioId,

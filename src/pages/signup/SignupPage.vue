@@ -7,58 +7,58 @@
           <a class="linkToMainSite" href="https://www.capitalyse.net">
             <Logo class="logo" color="var(--clr-black)" />
           </a>
-            <h1>Sign up</h1>
-            <form @submit.prevent="submitForm" autocomplete="off">
-              <section class="form-group">
-                <section class="error-wrapper">
-                  <label for="email">E-mail</label>
-                  <p class="error">{{ emailErrorMsg }}</p>
-                </section>
-                <input
-                  type="email"
-                  id="email"
-                  :class="emailFormControl"
-                  placeholder="john@example.com"
-                  autocomplete="current-email"
-                  v-model.trim="email"
-                  @blur="checkEmailFormControl"
-                  @focus="resetEmailFormControl"
-                />
+          <h1>Sign up</h1>
+          <form @submit.prevent="submitForm" autocomplete="off">
+            <section class="form-group">
+              <section class="error-wrapper">
+                <label for="email">E-mail</label>
+                <p class="error">{{ emailErrorMsg }}</p>
               </section>
-              <section class="form-group">
-                <section class="error-wrapper">
-                  <label for="password">Password</label>
-                  <p class="error">{{ passwordErrorMessage }}</p>
-                </section>
-                <input
-                  type="password"
-                  id="password"
-                  :class="passwordFormControl"
-                  autocomplete="new-password"
-                  v-model.trim="password"
-                  @blur="checkPasswordFormControl"
-                  @focus="resetPasswordFormControl"
-                />
+              <input
+                type="email"
+                id="email"
+                :class="emailFormControl"
+                placeholder="john@example.com"
+                autocomplete="current-email"
+                v-model.trim="email"
+                @blur="checkEmailFormControl"
+                @focus="resetEmailFormControl"
+              />
+            </section>
+            <section class="form-group">
+              <section class="error-wrapper">
+                <label for="password">Password</label>
+                <p class="error">{{ passwordErrorMessage }}</p>
               </section>
-              <section class="form-group">
-                <section class="error-wrapper">
-                  <label for="repeat-password">Repeat Password</label>
-                  <p class="error">{{ repeatPasswordErrorMessage }}</p>
-                </section>
-                <input
-                  type="password"
-                  id="repeat-password"
-                  :class="repeatPasswordFormControl"
-                  v-model.trim="repeatPassword"
-                  autocomplete="new-password"
-                  @blur="checkRepeatPasswordFormControl"
-                  @focus="resetRepeatPasswordFormControl"
-                />
+              <input
+                type="password"
+                id="password"
+                :class="passwordFormControl"
+                autocomplete="new-password"
+                v-model.trim="password"
+                @blur="checkPasswordFormControl"
+                @focus="resetPasswordFormControl"
+              />
+            </section>
+            <section class="form-group">
+              <section class="error-wrapper">
+                <label for="repeat-password">Repeat Password</label>
+                <p class="error">{{ repeatPasswordErrorMessage }}</p>
               </section>
+              <input
+                type="password"
+                id="repeat-password"
+                :class="repeatPasswordFormControl"
+                v-model.trim="repeatPassword"
+                autocomplete="new-password"
+                @blur="checkRepeatPasswordFormControl"
+                @focus="resetRepeatPasswordFormControl"
+              />
+            </section>
 
-              <Button class="button">Sign up</Button>
-              <router-link to="/login" class="secondaryLink">
-                Log in instead
+            <Button class="button">Sign up</Button>
+            <router-link to="/login" class="secondaryLink">
+              Log in instead
             </router-link>
 
             <!-- <GoogleAuth /> -->
@@ -69,25 +69,37 @@
     <section class="imagesection">
       <section class="appimageoverlay"></section>
       <figure>
-        <img class="loginFormImage" loading="eager" src="@/assets/signup-bg.webp" alt="Big header image" />
+        <img
+          class="loginFormImage"
+          loading="eager"
+          src="@/assets/signup-bg.webp"
+          alt="Big header image"
+        />
       </figure>
-      
-      <h1 class="centered"><Logo class="logo" :ignoreTheme="true" color="var(--clr-white)" />Financial independence <br>starts with <span class="customUnderline">Capitalyse</span></h1>
-       <!-- <span class="appmark"></span> -->
+
+      <h1 class="centered">
+        <Logo
+          class="logo"
+          :ignoreTheme="true"
+          color="var(--clr-white)"
+        />Financial independence <br />starts with
+        <span class="customUnderline">Capitalyse</span>
+      </h1>
+      <!-- <span class="appmark"></span> -->
     </section>
   </section>
 </template>
 
 <script>
 // import GoogleAuth from '@/components/auth/GoogleAuth.vue';
-import Logo from '@/components/ui/Logo.vue';
+import Logo from "@/components/ui/Logo.vue";
 // import BackButton from '@/components/ui/BackButton.vue';
 
 export default {
   components: {
     // GoogleAuth,
     // BackButton,
-    Logo
+    Logo,
   },
   data() {
     return {
@@ -105,16 +117,16 @@ export default {
   },
   watch: {
     authError() {
-      if(this.authError) {
+      if (this.authError) {
         this.setErrorMessage(this.authError.message);
         this.isLoading = false;
       }
     },
     isAuth() {
-      if(this.isAuth) {
-        this.$router.replace('/portfolios');
+      if (this.isAuth) {
+        this.$router.replace("/portfolios");
       }
-    }
+    },
   },
   computed: {
     formIsValid() {
@@ -129,22 +141,21 @@ export default {
       }
     },
     isAuth() {
-      return this.$store.getters['isAuthenticated'];
+      return this.$store.getters["isAuthenticated"];
     },
     authError() {
-      return this.$store.getters['getAuthError'];
+      return this.$store.getters["getAuthError"];
     },
   },
   methods: {
     submitForm() {
       if (this.formIsValid) {
         this.isLoading = true;
-    
+
         this.$store.dispatch("signup", {
           email: this.email,
           password: this.password,
         });
-   
       } else {
         this.checkFormInputs();
       }
@@ -204,14 +215,14 @@ export default {
       this.repeatPasswordErrorMessage = "";
     },
     setErrorMessage(error) {
-      if(error.includes('auth/email-already-in-use')) {
+      if (error.includes("auth/email-already-in-use")) {
         this.emailErrorMsg = "E-mail already in use";
         this.emailFormControl = "invalid";
-      } else if(error.includes('auth/weak-password')) {
+      } else if (error.includes("auth/weak-password")) {
         this.passwordErrorMessage = "Password is too weak";
         this.passwordFormControl = "invalid";
       }
-    }
+    },
   },
 };
 </script>
@@ -298,7 +309,6 @@ export default {
   top: 45%;
 }
 
-
 .button {
   width: 100%;
   padding: 0.7rem 1rem;
@@ -307,7 +317,7 @@ export default {
 }
 
 button {
-  background-image: linear-gradient(to right,#008cff,#006eff 100%);
+  background-image: linear-gradient(to right, #008cff, #006eff 100%);
 }
 
 .secondary:hover {
@@ -356,7 +366,6 @@ input[type="password"]:-webkit-autofill:focus {
   /* overflow-y: scroll; */
 }
 
-
 .invalid {
   border: 1px solid rgb(190, 19, 19);
   color: rgb(231, 78, 78);
@@ -388,7 +397,6 @@ h1 {
   color: var(--clr-black);
   font-size: 2rem;
 }
-
 
 label {
   color: var(--clr-black);
@@ -429,8 +437,6 @@ input[type="password"] {
     display: none;
   }
 }
-
-
 
 @keyframes appTitleTextChange {
   0% {
