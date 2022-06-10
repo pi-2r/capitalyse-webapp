@@ -26,7 +26,6 @@ export default {
                     return diffInDays + ' day' + (diffInDays > 1 ? 's' : '') + ' ago';
                 }
             } else {
-             
                 return newDate;
             }
         },

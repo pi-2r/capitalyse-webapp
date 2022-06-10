@@ -1,4 +1,12 @@
 export default {
+    data() {
+        return {
+            names: {
+                buy: 'buy',
+                sell: 'sell',
+            }
+        }
+    },
     computed: {
         indexes() {
             return this.$store.getters['indexes/tradingFrequency'];
@@ -14,9 +22,9 @@ export default {
             // filter data to only include buys or sells
             for (let i = 0; i < data.length - 1; i++) {
                 if (data[i][buyOrSellIndex] !== "Aantal") {
-                    if (buyOrSell === "buy" && parseFloat(data[i][buyOrSellIndex]).toFixed(2) > 0) {
+                    if (buyOrSell === this.names.buy && parseFloat(data[i][buyOrSellIndex]).toFixed(2) > 0) {
                         products.push(data[i][searchIndex]);
-                    } else if (buyOrSell === "sell" && parseFloat(data[i][buyOrSellIndex]).toFixed(2) < 0) {
+                    } else if (buyOrSell === this.names.sell && parseFloat(data[i][buyOrSellIndex]).toFixed(2) < 0) {
                         products.push(data[i][searchIndex]);
                     }
                 }

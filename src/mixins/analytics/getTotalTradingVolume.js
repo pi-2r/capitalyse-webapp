@@ -1,6 +1,11 @@
-
-
 export default {
+    data() {
+        return {
+            names: {
+                eur: 'EUR',
+            },
+        }
+    },
     computed: {
         searchIndex() {
             return this.$store.getters['indexes/tradingVolume'].searchIndex
@@ -19,7 +24,7 @@ export default {
             
             for (let i = 0; i < data.length; i++) {
                 
-                if (data[i][searchIndex] !== "" && data[i][currencyIndex] === "EUR") {
+                if (data[i][searchIndex] !== "" && data[i][currencyIndex] === this.names.eur) {
 
                     vol = parseFloat(data[i][searchIndex]);
                     
