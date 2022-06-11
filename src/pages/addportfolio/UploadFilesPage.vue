@@ -1,8 +1,6 @@
 <template>
   <Header />
   <section class="container">
-    <Spinner class="spinner" v-if="isLoading" />
-
     <Breadcrumbs
       baseLink="/portfolios"
       baseLinkName="My Portfolios"
@@ -16,7 +14,7 @@
     </section>
 
     <section class="formCardContainer">
-      <section class="formCard" v-if="!isLoading">
+      <section class="formCard">
         <article class="wrapper">
           <form @submit.prevent="submitForm" class="uploadFilesForm">
             <section class="portfolioName">
@@ -103,12 +101,17 @@
                 </section>
               </section>
               <button class="resetUploadedBtn" @click="resetFiles">
-                Reset Uploads
+                Reset Files
               </button>
             </section>
 
             <section class="fileButtons">
-              <Button type="submit" class="submitFiles">Add Portfolio</Button>
+              <Button type="submit" class="submitFiles">
+                <section v-if="isLoading">
+                  <Spinner class="spinner" :btnSpinner="true" />
+                </section>
+                <section v-else>Add Portfolio</section>
+              </Button>
               <Button class="secondary" link to="/portfolios">Cancel</Button>
             </section>
           </form>
@@ -230,11 +233,12 @@
 import CloseIcon from "vue-material-design-icons/Close.vue";
 import { Icon } from "@iconify/vue";
 import CheckMarkIcon from "vue-material-design-icons/CheckDecagram.vue";
-import Breadcrumbs from "../../components/ui/Breadcrumbs.vue";
-import Header from "../../components/layout/Header.vue";
+
 import csvToArrayMixin from "../../mixins/helpers/csvToArray.js";
 import includesFromArray from "../../mixins/helpers/includesFromArray.js";
 
+import Breadcrumbs from "../../components/ui/Breadcrumbs.vue";
+import Header from "../../components/layout/Header.vue";
 import BackButton from "../../components/ui/BackButton.vue";
 
 export default {
@@ -372,7 +376,6 @@ export default {
     toggleCollapsible(id) {
       const collapsible = document.querySelectorAll(".collapsible")[id];
       const content = document.querySelectorAll(".content")[id];
-      console.log(collapsible);
       collapsible.classList.toggle("active");
       if (content.style.maxHeight) {
         content.style.maxHeight = null;
@@ -620,12 +623,6 @@ a {
 .nameInvalid {
   color: var(--clr-red);
   border: 1px solid var(--clr-red) !important;
-}
-
-.spinner {
-  position: absolute;
-  top: 50%;
-  left: 48%;
 }
 
 h1 {

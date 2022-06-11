@@ -11,7 +11,6 @@
         />
       </figure>
       <section class="content">
-        <Spinner class="spinner" v-if="isLoading" />
         <section class="form-wrapper">
           <a class="linkToMainSite" href="https://www.capitalyse.net">
             <BackButton />
@@ -51,7 +50,12 @@
               />
               {{ errorMessage }}
             </p>
-            <Button class="button">Log in</Button>
+            <Button class="button">
+              <section v-if="isLoading">
+                <Spinner class="spinner" :btnSpinner="true" />
+              </section>
+              <span v-else>Log in</span>
+            </Button>
             <router-link to="/signup" class="secondaryLink">
               Sign up instead
             </router-link>
@@ -246,12 +250,6 @@ export default {
 
 .backBtn:hover {
   transform: translateX(-2px);
-}
-
-.spinner {
-  position: absolute;
-  width: 300px;
-  top: 45%;
 }
 
 .button {

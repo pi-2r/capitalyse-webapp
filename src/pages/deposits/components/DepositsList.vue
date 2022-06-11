@@ -43,12 +43,12 @@
               </td>
             </tr>
 
-            <!-- 
-                    <tr v-if="isLoading">
-                            <td colspan="3" class="loading">
-                                Loading...
-                            </td>
-                        </tr> -->
+    
+            <tr v-if="isLoading">
+              <td colspan="3" class="loading">
+                  <Spinner class="spinner"/>
+              </td>
+          </tr>
           </tbody>
         </table>
       </section>
@@ -61,11 +61,13 @@ import includesFromArrayMixin from "@/mixins/helpers/includesFromArray";
 import splitDateMixin from "@/mixins/helpers/splitDate";
 
 import DepositsListItem from "./DepositsListItem";
+import Spinner from "@/components/ui/Spinner.vue";
 
 export default {
   mixins: [cleanNumberMixin, includesFromArrayMixin, splitDateMixin],
   components: {
     DepositsListItem,
+    Spinner
   },
   data() {
     return {
@@ -213,6 +215,10 @@ export default {
 };
 </script>
 <style scoped>
+.spinner {
+  margin: 2rem;
+}
+
 .amountOfDeposits {
   color: var(--clr-grey);
   font-size: 1rem;

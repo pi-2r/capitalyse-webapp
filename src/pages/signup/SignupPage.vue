@@ -66,7 +66,12 @@
               />
             </section>
 
-            <Button class="button">Sign up</Button>
+            <Button class="button">
+              <section v-if="isLoading">
+                <Spinner class="spinner" />
+              </section>
+              <span v-else>Sign up</span>
+            </Button>
             <router-link to="/login" class="secondaryLink">
               Log in instead
             </router-link>
@@ -238,6 +243,10 @@ export default {
 </script>
 
 <style scoped>
+.spinner {
+  height: 25px;
+}
+
 .appimageoverlay-mobile {
   display: none;
   position: absolute;
