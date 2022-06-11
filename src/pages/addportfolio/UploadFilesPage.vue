@@ -1,5 +1,5 @@
 <template>
-  <Header/>
+  <Header />
   <section class="container">
     <Spinner class="spinner" v-if="isLoading" />
 
