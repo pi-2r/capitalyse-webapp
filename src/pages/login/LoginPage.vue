@@ -1,11 +1,21 @@
 <template>
   <section class="loginContainer">
     <section class="contentWrapper">
+      <section class="appimageoverlay-mobile"></section>
+      <figure>
+        <img
+          class="loginFormImageMobile"
+          loading="eager"
+          src="@/assets/login-bg.webp"
+          alt="Big header image"
+        />
+      </figure>
       <section class="content">
         <Spinner class="spinner" v-if="isLoading" />
         <section class="form-wrapper">
           <a class="linkToMainSite" href="https://www.capitalyse.net">
-            <Logo class="logo"  color="var(--clr-black)" />
+            <BackButton />
+            <Logo class="logo" color="var(--clr-black)" />
           </a>
           <h1>Log in</h1>
           <form @submit.prevent="submitForm" autocomplete="off">
@@ -33,12 +43,17 @@
               />
             </section>
             <p class="error">
-              <Icon v-if="errorMessage !== ''" icon="akar-icons:circle-x-fill" color="var(--clr-red)" height="18" />
+              <Icon
+                v-if="errorMessage !== ''"
+                icon="akar-icons:circle-x-fill"
+                color="var(--clr-red)"
+                height="18"
+              />
               {{ errorMessage }}
             </p>
             <Button class="button">Log in</Button>
             <router-link to="/signup" class="secondaryLink">
-                Sign up instead
+              Sign up instead
             </router-link>
 
             <!-- <GoogleAuth /> -->
@@ -49,10 +64,22 @@
     <section class="imagesection">
       <section class="appimageoverlay"></section>
       <figure>
-        <img class="loginFormImage" loading="eager" src="@/assets/login-bg.webp" alt="Big header image" />
+        <img
+          class="loginFormImage"
+          loading="eager"
+          src="@/assets/login-bg.webp"
+          alt="Big header image"
+        />
       </figure>
-      
-      <h1 class="centered"><Logo class="logo" :ignoreTheme="true" color="var(--clr-white)" />Welcome back, we hope you're <span class="customUnderline">making progress</span></h1>
+
+      <h1 class="centered">
+        <Logo
+          class="logo"
+          :ignoreTheme="true"
+          color="var(--clr-white)"
+        />Welcome back, we hope you're
+        <span class="customUnderline">making progress</span>
+      </h1>
       <!-- <span class="appmark"></span> -->
     </section>
   </section>
@@ -60,16 +87,16 @@
 
 <script>
 // import GoogleAuth from "@/components/auth/GoogleAuth.vue";
-// import BackButton from "@/components/ui/BackButton.vue";
+import BackButton from "@/components/ui/BackButton.vue";
 import Logo from "@/components/ui/Logo.vue";
-import { Icon } from '@iconify/vue';
+import { Icon } from "@iconify/vue";
 
 export default {
   components: {
     // GoogleAuth,
-    // BackButton,
+    BackButton,
     Logo,
-    Icon
+    Icon,
   },
   data() {
     return {
@@ -130,7 +157,7 @@ export default {
 
 <style scoped>
 .linkToMainSite {
-  display: inline-block;
+  display: inline-flex;
   text-decoration: none;
 }
 
@@ -176,6 +203,14 @@ export default {
   overflow: hidden;
 }
 
+.loginFormImageMobile {
+  width: 100vw;
+  height: 8rem;
+  object-fit: cover;
+  margin-bottom: 4rem;
+  display: none;
+}
+
 .loginFormImage {
   height: 100vh;
   box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 30px 0px;
@@ -187,6 +222,15 @@ export default {
   width: 65vw;
   background-color: black;
   opacity: 0.65;
+}
+
+.appimageoverlay-mobile {
+  display: none;
+  position: absolute;
+  height: 8rem;
+  width: 100vw;
+  background-color: black;
+  opacity: 0.5;
 }
 
 .content {
@@ -210,7 +254,6 @@ export default {
   top: 45%;
 }
 
-
 .button {
   width: 100%;
   padding: 0.7rem 1rem;
@@ -219,7 +262,7 @@ export default {
 }
 
 button {
-  background-image: linear-gradient(to right,#008cff,#006eff 100%);
+  background-image: linear-gradient(to right, #008cff, #006eff 100%);
 }
 
 .secondary:hover {
@@ -236,7 +279,7 @@ button {
   text-decoration: underline;
 }
 
-/* input:-webkit-autofill,
+input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
@@ -245,18 +288,15 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  border: 1px solid var(--clr-blue);
-  -webkit-text-fill-color: white;
-  box-shadow: 0 0 0px 1000px #ebebeb inset;
-  -webkit-box-shadow: 0 0 0px 1000px #ececec inset;
+  -webkit-text-fill-color: var(--clr-black);
   transition: background-color 5000s ease-in-out 0s;
-  color: var(--clr-white);
-} */
+  color: var(--clr-black);
+}
 
 input[type="password"]:-webkit-autofill,
 input[type="password"]:-webkit-autofill:hover,
 input[type="password"]:-webkit-autofill:focus {
-  letter-spacing: 0.35rem;
+  letter-spacing: 0.25rem;
 }
 
 .contentWrapper {
@@ -267,7 +307,6 @@ input[type="password"]:-webkit-autofill:focus {
   height: 100vh;
   /* overflow-y: scroll; */
 }
-
 
 .invalid {
   border: 1px solid rgb(190, 19, 19);
@@ -301,7 +340,6 @@ h1 {
   font-size: 2rem;
 }
 
-
 label {
   color: var(--clr-black);
   font-size: 100%;
@@ -322,7 +360,7 @@ input {
 }
 
 input[type="password"] {
-  letter-spacing: 0.25em;
+  letter-spacing: 0.25rem;
 }
 
 /* media queries */
@@ -340,9 +378,16 @@ input[type="password"] {
   .centered {
     display: none;
   }
+  .loginFormImageMobile {
+    display: block;
+  }
+  .contentWrapper {
+    justify-content: start;
+  }
+  .appimageoverlay-mobile {
+    display: block;
+  }
 }
-
-
 
 @keyframes appTitleTextChange {
   0% {

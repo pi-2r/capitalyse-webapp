@@ -1,10 +1,20 @@
 <template>
   <section class="loginContainer">
     <section class="contentWrapper">
+      <section class="appimageoverlay-mobile"></section>
+      <figure>
+        <img
+          class="loginFormImageMobile"
+          loading="eager"
+          src="@/assets/signup-bg.webp"
+          alt="Big header image"
+        />
+      </figure>
       <section class="content">
         <Spinner class="spinner" v-if="isLoading" />
         <section class="form-wrapper">
           <a class="linkToMainSite" href="https://www.capitalyse.net">
+            <BackButton />
             <Logo class="logo" color="var(--clr-black)" />
           </a>
           <h1>Sign up</h1>
@@ -93,12 +103,12 @@
 <script>
 // import GoogleAuth from '@/components/auth/GoogleAuth.vue';
 import Logo from "@/components/ui/Logo.vue";
-// import BackButton from '@/components/ui/BackButton.vue';
+import BackButton from '@/components/ui/BackButton.vue';
 
 export default {
   components: {
     // GoogleAuth,
-    // BackButton,
+    BackButton,
     Logo,
   },
   data() {
@@ -228,8 +238,25 @@ export default {
 </script>
 
 <style scoped>
+.appimageoverlay-mobile {
+  display: none;
+  position: absolute;
+  height: 8rem;
+  width: 100vw;
+  background-color: black;
+  opacity: 0.5;
+}
+
+.loginFormImageMobile {
+  width: 100vw;
+  height: 8rem;
+  object-fit: cover;
+  margin-bottom: 4rem;
+  display: none;
+}
+
 .linkToMainSite {
-  display: inline-block;
+  display: inline-flex;
   text-decoration: none;
 }
 
@@ -435,6 +462,15 @@ input[type="password"] {
   }
   .centered {
     display: none;
+  }
+  .loginFormImageMobile {
+    display: block;
+  }
+  .contentWrapper {
+    justify-content: start;
+  }
+  .appimageoverlay-mobile {
+    display: block;
   }
 }
 
