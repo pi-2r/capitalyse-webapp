@@ -205,7 +205,7 @@ export default {
 
 .loginFormImageMobile {
   width: 100vw;
-  height: 8rem;
+  height: 6rem;
   object-fit: cover;
   margin-bottom: 4rem;
   display: none;
@@ -227,7 +227,7 @@ export default {
 .appimageoverlay-mobile {
   display: none;
   position: absolute;
-  height: 8rem;
+  height: 6rem;
   width: 100vw;
   background-color: black;
   opacity: 0.5;
