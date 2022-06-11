@@ -361,7 +361,7 @@ button {
   text-decoration: underline;
 }
 
-/* input:-webkit-autofill,
+input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
@@ -370,18 +370,15 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  border: 1px solid var(--clr-blue);
-  -webkit-text-fill-color: white;
-  box-shadow: 0 0 0px 1000px #ebebeb inset;
-  -webkit-box-shadow: 0 0 0px 1000px #ececec inset;
+  -webkit-text-fill-color: var(--clr-black);
   transition: background-color 5000s ease-in-out 0s;
-  color: var(--clr-white);
-} */
+  color: var(--clr-black);
+}
 
 input[type="password"]:-webkit-autofill,
 input[type="password"]:-webkit-autofill:hover,
 input[type="password"]:-webkit-autofill:focus {
-  letter-spacing: 0.35rem;
+  letter-spacing: 0.25rem;
 }
 
 .contentWrapper {
