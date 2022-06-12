@@ -43,9 +43,9 @@
     <DividendChart class="dividendChartDashboard" />
 
     <section class="cardsContainer">
-      <DepositsCard />
-      <TransFeesCard />
-      <TradingVolCard />
+      <DepositsCard :isDemo="isDemo"/>
+      <TransFeesCard :isDemo="isDemo"/>
+      <TradingVolCard :isDemo="isDemo"/>
     </section>
   </section>
 </template>
@@ -78,6 +78,12 @@ export default {
     BackButton,
     PortfolioCards,
     Icon,
+  },
+  props: {
+    isDemo: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -188,14 +194,21 @@ export default {
       }
     },
     loadData() {
-      if (!this.hasCurrentFiles && this.hasCurrentPortfolio) {
-        this.$store.dispatch("files/fetchOnePortfolio", this.$route.params.id);
-      } else if (!this.hasCurrentPortfolio) {
-        this.$store.dispatch("files/fetchAllPortfolios");
-      }
+      if (this.isDemo === false) {
+        if (!this.hasCurrentFiles && this.hasCurrentPortfolio) {
+          this.$store.dispatch(
+            "files/fetchOnePortfolio",
+            this.$route.params.id
+          );
+        } else if (!this.hasCurrentPortfolio) {
+          this.$store.dispatch("files/fetchAllPortfolios");
+        }
 
-      if (this.hasCurrentPortfolio) {
-        this.setCurrentPortfolio(this.$route.params.id);
+        if (this.hasCurrentPortfolio) {
+          this.setCurrentPortfolio(this.$route.params.id);
+        }
+      } else if (this.isDemo === true) {
+        this.$store.commit("files/setDemoAsCurrentPortfolio");
       }
     },
     setCurrentPortfolio(id) {

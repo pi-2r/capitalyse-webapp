@@ -10,6 +10,9 @@ export default {
             }
         }
     },
+    setDemoAsCurrentPortfolio(state) {
+        state.currentPortfolio = state.demoCurrentPortfolio;
+    },
     resetCurrentPortfolio(state) {
         state.currentPortfolio = null;
     },

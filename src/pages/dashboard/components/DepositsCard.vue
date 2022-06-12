@@ -1,5 +1,14 @@
 <template>
   <ResultCard
+    v-if="isDemo"
+    title="Total Deposited"
+    :resultValue="totDeposits"
+    :to="'/dashboard/demo/deposits'"
+    btnText="My Deposits"
+    :withBtn="true"
+  />
+  <ResultCard
+    v-else
     title="Total Deposited"
     :resultValue="totDeposits"
     :to="'/dashboard/' + portfolioId + '/deposits'"
@@ -20,6 +29,10 @@ export default {
   },
   props: {
     withBth: {
+      type: Boolean,
+      default: false,
+    },
+    isDemo: {
       type: Boolean,
       default: false,
     },

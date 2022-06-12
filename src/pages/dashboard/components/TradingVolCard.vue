@@ -1,5 +1,14 @@
 <template>
   <ResultCard
+    v-if="isDemo"
+    title="Total Trading Volume"
+    :resultValue="totTradingVol"
+    :to="'/dashboard/demo/trading'"
+    btnText="Trading Details"
+    :withBtn="true"
+  />
+  <ResultCard
+    v-else
     title="Total Trading Volume"
     :resultValue="totTradingVol"
     :to="'/dashboard/' + portfolioId + '/trading'"
@@ -20,6 +29,10 @@ export default {
   },
   props: {
     withBth: {
+      type: Boolean,
+      default: false,
+    },
+    isDemo: {
       type: Boolean,
       default: false,
     },

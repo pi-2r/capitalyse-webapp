@@ -2,6 +2,16 @@
   <Header />
   <section class="container">
     <Breadcrumbs
+      v-if="isDemo"
+      baseLink="/portfolios"
+      baseLinkName="My Portfolios"
+      :secondLink="'/dashboard/demo'"
+      :secondLinkName="'Dashboard ' + (portfolioName ? portfolioName : '')"
+      thirdLink="#"
+      thirdLinkName="Fees and Costs"
+    />
+    <Breadcrumbs
+      v-else
       baseLink="/portfolios"
       baseLinkName="My Portfolios"
       :secondLink="'/dashboard/' + this.$route.params.id"
@@ -41,6 +51,12 @@ export default {
     BackButton,
     // FeesChart
   },
+  props: {
+    isDemo: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     portfolioName() {
       return this.$store.getters["files/getCurrentPortfolioName"];
@@ -77,14 +93,21 @@ export default {
   },
   methods: {
     loadData() {
-      if (!this.hasCurrentFiles && this.hasCurrentPortfolio) {
-        this.$store.dispatch("files/fetchOnePortfolio", this.$route.params.id);
-      } else if (!this.hasCurrentPortfolio) {
-        this.$store.dispatch("files/fetchAllPortfolios");
-      }
+      if (this.isDemo === false) {
+        if (!this.hasCurrentFiles && this.hasCurrentPortfolio) {
+          this.$store.dispatch(
+            "files/fetchOnePortfolio",
+            this.$route.params.id
+          );
+        } else if (!this.hasCurrentPortfolio) {
+          this.$store.dispatch("files/fetchAllPortfolios");
+        }
 
-      if (this.hasCurrentPortfolio) {
-        this.setCurrentPortfolio(this.$route.params.id);
+        if (this.hasCurrentPortfolio) {
+          this.setCurrentPortfolio(this.$route.params.id);
+        }
+      } else if (this.isDemo === true) {
+        this.$store.commit("files/setDemoAsCurrentPortfolio");
       }
     },
     setCurrentPortfolio(id) {

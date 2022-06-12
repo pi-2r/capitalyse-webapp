@@ -29,6 +29,26 @@ const router = createRouter({
             meta: { requiresAuth: true },
         },
         {
+            path: "/dashboard/demo",
+            component: () => import("./pages/demo/DemoDashboardPage.vue"),
+            meta: { requiresAuth: false },
+        },
+        {
+            path: "/dashboard/demo/deposits",
+            component: () => import("./pages/demo/DemoDepositsPage.vue"),
+            meta: { requiresAuth: false },
+        },
+        {
+            path: "/dashboard/demo/fees",
+            component: () => import("./pages/demo/DemoFeesPage.vue"),
+            meta: { requiresAuth: false },
+        },
+        {
+            path: "/dashboard/demo/trading",
+            component: () => import("./pages/demo/DemoTradingPage.vue"),
+            meta: { requiresAuth: false },
+        },
+        {
             path: "/dashboard/:id",
             component: () => import("./pages/dashboard/DashboardPage.vue"),
             meta: { requiresAuth: true },

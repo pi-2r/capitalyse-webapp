@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide-fade" mode="out-in">
+  <!-- <transition name="slide-fade" mode="out-in">
     <NotificationBar
       v-if="isThereNoPortfolioFile"
       :key="isThereNoPortfolioFile"
@@ -7,7 +7,7 @@
             Please delete this portfolio and create a new one containing the Portfolio.csv file found at Degiro > Portfolio > Export."
       type="error"
     />
-  </transition>
+  </transition> -->
 
   <section class="portfolioCards__container">
     <DetailedResultCard
@@ -34,7 +34,7 @@
   </section>
 </template>
 <script>
-import NotificationBar from "@/components/ui/NotificationBar";
+// import NotificationBar from "@/components/ui/NotificationBar";
 
 import getTotalBalance from "@/mixins/analytics/getTotalBalance";
 import getTotalInvestedAmount from "@/mixins/analytics/getTotalInvestedAmount";
@@ -45,7 +45,7 @@ import DetailedResultCard from "./DetailedResultCard.vue";
 
 export default {
   components: {
-    NotificationBar,
+    // NotificationBar,
     DetailedResultCard,
   },
   data() {
