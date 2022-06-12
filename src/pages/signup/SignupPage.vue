@@ -11,10 +11,9 @@
         />
       </figure>
       <section class="content">
-        <Spinner class="spinner" v-if="isLoading" />
         <section class="form-wrapper">
           <a class="linkToMainSite" href="https://www.capitalyse.net">
-            <BackButton />
+            <BackButton :toHome="true"/>
             <Logo class="logo" color="var(--clr-black)" />
           </a>
           <h1>Sign up</h1>
@@ -63,12 +62,13 @@
                 autocomplete="new-password"
                 @blur="checkRepeatPasswordFormControl"
                 @focus="resetRepeatPasswordFormControl"
+                @keyup.enter="submitForm"
               />
             </section>
 
             <Button class="button">
               <section v-if="isLoading">
-                <Spinner class="spinner" />
+                <Spinner class="spinner" :btnSpinner="true"/>
               </section>
               <span v-else>Sign up</span>
             </Button>
@@ -243,10 +243,6 @@ export default {
 </script>
 
 <style scoped>
-.spinner {
-  height: 25px;
-}
-
 .appimageoverlay-mobile {
   display: none;
   position: absolute;
@@ -337,12 +333,6 @@ export default {
 
 .backBtn:hover {
   transform: translateX(-2px);
-}
-
-.spinner {
-  position: absolute;
-  width: 300px;
-  top: 45%;
 }
 
 .button {

@@ -13,7 +13,7 @@
       <section class="content">
         <section class="form-wrapper">
           <a class="linkToMainSite" href="https://www.capitalyse.net">
-            <BackButton />
+            <BackButton :toHome="true" />
             <Logo class="logo" color="var(--clr-black)" />
           </a>
           <h1>Log in</h1>
@@ -39,6 +39,7 @@
                 id="password"
                 v-model.trim="password"
                 autocomplete="current-password"
+                @keyup.enter="submitForm"
               />
             </section>
             <p class="error">
