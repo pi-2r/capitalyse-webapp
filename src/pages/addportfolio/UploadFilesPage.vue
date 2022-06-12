@@ -120,7 +120,7 @@
     </section>
 
     <section class="addPortfolioHelp">
-      <h2>Need help?</h2>
+      <h2>Tutorial & Explanation</h2>
       <button class="collapsible" @click="toggleCollapsible(0)">
         What files do I need?
       </button>
@@ -137,12 +137,10 @@
         <p>Open the next dropdown box to see export instructions.</p>
       </section>
       <button class="collapsible" @click="toggleCollapsible(1)">
-        Export files from Degiro
+        Export my files from Degiro
       </button>
       <section class="content">
-        <p>
-          Choose one of the following methods to export your files from Degiro.
-        </p>
+       
         <h3 class="contentTitle">
           Easy Export
           <span class="contentTitleThin">
@@ -189,12 +187,11 @@
         </p>
       </section>
       <button class="collapsible" @click="toggleCollapsible(2)">
-        Import files into Capitalyse
+        Import my files into Capitalyse
       </button>
       <section class="content">
         <p>
-          Once you've downloaded all CSV files onto your device, you can import
-          them into Capitalyse by clicking blue 'Upload Files' button.
+          Upload your exported Transactions.csv, Account.csv and Portfolio.csv files by clicking the 'Upload Files' button.
         </p>
         <p>
           Next, select all files you wish to upload. If there appears a green
@@ -202,7 +199,8 @@
         </p>
         <p>
           If the files aren't uploading, please check that you have selected the
-          correct files or have the correct start dates set in Degiro before
+          correct files or have the correct start dates selected (set to before the start of your account) in Degiro
+          for the Transactions and Account files before
           downloading.
         </p>
         <p>After uploading all files, you can delete them from your device.</p>
@@ -221,8 +219,7 @@
         </p>
         <p>
           Your data will not be used for any other purpose than to show you your
-          analytics and insights, unless you have explicitly given permission
-          for it to be used for testing purposes.
+          analytics and insights.
         </p>
       </section>
     </section>
@@ -512,7 +509,7 @@ export default {
 
 <style scoped>
 .addPortfolioHelp {
-  margin-top: 4rem;
+  margin-top: 3rem;
 }
 
 .addPortfolioHelp h2 {
@@ -570,7 +567,7 @@ export default {
 
 .contentTitle {
   margin-bottom: 0.4rem;
-  font-size: 0.9rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
 }
