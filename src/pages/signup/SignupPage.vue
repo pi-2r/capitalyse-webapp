@@ -97,7 +97,7 @@
           class="logo"
           :ignoreTheme="true"
           color="var(--clr-white)"
-        />Financial independence <br />starts with
+        />Financial clarity <br />starts with
         <span class="customUnderline">Capitalyse</span>
       </h1>
       <!-- <span class="appmark"></span> -->
