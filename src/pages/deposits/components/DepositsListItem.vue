@@ -51,7 +51,6 @@ export default {
     },
     depositAmount() {
       let amount = this.deposit.amount;
-      amount < 0 ? (amount = -amount) : null;
       amount = amount.toFixed(2);
       amount = amount.replace(".", ",");
       return "€" + amount;
