@@ -97,7 +97,7 @@
           class="logo"
           :ignoreTheme="true"
           color="var(--clr-white)"
-        />Financial clarity <br />starts with
+        />Financial insight <br />starts with
         <span class="customUnderline">Capitalyse</span>
       </h1>
       <!-- <span class="appmark"></span> -->
