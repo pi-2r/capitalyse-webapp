@@ -71,7 +71,7 @@ const router = createRouter({
         {
             path: "/settings",
             component: () => import("./pages/settings/SettingsPage.vue"),
-            meta: { requiresAuth: true },
+            meta: { requiresAuth: false },
         },
         {
             path: "/:notFound(.*)",

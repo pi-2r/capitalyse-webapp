@@ -1,5 +1,5 @@
 <template>
-  <Header />
+  <Header :isDemo="isDemo"></Header>
   <section class="container">
     <Breadcrumbs
       v-if="isDemo"

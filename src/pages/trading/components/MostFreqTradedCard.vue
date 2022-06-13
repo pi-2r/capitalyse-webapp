@@ -1,6 +1,6 @@
 <template>
   <ResultCard
-    title="Most Times Traded Overall"
+    title="Most Times Bought & Sold"
     :resultValue="
       capitalizeEachWord(mostFreqTraded) +
       ' (' +

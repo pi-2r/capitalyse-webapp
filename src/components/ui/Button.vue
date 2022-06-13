@@ -37,7 +37,7 @@ button,a{
     color: var(--clr-white);
     cursor: pointer;
     transition: 0.2s all;
-    border: 2px solid var(--clr-blue);
+    border: none;
     border-radius: var(--btn-radius);
     user-select: none;
     box-shadow: var(--btn-shadow);
@@ -52,7 +52,7 @@ a {
 }
 
 button:hover {
-    box-shadow: var(--btn-shadow);
+    box-shadow: 0px 0px 10px 0px rgba(0, 89, 255, 0.2);
 }
 
 .card {

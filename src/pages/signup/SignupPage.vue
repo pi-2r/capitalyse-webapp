@@ -337,7 +337,7 @@ export default {
 
 .button {
   width: 100%;
-  padding: 0.7rem 1rem;
+  padding: 0.85rem 1rem;
   margin-top: 2.2rem;
   margin-bottom: 1rem;
 }

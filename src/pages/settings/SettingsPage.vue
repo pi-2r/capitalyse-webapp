@@ -26,7 +26,7 @@
           </label>
         </section>
       </section>
-      <section class="settingsCard">
+      <section v-if="isAuth" class="settingsCard">
         <h2>Other</h2>
         <section class="settingsSection">
           <LogoutButton />
@@ -52,6 +52,11 @@ export default {
       isDarkThemeOn: true,
     };
   },
+  computed: {
+    isAuth() {
+      return this.$store.getters['isAuthenticated'];
+    },
+  },
   methods: {
     toggleTheme() {
       if (this.isDarkThemeOn) {
@@ -74,6 +79,7 @@ export default {
     },
   },
   created() {
+    console.log(this.$store.getters['isAuthenticated']);
     this.getTheme();
   },
 };
