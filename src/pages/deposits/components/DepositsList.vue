@@ -293,7 +293,6 @@ select:hover {
 
 table {
   width: 100%;
-  min-width: 28rem;
   background-color: var(--clr-very-light-blue);
 }
 
@@ -325,6 +324,10 @@ tr:nth-last-child(1) {
 
   th {
     padding: 1.5rem;
+  }
+
+  th:nth-child(2) {
+    display: none;
   }
 
   .tablecontainerHeading {

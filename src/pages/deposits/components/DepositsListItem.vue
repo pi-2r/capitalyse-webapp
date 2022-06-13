@@ -82,4 +82,14 @@ td {
   font-weight: 400;
   font-size: 0.9rem;
 }
+
+@media screen and (max-width: 650px) {
+  td {
+    padding: 0.9rem 1.5rem;
+  }
+
+  td:nth-child(2) {
+    display: none;
+  }
+}
 </style>
