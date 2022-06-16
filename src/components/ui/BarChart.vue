@@ -26,8 +26,9 @@ export default {
           yAxes: {
               beginAtZero: true,
               grid: {
-                color: 'rgba(0, 0, 0, 0.06)',
+                color: 'rgba(0, 0, 0, 0.6)',
                 drawBorder: false,
+                display: false,
               },
               ticks: {
                 color: '#fff',
@@ -42,7 +43,7 @@ export default {
               grid: {
                 color: 'rgba(0, 0, 0, 0.05)',
                 drawBorder: false,
-                display: false,
+                display: true,
                 
               },
               ticks: {

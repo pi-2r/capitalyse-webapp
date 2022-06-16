@@ -47,6 +47,10 @@
       <TransFeesCard :isDemo="isDemo"/>
       <TradingVolCard :isDemo="isDemo"/>
     </section>
+
+    <section class="holdingsContainer">
+      <HoldingsPieChartCards/>
+    </section>
   </section>
 </template>
 
@@ -64,6 +68,7 @@ import DividendChart from "./components/DividendChart.vue";
 import DepositsCard from "./components/DepositsCard.vue";
 import TradingVolCard from "./components/TradingVolCard.vue";
 import PortfolioCards from "./components/PortfolioCards.vue";
+import HoldingsPieChartCards from "./components/HoldingsPieChartCards.vue";
 
 export default {
   mixins: [firebaseDate],
@@ -78,6 +83,7 @@ export default {
     BackButton,
     PortfolioCards,
     Icon,
+    HoldingsPieChartCards,
   },
   props: {
     isDemo: {
@@ -230,6 +236,12 @@ export default {
 </script>
 
 <style scoped>
+.holdingsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
 .titleAndBackButtonContainer {
   margin-bottom: 0;
 }
@@ -271,10 +283,15 @@ export default {
   margin-bottom: 3rem;
 }
 
+.holdingsPieChartDashboard {
+  margin-bottom: 3rem;
+}
+
 .cardsContainer {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 1rem;
+  margin-bottom: 3rem;
 }
 
 .container {
@@ -328,6 +345,10 @@ export default {
 
   .head__rightSection-icon {
     order: 1;
+  }
+
+  .holdingsContainer {
+    grid-template-columns: 1fr;
   }
 }
 </style>

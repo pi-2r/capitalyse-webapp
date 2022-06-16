@@ -12,20 +12,19 @@
                 </transition>
         </section>
         <section class="cardBtnSection" v-if="withBtn">
-            <Button class="card link cardBtnSection__btn" link :to="to">
-                {{ btnText }}
-                <Icon class="cardBtnSection__btnIcon" icon="charm:arrow-right" color="var(--clr-dark-grey)" height="15" />
-            </Button>
+            <CardButtonArrow :to="to">
+                {{btnText}}
+            </CardButtonArrow>
         </section>
     </div>
 </template>
 
 <script>
-import { Icon } from '@iconify/vue';
+import CardButtonArrow from '../ui/CardButtonArrow.vue';
 
 export default {
     components: {
-        Icon
+        CardButtonArrow
     },
     props: {
         withBtn: {

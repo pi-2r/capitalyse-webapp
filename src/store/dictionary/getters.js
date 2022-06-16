@@ -19,5 +19,8 @@ export default {
     },
     failedDeposit(state) {
         return state.dictionary.failedDeposit;
-    }
+    },
+    portfolioCash(state) {
+        return state.dictionary.portfolioCash;
+    },
 };

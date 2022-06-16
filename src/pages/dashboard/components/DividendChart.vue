@@ -127,15 +127,6 @@ export default {
     };
   },
   computed: {
-    indexes() {
-      return this.$store.getters["indexes/dividendChart"];
-    },
-    dividendNamesEUR() {
-      return this.$store.getters["dictionary/dividendEUR"];
-    },
-    currencyNames() {
-      return this.$store.getters["dictionary/currency"];
-    },
     currentPortfolio() {
       return this.$store.getters["files/getCurrentPortfolio"];
     },
@@ -164,12 +155,12 @@ export default {
     setTheme() {
       const theme = localStorage.getItem("theme");
       if (theme === "dark") {
-        this.chartData.datasets[0].backgroundColor = "#223443";
-        this.chartData.datasets[0].borderColor = "#0084ff";
+        this.chartData.datasets[0].backgroundColor = "#1668c0ee";
+        this.chartData.datasets[0].borderColor = "#1668c0ee";
       } else {
-        this.chartData.datasets[0].backgroundColor = "#0091ff30";
-        this.chartData.datasets[0].borderColor = "#0091ff";
-        this.chartData.datasets[0].hoverBorderColor = "#0091ff";
+        this.chartData.datasets[0].backgroundColor = "#0b6ed9a5";
+        this.chartData.datasets[0].borderColor = "#0b6ed9a5";
+        this.chartData.datasets[0].hoverBorderColor = "#0b6ed9a5";
       }
     },
     loadData() {

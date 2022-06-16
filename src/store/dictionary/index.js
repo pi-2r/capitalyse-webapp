@@ -5,6 +5,7 @@ export default {
     state() {
         return {
             dictionary: {
+                portfolioCash: ["CASH & CASH FUND & FTX CASH"],
                 currency: ["Valuta", "Währungswechsel", "de change"],
                 dividendEUR: ["Dividend", "Dividende"],
                 dividendTax: ["Impôts sur dividende"],
