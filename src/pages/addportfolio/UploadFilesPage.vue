@@ -121,7 +121,7 @@
 
     <section class="addPortfolioHelp">
       <h2>Tutorial & Explanation</h2>
-      <button class="collapsible" @click="toggleCollapsible(0)">
+      <!-- <button class="collapsible" @click="toggleCollapsible(0)">
         What files do I need?
       </button>
       <section class="content">
@@ -135,9 +135,9 @@
           <br />Transactions.csv <br />Account.csv
         </p>
         <p>Open the next dropdown box to see export instructions.</p>
-      </section>
-      <button class="collapsible" @click="toggleCollapsible(1)">
-        Export my files from Degiro
+      </section> -->
+      <button class="collapsible" @click="toggleCollapsible(0)">
+        How do I export files from DEGIRO?
       </button>
       <section class="content">
        
@@ -153,41 +153,41 @@
           </span>
         </h3>
         <p>
-          To quickly download the three files, follow the links below and log in
-          to Degiro. For each link simply click the 'Export' button on the
+          To quickly download the three files, click the links below and log in
+          to Degiro. For each file simply click the 'Export' button on the
           right, then select the 'CSV' format.
         </p>
         <p>
           <a
             href="https://trader.degiro.nl/staging-trader/#/portfolio"
             target="_blank"
-            >Portfolio</a
+            >Portfolio File</a
           >
           <br />
-          <a :href="transactionsLink" target="_blank">Transactions</a>
+          <a :href="transactionsLink" target="_blank">Transactions File</a>
           <br />
-          <a :href="accountLink" target="_blank">Account Statements</a>
+          <a :href="accountLink" target="_blank">Account File</a>
         </p>
         <h3 class="contentTitle">Manual Export</h3>
         <p>If the links do not work for you, or you wish to export manually:</p>
         <p>
           <span class="listNumber">1.</span> Go to Activity > Transactions and
-          set the start date to include your portfolio's complete history.<br />
+          set the start date to include your portfolio's complete history.<br /><br/>
           <span class="listNumber">2.</span> Click the 'Export' button and
-          select 'CSV'.<br />
+          select 'CSV'.<br /><br/>
           <span class="listNumber">3.</span> Go to Activity > Account Statements
           and set the start date to include your portfolio's complete
-          history.<br />
+          history.<br /><br/>
           <span class="listNumber">4.</span> Click the 'Export' button and
-          select 'CSV'.<br />
-          <span class="listNumber">5.</span> Go to the Portfolio page. Do not
-          change any dates.<br />
-          <span class="listNumber">6.</span> Click the 'Export' button and
-          select 'CSV'.<br />
+          select 'CSV'.<br /><br/>
+          <span class="listNumber">5.</span> Go to your Portfolio page.<br /><br/>
+          <span class="listNumber">6.</span> Do not
+          change any dates, click the 'Export' button and
+          select 'CSV'.<br /><br/>
         </p>
       </section>
-      <button class="collapsible" @click="toggleCollapsible(2)">
-        Import my files into Capitalyse
+      <button class="collapsible" @click="toggleCollapsible(1)">
+        How do I import files into Capitalyse?
       </button>
       <section class="content">
         <p>
@@ -197,15 +197,15 @@
           Next, select all files you wish to upload. If there appears a green
           checkmark, the upload was succesful.
         </p>
-        <p>
+        <!-- <p>
           If the files aren't uploading, please check that you have selected the
           correct files or have the correct start dates selected (set to before the start of your account) in Degiro
           for the Transactions and Account files before
           downloading.
         </p>
-        <p>After uploading all files, you can delete them from your device.</p>
+        <p>After uploading all files, you can delete them from your device.</p> -->
       </section>
-      <button class="collapsible" @click="toggleCollapsible(3)">
+      <button class="collapsible" @click="toggleCollapsible(2)">
         What's in these files?
       </button>
       <section class="content">
