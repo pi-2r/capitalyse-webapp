@@ -51,7 +51,7 @@ export default {
         labels: [],
         datasets: [
           {
-            borderWidth: 1,
+            borderWidth: 4,
             borderColor: "white",
             backgroundColor: [],
             data: [],
@@ -62,7 +62,7 @@ export default {
         labels: [],
         datasets: [
           {
-            borderWidth: 1,
+            borderWidth: 4,
             borderColor: "white",
             backgroundColor: [],
             data: [],
@@ -85,6 +85,16 @@ export default {
     },
   },
   methods: {
+    setTheme() {
+      const theme = localStorage.getItem("theme");
+      if (theme === "dark") {
+        this.currenciesChartData.datasets[0].borderColor = "rgb(45, 45, 45)";
+        this.holdingsChartData.datasets[0].borderColor = "rgb(45, 45, 45)";
+      } else {
+        this.currenciesChartData.datasets[0].borderColor = "white";
+        this.holdingsChartData.datasets[0].borderColor = "white";
+      }
+    },
     loadData() {
       if (this.isThereData) {
         this.setCurrenciesData();
@@ -149,8 +159,12 @@ export default {
   },
   created() {
     this.loadData();
+    this.setTheme();
   },
 };
 </script>
 <style scoped>
+.asdf {
+  color: grey;
+}
 </style>

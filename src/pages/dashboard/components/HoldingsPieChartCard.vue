@@ -81,7 +81,7 @@ export default {
 }
 
 .pieChart {
-  width: 70%;
+  width: 60%;
   margin-top: 2rem;
 }
 

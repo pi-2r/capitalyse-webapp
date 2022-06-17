@@ -40,16 +40,18 @@
 
     <PortfolioCards />
 
+    
+
     <DividendChart class="dividendChartDashboard" />
 
-    <section class="cardsContainer">
-      <DepositsCard :isDemo="isDemo"/>
-      <TransFeesCard :isDemo="isDemo"/>
-      <TradingVolCard :isDemo="isDemo"/>
+    <section class="holdingsContainer">
+      <HoldingsPieChartCards />
     </section>
 
-    <section class="holdingsContainer">
-      <HoldingsPieChartCards/>
+    <section class="cardsContainer">
+      <DepositsCard :isDemo="isDemo" />
+      <TransFeesCard :isDemo="isDemo" />
+      <TradingVolCard :isDemo="isDemo" />
     </section>
   </section>
 </template>
@@ -240,6 +242,7 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  margin-bottom: 3rem;
 }
 
 .titleAndBackButtonContainer {
