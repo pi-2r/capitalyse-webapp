@@ -860,7 +860,7 @@ input[type="submit"] {
 
 @media screen and (min-width: 768px) {
   .formCard {
-    padding: 2rem;
+    padding: 1.75rem;
   }
 }
 
