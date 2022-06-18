@@ -2,7 +2,7 @@
   <ResultCard
     title="Most Times Bought & Sold"
     :resultValue="
-      capitalizeEachWord(mostFreqTraded) +
+      mostFreqTraded +
       ' (' +
       timesTraded +
       ' time' +

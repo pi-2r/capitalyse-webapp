@@ -12,7 +12,7 @@
         class="card"
         :title="title"
         :resultValue="
-          capitalizeEachWord(mostFreqTraded) +
+          mostFreqTraded +
           ' (' +
           timesTraded +
           ' time' +
