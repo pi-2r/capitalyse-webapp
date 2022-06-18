@@ -239,9 +239,6 @@ export default {
 </script>
 
 <style scoped>
-h2 {
-  color: var(--clr-dark-grey);
-}
 
 .chartDataTypeStyling {
   color: var(--clr-grey);
@@ -263,8 +260,8 @@ h2 {
 }
 
 .depositChartWrapper {
-  padding: 2rem;
-  padding-bottom: 0.1rem;
+  padding: 1.75rem;
+  padding-bottom: 0rem;
   background-color: var(--clr-very-light-blue);
   border-radius: var(--card-border-radius);
   box-shadow: var(--box-shadow-big);
@@ -291,7 +288,6 @@ h2 {
   height: 20rem;
   background-color: var(--clr-very-light-blue);
   border-radius: 0rem;
-  margin-bottom: 1.5rem;
 }
 
 .noDataMsg {
@@ -313,9 +309,9 @@ h2 {
 }
 
 .timeFrame__btn {
-  padding: 0.6rem 0.85rem;
+  padding: 0.5rem 0.7rem;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   margin-right: 0.5rem;
   background-color: var(--clr-very-light-blue);
   color: var(--clr-grey);

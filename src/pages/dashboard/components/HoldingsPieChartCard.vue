@@ -10,7 +10,7 @@
         <Doughnut v-else class="pieChart" :chartData="chartData" :chartOptions="chartOptions" />
       </section>
       <section class="holdingsPieChart__btnSection">
-        <CardButtonArrow v-if="showBtn">{{btnText}}</CardButtonArrow>
+        <CardButtonArrow class="holdingsPieChart__btn" v-if="showBtn">{{btnText}}</CardButtonArrow>
       </section>
     </section>
   </section>
@@ -99,7 +99,6 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
 }
 
 .holdingsPieChartTitle__dataLength {
@@ -108,17 +107,14 @@ export default {
   font-weight: 600;
 }
 
-.holdingsPieChart__btnSection {
-  padding-top: 1rem;
-}
 
 .pieChart {
   width: 60%;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 h2 {
-  color: var(--clr-dark-grey);
+  color: var(--clr-grey);
 }
 
 .chartErrorMsg {
@@ -144,11 +140,15 @@ h2 {
 }
 
 .holdingsPieChartWrapper {
-  padding: 2rem;
+  padding: 1.75rem;
   background-color: var(--clr-very-light-blue);
   border-radius: var(--card-border-radius);
   box-shadow: var(--box-shadow-big);
   border: 1px solid var(--clr-very-light-grey);
+}
+
+.holdingsPieChart__btn {
+  padding-top: 1rem;
 }
 
 .dividendChartHeading {
@@ -182,29 +182,6 @@ h2 {
   font-weight: 600;
 }
 
-.timeFrame__buttons {
-  margin-bottom: 0.5rem;
-  display: flex;
-}
-
-.timeFrame__btn {
-  padding: 0.6rem 0.85rem;
-  font-weight: 600;
-  font-size: 0.85rem;
-  margin-right: 0.5rem;
-  background-color: var(--clr-very-light-blue);
-  color: var(--clr-grey);
-  transform: translateY(0px);
-  border: 1px solid var(--clr-medium-light-grey);
-  border-radius: var(--btn-radius);
-  user-select: none;
-  box-shadow: var(--btn-shadow);
-}
-
-.timeFrame__btn:hover {
-  cursor: pointer;
-}
-
 .btnActive {
   background-color: var(--clr-very-light-blue);
   color: var(--clr-blue);
@@ -228,15 +205,5 @@ h2 {
 .slide-fade-leave-to {
   transform: translateY(15px);
   opacity: 0;
-}
-
-@media screen and (max-width: 550px) {
-  .timeFrame__buttons {
-    overflow-x: scroll;
-  }
-
-  .timeFrame__btn {
-    min-width: 6rem;
-  }
 }
 </style>

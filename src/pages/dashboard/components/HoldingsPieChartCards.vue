@@ -2,6 +2,7 @@
   <HoldingsPieChartCard
     title="Holdings"
     btnText="My Holdings"
+    :showBtn="false"
     chartErrorMsg="You currently have no holdings."
     :chartOptions="chartOptions"
     :chartData="holdingsChartData"
@@ -10,6 +11,7 @@
   <HoldingsPieChartCard
     title="Currencies"
     btnText="My Holdings"
+    :showBtn="false"
     chartErrorMsg="No currencies found."
     :chartOptions="chartOptions"
     :chartData="currenciesChartData"
@@ -45,6 +47,30 @@ export default {
           legend: {
             display: false,
           },
+          tooltip: {
+            position: 'nearest',
+            intersect: false,
+            mode: 'index',
+            cornerRadius: 5,
+            usePointStyle: true,
+            displayColors: false,
+            titleFont: {weight: 'normal'},
+            titleColor: 'grey',
+            bodyColor: 'grey',
+            backgroundColor: 'rgb(260, 260, 260)',
+            borderColor: 'grey',
+            borderWidth: 1,
+            padding: 7,
+            enabled: true,
+            callbacks: {
+              title: function(value) {
+                return `${value[0].label}`;
+              },
+              label: function(value) {
+                return `€${value.formattedValue}`;
+              },
+            }
+          }
         },
       },
       holdingsChartData: {

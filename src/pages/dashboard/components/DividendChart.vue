@@ -55,7 +55,7 @@
         <h2>Dividend Payments</h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
-            <span class="chartResultValue greenNumber">
+            <span class="chartResultValue">
               €{{ totalDividends }}
             </span>
           </p>
@@ -115,7 +115,7 @@ export default {
             label: "Dividends Received",
             backgroundColor: "#e1f1fb",
             borderWidth: 1,
-            borderRadius: 7,
+            borderRadius: 4,
             borderSkipped: "bottom",
             borderColor: "#0091ff",
             hoverBorderWidth: 1,
@@ -158,9 +158,9 @@ export default {
         this.chartData.datasets[0].backgroundColor = "#1668c0ee";
         this.chartData.datasets[0].borderColor = "#1668c0ee";
       } else {
-        this.chartData.datasets[0].backgroundColor = "#0b6ed9a5";
-        this.chartData.datasets[0].borderColor = "#0b6ed9a5";
-        this.chartData.datasets[0].hoverBorderColor = "#0b6ed9a5";
+        this.chartData.datasets[0].backgroundColor = "#5ea0e7";
+        this.chartData.datasets[0].borderColor = "#5ea0e7";
+        this.chartData.datasets[0].hoverBorderColor = "#5ea0e7";
       }
     },
     loadData() {
@@ -229,7 +229,7 @@ export default {
 
 <style scoped>
 h2 {
-  color: var(--clr-dark-grey);
+  color: var(--clr-grey);
 }
 
 .chartErrorMsg {
@@ -247,8 +247,8 @@ h2 {
 }
 
 .dividendChartWrapper {
-  padding: 2rem;
-  padding-bottom: 0.1rem;
+  padding: 1.75rem;
+  padding-bottom: 0rem;
   background-color: var(--clr-very-light-blue);
   border-radius: var(--card-border-radius);
   box-shadow: var(--box-shadow-big);
@@ -271,7 +271,6 @@ h2 {
   height: 20rem;
   background-color: var(--clr-very-light-blue);
   border-radius: 0rem;
-  margin-bottom: 1.5rem;
 }
 
 .noDataMsg {
@@ -284,6 +283,7 @@ h2 {
 .chartResultValue {
   font-size: 1.5rem;
   font-weight: 600;
+  color: var(--clr-blue);
 }
 
 .timeFrame__buttons {
@@ -292,9 +292,9 @@ h2 {
 }
 
 .timeFrame__btn {
-  padding: 0.6rem 0.85rem;
+  padding: 0.5rem 0.7rem;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   margin-right: 0.5rem;
   background-color: var(--clr-very-light-blue);
   color: var(--clr-grey);

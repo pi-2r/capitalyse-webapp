@@ -27,7 +27,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .websiteWrapperMain {
@@ -60,7 +60,7 @@ h2 {
   font-weight: 500;
   margin: 0;
   padding: 0;
-  color: var(--clr-black);
+  color: var(--clr-grey);
 }
 
 p,

@@ -150,7 +150,7 @@ h2 {
 }
 
 .cardContent {
-  padding: 1.5rem;
+  padding: 1.25rem;
   padding-bottom: 0rem;
   display: flex;
   align-items: center;
@@ -158,7 +158,7 @@ h2 {
 }
 
 .cardContentNoBtn {
-  padding: 1.5rem;
+  padding: 1.25rem;
   display: flex;
   align-items: center;
   flex-direction: column;

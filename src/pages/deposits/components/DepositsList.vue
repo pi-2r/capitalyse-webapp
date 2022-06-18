@@ -228,7 +228,7 @@ select {
   padding: 0.6rem;
   border-radius: 0.75rem;
   background-color: var(--clr-very-light-blue);
-  color: var(--clr-dark-grey);
+  color: var(--clr-grey);
   font-weight: 600;
   font-size: 1rem;
   border: 1px solid var(--clr-medium-light-grey);
@@ -245,7 +245,7 @@ select:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem;
+  padding: 1.75rem;
 }
 
 .number {
@@ -283,7 +283,7 @@ select:hover {
 }
 
 .noDeposits {
-  padding: 2rem;
+  padding: 1.75rem;
 }
 
 .noDeposits p {
@@ -297,15 +297,15 @@ table {
 }
 
 thead {
-  color: var(--clr-black);
+  color: var(--clr-dark-grey);
   border-bottom: 1px solid var(--clr-light-grey);
 }
 
 th {
-  padding: 1.2rem 2rem;
+  padding: 1.2rem 1.75rem;
   text-align: left;
   font-weight: 500;
-  color: var(--clr-black);
+  color: var(--clr-dark-grey);
 }
 
 tr {
