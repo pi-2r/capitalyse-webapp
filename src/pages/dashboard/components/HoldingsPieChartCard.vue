@@ -1,13 +1,16 @@
 <template>
   <section class="holdingsPieChartContainer">
     <section class="holdingsPieChartWrapper">
-      <h2>{{title}}</h2>
+      <section class="holdingsPieChartTitle">
+        <h2>{{title}}</h2>
+        <p class="holdingsPieChartTitle__dataLength">{{dataLength}}</p>
+      </section>
       <section class="holdingsPieChart">
         <p v-if="chartErrorMsg">{{chartErrorMsg}}</p>
         <Doughnut v-else class="pieChart" :chartData="chartData" :chartOptions="chartOptions" />
       </section>
       <section class="holdingsPieChart__btnSection">
-        <CardButtonArrow>{{btnText}}</CardButtonArrow>
+        <CardButtonArrow v-if="showBtn">{{btnText}}</CardButtonArrow>
       </section>
     </section>
   </section>
@@ -42,6 +45,10 @@ export default {
       type: String,
       default: "",
     },
+    showBtn: {
+      type: Boolean,
+      default: true,
+    },
     btnText: {
       type: String,
       default: "View Details",
@@ -71,11 +78,36 @@ export default {
     isThereData() {
       return !!this.currentPortfolio.portfolioFile;
     },
+    dataLength() {
+      let total = 0;
+      
+      for(let i = 0; i < this.chartData.datasets[0].data.length; i++) {
+        total++;
+        if(this.chartData.labels[i] === 'Cash') {
+          total--;
+        }
+      }
+      
+      return total;
+    },
   },
 };
 </script>
 
 <style scoped>
+.holdingsPieChartTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.holdingsPieChartTitle__dataLength {
+  color: var(--clr-blue);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
 .holdingsPieChart__btnSection {
   padding-top: 1rem;
 }

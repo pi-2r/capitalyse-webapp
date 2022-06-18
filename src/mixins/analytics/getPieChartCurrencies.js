@@ -75,7 +75,6 @@ export default {
         }
         alreadyExists = false;
 
-        console.log(this.currenciesArray);
       }
     },
     turnIntoCurrencyChartData() {

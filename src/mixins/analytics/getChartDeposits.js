@@ -253,19 +253,19 @@ export default {
         }
       }
 
-      let total = 0;
+      // let total = 0;
 
       // delete all deposits before this year
       for (let i = 0; i < this.depositsArray.length; i++) {
         let depositYear = this.depositsArray[i].date.split("-")[1];
         if (depositYear < currentYear) {
-          total += this.depositsArray[i].depAmt;
+          // total += this.depositsArray[i].depAmt;
           this.depositsArray.splice(i, 1);
           i--;
         }
       }
 
-      this.countFromZero(total);
+      // this.countFromZero(total);
     },
     setYears(years) {
       // get one year ago in MM-YYYY
@@ -287,12 +287,12 @@ export default {
         }
       }
 
-      // delete all dividends of more than one year ago
+      // delete all deposits of more than one year ago
       for (let i = 0; i < this.depositsArray.length; i++) {
         let depositYear = this.depositsArray[i].date.split("-")[1];
         let depositMonth = this.depositsArray[i].date.split("-")[0];
         let depositDate = new Date(depositYear, depositMonth - 1);
-
+      
         if (depositDate < yearAgo || depositDate < yearAgo + 1) {
           this.depositsArray.splice(i, 1);
           i--;

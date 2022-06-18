@@ -142,7 +142,6 @@ export default {
     },
     setColors(holdings, holdingsData) {
       const colors = [];
-      // get lowest and highest holdings
 
       for (let i = 0; i < holdings.data.length; i++) {
         // number between 220 adn 240

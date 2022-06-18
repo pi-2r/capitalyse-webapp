@@ -5,6 +5,20 @@ export default {
   mixins: [cleanNumberMixin, includesFromArrayMixin],
   data() {
     return {
+      monthNamesShort: [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ],
       dividendsArray: [],
       dataHolder: [],
       labelsHolder: [],
@@ -32,6 +46,7 @@ export default {
       if (this.dividendsArray.length > 0) {
         this.sortDividendsByDate();
         this.addMissingMonthsToChart();
+        // this.convertLabelsToWords();
 
         return {
           labels: this.labelsHolder,
@@ -206,6 +221,18 @@ export default {
         this.labelsHolder[this.labelsHolder.length - 2]
       ) {
         this.labelsHolder.pop();
+      }
+    },
+    convertLabelsToWords() {
+      // convert labels to words
+      for (let i = 0; i < this.labelsHolder.length; i++) {
+        let date = this.labelsHolder[i].split("-");
+        console.log(date);
+        if (date[0] === '1') {
+          this.labelsHolder[i] = date[1];
+        } else {
+          this.labelsHolder[i] = this.monthNamesShort[date[0] - 1];
+        }
       }
     },
     setYearToDate() {
