@@ -48,8 +48,6 @@ export default {
             display: false,
           },
           tooltip: {
-            position: 'nearest',
-            intersect: false,
             cornerRadius: 5,
             usePointStyle: true,
             displayColors: false,
