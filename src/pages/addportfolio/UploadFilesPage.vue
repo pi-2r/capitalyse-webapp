@@ -807,7 +807,7 @@ input[type="text"] {
 
 .filesLabelP {
   font-size: 1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
