@@ -684,7 +684,7 @@ input:checked + .slider:before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid rgb(233, 233, 233);
+  border-top: 1px solid var(--clr-light-grey);
   padding-top: 1rem;
 }
 
