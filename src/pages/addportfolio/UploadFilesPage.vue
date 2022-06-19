@@ -579,7 +579,7 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--clr-medium-light-grey);
+  background-color: var(--clr-medium-light-grey-2);
   -webkit-transition: 0.2s ease-in-out;
   transition: 0.2s ease-in-out;
 }
