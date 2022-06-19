@@ -149,7 +149,7 @@
                 </section>
                 <section v-else>Add Portfolio</section>
               </Button>
-              <Button class="secondary" link to="/portfolios">Cancel</Button>
+              <!-- <Button class="secondary" link to="/portfolios">Cancel</Button> -->
             </section>
           </form>
         </article>
