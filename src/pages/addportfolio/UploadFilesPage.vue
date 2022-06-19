@@ -43,13 +43,13 @@
                   v-if="filesAreValid"
                   icon="eva:checkmark-outline"
                   color="var(--clr-blue)"
-                  height="25"
+                  height="22"
                 />
                 <Icon
                   v-else
                   icon="ph:upload-simple-duotone"
                   color="var(--clr-blue)"
-                  height="25"
+                  height="22"
                 />
                 <span class="uploadFilesLabelText">{{ inputText }}</span>
               </label>
@@ -104,7 +104,7 @@
               <button class="resetUploadedBtn" @click="resetFiles">
                 <Icon
                   icon="ic:outline-restart-alt"
-                  color="var(--clr-blue)"
+                  color="var(--clr-grey)"
                   height="18"
                 />
                 Reset uploads
@@ -929,7 +929,7 @@ input[type="submit"] {
 }
 
 .uploadFilesLabel:hover {
-  background-color: #008cff10;
+  background-color: #008cff11;
 }
 
 .fileName {
@@ -958,7 +958,7 @@ input[type="submit"] {
 .resetUploadedBtn {
   height: 1.75rem;
   border: none;
-  color: var(--clr-blue);
+  color: var(--clr-grey);
   font-size: 1rem;
   background-color: transparent;
   display: flex;
@@ -967,12 +967,14 @@ input[type="submit"] {
   gap: 0.2rem;
   padding: 0.3rem;
   border-radius: 0.4rem;
+  border: 1px solid transparent;
 }
 
 .resetUploadedBtn:hover {
   box-shadow: none;
   cursor: pointer;
-  background-color: var(--clr-light-blue);
+  border:1px solid var(--clr-medium-light-grey-2);
+  box-shadow: var(--btn-shadow);
 }
 
 .secondary {
