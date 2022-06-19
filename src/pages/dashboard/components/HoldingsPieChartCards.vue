@@ -50,7 +50,6 @@ export default {
           tooltip: {
             position: 'nearest',
             intersect: false,
-            mode: 'index',
             cornerRadius: 5,
             usePointStyle: true,
             displayColors: false,
