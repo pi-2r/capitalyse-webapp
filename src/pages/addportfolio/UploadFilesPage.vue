@@ -850,7 +850,7 @@ input[type="text"] {
 
 .uploadFilesTooltipBtn:hover {
   cursor: pointer;
-  background-color: var(--clr-light-blue);
+  background-color: var(--clr-light-grey);
   border-radius: 100px;
 }
 
