@@ -6,7 +6,7 @@
         <img
           class="loginFormImageMobile"
           loading="eager"
-          src="@/assets/login-bg.webp"
+          src="@/assets/buildings.webp"
           alt="Big header image"
         />
       </figure>
@@ -72,7 +72,7 @@
         <img
           class="loginFormImage"
           loading="eager"
-          src="@/assets/login-bg.webp"
+          src="@/assets/buildings.webp"
           alt="Big header image"
         />
       </figure>
