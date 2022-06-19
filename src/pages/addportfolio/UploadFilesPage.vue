@@ -684,6 +684,8 @@ input:checked + .slider:before {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-top: 1px solid rgb(233, 233, 233);
+  padding-top: 1rem;
 }
 
 .portfolioName {
@@ -940,7 +942,7 @@ input[type="submit"] {
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .filesLabel__help {
