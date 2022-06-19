@@ -1,4 +1,4 @@
-<template>
+    <template>
     <button class="logoutWrapper"  @click="logoutUser">
         <Icon icon="ic:baseline-log-out" class="logout" color="var(--clr-red)" height="16" />
         Sign out

@@ -226,7 +226,7 @@ export default {
 
 select {
   padding: 0.6rem;
-  border-radius: 0.75rem;
+  border-radius: var(--btn-radius);
   background-color: var(--clr-very-light-blue);
   color: var(--clr-grey);
   font-weight: 600;

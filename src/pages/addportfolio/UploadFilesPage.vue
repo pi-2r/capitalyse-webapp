@@ -17,30 +17,19 @@
       <section class="formCard">
         <article class="wrapper">
           <form @submit.prevent="submitForm" class="uploadFilesForm">
-            <section class="portfolioName">
-              <label for="portfolioName">Portfolio name</label>
-              <input
-                type="text"
-                id="portfolioName"
-                @blur="checkPortfolioNameValidity"
-                @focus="resetInputStyling"
-                v-model.trim="portfolioName"
-                :class="portfolioNameIsValidClass"
-                autocomplete="off"
-              />
-            </section>
-
             <section class="uploadFilesGroup">
               <section class="uploadFilesGroup__heading">
                 <p class="filesLabelP">
                   Files
-                  <Icon
-                    @click="scrollToHelp"
-                    class="uploadFilesTooltipBtn"
-                    icon="clarity:help-info-solid"
-                    color="var(--clr-blue)"
-                    height="18"
-                  />
+                  <span class="filesLabel__help">
+                    <Icon
+                      @click="scrollToHelp"
+                      class="uploadFilesTooltipBtn"
+                      icon="fa6-regular:circle-question"
+                      color="var(--clr-grey)"
+                      height="20"
+                    />
+                  </span>
                 </p>
               </section>
               <label class="uploadFilesLabel">
@@ -49,6 +38,18 @@
                   type="file"
                   accept=".csv"
                   multiple
+                />
+                <Icon
+                  v-if="filesAreValid"
+                  icon="eva:checkmark-outline"
+                  color="var(--clr-blue)"
+                  height="25"
+                />
+                <Icon
+                  v-else
+                  icon="ph:upload-simple-duotone"
+                  color="var(--clr-blue)"
+                  height="25"
                 />
                 <span class="uploadFilesLabelText">{{ inputText }}</span>
               </label>
@@ -101,8 +102,44 @@
                 </section>
               </section>
               <button class="resetUploadedBtn" @click="resetFiles">
-                Reset Files
+                <Icon
+                  icon="ic:outline-restart-alt"
+                  color="var(--clr-blue)"
+                  height="18"
+                />
+                Reset uploads
               </button>
+            </section>
+
+            <section class="portfolioName">
+              <section class="portfolioName__heading">
+                <label for="portfolioName"
+                  >Portfolio name
+                  <span class="portfolioName__optional">(optional)</span></label
+                >
+
+                <label class="switch" @click="togglePortfolioNameInput">
+                  <input
+                    type="checkbox"
+                    id="theme"
+                    name="theme"
+                    value="darkMode"
+                    @change="togglePortfolioNameInput"
+                    v-model="isPortfolioNameInputVisible"
+                  />
+                  <span class="slider round"></span>
+                </label>
+              </section>
+              <input
+                type="text"
+                id="portfolioName"
+                @blur="checkPortfolioNameValidity"
+                @focus="resetInputStyling"
+                v-model.trim="portfolioName"
+                :class="portfolioNameIsValidClass"
+                autocomplete="off"
+                v-if="isPortfolioNameInputVisible"
+              />
             </section>
 
             <section class="fileButtons">
@@ -140,7 +177,6 @@
         How do I export files from DEGIRO?
       </button>
       <section class="content">
-       
         <h3 class="contentTitle">
           Easy Export
           <span class="contentTitleThin">
@@ -172,18 +208,17 @@
         <p>If the links do not work for you, or you wish to export manually:</p>
         <p>
           <span class="listNumber">1.</span> Go to Activity > Transactions and
-          set the start date to include your portfolio's complete history.<br /><br/>
+          set the start date to include your portfolio's complete history.<br /><br />
           <span class="listNumber">2.</span> Click the 'Export' button and
-          select 'CSV'.<br /><br/>
+          select 'CSV'.<br /><br />
           <span class="listNumber">3.</span> Go to Activity > Account Statements
           and set the start date to include your portfolio's complete
-          history.<br /><br/>
+          history.<br /><br />
           <span class="listNumber">4.</span> Click the 'Export' button and
-          select 'CSV'.<br /><br/>
-          <span class="listNumber">5.</span> Go to your Portfolio page.<br /><br/>
-          <span class="listNumber">6.</span> Do not
-          change any dates, click the 'Export' button and
-          select 'CSV'.<br /><br/>
+          select 'CSV'.<br /><br />
+          <span class="listNumber">5.</span> Go to your Portfolio page.<br /><br />
+          <span class="listNumber">6.</span> Do not change any dates, click the
+          'Export' button and select 'CSV'.<br /><br />
         </p>
       </section>
       <button class="collapsible" @click="toggleCollapsible(1)">
@@ -191,7 +226,8 @@
       </button>
       <section class="content">
         <p>
-          Upload your exported Transactions.csv, Account.csv and Portfolio.csv files by clicking the 'Upload Files' button.
+          Upload your exported Transactions.csv, Account.csv and Portfolio.csv
+          files by clicking the 'Upload Files' button.
         </p>
         <p>
           Next, select all files you wish to upload. If there appears a green
@@ -263,6 +299,7 @@ export default {
       portfolioNameIsValidClass: "",
       isLoading: false,
       isTooltipOpen: false,
+      isPortfolioNameInputVisible: false,
     };
   },
   watch: {
@@ -287,6 +324,9 @@ export default {
       this.accountFile ? tot++ : null;
       this.portfolioFile ? tot++ : null;
       return "Upload Files (" + tot + "/3)";
+    },
+    filesAreValid() {
+      return this.transactionsFile && this.accountFile && this.portfolioFile;
     },
     formIsValid() {
       // if portfolio is valid and files are uploaded after passing checks then return true
@@ -370,6 +410,15 @@ export default {
     },
   },
   methods: {
+    togglePortfolioNameInput() {
+      this.isPortfolioNameInputVisible = !this.isPortfolioNameInputVisible;
+      this.setPortfolioName();
+    },
+    setPortfolioName() {
+      this.isPortfolioNameInputVisible
+        ? (this.portfolioName = "")
+        : (this.portfolioName = "My Portfolio");
+    },
     toggleCollapsible(id) {
       const collapsible = document.querySelectorAll(".collapsible")[id];
       const content = document.querySelectorAll(".content")[id];
@@ -387,6 +436,7 @@ export default {
     scrollToHelp() {
       const help = document.querySelector(".addPortfolioHelp");
       help.scrollIntoView({ behavior: "smooth" });
+      this.toggleCollapsible(0);
     },
     resetInputStyling() {
       this.portfolioNameIsValidClass = "";
@@ -503,11 +553,76 @@ export default {
   },
   created() {
     this.$store.commit("files/setUploadingState", "none");
+    this.setPortfolioName();
   },
 };
 </script>
 
 <style scoped>
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 22px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--clr-medium-light-grey);
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+
+.slider:hover {
+  background-color: var(--clr-medium-light-grey-2);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--clr-very-light-blue);
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+
+input:checked + .slider {
+  background-color: var(--clr-blue);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(22px);
+  -ms-transform: translateX(22px);
+  transform: translateX(22px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 200px;
+}
+
+.slider.round:before {
+  border-radius: 200px;
+}
+
+.titleAndBackButtonContainer {
+  margin-bottom: 2rem;
+}
+
 .addPortfolioHelp {
   margin-top: 3rem;
 }
@@ -520,7 +635,7 @@ export default {
 
 .collapsible {
   background-color: var(--clr-very-light-blue);
-  border-radius: 0.6rem;
+  border-radius: var(--btn-radius);
   color: var(--clr-black);
   cursor: pointer;
   padding: 1rem;
@@ -563,6 +678,20 @@ export default {
   border: 1px solid var(--clr-medium-light-grey);
   border-top: none;
   border-bottom: none;
+}
+
+.portfolioName__heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.portfolioName {
+  margin-bottom: 2rem;
+}
+.portfolioName__optional {
+  color: var(--clr-grey);
+  font-size: 0.9rem;
 }
 
 .contentTitle {
@@ -646,6 +775,7 @@ h1 {
   background-color: var(--clr-very-light-blue);
   box-shadow: var(--box-shadow-big);
   border-radius: var(--card-border-radius);
+  border: 1px solid var(--clr-very-light-grey);
 }
 
 .fileValid {
@@ -664,7 +794,7 @@ input {
 
 input[type="text"] {
   width: 100%;
-  padding: 1rem;
+  padding: 0.9rem;
   background-color: var(--clr-white);
   border: 1px solid var(--clr-medium-light-grey-2);
   border-radius: var(--btn-radius);
@@ -678,7 +808,6 @@ input[type="text"] {
 .filesLabelP {
   font-size: 1rem;
   margin-bottom: 0.5rem;
-  margin-top: 0.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -767,13 +896,6 @@ input[type="submit"] {
 .uploadFilesGroup {
   display: grid;
   grid-template-columns: 1fr;
-  margin-top: 1rem;
-}
-
-.uploadFilesGroup__heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .uploadFilesGroup__help {
@@ -784,13 +906,17 @@ input[type="submit"] {
 }
 
 .uploadFilesLabel {
-  background-color: var(--clr-light-blue);
+  background-color: #008cff07;
   border-radius: var(--btn-radius);
   width: 100%;
-  padding: 0.7rem;
-  border: 3px dashed var(--clr-blue);
+  padding: 3rem 0rem;
+  border: 2px dashed var(--clr-blue);
   color: var(--clr-blue);
   text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: 0.2s all;
 }
 
 .uploadFilesLabel:hover,
@@ -800,10 +926,13 @@ input[type="submit"] {
   user-select: none;
 }
 
+.uploadFilesLabel:hover {
+  background-color: #008cff10;
+}
+
 .fileName {
   display: flex;
   align-items: center;
-  margin-bottom: 0.2rem;
   font-size: 0.9rem;
 }
 
@@ -811,22 +940,37 @@ input[type="submit"] {
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.filesLabel__help {
+  color: var(--clr-blue);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  border-radius: 0.4rem;
 }
 
 .resetUploadedBtn {
-  height: 2rem;
+  height: 1.75rem;
   border: none;
   color: var(--clr-blue);
   font-size: 1rem;
   background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  padding: 0.3rem;
+  border-radius: 0.4rem;
 }
 
 .resetUploadedBtn:hover {
   box-shadow: none;
   cursor: pointer;
-  transform: scale(1);
-  text-decoration: underline;
+  background-color: var(--clr-light-blue);
 }
 
 .secondary {
