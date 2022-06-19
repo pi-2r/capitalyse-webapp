@@ -323,7 +323,7 @@ export default {
       this.transactionsFile ? tot++ : null;
       this.accountFile ? tot++ : null;
       this.portfolioFile ? tot++ : null;
-      return "Upload Files (" + tot + "/3)";
+      return "Import Files (" + tot + "/3)";
     },
     filesAreValid() {
       return this.transactionsFile && this.accountFile && this.portfolioFile;
