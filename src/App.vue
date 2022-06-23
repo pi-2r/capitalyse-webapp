@@ -46,7 +46,7 @@ html {
 }
 
 h1 {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-family: "Lexend", sans-serif;
   font-weight: 500;
   margin: 0;

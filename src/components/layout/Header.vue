@@ -4,7 +4,7 @@
       <div class="nav-container">
         <section class="leftSide">
           <ul>
-            <a href="https://www.capitalyse.net/" class="routerLinkLogo">
+            <a href="https://www.capitalyse.app/" class="routerLinkLogo">
               <Logo />
             </a>
 
@@ -42,7 +42,7 @@
         </section>
       </div>
       <div class="nav-container-mobile">
-        <a href="https://www.capitalyse.net/" class="routerLinkLogo">
+        <a href="https://www.capitalyse.app/" class="routerLinkLogo">
           <Logo />
         </a>
 

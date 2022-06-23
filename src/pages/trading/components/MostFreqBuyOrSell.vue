@@ -139,7 +139,7 @@ export default {
   cursor: pointer;
   box-shadow: var(--box-shadow-small);
   background-color: var(--clr-white);
-  border: 1px solid var(--clr-medium-light-grey);
+  border: 1px solid var(--clr-light-grey);
 }
 
 .card {

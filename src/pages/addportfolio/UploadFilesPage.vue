@@ -173,10 +173,10 @@
         </p>
         <p>Open the next dropdown box to see export instructions.</p>
       </section> -->
-      <button class="collapsible" @click="toggleCollapsible(0)">
+      <button class="collapsible" id="exportFromDegiroHelp" @click="toggleCollapsible(0)">
         How do I export files from DEGIRO?
       </button>
-      <section class="content">
+      <section class="content" >
         <h3 class="contentTitle">
           Easy Export
           <span class="contentTitleThin">
@@ -434,9 +434,8 @@ export default {
       }
     },
     scrollToHelp() {
-      const help = document.querySelector(".addPortfolioHelp");
+      const help = document.getElementById("exportFromDegiroHelp");
       help.scrollIntoView({ behavior: "smooth" });
-      this.toggleCollapsible(0);
     },
     resetInputStyling() {
       this.portfolioNameIsValidClass = "";
@@ -973,7 +972,7 @@ input[type="submit"] {
 .resetUploadedBtn:hover {
   box-shadow: none;
   cursor: pointer;
-  border:1px solid var(--clr-medium-light-grey-2);
+  border:1px solid var(--clr-medium-light-grey);
   box-shadow: var(--btn-shadow);
 }
 

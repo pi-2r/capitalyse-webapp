@@ -35,7 +35,7 @@
         <Icon
           icon="bi:bar-chart-fill"
           class="headingIcon"
-          height="20"
+          height="25"
           color="var(--clr-black)"
         />
         <h1>My Portfolios</h1>
@@ -93,7 +93,7 @@ import { Icon } from "@iconify/vue";
 import Header from "@/components/layout/Header.vue";
 import ConfirmModal from "@/components/ui/ConfirmModal.vue";
 
-import PortfolioListItem from "./PortfolioListItem.vue";
+import PortfolioListItem from "@/pages/portfolios/components/PortfolioListItem.vue";
 
 export default {
   components: {

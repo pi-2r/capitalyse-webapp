@@ -12,7 +12,7 @@
       </figure>
       <section class="content">
         <section class="form-wrapper">
-          <a class="linkToMainSite" href="https://www.capitalyse.net">
+          <a class="linkToMainSite" href="https://www.capitalyse.app">
             <BackButton :toHome="true" />
             <Logo class="logo" color="var(--clr-black)" />
           </a>
@@ -256,7 +256,7 @@ export default {
 .button {
   width: 100%;
   padding: 0.85rem 1rem;
-  margin-top: 2.2rem;
+  margin-top: 2rem;
   margin-bottom: 1rem;
 }
 
@@ -270,7 +270,6 @@ button {
 
 .secondaryLink {
   color: var(--clr-blue);
-  font-weight: 500;
   text-decoration: none;
   transition: 0.2s all;
 }
