@@ -181,17 +181,17 @@
           Easy Export
           <span class="contentTitleThin">
             <Icon
-              icon="eva:checkmark-outline"
+              icon="fluent:checkmark-12-filled"
               color="var(--clr-green)"
               height="17"
             />
-            Recommended way
+            Recommended method
           </span>
         </h3>
         <p>
-          To quickly download the three files, click the links below and log in
-          to Degiro. For each file simply click the 'Export' button on the
-          right, then select the 'CSV' format.
+          To download your files, click the links below and log in
+          to Degiro. For each file click the 'Export' button in the top
+          right, then select the 'CSV' format. All dates have already been set correctly.
         </p>
         <p>
           <a
@@ -697,17 +697,23 @@ input:checked + .slider:before {
 
 .contentTitle {
   margin-bottom: 0.4rem;
-  font-size: 1rem;
+  font-size: 1.25rem;
   display: flex;
   align-items: center;
+  gap: 1rem;
 }
 .contentTitleThin {
-  font-weight: lighter;
+  background-color: rgba(0, 128, 0, 0.1);
+  padding: 0.2rem;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  border-radius: 5px;
+  font-weight: 600;
   font-size: 0.85rem;
   color: var(--clr-green);
   display: inline-flex;
-  margin-left: 0.5rem;
   gap: 0.1rem;
+  justify-content: center;
   align-items: center;
 }
 
@@ -928,7 +934,7 @@ input[type="submit"] {
 }
 
 .uploadFilesLabel:hover {
-  background-color: #008cff11;
+  background-color: #008cff0e;
 }
 
 .fileName {
