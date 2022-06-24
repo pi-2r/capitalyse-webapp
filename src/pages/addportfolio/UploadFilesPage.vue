@@ -185,7 +185,7 @@
               color="var(--clr-green)"
               height="17"
             />
-            Recommended method
+            Faster method
           </span>
         </h3>
         <p>
@@ -204,9 +204,25 @@
           <br />
           <a :href="accountLink" target="_blank">Account File</a>
         </p>
-        <h3 class="contentTitle">Manual Export</h3>
-        <p>If the links do not work for you, or you wish to export manually:</p>
+        <h3 class="contentTitle">
+          Manual Export
+          <span class="contentTitleThinWorseMethod">
+            <Icon
+              icon="akar-icons:info"
+              color="orange"
+              height="17"
+            />
+            Slower method
+          </span>
+        </h3>
         <p>
+          For manual export, you can follow this tutorial.
+          <br>
+          <a target="_blank" href="https://capitalyse.app/support/export-degiro-files"> 
+            How to export my DEGIRO files
+          </a>
+        </p>
+        <!-- <p>
           <span class="listNumber">1.</span> Go to Activity > Transactions and
           set the start date to include your portfolio's complete history.<br /><br />
           <span class="listNumber">2.</span> Click the 'Export' button and
@@ -219,7 +235,7 @@
           <span class="listNumber">5.</span> Go to your Portfolio page.<br /><br />
           <span class="listNumber">6.</span> Do not change any dates, click the
           'Export' button and select 'CSV'.<br /><br />
-        </p>
+        </p> -->
       </section>
       <button class="collapsible" @click="toggleCollapsible(1)">
         How do I import files into Capitalyse?
@@ -702,6 +718,9 @@ input:checked + .slider:before {
   align-items: center;
   gap: 1rem;
 }
+.contentTitle:last-of-type {
+  margin-top: 3rem;
+}
 .contentTitleThin {
   background-color: rgba(0, 128, 0, 0.1);
   padding: 0.2rem;
@@ -712,7 +731,21 @@ input:checked + .slider:before {
   font-size: 0.85rem;
   color: var(--clr-green);
   display: inline-flex;
-  gap: 0.1rem;
+  gap: 0.3rem;
+  justify-content: center;
+  align-items: center;
+}
+.contentTitleThinWorseMethod {
+   background-color: rgba(207, 167, 9, 0.1);
+  padding: 0.2rem;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: orange;
+  display: inline-flex;
+  gap: 0.3rem;
   justify-content: center;
   align-items: center;
 }
