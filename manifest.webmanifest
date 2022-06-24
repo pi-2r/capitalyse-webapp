@@ -1,0 +1,15 @@
+{
+  "background_color": "#fcfcfc",
+  "description": "Portfolio tracker for DEGIRO",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/src/assets/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "name": "Capitalyse",
+  "short_name": "Capitalyse",
+  "start_url": "/public/index.html"
+}
