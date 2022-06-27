@@ -582,7 +582,8 @@ a:hover {
 }
 
 .router-link-active {
-    color: var(--clr-blue);
+  color: var(--clr-blue);
+  font-weight: 500;
 }
 .router-link-active > * {
   color: var(--clr-blue);
