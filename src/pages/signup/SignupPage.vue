@@ -328,7 +328,7 @@ export default {
 .backBtn {
   margin-right: 0.5rem;
   cursor: pointer;
-  transition: 0.2s all;
+  transition: 0.15s all;
 }
 
 .backBtn:hover {
@@ -353,7 +353,7 @@ button {
 .secondaryLink {
   color: var(--clr-blue);
   text-decoration: none;
-  transition: 0.2s all;
+  transition: 0.15s all;
 }
 .secondaryLink:hover {
   text-decoration: underline;

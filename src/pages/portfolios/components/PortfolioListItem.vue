@@ -119,7 +119,7 @@ export default {
 
 .portfolioName__icon {
   margin-left: 0.35rem;
-  transition: 0.2s all;
+  transition: 0.15s all;
 }
 
 td {

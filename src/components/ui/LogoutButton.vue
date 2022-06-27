@@ -32,7 +32,7 @@ export default {
     align-items: center;
     padding: 0.5rem;
     border-radius: var(--btn-radius);
-    transition: 0.2s all;
+    transition: 0.15s all;
     background-color: rgba(255, 0, 0, 0.05);
     border: 1px solid var(--clr-red);
     box-shadow: var(--btn-shadow);
@@ -47,7 +47,7 @@ export default {
 .logout {
     display: inline-block;
     color: var(--clr-red);
-    transition: 0.2s all;
+    transition: 0.15s all;
 }
 
 .logout:hover {

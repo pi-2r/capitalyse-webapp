@@ -287,7 +287,7 @@ export default {
   font-weight: 600;
   cursor: pointer;
   display: flex;
-  transition: 0.2s all;
+  transition: 0.15s all;
   justify-content: center;
   align-items: center;
   border: 1px solid var(--clr-medium-light-grey);
@@ -353,7 +353,7 @@ export default {
   font-size: 0.85rem;
   border-radius: 0.4rem;
   cursor: pointer;
-  transition: 0.2s all;
+  transition: 0.15s all;
   border: 1px solid transparent;
   color: var(--clr-grey);
   display: flex;
@@ -517,7 +517,7 @@ a:hover {
 }
 
 .settingsIcon {
-  transition: 0.2s all;
+  transition: 0.15s all;
   border: none;
   outline: none;
   color: var(--clr-grey);
@@ -568,7 +568,7 @@ a:hover {
 /* anim */
 
 .slide-fade-enter-active {
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .slide-fade-leave-active {
@@ -577,7 +577,7 @@ a:hover {
 
 .slide-fade-enter-from,
 .slide-fade-leave-to {
-  transform: translateY(-15px) scale(0.95);
+  transform: translateY(-10px) scale(1);
   opacity: 0;
 }
 

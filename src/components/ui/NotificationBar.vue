@@ -92,7 +92,7 @@ export default {
 .bottomNotifBar__closeIcon {
     margin-left: 0.5rem;
     border-radius: 0.2rem;
-    transition: 0.2s all;
+    transition: 0.15s all;
 }
 
 .bottomNotifBar__closeIcon:hover {

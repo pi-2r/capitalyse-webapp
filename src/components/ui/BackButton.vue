@@ -47,7 +47,7 @@ export default {
 .backBtn {
   margin-right: 0.1rem;
   cursor: pointer;
-  transition: 0.2s all;
+  transition: 0.15s all;
 }
 
 .backBtn:hover {

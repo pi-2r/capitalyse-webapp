@@ -331,7 +331,7 @@ tr:nth-last-child(1) {
   color: var(--white-color);
   font-size: 1.1rem;
   cursor: pointer;
-  transition: 0.2s all;
+  transition: 0.15s all;
   width: 48%;
   display: flex;
   justify-content: center;

@@ -233,7 +233,7 @@ select {
   font-size: 1rem;
   border: 1px solid var(--clr-medium-light-grey);
   box-shadow: var(--btn-shadow);
-  transition: 0.2s all;
+  transition: 0.15s all;
 }
 
 select:hover {
@@ -273,7 +273,7 @@ select:hover {
 ::-webkit-scrollbar-thumb {
   background: var(--clr-light-grey);
   border-radius: 200rem;
-  transition: 0.2s all;
+  transition: 0.15s all;
 }
 
 .depositsTable {

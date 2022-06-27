@@ -37,7 +37,7 @@ export default {
 }
 
 .cardBtnSection__btnIcon {
-    transition: 0.2s all;
+    transition: 0.15s all;
 }
 
 .cardBtnSection__btn:hover .cardBtnSection__btnIcon {

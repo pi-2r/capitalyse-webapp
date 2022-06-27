@@ -430,13 +430,13 @@ export default {
 
         // wacht met transition terug geven omdat de animatie alsnog afspeelt
         setTimeout(() => {
-          content.style.transition = "0.2s all";
+          content.style.transition = "0.3s all";
         }, 1000);
       }
     },
     scrollToHelp() {
       this.openCollapsible(0);
-      
+
       const help = document.getElementById("exportFromDegiroHelp");
       help.scrollIntoView({ behavior: "smooth" });
     },
@@ -581,9 +581,9 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--clr-medium-light-grey-2);
-  -webkit-transition: 0.2s ease-in-out;
-  transition: 0.2s ease-in-out;
+  background-color: var(--clr-medium-light-grey);
+  -webkit-transition: 0.15s ease-in-out;
+  transition: 0.15s ease-in-out;
 }
 
 .slider:hover {
@@ -598,8 +598,8 @@ export default {
   left: 4px;
   bottom: 4px;
   background-color: var(--clr-very-light-blue);
-  -webkit-transition: 0.2s ease-in-out;
-  transition: 0.2s ease-in-out;
+  -webkit-transition: 0.15s ease-in-out;
+  transition: 0.15s ease-in-out;
 }
 
 input:checked + .slider {
@@ -648,9 +648,14 @@ input:checked + .slider:before {
   font-size: 1rem;
 }
 
+.collapsible:hover {
+  background-color: var(--clr-very-light-grey);
+}
+
 .active {
   border-radius: 0.6rem 0.6rem 0rem 0rem;
   border-bottom: none;
+  background-color: var(--clr-very-light-grey);
 }
 
 .listNumber {
@@ -674,7 +679,7 @@ input:checked + .slider:before {
   max-height: 0;
   overflow: hidden;
   border-radius: 0rem 0rem 0.6rem 0.6rem;
-  transition: all 0.2s ease-out;
+  transition: all 0.3s ease-out;
   background-color: var(--clr-very-light-blue);
   margin-bottom: 0.75rem;
   border: 1px solid var(--clr-medium-light-grey);
@@ -900,7 +905,7 @@ input[type="submit"] {
   background-color: var(--clr-blue);
   color: var(--clr-white);
   cursor: pointer;
-  transition: 0.2s all;
+  transition: 0.15s all;
   border: 2px solid var(--clr-blue);
   border-radius: var(--btn-radius);
 }
@@ -943,7 +948,7 @@ input[type="submit"] {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
-  transition: 0.2s all;
+  transition: 0.15s all;
 }
 
 .uploadFilesLabel:hover,

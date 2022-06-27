@@ -36,7 +36,7 @@ button,a{
     background-color: var(--clr-blue);
     color: var(--clr-white);
     cursor: pointer;
-    transition: 0.2s all;
+    transition: 0.15s all;
     border: none;
     border-radius: var(--btn-radius);
     user-select: none;
@@ -66,7 +66,7 @@ button:hover {
     font-size: calc(var(--btn-font-size) / 1.4);
     padding: 0.6rem 1.5rem;
     width: 100%;
-    transition: 0.2s all;
+    transition: 0.15s all;
     display: inline-block; 
 }
 

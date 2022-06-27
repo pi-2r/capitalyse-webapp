@@ -115,8 +115,8 @@ label {
   right: 0;
   bottom: 0;
   background-color: var(--clr-medium-light-grey);
-  -webkit-transition: 0.2s ease-in-out;
-  transition: 0.2s ease-in-out;
+  -webkit-transition: 0.15s ease-in-out;
+  transition: 0.15s ease-in-out;
 }
 
 .slider:hover {
@@ -131,8 +131,8 @@ label {
   left: 4px;
   bottom: 4px;
   background-color: var(--clr-very-light-blue);
-  -webkit-transition: 0.2s ease-in-out;
-  transition: 0.2s ease-in-out;
+  -webkit-transition: 0.15s ease-in-out;
+  transition: 0.15s ease-in-out;
 }
 
 input:checked + .slider {

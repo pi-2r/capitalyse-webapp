@@ -54,7 +54,7 @@ p {
 .googleLogin {
     display: inline-block;
     color: var(--clr-grey);
-    transition: 0.2s all;
+    transition: 0.15s all;
     transform: scale(1.1);
 }
 
