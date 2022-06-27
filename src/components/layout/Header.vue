@@ -362,7 +362,7 @@ export default {
 
 .leftSide__myPortfoliosPopupLink:hover {
   color: var(--clr-blue);
-  background-color: rgba(9, 124, 232, 0.03);
+  background-color: rgba(9, 124, 232, 0.05);
 }
 .leftSide__myPortfoliosPopupLink:hover .leftSide__myPortfoliosPopupLinkIcon {
   transform: translateX(0px);
