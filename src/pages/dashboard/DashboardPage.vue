@@ -1,5 +1,5 @@
 <template>
-  <Header></Header>
+  <Header :isDemo="isDemo"></Header>
 
   <section class="container">
     <section class="head">
@@ -117,7 +117,7 @@ export default {
       let hasFiles = false;
       portfolios.forEach((portfolio) => {
         if (portfolio.id === this.$route.params.id) {
-          if (portfolio.accountFile && portfolio.transactionsFile) {
+          if (portfolio.accountFile && portfolio.transactionsFile & portfolio.portfolioFile) {
             hasFiles = true;
           }
         }
@@ -139,6 +139,9 @@ export default {
       this.calculateStartAndEndDates();
       this.convertFirebaseTime();
     },
+    $route() {
+      this.loadData();
+    }
   },
   methods: {
     openThreeDots() {
@@ -147,6 +150,7 @@ export default {
     calculateStartAndEndDates() {
       const today = new Date();
       const accountFile = this.files.accountFile;
+      console.log(accountFile);
 
       let startDate = accountFile[accountFile.length - 2][0];
       startDate = new Date(
@@ -203,15 +207,15 @@ export default {
     },
     loadData() {
       if (this.isDemo === false) {
+        // if doesnt have current portfolio's files, but has current portfolio's meta-data
         if (!this.hasCurrentFiles && this.hasCurrentPortfolio) {
           this.$store.dispatch(
             "files/fetchOnePortfolio",
             this.$route.params.id
           );
-        } else if (!this.hasCurrentPortfolio) {
-          this.$store.dispatch("files/fetchAllPortfolios");
         }
 
+        // if has current portfolio's meta-data
         if (this.hasCurrentPortfolio) {
           this.setCurrentPortfolio(this.$route.params.id);
         }

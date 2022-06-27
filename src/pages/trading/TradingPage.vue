@@ -96,8 +96,6 @@ export default {
             "files/fetchOnePortfolio",
             this.$route.params.id
           );
-        } else if (!this.hasCurrentPortfolio) {
-          this.$store.dispatch("files/fetchAllPortfolios");
         }
 
         if (this.hasCurrentPortfolio) {

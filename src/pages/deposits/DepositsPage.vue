@@ -1,5 +1,5 @@
 <template>
-  <Header></Header>
+  <Header :isDemo="isDemo"></Header>
   <section class="container">
     <Breadcrumbs
       v-if="isDemo"
@@ -97,10 +97,7 @@ export default {
             "files/fetchOnePortfolio",
             this.$route.params.id
           );
-        } else if (!this.hasCurrentPortfolio) {
-          this.$store.dispatch("files/fetchAllPortfolios");
         }
-
         if (this.hasCurrentPortfolio) {
           this.setCurrentPortfolio(this.$route.params.id);
         }

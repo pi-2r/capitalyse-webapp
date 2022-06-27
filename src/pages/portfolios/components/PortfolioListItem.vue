@@ -21,7 +21,6 @@
 
     <Icon
       icon="bxs:trash"
-      color="var(--clr-red)"
       height="20"
       class="actionBtn"
       @click="$emit('toggleDeletePopup', portfolio.id)"
@@ -92,14 +91,14 @@ export default {
 
 .actionBtn {
   margin-left: 0.5rem;
+  color: var(--clr-medium-light-grey-2);
   transition: 0.3s all;
   border-radius: 1000rem;
 }
 
 .actionBtn:hover {
   cursor: pointer;
-  background-color: var(--clr-very-light-grey);
-  transform: scale(1.06);
+  color: var(--clr-red);
 }
 
 .portfolioName {

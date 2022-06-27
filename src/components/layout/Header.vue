@@ -1,4 +1,9 @@
 <template>
+  <section
+    class="leftSide__myPortfolioPopupBackdrop"
+    v-if="isMyPortfoliosPopupOpen"
+    @click="toggleMyPortfoliosPopup"
+  ></section>
   <header>
     <nav class="nav-wrapper">
       <div class="nav-container">
@@ -11,11 +16,79 @@
             <!-- <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li> -->
-            <!-- <li>
-                            <router-link class="routerLink" to="/portfolios">
-                                My Portfolios
-                            </router-link>
-                        </li>  -->
+            <li class="dropDownLi">
+              <button
+                class="dropDownLiText"
+                :class="{ linkIsActive: isMyPortfoliosPopupOpen }"
+                @click="toggleMyPortfoliosPopup"
+              >
+                My Portfolios
+                <Icon
+                  class="routerLinkDropDownIcon"
+                  :class="{ rotateDropDownIcon: isMyPortfoliosPopupOpen }"
+                  icon="ep:arrow-down-bold"
+                  height="12"
+                />
+              </button>
+              <!-- Pop-up -->
+
+              <transition mode="out-in" name="slide-fade">
+                <section
+                  v-if="isMyPortfoliosPopupOpen"
+                  class="leftSide__myPortfoliosPopup"
+                >
+                  <section class="leftSide__myPortfoliosPopupWrapper">
+                    <router-link
+                      to="/portfolios"
+                      style="text-decoration: none; color: inherit"
+                    >
+                      <section class="leftSide__myPortfoliosPopupButtonWrapper">
+                        <button
+                          class="leftSide__myPortfoliosPopupButton"
+                          @click="toggleMyPortfoliosPopup()"
+                        >
+                          <Icon
+                            icon="bi:bar-chart-fill"
+                            class="headingIcon"
+                            height="14"
+                          />
+                          All Portfolios
+                        </button>
+                      </section>
+                    </router-link>
+                    <section
+                      v-if="!isDemo"
+                      class="leftSide__myPortfoliosPopupList"
+                    >
+                      <router-link
+                        style="text-decoration: none"
+                        @click="toggleMyPortfoliosPopup()"
+                        :to="'/dashboard/' + portfolio.id"
+                        class="leftSide__myPortfoliosPopupLink"
+                        v-for="portfolio in headerPortfoliosFromStore
+                          .slice()
+                          .reverse()"
+                        :key="portfolio.id"
+                      >
+                        {{ portfolio.portfolioName }}
+                        <Icon
+                          class="leftSide__myPortfoliosPopupLinkIcon"
+                          icon="charm:arrow-right"
+                          color="var(--clr-blue)"
+                          height="15"
+                        />
+
+                      </router-link>
+                    </section>
+                    <section class="popupNoPortfolios" v-if="headerPortfoliosFromStore.length === 0">
+                      You currently have no portfolios, add one
+                      <router-link @click="toggleMyPortfoliosPopup" to="/portfolios/new">here</router-link>
+                      to get started.
+                    </section>
+                  </section>
+                </section>
+              </transition>
+            </li>
           </ul>
         </section>
 
@@ -26,7 +99,7 @@
                             Premium
                         </Button>
                     </section> -->
-          <router-link to="/signup">
+          <router-link to="/signup" class="u-remove-router-styling">
             <Button v-if="!isAuth" class="signupButton"> Sign up </Button>
           </router-link>
           <section class="u-displayflex">
@@ -106,9 +179,16 @@ export default {
     Icon,
     Logo,
   },
+  props: {
+    isDemo: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       isMobileNavOpen: false,
+      isMyPortfoliosPopupOpen: false,
     };
   },
   computed: {
@@ -118,8 +198,32 @@ export default {
     isAuth() {
       return this.$store.getters["isAuthenticated"];
     },
+    areThereHeaderPortfolios() {
+      return this.$store.getters["files/hasPortfolios"];
+    },
+    amountOfHeaderPortfolios() {
+      return this.$store.getters["files/amountOfPortfolios"];
+    },
+    headerPortfoliosFromStore() {
+      return this.$store.getters["files/getPortfolios"];
+    },
+  },
+  watch: {
+    amountOfHeaderPortfolios() {
+      this.loadHeaderPortfolios();
+    },
+    $route() {
+      this.isMyPortfoliosPopupOpen = false;
+    },
   },
   methods: {
+    toggleMyPortfoliosPopup() {
+      if (this.isMyPortfoliosPopupOpen) {
+        this.isMyPortfoliosPopupOpen = false;
+      } else {
+        this.isMyPortfoliosPopupOpen = true;
+      }
+    },
     toggleMobileNav() {
       if (this.isMobileNavOpen) {
         this.isMobileNavOpen = false;
@@ -127,14 +231,144 @@ export default {
         this.isMobileNavOpen = true;
       }
     },
+    loadHeaderPortfolios() {
+      if (this.areThereHeaderPortfolios) {
+        console.log(this.headerPortfoliosFromStore);
+      }
+    },
     closeNav() {
       this.isMobileNavOpen = false;
     },
+  },
+  created() {
+    this.loadHeaderPortfolios();
   },
 };
 </script>
 
 <style scoped>
+.popupNoPortfolios {
+  width: 15rem;
+  font-size: 0.8rem;
+  padding: 0.5rem;
+  text-align: center;
+  display: block;
+}
+.popupNoPortfolios a {
+  color: var(--clr-blue);
+}
+
+.leftSide__myPortfolioPopupBackdrop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.leftSide__myPortfoliosPopupButtonWrapper {
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--clr-light-grey);
+}
+
+.leftSide__myPortfoliosPopupButton {
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  padding: 0.6rem;
+  border-radius: var(--btn-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  transition: 0.2s all;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--clr-medium-light-grey);
+  box-shadow: var(--btn-shadow);
+  color: var(--clr-grey);
+  gap: 0.5rem;
+  background-color: transparent;
+}
+.leftSide__myPortfoliosPopupButton:hover {
+  border: 1px solid var(--clr-medium-light-grey-2);
+}
+
+.dropDownLi {
+  position: relative;
+}
+
+.linkIsActive {
+  color: var(--clr-blue) !important;
+}
+
+.dropDownLiText {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  font-size: 0.9rem;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--clr-grey);
+  cursor: pointer;
+}
+.dropDownLiText:hover {
+  color: var(--clr-blue);
+}
+
+.rotateDropDownIcon {
+  transform: rotateX(180deg);
+}
+
+.leftSide__myPortfoliosPopup {
+  position: absolute;
+  top: 2rem;
+  left: 0;
+}
+.leftSide__myPortfoliosPopup {
+  background-color: var(--clr-white);
+  border: 1px solid var(--clr-medium-light-grey);
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--box-shadow-small);
+  min-width: 12rem;
+  z-index: 99999;
+  padding: 0.5rem;
+}
+
+.leftSide__myPortfoliosPopupList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.leftSide__myPortfoliosPopupLink {
+  padding: 0.4rem;
+  padding-left: 0.75rem;
+  font-size: 0.85rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: 0.2s all;
+  border: 1px solid transparent;
+  color: var(--clr-grey);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.leftSide__myPortfoliosPopupLinkIcon {
+  transition: 0.3s all;
+  transform: translateX(-5px);
+  opacity: 0;
+}
+
+.leftSide__myPortfoliosPopupLink:hover {
+  color: var(--clr-blue);
+  background-color: rgba(9, 124, 232, 0.03);
+}
+.leftSide__myPortfoliosPopupLink:hover .leftSide__myPortfoliosPopupLinkIcon {
+  transform: translateX(0px);
+  opacity: 1;
+}
+
 .logoBanner {
   height: 25px;
 }
@@ -217,14 +451,19 @@ export default {
 }
 
 .routerLink {
-  font-size: 1rem;
+  font-size: 0.9rem;
   text-decoration: none;
   font-weight: 500;
   color: var(--clr-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-.routerLink:hover {
-  color: var(--clr-dark-grey);
+.routerLink:hover,
+.routerLink:hover .routerLinkDropDownIcon {
+  color: var(--clr-blue);
 }
 
 .routerLinkLogo {
@@ -246,7 +485,7 @@ li {
 }
 
 .leftSide li {
-  margin-left: 4rem;
+  margin-left: 3rem;
   list-style-type: none;
   color: var(--clr-grey);
   display: flex;
@@ -280,7 +519,7 @@ a:hover {
 .settingsSection:hover .settingsIcon,
 .settingsSection:hover {
   cursor: pointer;
-  color: var(--clr-dark-grey);
+  color: var(--clr-blue);
 }
 
 .rightSide {
@@ -309,9 +548,8 @@ a:hover {
   height: var(--header-height);
   display: flex;
   align-items: center;
-  justify-content: space-between;
   box-shadow: var(--box-shadow-medium);
-  border-bottom: 1px solid var(--clr-light-grey);
+  justify-content: space-between;
 }
 
 .u-displayflex {
@@ -323,15 +561,16 @@ a:hover {
 /* anim */
 
 .slide-fade-enter-active {
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
 }
 
 .slide-fade-leave-active {
-  transition: all 0.1s ease;
+  transition: all 0.2s ease;
 }
 
 .slide-fade-enter-from,
 .slide-fade-leave-to {
+  transform: translateY(-15px) scale(0.95);
   opacity: 0;
 }
 

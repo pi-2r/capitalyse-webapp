@@ -12,6 +12,23 @@ export default {
   created() {
     this.$store.dispatch("tryLogin");
   },
+  watch: {
+    isAuth() {
+      if(this.isAuth) {
+        this.fetchAllPortfolioMetaData();
+      }
+    },
+  },
+  computed: {
+    isAuth() {
+      return this.$store.getters["isAuthenticated"];
+    },
+  },
+  methods: {
+    fetchAllPortfolioMetaData() {
+      this.$store.dispatch("files/fetchAllPortfolios");
+    }
+  }
 };
 </script>
 
@@ -22,6 +39,24 @@ export default {
 
 /* Variables */
 @import "./assets/styles/variables.css";
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: var(--clr-medium-light-grey); 
+  border-radius: var(--btn-radius);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--clr-medium-light-grey-2); 
+}
+
 
 .titleAndBackButtonContainer {
   display: flex;
