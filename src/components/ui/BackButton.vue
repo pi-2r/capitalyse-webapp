@@ -27,8 +27,6 @@ export default {
   },
   methods: {
     goBack() {
-      console.log(this.to);
-
       if (this.to != "") {
         this.$router.push(this.to);
       } else {

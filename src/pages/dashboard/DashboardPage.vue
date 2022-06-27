@@ -115,9 +115,10 @@ export default {
     hasCurrentFiles() {
       const portfolios = this.$store.getters["files/getPortfolios"];
       let hasFiles = false;
+
       portfolios.forEach((portfolio) => {
         if (portfolio.id === this.$route.params.id) {
-          if (portfolio.accountFile && portfolio.transactionsFile & portfolio.portfolioFile) {
+          if (portfolio.accountFile && portfolio.transactionsFile && portfolio.portfolioFile) {
             hasFiles = true;
           }
         }
@@ -150,7 +151,6 @@ export default {
     calculateStartAndEndDates() {
       const today = new Date();
       const accountFile = this.files.accountFile;
-      console.log(accountFile);
 
       let startDate = accountFile[accountFile.length - 2][0];
       startDate = new Date(
