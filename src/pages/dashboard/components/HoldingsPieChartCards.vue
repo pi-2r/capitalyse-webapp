@@ -164,15 +164,11 @@ export default {
       }
     },
     setColors(holdings, holdingsData) {
+      // sets as many colors as there are holdings
       const colors = [];
 
       for (let i = 0; i < holdings.data.length; i++) {
-        // number between 220 adn 240
-        const randomNumber = Math.floor(Math.random() * (220 - 240 + 1)) + 230;
-        let h = randomNumber;
-        let s = 85;
-        let l = 60;
-        let color = "hsl(" + h + ", " + s + "%, " + l + "%)";
+        let color = "#0084ff";
         colors.push(color);
       }
 

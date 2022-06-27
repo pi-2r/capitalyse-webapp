@@ -18,7 +18,7 @@ export default {
     methods: {
         goBack() {
             if(this.toHome) {
-                window.location.href = 'https://www.capitalyse.net';
+                window.location.href = 'https://www.capitalyse.app';
             } else if(window.history.length > 1 ) {
                 this.$router.go(-1);
             } else {
