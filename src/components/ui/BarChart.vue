@@ -52,7 +52,7 @@ export default {
           },
         },
         animation: {
-            duration: 750,
+            duration: 950,
         },
         plugins: {
           legend: {

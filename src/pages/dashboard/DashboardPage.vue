@@ -136,9 +136,19 @@ export default {
     hasPortfolios() {
       this.loadData();
     },
+    // dit werkt wanneer je gelijk van de ene naar de andere portfolio gaat
+    files() {
+      if(this.hasCurrentFiles) {
+        this.calculateStartAndEndDates();
+        this.convertFirebaseTime();
+      }
+    },
+    // dit werkt wanneer je nieuw op de pagina komt
     hasCurrentFiles() {
-      this.calculateStartAndEndDates();
-      this.convertFirebaseTime();
+      if(this.hasCurrentFiles) {
+        this.calculateStartAndEndDates();
+        this.convertFirebaseTime();
+      }
     },
     $route() {
       this.loadData();
