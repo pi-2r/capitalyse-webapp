@@ -1,32 +1,48 @@
 <template>
-    <Icon icon="akar-icons:arrow-left" @click="goBack" color="var(--clr-black)" height="25" class="backBtn"/>
+  <Icon
+    icon="akar-icons:arrow-left"
+    @click="goBack"
+    color="var(--clr-black)"
+    height="25"
+    class="backBtn"
+  />
 </template>
 
 <script>
-import { Icon } from '@iconify/vue';
+import { Icon } from "@iconify/vue";
 
 export default {
-    components: {
-        Icon
+  components: {
+    Icon,
+  },
+  props: {
+    toHome: {
+      type: Boolean,
+      default: false,
     },
-    props: {
-        toHome: {
-            type: Boolean,
-            default: false,
-        },
+    to: {
+      type: String,
+      default: "",
     },
-    methods: {
-        goBack() {
-            if(this.toHome) {
-                window.location.href = 'https://www.capitalyse.app';
-            } else if(window.history.length > 1 ) {
-                this.$router.go(-1);
-            } else {
-                this.$router.push('/');
-            }
+  },
+  methods: {
+    goBack() {
+      console.log(this.to);
+
+      if (this.to != "") {
+        this.$router.push(this.to);
+      } else {
+        if (this.toHome) {
+          window.location.href = "https://www.capitalyse.app";
+        } else if (window.history.length > 1) {
+          this.$router.go(-1);
+        } else {
+          this.$router.push("/");
         }
-    }
-}
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>

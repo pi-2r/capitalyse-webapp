@@ -12,7 +12,7 @@
         />
         <section>
           <section class="titleAndBackButtonContainer">
-            <BackButton />
+            <BackButton to="/" />
             <h1>Dashboard {{ portfolioName }}</h1>
           </section>
         </section>

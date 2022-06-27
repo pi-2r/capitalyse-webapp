@@ -219,6 +219,8 @@ export default {
   watch: {
     $route() {
       this.isMyPortfoliosPopupOpen = false;
+
+      // if route is /settings 
     },
     headerPortfoliosFromStore() {
       this.sortHeaderPortfoliosByDate();
@@ -579,9 +581,12 @@ a:hover {
   opacity: 0;
 }
 
-/* .router-link-active {
+.router-link-active {
     color: var(--clr-blue);
-} */
+}
+.router-link-active > * {
+  color: var(--clr-blue);
+}
 
 /* media queries */
 
