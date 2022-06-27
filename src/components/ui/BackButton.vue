@@ -28,8 +28,10 @@ export default {
   methods: {
     goBack() {
       if (this.to != "") {
+        // als de 'to' prop er is, ga dan naar de meegegeven pagina
         this.$router.push(this.to);
       } else {
+        // als de 'to' props er niet is, ga dan dit lijstje af
         if (this.toHome) {
           window.location.href = "https://www.capitalyse.app";
         } else if (window.history.length > 1) {

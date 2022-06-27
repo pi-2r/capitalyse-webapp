@@ -61,12 +61,15 @@ export default {
   },
   watch: {
     isThereData() {
+      // op het moment dat er data is worden de totale transactiekosten berekend
       this.loadData();
     },
   },
   methods: {
     loadData() {
+      // bereken de totale transactiekosten
       if (this.isThereData) {
+        // MIXIN: getTotalTransactionsFeesMixin
         this.totTransFees = this.getTotalTransactionsFees(
           this.currentPortfolio.transactionsFile
         );

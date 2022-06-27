@@ -16,7 +16,9 @@ export default {
 	},
     methods: {
         logoutUser() {
+            // als er op de knop wordt geklikt, log de gebruiker uit
             this.$store.dispatch('logout');
+            // en navigeer naar onderstaande pagina
             this.$router.replace("/login");
         }
     }

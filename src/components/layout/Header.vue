@@ -218,21 +218,23 @@ export default {
   },
   watch: {
     $route() {
+      // sluit de popup als de url veranderd
       this.isMyPortfoliosPopupOpen = false;
-
-      // if route is /settings 
     },
     headerPortfoliosFromStore() {
+      // sorteert de portfolio op datum zodra deze aanwezig zijn
       this.sortHeaderPortfoliosByDate();
     }
   },
   methods: {
     sortHeaderPortfoliosByDate() {
+      // sorteer portfolios op datum met de seconds waarde
       this.headerPortfoliosFromStore.sort((a, b) => {
         return new Date(b.addedAt.seconds) - new Date(a.addedAt.seconds);
       });
     },
     toggleMyPortfoliosPopup() {
+      // toggle de portfolios link popup
       if (this.isMyPortfoliosPopupOpen) {
         this.isMyPortfoliosPopupOpen = false;
       } else {
@@ -240,6 +242,7 @@ export default {
       }
     },
     toggleMobileNav() {
+      // toggle de mobiele navigatie
       if (this.isMobileNavOpen) {
         this.isMobileNavOpen = false;
       } else {
@@ -247,6 +250,7 @@ export default {
       }
     },
     closeNav() {
+      // sluit de mobiele navigatie
       this.isMobileNavOpen = false;
     },
   },

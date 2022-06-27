@@ -53,6 +53,8 @@ export default {
         },
     },
     computed: {
+        // laat weten of het resultaat negatief is met true of false
+        // checkt of waarde negatief is OF of er een minus in de waarde staat
         isNegative() {
             return this.resultValue < 0 || this.resultValue.toLocaleString('de-DE').includes('-');
         }

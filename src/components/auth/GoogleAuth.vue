@@ -18,6 +18,7 @@ export default {
         }
     },
     methods: {
+        // wanneer er op de google icon wordt geklikt
         googleSignIn() {
             alert('Unfortunately, Google Signin is not supported yet.');
         },

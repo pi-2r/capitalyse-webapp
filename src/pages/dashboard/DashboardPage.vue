@@ -104,6 +104,7 @@ export default {
       return this.$store.getters["files/getCurrentPortfolioName"];
     },
     hasCurrentPortfolio() {
+      // pakt alle portfolios van store en kijkt met het id van de url of de goede in de store zit
       const portfolios = this.$store.getters["files/getPortfolios"];
       for (let i = 0; i < portfolios.length; i++) {
         if (portfolios[i].id === this.$route.params.id) {
@@ -113,6 +114,7 @@ export default {
       return false;
     },
     hasCurrentFiles() {
+      // pakt alle portfolios van storekijkt of elke file van het juiste portfolio in de store zit
       const portfolios = this.$store.getters["files/getPortfolios"];
       let hasFiles = false;
 
@@ -150,28 +152,35 @@ export default {
         this.convertFirebaseTime();
       }
     },
+    // wanneer de route veranderd, laad opnieuw data in
     $route() {
       this.loadData();
     }
   },
   methods: {
+    // drie puntjes op het dashboard
     openThreeDots() {
       window.alert("Coming soon!");
     },
+    // dit is de functie die de start en einddatum berekent
     calculateStartAndEndDates() {
       const today = new Date();
+      // accountfile is nodig om de startdatum te bepalen
       const accountFile = this.files.accountFile;
 
+      // pakt eerste gebeurtenis de datum daarvan en maakt er een datum object van
       let startDate = accountFile[accountFile.length - 2][0];
       startDate = new Date(
         startDate.split("-")[2],
         startDate.split("-")[1] - 1,
         startDate.split("-")[0]
       );
+      // dagen maanden en jaren om er zo een zin van te maken
       let days = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
       let months = Math.floor(days / 30);
       const years = Math.floor(months / 12);
 
+      // maakt er een zin van
       if (years > 0) {
         this.accountAge =
           years +
@@ -195,6 +204,7 @@ export default {
       }
     },
     convertFirebaseTime() {
+      // als de addedAt nog in de seconds en nanoseconds object format staat 
       if (this.files.addedAt.seconds && this.files.addedAt.nanoseconds) {
         const firebaseDateTime = new Date(
           this.files.addedAt.seconds * 1000 +
@@ -211,6 +221,7 @@ export default {
           hour12: true,
         });
         this.addedAt = firebaseDate + " " + firebaseTime;
+      // wanneer deze in een leesbaar formaat staat
       } else {
         this.addedAt = this.files.addedAt;
       }

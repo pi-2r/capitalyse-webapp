@@ -128,6 +128,7 @@ export default {
   },
   methods: {
     setTheme() {
+      // pak theme van localStorage en geef de juiste kleur aan de chart
       const theme = localStorage.getItem('theme')
 
       if(theme === 'dark') {
