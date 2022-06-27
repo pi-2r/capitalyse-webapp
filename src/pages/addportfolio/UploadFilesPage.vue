@@ -20,7 +20,7 @@
             <section class="uploadFilesGroup">
               <section class="uploadFilesGroup__heading">
                 <p class="filesLabelP">
-                  Files
+                  DEGIRO Files
                   <span class="filesLabel__help">
                     <Icon
                       @click="scrollToHelp"
@@ -158,25 +158,14 @@
 
     <section class="addPortfolioHelp">
       <h2>Tutorial & Explanation</h2>
-      <!-- <button class="collapsible" @click="toggleCollapsible(0)">
-        What files do I need?
-      </button>
-      <section class="content">
-        <p>
-          To add your Degiro portfolio to Capitalyse you'll need to export three
-          CSV files from your Degiro account. This can be done through the app
-          or website. The files are:
-        </p>
-        <p>
-          Portfolio.csv
-          <br />Transactions.csv <br />Account.csv
-        </p>
-        <p>Open the next dropdown box to see export instructions.</p>
-      </section> -->
-      <button class="collapsible" id="exportFromDegiroHelp" @click="toggleCollapsible(0)">
+      <button
+        class="collapsible"
+        id="exportFromDegiroHelp"
+        @click="toggleCollapsible(0)"
+      >
         How do I export files from DEGIRO?
       </button>
-      <section class="content" >
+      <section class="content">
         <h3 class="contentTitle">
           Easy Export
           <span class="contentTitleThin">
@@ -189,9 +178,9 @@
           </span>
         </h3>
         <p>
-          To download your files, click the links below and log in
-          to Degiro. For each file click the 'Export' button in the top
-          right, then select the 'CSV' format. All dates have already been set correctly.
+          To download your files, click the links below and log in to DEGIRO.
+          For each file click the 'Export' button in the top right, then select
+          the 'CSV' format. All dates have already been set correctly.
         </p>
         <p>
           <a
@@ -207,35 +196,20 @@
         <h3 class="contentTitle">
           Manual Export
           <span class="contentTitleThinWorseMethod">
-            <Icon
-              icon="akar-icons:info"
-              color="orange"
-              height="17"
-            />
+            <Icon icon="akar-icons:info" color="orange" height="17" />
             Slower method
           </span>
         </h3>
         <p>
           For manual export, you can follow this tutorial.
-          <br>
-          <a target="_blank" href="https://capitalyse.app/support/export-degiro-files"> 
+          <br />
+          <a
+            target="_blank"
+            href="https://capitalyse.app/support/export-degiro-files"
+          >
             How to export my DEGIRO files
           </a>
         </p>
-        <!-- <p>
-          <span class="listNumber">1.</span> Go to Activity > Transactions and
-          set the start date to include your portfolio's complete history.<br /><br />
-          <span class="listNumber">2.</span> Click the 'Export' button and
-          select 'CSV'.<br /><br />
-          <span class="listNumber">3.</span> Go to Activity > Account Statements
-          and set the start date to include your portfolio's complete
-          history.<br /><br />
-          <span class="listNumber">4.</span> Click the 'Export' button and
-          select 'CSV'.<br /><br />
-          <span class="listNumber">5.</span> Go to your Portfolio page.<br /><br />
-          <span class="listNumber">6.</span> Do not change any dates, click the
-          'Export' button and select 'CSV'.<br /><br />
-        </p> -->
       </section>
       <button class="collapsible" @click="toggleCollapsible(1)">
         How do I import files into Capitalyse?
@@ -249,13 +223,6 @@
           Next, select all files you wish to upload. If there appears a green
           checkmark, the upload was succesful.
         </p>
-        <!-- <p>
-          If the files aren't uploading, please check that you have selected the
-          correct files or have the correct start dates selected (set to before the start of your account) in Degiro
-          for the Transactions and Account files before
-          downloading.
-        </p>
-        <p>After uploading all files, you can delete them from your device.</p> -->
       </section>
       <button class="collapsible" @click="toggleCollapsible(2)">
         What's in these files?
@@ -321,11 +288,11 @@ export default {
   watch: {
     uploadingState() {
       if (this.uploadingState === "success") {
-        this.$store.commit("files/setUploadingState", "none");
+        this.$store.dispatch("files/setUploadingState", "none");
         this.isLoading = false;
         this.$router.push({ path: "/portfolios" });
       } else if (this.uploadingState === "error") {
-        this.$store.commit("files/setUploadingState", "none");
+        this.$store.dispatch("files/setUploadingState", "none");
         this.isLoading = false;
       }
     },
@@ -449,7 +416,27 @@ export default {
         content.style.borderBottom = "1px solid var(--clr-medium-light-grey)";
       }
     },
+    openCollapsible(id) {
+      const collapsible = document.querySelectorAll(".collapsible")[id];
+      const content = document.querySelectorAll(".content")[id];
+
+      if (!content.style.maxHeight) {
+        collapsible.classList.toggle("active");
+        // haal animatie weg zodat ie gelijk scrollt naar de goede plek
+        content.style.transition = "0s all";
+        content.style.maxHeight = "calc(" + content.scrollHeight + "px + 2rem)";
+        content.style.padding = "1rem";
+        content.style.borderBottom = "1px solid var(--clr-medium-light-grey)";
+
+        // wacht met transition terug geven omdat de animatie alsnog afspeelt
+        setTimeout(() => {
+          content.style.transition = "0.2s all";
+        }, 1000);
+      }
+    },
     scrollToHelp() {
+      this.openCollapsible(0);
+      
       const help = document.getElementById("exportFromDegiroHelp");
       help.scrollIntoView({ behavior: "smooth" });
     },
@@ -567,7 +554,7 @@ export default {
     },
   },
   created() {
-    this.$store.commit("files/setUploadingState", "none");
+    this.$store.dispatch("files/setUploadingState", "none");
     this.setPortfolioName();
   },
 };
@@ -736,7 +723,7 @@ input:checked + .slider:before {
   align-items: center;
 }
 .contentTitleThinWorseMethod {
-   background-color: rgba(207, 167, 9, 0.1);
+  background-color: rgba(207, 167, 9, 0.1);
   padding: 0.2rem;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
@@ -1011,7 +998,7 @@ input[type="submit"] {
 .resetUploadedBtn:hover {
   box-shadow: none;
   cursor: pointer;
-  border:1px solid var(--clr-medium-light-grey);
+  border: 1px solid var(--clr-medium-light-grey);
   box-shadow: var(--btn-shadow);
 }
 

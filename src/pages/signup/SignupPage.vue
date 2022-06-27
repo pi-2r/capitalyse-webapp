@@ -396,6 +396,7 @@ input[type="password"]:-webkit-autofill:focus {
 .error-wrapper {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
   padding-bottom: 0.2em;
   margin-top: 1em;
 }
@@ -408,9 +409,9 @@ input[type="password"]:-webkit-autofill:focus {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  margin-top: 0.5rem;
   color: var(--clr-red);
   font-size: 0.9em;
+  text-align: right;
 }
 
 h1 {

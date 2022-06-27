@@ -65,9 +65,7 @@
                         @click="toggleMyPortfoliosPopup()"
                         :to="'/dashboard/' + portfolio.id"
                         class="leftSide__myPortfoliosPopupLink"
-                        v-for="portfolio in headerPortfoliosFromStore
-                          .slice()
-                          .reverse()"
+                        v-for="portfolio in headerPortfoliosFromStore"
                         :key="portfolio.id"
                       >
                         {{ portfolio.portfolioName }}
@@ -78,6 +76,22 @@
                           height="15"
                         />
 
+                      </router-link>
+                    </section>
+                    <section v-if="isDemo">
+                      <router-link
+                        style="text-decoration: none"
+                        @click="toggleMyPortfoliosPopup()"
+                        :to="'/dashboard/demo'"
+                        class="leftSide__myPortfoliosPopupLink"
+                      >
+                        Demo Portfolio
+                        <Icon
+                          class="leftSide__myPortfoliosPopupLinkIcon"
+                          icon="charm:arrow-right"
+                          color="var(--clr-blue)"
+                          height="15"
+                        />
                       </router-link>
                     </section>
                     <section class="popupNoPortfolios" v-if="headerPortfoliosFromStore.length === 0">
@@ -198,25 +212,24 @@ export default {
     isAuth() {
       return this.$store.getters["isAuthenticated"];
     },
-    areThereHeaderPortfolios() {
-      return this.$store.getters["files/hasPortfolios"];
-    },
-    amountOfHeaderPortfolios() {
-      return this.$store.getters["files/amountOfPortfolios"];
-    },
     headerPortfoliosFromStore() {
       return this.$store.getters["files/getPortfolios"];
     },
   },
   watch: {
-    amountOfHeaderPortfolios() {
-      this.loadHeaderPortfolios();
-    },
     $route() {
       this.isMyPortfoliosPopupOpen = false;
     },
+    headerPortfoliosFromStore() {
+      this.sortHeaderPortfoliosByDate();
+    }
   },
   methods: {
+    sortHeaderPortfoliosByDate() {
+      this.headerPortfoliosFromStore.sort((a, b) => {
+        return new Date(b.addedAt.seconds) - new Date(a.addedAt.seconds);
+      });
+    },
     toggleMyPortfoliosPopup() {
       if (this.isMyPortfoliosPopupOpen) {
         this.isMyPortfoliosPopupOpen = false;
@@ -231,17 +244,9 @@ export default {
         this.isMobileNavOpen = true;
       }
     },
-    loadHeaderPortfolios() {
-      if (this.areThereHeaderPortfolios) {
-        console.log(this.headerPortfoliosFromStore);
-      }
-    },
     closeNav() {
       this.isMobileNavOpen = false;
     },
-  },
-  created() {
-    this.loadHeaderPortfolios();
   },
 };
 </script>

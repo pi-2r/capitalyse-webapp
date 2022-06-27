@@ -102,7 +102,7 @@ export default {
           this.setCurrentPortfolio(this.$route.params.id);
         }
       } else if (this.isDemo === true) {
-        this.$store.commit("files/setDemoAsCurrentPortfolio");
+        this.$store.dispatch("files/setDemoAsCurrentPortfolio");
       }
     },
     setCurrentPortfolio(id) {

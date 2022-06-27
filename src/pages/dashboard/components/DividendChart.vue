@@ -155,12 +155,12 @@ export default {
     setTheme() {
       const theme = localStorage.getItem("theme");
       if (theme === "dark") {
-        this.chartData.datasets[0].backgroundColor = "#1668c0ee";
-        this.chartData.datasets[0].borderColor = "#1668c0ee";
+        this.chartData.datasets[0].backgroundColor = "#0084ff";
+        this.chartData.datasets[0].borderColor = "#0084ff";
       } else {
-        this.chartData.datasets[0].backgroundColor = "#5ea0e7";
-        this.chartData.datasets[0].borderColor = "#5ea0e7";
-        this.chartData.datasets[0].hoverBorderColor = "#5ea0e7";
+        this.chartData.datasets[0].backgroundColor = "#0084ff";
+        this.chartData.datasets[0].borderColor = "#0084ff";
+        this.chartData.datasets[0].hoverBorderColor = "#0084ff";
       }
     },
     loadData() {

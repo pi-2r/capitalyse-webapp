@@ -170,7 +170,7 @@ export default {
         // number between 220 adn 240
         const randomNumber = Math.floor(Math.random() * (220 - 240 + 1)) + 230;
         let h = randomNumber;
-        let s = 70;
+        let s = 85;
         let l = 60;
         let color = "hsl(" + h + ", " + s + "%, " + l + "%)";
         colors.push(color);
