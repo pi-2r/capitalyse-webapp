@@ -46,6 +46,9 @@
     </section>
 
     <section class="tablecontainer">
+      <section class="tableBorder">
+
+   
       <table class="portfoliosTable">
         <thead>
           <tr>
@@ -83,6 +86,7 @@
           </tr>
         </tbody>
       </table>
+         </section>
     </section>
   </section>
 </template>
@@ -245,6 +249,13 @@ export default {
 
 .tablecontainer {
   margin-top: 2rem;
+  min-width: 20rem;
+
+}
+
+.tableBorder {
+  border: 1px solid var(--clr-very-light-grey);
+  border-radius: var(--card-border-radius);
   min-width: 20rem;
 }
 
@@ -426,5 +437,6 @@ tr:nth-last-child(1) {
     margin-top: 0;
     min-width: 20rem;
   }
+ 
 }
 </style>
