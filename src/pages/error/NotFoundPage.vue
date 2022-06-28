@@ -1,12 +1,22 @@
 <template>
   <section class="container">
     <section>
-      <h2>PORTFOLIO ANALYTICS</h2>
+      <Logo />
       <h1>Sorry, this page doesn't exist.</h1>
       <Button link to="/portfolios">To My Portfolios</Button>
     </section>
   </section>
 </template>
+
+<script>
+import Logo from "@/components/ui/Logo.vue";
+
+export default {
+  components: {
+    Logo,
+  },
+}
+</script>
 
 <style scoped>
 .container {

@@ -152,7 +152,7 @@ export default {
 
 @media screen and (min-width: 1050px) {
   .container {
-    max-width: 1000px;
+    max-width: 1100px;
   }
 }
 </style>

@@ -614,7 +614,7 @@ a:hover {
 @media screen and (min-width: 1050px) {
   .nav-container,
   .nav-container-mobile {
-    max-width: 1000px;
+    max-width: 1100px;
   }
 }
 

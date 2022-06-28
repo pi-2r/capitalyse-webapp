@@ -660,7 +660,7 @@ input:checked + .slider:before {
 }
 
 .addPortfolioHelp {
-  margin-top: 3rem;
+  margin-top: 4rem;
 }
 
 .addPortfolioHelp h2 {

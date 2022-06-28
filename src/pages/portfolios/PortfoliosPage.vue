@@ -40,9 +40,10 @@
         />
         <h1>My Portfolios</h1>
       </section>
-      <Button class="addPortfolioBtn" link @click="addPortfolio"
-        >+ Add Portfolio</Button
-      >
+      <Button class="addPortfolioBtn" link @click="addPortfolio"> 
+        <Icon icon="heroicons-outline:upload" color="var(--clr-dark-grey)" height="18" />
+        Add Portfolio
+      </Button>
     </section>
 
     <section class="tablecontainer">
@@ -53,8 +54,8 @@
         <thead>
           <tr>
             <th>Portfolio</th>
-            <th>Date Added</th>
-            <th class="fileSize">Portfolio size</th>
+            <th class="alignRight">Date Added</th>
+            <th class="fileSize alignRight">Portfolio size</th>
             <th></th>
           </tr>
         </thead>
@@ -75,7 +76,9 @@
               </p>
 
               <Button class="addPortfolioBtn" link @click="addPortfolio"
-                >+ Add Portfolio</Button
+                >
+                <Icon icon="heroicons-outline:upload" color="var(--clr-dark-grey)" height="18" />
+                Add Portfolio</Button
               >
             </td>
           </tr>
@@ -203,6 +206,11 @@ export default {
 </script>
 
 <style scoped>
+.alignRight {
+  text-align: right;
+  width: 12rem;
+}
+
 .loading {
   padding: 2rem;
 }
@@ -267,6 +275,10 @@ export default {
 }
 
 .addPortfolioBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   color: var(--clr-dark-grey) !important;
   background-color: var(--clr-very-light-blue);
   border: 1px solid var(--clr-medium-light-grey);
@@ -383,7 +395,7 @@ tr:nth-last-child(1) {
 
 @media screen and (min-width: 1050px) {
   .container {
-    max-width: 1000px;
+    max-width: 1100px;
   }
 }
 

@@ -10,10 +10,10 @@
       />
     </router-link>
   </td>
-  <td class="dateAdded">
+  <td align='right' class="dateAdded">
     {{ dateToWords(portfolio.addedAt) }}
   </td>
-  <td class="fileSize">{{ totalFileSize }} KB</td>
+  <td align='right' class="fileSize">{{ totalFileSize }} KB</td>
   <td class="actionsTd">
     <!-- update and edit -->
     <!-- <Icon icon="fluent:new-16-filled" color="var(--clr-blue)" height="22" class="actionBtn"/> -->
@@ -86,7 +86,7 @@ export default {
   justify-content: flex-end;
   align-items: center;
   margin: 0;
-  padding-left: 0;
+  padding-left: 4rem;
 }
 
 .actionBtn {
