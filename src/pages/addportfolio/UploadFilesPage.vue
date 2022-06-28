@@ -745,7 +745,7 @@ input:checked + .slider:before {
   gap: 1rem;
 }
 .contentTitle:last-of-type {
-  margin-top: 3rem;
+  margin-top: 2rem;
 }
 .contentTitleThin {
   background-color: rgba(0, 128, 0, 0.1);

@@ -285,7 +285,7 @@ export default {
   width: 100%;
   text-align: center;
   text-decoration: none;
-  padding: 0.6rem;
+  padding: var(--btn-small-padding);
   border-radius: var(--btn-radius);
   font-size: 1rem;
   font-weight: 600;
@@ -296,9 +296,9 @@ export default {
   align-items: center;
   border: 1px solid var(--clr-medium-light-grey);
   box-shadow: var(--btn-shadow);
-  color: var(--clr-grey);
+  color: var(--clr-dark-grey);
   gap: 0.5rem;
-  background-color: transparent;
+  background-color: var(--clr-very-light-blue);
 }
 .leftSide__myPortfoliosPopupButton:hover {
   border: 1px solid var(--clr-medium-light-grey-2);
@@ -348,12 +348,13 @@ export default {
 .leftSide__myPortfoliosPopupList {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 .leftSide__myPortfoliosPopupLink {
   padding: 0.4rem;
   padding-left: 0.75rem;
+  padding-right: 0.75rem;
   font-size: 0.85rem;
   border-radius: 0.4rem;
   cursor: pointer;
