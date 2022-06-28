@@ -287,9 +287,8 @@ export default {
   },
   watch: {
     uploadingState() {
-      // if the uploadingstate changes
-      // update loading state in store
-      // and navigate to portfolios page if upload was succesful
+      // als de uploadingstate veranderd, update die in de store
+      // als de uploadingstate succesvol is, ga dan naar de portfolio page
       if (this.uploadingState === "success") {
         this.$store.dispatch("files/setUploadingState", "none");
         this.isLoading = false;
@@ -302,8 +301,8 @@ export default {
   },
   computed: {
     inputText() {
-      // return the text for the input field
-      // shows amount of files uploaded
+      // retourneert de text voor de file input
+      // geeft de hoeveelheid geuploadde files mee
       let tot = 0;
       this.transactionsFile ? tot++ : null;
       this.accountFile ? tot++ : null;
@@ -311,11 +310,12 @@ export default {
       return "Import Files (" + tot + "/3)";
     },
     filesAreValid() {
-      // return true if all files exist
+      // retourneert true als alle bestanden in de data() staan
+      // als de bestanden in de data staan betekent dat dat ze geaccepteerd zijn
       return this.transactionsFile && this.accountFile && this.portfolioFile;
     },
     formIsValid() {
-      // if portfolio is valid and files are uploaded after passing checks then return true
+      // als portfolio valide is en de bestanden geupload zijn, retourneer true
       if (
         this.portfolioNameIsValid &&
         this.transactionsFileIsValid &&
@@ -354,9 +354,8 @@ export default {
         ".",
         ",",
       ];
-      // valid is true if theres no forbidden cars in the name
-      // and the name is not empty
-      // 
+      // is valide wanneer er geen illegale karakters in zitten, de naam
+      // niet leeg is en de naam ook niet langer is dan 30 karakters
       const valid =
         !this.includesFromArray(forbiddenChars, this.portfolioName) &&
         this.portfolioName.length > 0 &&
@@ -380,6 +379,7 @@ export default {
       return !!this.portfolioFile;
     },
     accountLink() {
+      // maakt link met de correcte einddatum
       const today = new Date();
       const dd = String(today.getDate()).padStart(2, "0");
       const mm = String(today.getMonth() + 1).padStart(2, "0");
@@ -389,6 +389,7 @@ export default {
       return `https://trader.degiro.nl/staging-trader/#/account-overview?fromDate=2000-01-01&toDate=${date}&aggregateCashFunds=true&currency=Alle`;
     },
     transactionsLink() {
+      // maakt link met de correcte einddatum
       const today = new Date();
       const dd = String(today.getDate()).padStart(2, "0");
       const mm = String(today.getMonth() + 1).padStart(2, "0");
@@ -400,15 +401,19 @@ export default {
   },
   methods: {
     togglePortfolioNameInput() {
+      // toggle portfolio naam input veld zichtbaarheid
       this.isPortfolioNameInputVisible = !this.isPortfolioNameInputVisible;
       this.setPortfolioName();
     },
     setPortfolioName() {
+      // zet de portfolio naam op default als de input niet zichbaar is
+      // zet de portfolio naam op leeg als de input zichbaar is
       this.isPortfolioNameInputVisible
         ? (this.portfolioName = "")
         : (this.portfolioName = "My Portfolio");
     },
     toggleCollapsible(id) {
+      // toggle de collapsible uitleg blokken dmv id van de html
       const collapsible = document.querySelectorAll(".collapsible")[id];
       const content = document.querySelectorAll(".content")[id];
       collapsible.classList.toggle("active");
@@ -423,33 +428,39 @@ export default {
       }
     },
     openCollapsible(id) {
+      // open de collapsible in een keer zonder animatie
+      // wordt gebruikt voor de scrollToHelp om op de goede plek
+      // gerecht komt, animatie wordt weer toegevoegd op het eind
+      // na een korte timeout
       const collapsible = document.querySelectorAll(".collapsible")[id];
       const content = document.querySelectorAll(".content")[id];
 
       if (!content.style.maxHeight) {
         collapsible.classList.toggle("active");
-        // haal animatie weg zodat ie gelijk scrollt naar de goede plek
         content.style.transition = "0s all";
         content.style.maxHeight = "calc(" + content.scrollHeight + "px + 2rem)";
         content.style.padding = "1rem";
         content.style.borderBottom = "1px solid var(--clr-medium-light-grey)";
 
-        // wacht met transition terug geven omdat de animatie alsnog afspeelt
         setTimeout(() => {
           content.style.transition = "0.3s all";
         }, 1000);
       }
     },
     scrollToHelp() {
+      // scrollt naar het eerste help blokje
       this.openCollapsible(0);
 
       const help = document.getElementById("exportFromDegiroHelp");
       help.scrollIntoView({ behavior: "smooth" });
     },
     resetInputStyling() {
+      // reset de error of success styling van de inputs
       this.portfolioNameIsValidClass = "";
     },
     checkPortfolioNameValidity() {
+      // check of de portfolio naam valide is
+      // als de portfolio naam valide is, verander de class van de input
       if (this.portfolioNameIsValid) {
         this.portfolioNameIsValidClass = "nameValid";
       } else {
@@ -460,6 +471,9 @@ export default {
       return this.$store.dispatch("files/fetchAllPortfolios");
     },
     submitForm() {
+      // callt get portfolios
+      // om een of andere rede moet getPortfolios aangeroepen worden
+      // anders als je naar portfolios gaat, wordt de nieuwe niet opgehaald
       this.getPortfolios();
       this.checkPortfolioNameValidity();
       if (this.formIsValid) {
@@ -499,8 +513,13 @@ export default {
       this.checkFileValidity(event.target.files);
     },
     checkFileValidity(file) {
+      // maximale bestandsgrootte
       const maxFileSizeKB = 10000;
 
+      // checkt elk bestand in de event target files
+      // checkt of de bestandsgrootte niet nul is
+      // checkt of de bestandsgrootte niet groter is dan de maximale bestandsgrootte
+      // checkt of de bestandsnaam .csv is
       for (let i = 0; i < file.length; i++) {
         const valid =
           file[i].size > 0 &&
@@ -508,10 +527,13 @@ export default {
           file[i].type.includes("csv");
         // this.validateFileContents(file[i]);
 
+        // als valide is voeg de file toe aan de juiste data() waarde
+        // als niet valide, geef een error melding op de plek van de file soort
         valid ? this.addFile(file[i]) : this.incorrectFile(file[i]);
       }
     },
     addFile(file) {
+      // voegt een file toe aan de juiste data() waarde
       if (file.name.includes("Transactions")) {
         this.transactionsFile = file;
         this.transactionsFileName = file.name;
@@ -524,6 +546,7 @@ export default {
       }
     },
     incorrectFile(file) {
+      // geef een error melding op de plek van de file soort
       if (file.name.includes("Transactions")) {
         this.transactionsFile = null;
         this.transactionsFileName = file.name;
@@ -536,6 +559,7 @@ export default {
       }
     },
     resetFiles() {
+      // reset alles als er op reset files geklikt wordt
       this.transactionsFile = null;
       this.accountFile = null;
       this.portfolioFile = null;
@@ -544,7 +568,9 @@ export default {
       this.portfolioFileName = "Portfolio File";
     },
     getDate() {
-      // get date DD-MM-YYYY
+      // krijg huidige datum DD-MM-YYYY
+      // voeg bij dag of maand een 0 toe voor consitentie
+      // als de dag of maand minder dan 2 digits is
       let date = new Date();
       let dd = date.getDate();
       let mm = date.getMonth() + 1;
@@ -560,6 +586,8 @@ export default {
     },
   },
   created() {
+    // bij aanmaken van de component, zet de uploading state op none
+    // en zet de portfolio name op default
     this.$store.dispatch("files/setUploadingState", "none");
     this.setPortfolioName();
   },
@@ -952,6 +980,7 @@ input[type="submit"] {
   color: var(--clr-blue);
   text-align: center;
   display: flex;
+  align-items: center;
   justify-content: center;
   gap: 0.5rem;
   transition: 0.15s all;

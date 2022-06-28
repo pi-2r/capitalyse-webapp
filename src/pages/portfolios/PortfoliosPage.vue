@@ -284,7 +284,7 @@ th {
   text-align: left;
   font-weight: 500;
   font-size: 1rem;
-  color: var(--clr-black);
+  color: var(--clr-dark-grey);
 }
 
 th:last-of-type {

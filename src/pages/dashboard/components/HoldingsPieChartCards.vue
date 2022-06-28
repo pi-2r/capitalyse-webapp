@@ -120,6 +120,7 @@ export default {
     },
     loadData() {
       if (this.isThereData) {
+        // bereken data voor de holdings pie chart en de currencies pie chart
         this.setCurrenciesData();
         this.setHoldingsData();
       }
@@ -130,9 +131,10 @@ export default {
         this.currentPortfolio.portfolioFile
       );
 
+      // voeg voor elke currency een kleur toe
       this.setColors(chartCurrencies, this.currenciesChartData);
 
-
+      // set data
       if (chartCurrencies === false) {
         this.currenciesChartData.labels = [];
         this.currenciesChartData.datasets[0].data = [];
@@ -150,8 +152,10 @@ export default {
         this.currentPortfolio.portfolioFile
       );
 
+      // voeg voor elke holding een kleur toe
       this.setColors(chartHoldings, this.holdingsChartData);
 
+      // set data
       if (chartHoldings === false) {
         this.holdingsChartData.labels = [];
         this.holdingsChartData.datasets[0].data = [];
@@ -171,7 +175,6 @@ export default {
         let color = "#0084ff";
         colors.push(color);
       }
-
       holdingsData.datasets[0].backgroundColor = colors;
     },
   },

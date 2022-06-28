@@ -95,7 +95,7 @@ h2 {
   font-weight: 500;
   margin: 0;
   padding: 0;
-  color: var(--clr-grey);
+  color: var(--clr-dark-grey);
 }
 
 p,
@@ -104,8 +104,13 @@ div {
 }
 
 button {
+  font-family: 'Poppins', sans-serif;
   transition: 0.2s all;
   outline: none;
+}
+
+select {
+  font-family: 'Poppins', sans-serif;
 }
 
 input {

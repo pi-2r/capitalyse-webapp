@@ -29,7 +29,7 @@ export default {
 
       // als er data is, doe meer data manipulatie en return data
       if (this.holdingsArray.length > 0) {
-        
+
         this.mergeCashRows();
         this.sortChartData();
         this.turnIntoHoldingsChartData();

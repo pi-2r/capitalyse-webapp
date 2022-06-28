@@ -55,9 +55,7 @@
         <h2>Dividend Payments</h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
-            <span class="chartResultValue">
-              €{{ totalDividends }}
-            </span>
+            <span class="chartResultValue"> €{{ totalDividends }} </span>
           </p>
         </transition>
       </section>
@@ -131,6 +129,7 @@ export default {
       return this.$store.getters["files/getCurrentPortfolio"];
     },
     totalDividends() {
+      // bereken de totale dividenden van dit timeframe
       let total = 0;
       for (let i = 0; i < this.dividendsArray.length; i++) {
         total += this.dividendsArray[i].divAmt;
@@ -153,6 +152,7 @@ export default {
   },
   methods: {
     setTheme() {
+      // vraag thema op en verander de chart kleuren
       const theme = localStorage.getItem("theme");
       if (theme === "dark") {
         this.chartData.datasets[0].backgroundColor = "#0084ff";
@@ -172,22 +172,25 @@ export default {
       }
     },
     timeFrameChange(e) {
+      // als er op een timeframe button wordt geklikt, geeft
+      // die butten de event mee. van deze event wordt de text
+      // vd button gelezen opgeslagen als huidige timeframe
       this.selectedTimeFrame = e.target.innerText;
       this.isThereData ? this.getDividends() : null;
       this.timeFrameDataUpdate();
     },
     getDividends() {
-      // Mixin
+      // haal dividends op van de Mixin
       const chartDividends = this.getChartDividends(
         this.currentPortfolio.accountFile
       );
-
+      // als er geen dividends zijn, geef een error message
+      // als er wel dividends zijn, maak een array aan met de labels en data
       if (chartDividends === false) {
         this.chartData.labels = [];
         this.chartData.datasets[0].data = [];
 
-        this.chartErrorMsg =
-          "No dividends received yet.";
+        this.chartErrorMsg = "No dividends received yet.";
       } else {
         this.chartErrorMsg = null;
         this.chartData.labels = chartDividends.labels;
@@ -195,7 +198,8 @@ export default {
       }
     },
     timeFrameDataUpdate() {
-      // timeframes other than All-time
+      // timeframes anders dan All-time
+      // als geselecteerd wordt, verander de data in de chart
       if (this.selectedTimeFrame === this.timeFrameOptions.yearToDate) {
         this.setYearToDateData();
       } else if (this.selectedTimeFrame === this.timeFrameOptions.oneYear) {
@@ -216,11 +220,14 @@ export default {
       this.setYears(years);
     },
     updateChart() {
+      // zorg dat de holders de meest recente data tonen op de kaart
       this.chartData.labels = this.labelsHolder;
       this.chartData.datasets[0].data = this.dataHolder;
     },
   },
   created() {
+    // laad data als deze al is gefetcht
+    // zet het thema op de chart
     this.loadData();
     this.setTheme();
   },

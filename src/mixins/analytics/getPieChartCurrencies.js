@@ -62,7 +62,7 @@ export default {
           });
           isFirstIteration = false;
         }
-        
+
         // loop door de array van currencies
         // als de currency nog niet bestaat, voeg toe
         // als de currency al bestaat, voeg de value toe

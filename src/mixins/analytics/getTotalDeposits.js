@@ -16,7 +16,7 @@ export default {
 
             for (let i = 0; i < data.length; i++) {
                 // als er data is
-                if (data[i][searchIndex]) { 
+                if (data[i][searchIndex]) {
                     // valide checks
                     const validDeposit =
                         this.includesFromArray(depositNames, data[i][searchIndex]) &&
@@ -25,11 +25,11 @@ export default {
                     const validWithdrawal =
                         this.includesFromArray(withdrawalNames, data[i][searchIndex]) &&
                         this.cleanNumber(data[i][depositIndex]) < 0;
-                    
+
                     // als valide is, voeg deposits aan totaal toe
                     if (validDeposit || validWithdrawal) {
                         let nr = this.cleanNumber(data[i][depositIndex]);
-                            tot += nr;
+                        tot += nr;
                     }
                 }
             }

@@ -19,7 +19,7 @@ export default {
             // profit/loss = portfolio waarde - deposits - withdrawals
             const totDeposits = this.getTotalDeposits(accountFile);
             const portfolioEurAmt = this.getTotalBalance(portfolioFile);
-            
+
             const total = portfolioEurAmt - totDeposits;
             return total;
         }

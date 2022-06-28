@@ -22,7 +22,7 @@
                 :class="{ linkIsActive: isMyPortfoliosPopupOpen }"
                 @click="toggleMyPortfoliosPopup"
               >
-                My Portfolios
+                Portfolios
                 <Icon
                   class="routerLinkDropDownIcon"
                   :class="{ rotateDropDownIcon: isMyPortfoliosPopupOpen }"
@@ -52,7 +52,7 @@
                             class="headingIcon"
                             height="14"
                           />
-                          All Portfolios
+                          My Portfolios
                         </button>
                       </section>
                     </router-link>
@@ -318,7 +318,7 @@ export default {
   display: flex;
   font-size: 0.9rem;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   color: var(--clr-grey);
   cursor: pointer;
 }
@@ -500,6 +500,7 @@ li {
   list-style-type: none;
   color: var(--clr-grey);
   display: flex;
+  font-family: 'Poppins', sans-serif;
   justify-content: center;
   align-items: center;
   grid-gap: 0.5rem;

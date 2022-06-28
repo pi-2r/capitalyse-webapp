@@ -44,6 +44,7 @@ export default {
   },
   computed: {
     portfolioId() {
+      // id wordt gebruikt voor de link naar de deposits pagina
       return this.$route.params.id;
     },
     currentPortfolio() {
@@ -55,11 +56,14 @@ export default {
   },
   watch: {
     isThereData() {
+      // op het moment dat data veranderd, roep loadData aan
       this.loadData();
     },
   },
   methods: {
     loadData() {
+      // runt alleen als de verandering in data betekende dat
+      // er wél data nu is. berekent de totale deposits via een MIXIN en het accountFile
       if (this.isThereData) {
         this.totDeposits = this.currencyMarkup(
           this.getTotalDeposits(this.currentPortfolio.accountFile)
@@ -68,6 +72,7 @@ export default {
     },
   },
   created() {
+    // als er al data is, kan er gelijk worden berekend
     this.loadData();
   },
 };

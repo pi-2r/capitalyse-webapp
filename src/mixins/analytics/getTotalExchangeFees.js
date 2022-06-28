@@ -32,8 +32,8 @@ export default {
 
             // maak nummer met goede komma's en return het
             totalFees = totalFees.toFixed(2);
-            totalFees = parseFloat(totalFees).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
-            
+            totalFees = parseFloat(totalFees).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+
             return totalFees;
         },
     }

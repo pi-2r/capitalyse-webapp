@@ -1,14 +1,4 @@
 <template>
-  <!-- <transition name="slide-fade" mode="out-in">
-    <NotificationBar
-      v-if="isThereNoPortfolioFile"
-      :key="isThereNoPortfolioFile"
-      message="A new update requires your portfolio to include the Portfolio.csv file.
-            Please delete this portfolio and create a new one containing the Portfolio.csv file found at Degiro > Portfolio > Export."
-      type="error"
-    />
-  </transition> -->
-
   <section class="portfolioCards__container">
     <DetailedResultCard
       title="Capital Gains"
@@ -17,14 +7,12 @@
       subResultValuePostfix="%"
       colorType="greenRed"
     />
-
     <DetailedResultCard
       title="Portfolio"
       :resultValue="totalInvestedAmount"
       :subResultValue="investedPercentage"
       subResultValuePostfix="%"
     />
-
     <DetailedResultCard
       title="Total Balance"
       :resultValue="totalBalanceAmount"
@@ -34,8 +22,6 @@
   </section>
 </template>
 <script>
-// import NotificationBar from "@/components/ui/NotificationBar";
-
 import getTotalBalance from "@/mixins/analytics/getTotalBalance";
 import getTotalInvestedAmount from "@/mixins/analytics/getTotalInvestedAmount";
 import getTotalProfitLoss from "@/mixins/analytics/getTotalProfitLoss";
@@ -45,7 +31,6 @@ import DetailedResultCard from "./DetailedResultCard.vue";
 
 export default {
   components: {
-    // NotificationBar,
     DetailedResultCard,
   },
   data() {
@@ -93,6 +78,7 @@ export default {
     },
     investedPercentage() {
       if (this.isThereData) {
+        // totaal geinvesteerd / totaal balans * 100
         let totInvested = this.getTotalInvestedAmount(
           this.currentPortfolio.portfolioFile
         );
@@ -106,6 +92,7 @@ export default {
     },
     cashAmount() {
       if (this.isThereData) {
+        // totaal balans - totaal geinvesteerd
         let totInvested = this.getTotalInvestedAmount(
           this.currentPortfolio.portfolioFile
         );
@@ -129,6 +116,7 @@ export default {
     },
     totalProfitLossPercentage() {
       if (this.isThereData) {
+        // totaal winst / totaal geinvesteerd * 100
         let totProfitLoss = this.getTotalProfitLoss(
           this.currentPortfolio.portfolioFile,
           this.currentPortfolio.accountFile
@@ -141,26 +129,6 @@ export default {
       }
       return 0;
     },
-  },
-  watch: {
-    isThereAccountFile() {
-      this.check();
-    },
-    isTherePortfolioFile() {
-      this.check();
-    },
-  },
-  methods: {
-    check() {
-      setTimeout(() => {
-        if (!this.isThereData) {
-          this.isThereNoPortfolioFile = true;
-        }
-      }, 2500);
-    },
-  },
-  created() {
-    this.check();
   },
 };
 </script>

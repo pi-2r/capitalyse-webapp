@@ -9,7 +9,7 @@ export default {
                 date = date.split(".");
             } else if (date.includes("/")) {
                 date = date.split("/");
-            }   
+            }
 
             return date;
         },

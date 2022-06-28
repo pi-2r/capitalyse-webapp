@@ -79,7 +79,6 @@ export default {
     },
   },
   created() {
-    console.log(this.$store.getters['isAuthenticated']);
     this.getTheme();
   },
 };

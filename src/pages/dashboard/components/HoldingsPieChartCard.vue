@@ -2,15 +2,22 @@
   <section class="holdingsPieChartContainer">
     <section class="holdingsPieChartWrapper">
       <section class="holdingsPieChartTitle">
-        <h2>{{title}}</h2>
-        <p class="holdingsPieChartTitle__dataLength">{{dataLength}}</p>
+        <h2>{{ title }}</h2>
+        <p class="holdingsPieChartTitle__dataLength">{{ dataLength }}</p>
       </section>
       <section class="holdingsPieChart">
-        <p v-if="chartErrorMsg">{{chartErrorMsg}}</p>
-        <Doughnut v-else class="pieChart" :chartData="chartData" :chartOptions="chartOptions" />
+        <p v-if="chartErrorMsg">{{ chartErrorMsg }}</p>
+        <Doughnut
+          v-else
+          class="pieChart"
+          :chartData="chartData"
+          :chartOptions="chartOptions"
+        />
       </section>
       <section class="holdingsPieChart__btnSection">
-        <CardButtonArrow class="holdingsPieChart__btn" v-if="showBtn">{{btnText}}</CardButtonArrow>
+        <CardButtonArrow class="holdingsPieChart__btn" v-if="showBtn">{{
+          btnText
+        }}</CardButtonArrow>
       </section>
     </section>
   </section>
@@ -68,7 +75,6 @@ export default {
       chartErrorMsg: null,
       dataHolder: [],
       labelsHolder: [],
-     
     };
   },
   computed: {
@@ -79,15 +85,17 @@ export default {
       return !!this.currentPortfolio.portfolioFile;
     },
     dataLength() {
+      // haalt de lengte van de chartData data op en geeft deze weer op de kaart
+      // als er Cash wordt gevonden wordt deze verwijderd van de lengte
       let total = 0;
-      
-      for(let i = 0; i < this.chartData.datasets[0].data.length; i++) {
+
+      for (let i = 0; i < this.chartData.datasets[0].data.length; i++) {
         total++;
-        if(this.chartData.labels[i] === 'Cash') {
+        if (this.chartData.labels[i] === "Cash") {
           total--;
         }
       }
-      
+
       return total;
     },
   },
@@ -106,7 +114,6 @@ export default {
   font-size: 1.2rem;
   font-weight: 600;
 }
-
 
 .pieChart {
   width: 55%;

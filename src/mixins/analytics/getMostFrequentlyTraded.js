@@ -19,12 +19,12 @@ export default {
                 // if product is not yet in scoreboard, add it to scoreboard and set count to + 1
                 for (let j = 0; j < scoreboard.length; j++) {
                     if (scoreboard[j][0] === products[i]) {
-                        alreadyExists = true;       
+                        alreadyExists = true;
                     }
                 }
                 if (!alreadyExists) {
                     scoreboard.push([products[i], products.filter((v) => v === products[i]).length]);
-                }            
+                }
             }
             scoreboard.sort((a, b) => {
                 return b[1] - a[1];

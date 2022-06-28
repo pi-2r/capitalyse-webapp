@@ -7,9 +7,9 @@
       <section class="demoOverlay__content">
         <h2 class="demoOverlay__title">Capitalyse Demo</h2>
         <p class="demoOverlay__text">
-          Welcome! In this demo you'll be able to see all Capitalyse has to
-          offer for you. <br /><br />Upload your own Degiro portfolio to see
-          personal analytics and insights.
+          Hey there! In this demo you'll be able to see all Capitalyse has to
+          offer for you. <br /><br />Upload your own DEGIRO portfolio to see
+          personal tracking and insights.
         </p>
         <button @click="closeDemoOverlay" class="demoOverlay__continueBtn">
           Continue to demo

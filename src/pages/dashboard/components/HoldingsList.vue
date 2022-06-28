@@ -1,14 +1,9 @@
 <template>
-  <section class="holdingsListWrapper">
-    Holdigns list
-  </section>
+  <section class="holdingsListWrapper">Holdigns list</section>
 </template>
 
 <script>
-
-export default {
- 
-};
+export default {};
 </script>
 
 <style scoped>
