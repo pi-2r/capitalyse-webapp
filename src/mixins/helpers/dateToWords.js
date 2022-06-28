@@ -1,5 +1,6 @@
 export default {
     methods: {
+        // creates a sentence from a string date
         dateToWords(dateString) {
             let dateTime = dateString;
 

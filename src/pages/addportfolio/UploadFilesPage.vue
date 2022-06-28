@@ -287,6 +287,9 @@ export default {
   },
   watch: {
     uploadingState() {
+      // if the uploadingstate changes
+      // update loading state in store
+      // and navigate to portfolios page if upload was succesful
       if (this.uploadingState === "success") {
         this.$store.dispatch("files/setUploadingState", "none");
         this.isLoading = false;
@@ -296,12 +299,11 @@ export default {
         this.isLoading = false;
       }
     },
-    getPortfolios() {
-      this.alreadyHasPortfolios();
-    },
   },
   computed: {
     inputText() {
+      // return the text for the input field
+      // shows amount of files uploaded
       let tot = 0;
       this.transactionsFile ? tot++ : null;
       this.accountFile ? tot++ : null;
@@ -309,6 +311,7 @@ export default {
       return "Import Files (" + tot + "/3)";
     },
     filesAreValid() {
+      // return true if all files exist
       return this.transactionsFile && this.accountFile && this.portfolioFile;
     },
     formIsValid() {
@@ -351,6 +354,9 @@ export default {
         ".",
         ",",
       ];
+      // valid is true if theres no forbidden cars in the name
+      // and the name is not empty
+      // 
       const valid =
         !this.includesFromArray(forbiddenChars, this.portfolioName) &&
         this.portfolioName.length > 0 &&

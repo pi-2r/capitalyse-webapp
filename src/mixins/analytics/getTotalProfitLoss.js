@@ -14,6 +14,9 @@ export default {
     },
     methods: {
         getTotalProfitLoss(portfolioFile, accountFile) {
+            // gebruik andere mixins om de data te berekenen
+            // totale profit/loss is
+            // profit/loss = portfolio waarde - deposits - withdrawals
             const totDeposits = this.getTotalDeposits(accountFile);
             const portfolioEurAmt = this.getTotalBalance(portfolioFile);
             

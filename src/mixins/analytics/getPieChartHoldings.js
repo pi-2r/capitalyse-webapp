@@ -24,8 +24,10 @@ export default {
       this.dataHolder = [];
       this.holdingsArray = [];
 
+      // haal holdings uit de data
       this.createArrayOfHoldings(data);
 
+      // als er data is, doe meer data manipulatie en return data
       if (this.holdingsArray.length > 0) {
         
         this.mergeCashRows();
@@ -42,6 +44,7 @@ export default {
       }
     },
     sortChartData() {
+      // sorteer op grootte holding
       this.holdingsArray.sort((a, b) => {
         return b.value - a.value;
       });
@@ -50,9 +53,9 @@ export default {
       let totalCash = 0;
       let amountOfCashRows = 0;
 
-      // merge cash rows
+      // loop door de holdings heen
+      // als cash wordt gevonden, voeg deze toe aan de total cash
       for (let i = 0; i < this.holdingsArray.length; i++) {
-
         if (this.includesFromArray(this.cashNames, this.holdingsArray[i].name)) {
           totalCash += this.holdingsArray[i].value
           this.holdingsArray.splice(i, 1);
@@ -61,6 +64,7 @@ export default {
         }
       }
 
+      // als er cash is, voeg total cash toe aan de holdings array
       if (amountOfCashRows > 0) {
         this.holdingsArray.push({
           name: 'CASH & CASH FUND & FTX CASH',
@@ -68,7 +72,8 @@ export default {
         });
       }
 
-      // rename cash
+      // loopt door de holdings heen
+      // bij cash -> rename naar 'Cash'
       for (let i = 0; i < this.holdingsArray.length; i++) {
         if (this.includesFromArray(this.cashNames, this.holdingsArray[i].name)) {
           this.holdingsArray[i].name = 'Cash';
@@ -76,14 +81,14 @@ export default {
       }
     },
     createArrayOfHoldings(data) {
+      // indexes waar relevante data staat
       const indexes = this.indexes;
       const eurTotalIndex = indexes.eurTotalIndex;
       const productIndex = indexes.productIndex;
 
+      // -1 omdat de laatste rij leeg is
       for (let i = 0; i < data.length - 1; i++) {
-
         let nr = this.cleanNumber(data[i][eurTotalIndex]);
-
         this.holdingsArray.push({
           name: data[i][productIndex],
           value: nr,
@@ -91,6 +96,7 @@ export default {
       }
     },
     turnIntoHoldingsChartData() {
+      // get labels and data from holdings array
       for (let i = 0; i < this.holdingsArray.length; i++) {
         this.labelsHolder.push(this.holdingsArray[i].name);
         this.dataHolder.push(this.holdingsArray[i].value);

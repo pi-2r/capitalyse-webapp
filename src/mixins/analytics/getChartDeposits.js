@@ -207,11 +207,14 @@ export default {
     },
     addMissingMonthsToChart() {
       // voeg potentiele ontbrekende maanden toe tot de huidige maand
+
+      // huidige datum in maand en jaar format
       let currentMonth =
         new Date().getMonth() + 1 + "-" + new Date().getFullYear();
 
       // als huidige maand niet in labelsHolder staat, voeg hem toe
       if (!this.includesFromArray(this.labelsHolder, currentMonth)) {
+        // allerlaatste maand in de labelsHolder
         let lastMonthInChart = this.labelsHolder[this.labelsHolder.length - 1];
         let lastMonth = this.splitDate(lastMonthInChart);
         let newLastMonth = new Date(lastMonth[1], lastMonth[0]);
@@ -221,7 +224,10 @@ export default {
         );
         let firstiteration = true;
 
+        // zolang de laatste maand in de labelsHolder kleiner is of gelijk is aan de huidige maand
+        // voeg deze toe aan de labelsHolder
         while (newLastMonth <= newCurrentMonth) {
+          // als het de eerste iteratie is
           firstiteration
             ? (newLastMonth = new Date(
               newLastMonth.getFullYear(),
@@ -233,11 +239,13 @@ export default {
           let pushedMonth = newLastMonth.getMonth();
           let pushedYear = newLastMonth.getFullYear();
 
+          // als de maand januari is, maak de maand december en haal er een jaar af
           if (pushedMonth === 0) {
             pushedMonth = 12;
             pushedYear = pushedYear - 1;
           }
 
+          // voeg de maand toe aan de labelsHolder
           let pushedDate = pushedMonth + "-" + pushedYear;
           this.labelsHolder.push(pushedDate);
           newLastMonth.setMonth(newLastMonth.getMonth() + 1);
@@ -248,7 +256,7 @@ export default {
         this.labelsHolder.push(currentMonth);
       }
 
-      // add potentially missing months untill current month
+      // verwijder de laatste maand uit de labelsHolder als deze gelijk is aan de een na laatste
       this.removeDuplicateBug();
     },
     removeDuplicateBug() {
