@@ -742,7 +742,7 @@ input:checked + .slider:before {
   font-size: 1.25rem;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 .contentTitle:last-of-type {
   margin-top: 2rem;
