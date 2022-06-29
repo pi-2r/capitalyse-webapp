@@ -112,11 +112,12 @@ export default {
           {
             label: "Dividends Received",
             backgroundColor: "#e1f1fb",
-            borderWidth: 1,
-            borderRadius: 4,
+            borderWidth: 0,
+            borderRadius: 5,
             borderSkipped: "bottom",
             borderColor: "#0091ff",
             hoverBorderWidth: 1,
+            barPercentage: '0.7',
             hoverBorderColor: "#0091ff",
             data: [],
           },
@@ -155,12 +156,12 @@ export default {
       // vraag thema op en verander de chart kleuren
       const theme = localStorage.getItem("theme");
       if (theme === "dark") {
-        this.chartData.datasets[0].backgroundColor = "#0084ff";
-        this.chartData.datasets[0].borderColor = "#0084ff";
+        this.chartData.datasets[0].backgroundColor = "#007cda";
+        this.chartData.datasets[0].borderColor = "#007cda";
       } else {
-        this.chartData.datasets[0].backgroundColor = "#0084ff";
-        this.chartData.datasets[0].borderColor = "#0084ff";
-        this.chartData.datasets[0].hoverBorderColor = "#0084ff";
+        this.chartData.datasets[0].backgroundColor = "#007cda";
+        this.chartData.datasets[0].borderColor = "#007cda";
+        this.chartData.datasets[0].hoverBorderColor = "#007cda";
       }
     },
     loadData() {
@@ -299,7 +300,7 @@ h2 {
 }
 
 .timeFrame__btn {
-  padding: 0.5rem 0.7rem;
+  padding: 0.4rem 0.6rem;
   font-weight: 600;
   font-size: 0.9rem;
   margin-right: 0.5rem;

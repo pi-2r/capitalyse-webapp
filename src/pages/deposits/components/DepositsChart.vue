@@ -309,7 +309,7 @@ export default {
 }
 
 .timeFrame__btn {
-  padding: 0.5rem 0.7rem;
+  padding: 0.4rem 0.6rem;
   font-weight: 600;
   font-size: 0.9rem;
   margin-right: 0.5rem;

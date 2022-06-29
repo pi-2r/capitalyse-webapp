@@ -24,7 +24,7 @@ export default {
       chartOptions: {
         scales: {
           yAxes: {
-              beginAtZero: true,
+            beginAtZero: true,
               grid: {
                 color: 'rgba(0, 0, 0, 0.04)',
                 drawBorder: false,
@@ -39,6 +39,7 @@ export default {
               }
           },
           xAxes: {
+            barThickness: 31,
               beginAtZero: true,
               grid: {
                 color: 'rgba(0, 0, 0, 0.05)',
@@ -48,7 +49,7 @@ export default {
               },
               ticks: {
                 color: '#fff',
-              }
+              },
           },
         },
         animation: {

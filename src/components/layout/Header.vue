@@ -50,9 +50,9 @@
                           <Icon
                             icon="entypo:list"
                             class="headingIcon"
-                            height="20"
+                            height="18"
                           />
-                          All Portfolios
+                          Portfolios
                         </button>
                       </section>
                     </router-link>

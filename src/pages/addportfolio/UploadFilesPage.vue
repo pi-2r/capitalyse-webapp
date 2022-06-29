@@ -566,7 +566,7 @@ export default {
       this.animatedResetIcon = true;
       setTimeout(() => {
         this.animatedResetIcon = false;
-      }, 1000);
+      }, 500);
 
       this.transactionsFile = null;
       this.accountFile = null;
@@ -1063,7 +1063,7 @@ input[type="submit"] {
 }
 
 .rotateResetIconClass {
-  animation: rotateResetIconAnimation 1s infinite;
+  animation: rotateResetIconAnimation 0.5s infinite ease-in-out;
 }
 
 @keyframes rotateResetIconAnimation {

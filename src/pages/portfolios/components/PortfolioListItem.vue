@@ -4,9 +4,9 @@
       {{ portfolio.portfolioName }}
       <Icon
         class="portfolioName__icon"
-        icon="charm:arrow-right"
+        icon="fa6-solid:arrow-right"
         color="var(--clr-blue)"
-        height="15"
+        height="13"
       />
     </router-link>
   </td>
@@ -107,6 +107,7 @@ export default {
   font-weight: 500;
   display: flex;
   align-items: center;
+  gap: 0.2rem;
 }
 
 .portfolioName:hover {

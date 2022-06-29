@@ -113,10 +113,11 @@ export default {
           {
             label: "Fees",
             backgroundColor: "#e1f1fb",
-            borderWidth: 1,
-            borderRadius: 7,
+            borderWidth: 0,
+            borderRadius: 5,
             borderSkipped: "bottom",
             borderColor: "#0091ff",
+            barPercentage: '0.7',
             hoverBorderWidth: 1,
             hoverBorderColor: "#0091ff",
             data: [],

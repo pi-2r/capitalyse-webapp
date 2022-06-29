@@ -162,7 +162,6 @@ export default {
         date = this.splitDate(date);
 
         // if american notation
-        console.log(dateArray[i]);
           if (
             this.splitDate(dateArray[1])[0] !== this.splitDate(dateArray[0])[0]
           ) {
