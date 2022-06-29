@@ -1,10 +1,18 @@
 import '../../../firebase'
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 const db = getFirestore();
 
 export default {
+    resetPasswordEmail(email) {
+        const auth = getAuth();
+        sendPasswordResetEmail(auth, email).then(() => {
+            console.log('Password reset email sent');
+        }).catch(error => {
+            console.log(error);
+        });
+    },
     login(context, payload) {
         context.commit('setAuthError', null);
 
