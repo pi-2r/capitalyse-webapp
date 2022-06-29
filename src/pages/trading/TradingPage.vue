@@ -7,7 +7,7 @@
       baseLink="/portfolios"
       baseLinkName="My Portfolios"
       :secondLink="'/dashboard/demo'"
-      :secondLinkName="'Dashboard ' + (portfolioName ? portfolioName : '')"
+      :secondLinkName="(portfolioName ? portfolioName : '')"
       thirdLink="#"
       thirdLinkName="Trading"
     />
@@ -16,7 +16,7 @@
       baseLink="/portfolios"
       baseLinkName="My Portfolios"
       :secondLink="'/dashboard/' + this.$route.params.id"
-      :secondLinkName="'Dashboard ' + (portfolioName ? portfolioName : '')"
+      :secondLinkName="(portfolioName ? portfolioName : '')"
       thirdLink="#"
       thirdLinkName="Trading"
     />
