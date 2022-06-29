@@ -77,7 +77,7 @@
 
               <Button class="addPortfolioBtn" link @click="addPortfolio"
                 >
-                <Icon icon="heroicons-outline:upload" color="var(--clr-dark-grey)" height="18" />
+                <Icon icon="fluent:add-square-multiple-16-filled" color="var(--clr-dark-grey)" height="18" />
                 Add Portfolio</Button
               >
             </td>
