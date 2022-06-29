@@ -86,12 +86,12 @@ export default {
   justify-content: flex-end;
   align-items: center;
   margin: 0;
-  padding-left: 4rem;
+  padding-left: 2rem;
 }
 
 .actionBtn {
   margin-left: 0.5rem;
-  color: var(--clr-medium-light-grey-2);
+  color: var(--clr-medium-light-grey);
   transition: 0.3s all;
   border-radius: 1000rem;
 }

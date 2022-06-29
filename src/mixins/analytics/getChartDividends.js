@@ -162,14 +162,15 @@ export default {
         date = this.splitDate(date);
 
         // if american notation
-        if (
-          this.splitDate(dateArray[1])[0] !== this.splitDate(dateArray[0])[0]
-        ) {
-          date = date[0] + "-" + date[2];
-        } else {
-          // if normal notation
-          date = date[1] + "-" + date[2];
-        }
+        console.log(dateArray[i]);
+          if (
+            this.splitDate(dateArray[1])[0] !== this.splitDate(dateArray[0])[0]
+          ) {
+            date = date[0] + "-" + date[2];
+          } else {
+            // if normal notation
+            date = date[1] + "-" + date[2];
+          }
 
         this.labelsHolder.push(date);
       }

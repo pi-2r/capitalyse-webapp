@@ -1,21 +1,21 @@
 <template>
   <Header :isDemo="isDemo"></Header>
   <section class="container">
-    <BackButton class="backButton" color="var(--clr-grey)"/>
+    <!-- <BackButton class="backButton" color="var(--clr-grey)"/> -->
 
     <Breadcrumbs
       v-if="isDemo"
       baseLink="/portfolios"
-      baseLinkName="My Portfolios"
+      baseLinkName="Portfolios"
       :secondLink="'/dashboard/demo'"
-      :secondLinkName="(portfolioName ? portfolioName : '')"
+      :secondLinkName="'Portfolio Demo'"
       thirdLink="#"
       thirdLinkName="Fees & Costs"
     />
     <Breadcrumbs
       v-else
       baseLink="/portfolios"
-      baseLinkName="My Portfolios"
+      baseLinkName="Portfolios"
       :secondLink="'/dashboard/' + this.$route.params.id"
       :secondLinkName="(portfolioName ? portfolioName : '')"
       thirdLink="#"
@@ -37,7 +37,7 @@
 <script>
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
-import BackButton from "@/components/ui/BackButton.vue";
+// import BackButton from "@/components/ui/BackButton.vue";
 import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
 
 import ExchangeFeesCard from "./components/ExchangeFeesCard.vue";
@@ -49,7 +49,7 @@ export default {
     Header,
     TransFeesCard,
     ExchangeFeesCard,
-    BackButton,
+    // BackButton,
     // FeesChart
   },
   props: {

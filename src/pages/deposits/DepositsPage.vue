@@ -1,20 +1,20 @@
 <template>
   <Header :isDemo="isDemo"></Header>
   <section class="container">
-    <BackButton class="backButton" color="var(--clr-grey)" />
+    <!-- <BackButton class="backButton" color="var(--clr-grey)" /> -->
     <Breadcrumbs
       v-if="isDemo"
       baseLink="/portfolios"
-      baseLinkName="My Portfolios"
+      baseLinkName="Portfolios"
       :secondLink="'/dashboard/demo'"
-      :secondLinkName="(portfolioName ? portfolioName : '')"
+      :secondLinkName="'Portfolio Demo'"
       thirdLink="#"
       thirdLinkName="Deposits & Withdrawals"
     />
     <Breadcrumbs
       v-else
       baseLink="/portfolios"
-      baseLinkName="My Portfolios"
+      baseLinkName="Portfolios"
       :secondLink="'/dashboard/' + this.$route.params.id"
       :secondLinkName="(portfolioName ? portfolioName : '')"
       thirdLink="#"
@@ -35,7 +35,7 @@
 <script>
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
-import BackButton from "@/components/ui/BackButton.vue";
+// import BackButton from "@/components/ui/BackButton.vue";
 
 import DepositsChart from "./components/DepositsChart.vue";
 import DepositsList from "./components/DepositsList.vue";
@@ -44,7 +44,7 @@ export default {
   components: {
     Breadcrumbs,
     Header,
-    BackButton,
+    // BackButton,
     DepositsChart,
     DepositsList,
   },

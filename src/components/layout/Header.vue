@@ -48,11 +48,11 @@
                           @click="toggleMyPortfoliosPopup()"
                         >
                           <Icon
-                            icon="bi:bar-chart-fill"
+                            icon="entypo:list"
                             class="headingIcon"
-                            height="14"
+                            height="20"
                           />
-                          My Portfolios
+                          All Portfolios
                         </button>
                       </section>
                     </router-link>

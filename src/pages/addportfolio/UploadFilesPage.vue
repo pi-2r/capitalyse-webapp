@@ -1,12 +1,12 @@
 <template>
   <Header />
   <section class="container">
-    <Breadcrumbs
+    <!-- <Breadcrumbs
       baseLink="/portfolios"
       baseLinkName="My Portfolios"
       secondLink="/portfolios/new"
       secondLinkName="Add Portfolio"
-    />
+    /> -->
 
     <section class="titleAndBackButtonContainer">
       <BackButton />
@@ -103,9 +103,11 @@
               </section>
               <button class="resetUploadedBtn" @click="resetFiles">
                 <Icon
-                  icon="ic:outline-restart-alt"
+                  icon="charm:rotate-anti-clockwise"
                   color="var(--clr-grey)"
-                  height="18"
+                  height="14"
+                  :class="{'rotateResetIconClass': animatedResetIcon}"
+                  @animationend="animatedResetIcon = false"
                 />
                 Reset uploads
               </button>
@@ -157,7 +159,7 @@
     </section>
 
     <section class="addPortfolioHelp">
-      <h2>Tutorial & Explanation</h2>
+      <h2>Need some help?</h2>
       <button
         class="collapsible"
         id="exportFromDegiroHelp"
@@ -211,7 +213,7 @@
           </a>
         </p>
       </section>
-      <button class="collapsible" @click="toggleCollapsible(1)">
+      <!-- <button class="collapsible" @click="toggleCollapsible(1)">
         How do I import files into Capitalyse?
       </button>
       <section class="content">
@@ -223,8 +225,8 @@
           Next, select all files you wish to upload. If there appears a green
           checkmark, the upload was succesful.
         </p>
-      </section>
-      <button class="collapsible" @click="toggleCollapsible(2)">
+      </section> -->
+      <!-- <button class="collapsible" @click="toggleCollapsible(2)">
         What's in these files?
       </button>
       <section class="content">
@@ -240,7 +242,7 @@
           Your data will not be used for any other purpose than to show you your
           analytics and insights.
         </p>
-      </section>
+      </section> -->
     </section>
   </section>
 </template>
@@ -253,7 +255,7 @@ import CheckMarkIcon from "vue-material-design-icons/CheckDecagram.vue";
 import csvToArrayMixin from "../../mixins/helpers/csvToArray.js";
 import includesFromArray from "../../mixins/helpers/includesFromArray.js";
 
-import Breadcrumbs from "../../components/ui/Breadcrumbs.vue";
+// import Breadcrumbs from "../../components/ui/Breadcrumbs.vue";
 import Header from "../../components/layout/Header.vue";
 import BackButton from "../../components/ui/BackButton.vue";
 
@@ -263,7 +265,7 @@ export default {
     CloseIcon,
     CheckMarkIcon,
     Header,
-    Breadcrumbs,
+    // Breadcrumbs,
     Icon,
     BackButton,
   },
@@ -283,6 +285,7 @@ export default {
       isLoading: false,
       isTooltipOpen: false,
       isPortfolioNameInputVisible: false,
+      animatedResetIcon: false,
     };
   },
   watch: {
@@ -410,7 +413,7 @@ export default {
       // zet de portfolio naam op leeg als de input zichbaar is
       this.isPortfolioNameInputVisible
         ? (this.portfolioName = "")
-        : (this.portfolioName = "My Portfolio");
+        : (this.portfolioName = "DEGIRO");
     },
     toggleCollapsible(id) {
       // toggle de collapsible uitleg blokken dmv id van de html
@@ -560,6 +563,11 @@ export default {
     },
     resetFiles() {
       // reset alles als er op reset files geklikt wordt
+      this.animatedResetIcon = true;
+      setTimeout(() => {
+        this.animatedResetIcon = false;
+      }, 1000);
+
       this.transactionsFile = null;
       this.accountFile = null;
       this.portfolioFile = null;
@@ -824,9 +832,9 @@ h1 {
 
 .container {
   margin: 0 auto;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  width: 28rem;
+  margin-top: 3rem;
+  margin-bottom: 4rem;
+  width: 30rem;
 }
 
 .formCardContainer {
@@ -836,7 +844,7 @@ h1 {
 }
 
 .formCard {
-  width: 30rem;
+  width: 100%;
   padding: 1.25rem;
   background-color: var(--clr-very-light-blue);
   box-shadow: var(--box-shadow-big);
@@ -994,7 +1002,7 @@ input[type="submit"] {
 }
 
 .uploadFilesLabel:hover {
-  background-color: #008cff0e;
+  background-color: #0084ff1a;
 }
 
 .fileName {
@@ -1029,8 +1037,10 @@ input[type="submit"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.2rem;
-  padding: 0.3rem;
+  gap: 0.3rem;
+  padding: 0.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   border-radius: 0.4rem;
   border: 1px solid transparent;
 }
@@ -1050,6 +1060,19 @@ input[type="submit"] {
 .fileButtons {
   display: flex;
   flex-direction: column;
+}
+
+.rotateResetIconClass {
+  animation: rotateResetIconAnimation 1s infinite;
+}
+
+@keyframes rotateResetIconAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
 }
 
 .submitFiles {

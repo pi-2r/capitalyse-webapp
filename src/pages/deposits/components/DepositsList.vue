@@ -1,7 +1,5 @@
 <template>
   <div>
-    <table></table>
-
     <section class="tablecontainer">
       <section class="tablecontainerHeading">
         <h2 class="tableTitle">
@@ -257,12 +255,6 @@ select:hover {
   border-radius: var(--card-border-radius);
   box-shadow: var(--box-shadow-big);
   border: 1px solid var(--clr-very-light-grey);
-  padding-bottom: 1rem;
-}
-
-.depositsTableWrapper {
-  max-height: 70vh;
-  overflow-y: scroll;
 }
 
 ::-webkit-scrollbar {
@@ -318,9 +310,6 @@ tr:nth-last-child(1) {
 }
 
 @media screen and (max-width: 650px) {
-  .depositsTableWrapper {
-    overflow-x: scroll;
-  }
 
   th {
     padding: 1.5rem;

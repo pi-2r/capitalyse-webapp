@@ -2,18 +2,19 @@
   <Header :isDemo="isDemo"></Header>
 
   <section class="container">
-    <BackButton to="/" class="backButton" color="var(--clr-grey)" />
+    <!-- <BackButton to="/" class="backButton" color="var(--clr-grey)" /> -->
     <section class="head">
       <section>
         <Breadcrumbs
           baseLink="/portfolios"
-          baseLinkName="My Portfolios"
+          baseLinkName="Portfolios"
           secondLink="#"
           :secondLinkName="(portfolioName ? portfolioName : '')"
         />
         <section>
           <section class="titleAndBackButtonContainer">
-            <h1>{{ portfolioName }}</h1>
+            <h1 v-if="!isDemo">Portfolio {{ portfolioName }}</h1>
+            <h1 v-else>Portfolio Demo</h1>
           </section>
         </section>
       </section>
@@ -62,7 +63,7 @@ import { Icon } from "@iconify/vue";
 import Header from "@/components/layout/Header.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
-import BackButton from "@/components/ui/BackButton.vue";
+// import BackButton from "@/components/ui/BackButton.vue";
 
 import firebaseDate from "@/mixins/helpers/dateToWords.js";
 
@@ -82,7 +83,7 @@ export default {
     TransFeesCard,
     Header,
     Breadcrumbs,
-    BackButton,
+    // BackButton,
     PortfolioCards,
     Icon,
     HoldingsPieChartCards,

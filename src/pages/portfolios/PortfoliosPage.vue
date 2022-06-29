@@ -33,17 +33,17 @@
     <section class="myPortfolios__header">
       <section class="heading">
         <Icon
-          icon="bi:bar-chart-fill"
+          icon="entypo:list"
           class="headingIcon"
-          height="25"
+          height="35"
           color="var(--clr-black)"
         />
-        <h1>My Portfolios</h1>
+        <h1>Portfolios</h1>
       </section>
       <Button class="addPortfolioBtn" link @click="addPortfolio"> 
-        <Icon icon="heroicons-outline:upload" color="var(--clr-dark-grey)" height="18" />
+        <Icon icon="fluent:add-square-multiple-16-filled" color="var(--clr-dark-grey)" height="20" />
         Add Portfolio
-      </Button>
+        </Button>
     </section>
 
     <section class="tablecontainer">
@@ -54,7 +54,7 @@
         <thead>
           <tr>
             <th>Portfolio</th>
-            <th class="alignRight">Date Added</th>
+            <th class="alignRight">Date added</th>
             <th class="fileSize alignRight">Portfolio size</th>
             <th></th>
           </tr>
@@ -247,6 +247,7 @@ export default {
   margin: 0 auto;
   margin-bottom: 4rem;
   margin-top: 3rem;
+  width: 50rem;
 }
 
 .myPortfolios__header {
@@ -256,7 +257,7 @@ export default {
 }
 
 .tablecontainer {
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   min-width: 20rem;
 
 }
@@ -390,12 +391,6 @@ tr:nth-last-child(1) {
 @media screen and (min-width: 650px) {
   .container {
     max-width: 90%;
-  }
-}
-
-@media screen and (min-width: 1050px) {
-  .container {
-    max-width: 1100px;
   }
 }
 
