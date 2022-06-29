@@ -1,33 +1,32 @@
 <template>
   <Header :isDemo="isDemo"></Header>
   <section class="container">
+    <BackButton class="backButton" color="var(--clr-grey)" />
     <Breadcrumbs
       v-if="isDemo"
       baseLink="/portfolios"
       baseLinkName="My Portfolios"
       :secondLink="'/dashboard/demo'"
-      :secondLinkName="'Dashboard ' + (portfolioName ? portfolioName : '')"
+      :secondLinkName="(portfolioName ? portfolioName : '')"
       thirdLink="#"
-      thirdLinkName="My Deposits"
+      thirdLinkName="Deposits & Withdrawals"
     />
     <Breadcrumbs
       v-else
       baseLink="/portfolios"
       baseLinkName="My Portfolios"
       :secondLink="'/dashboard/' + this.$route.params.id"
-      :secondLinkName="'Dashboard ' + (portfolioName ? portfolioName : '')"
+      :secondLinkName="(portfolioName ? portfolioName : '')"
       thirdLink="#"
-      thirdLinkName="My Deposits"
+      thirdLinkName="Deposits & Withdrawals"
     />
 
     <section class="titleAndBackButtonContainer">
-      <BackButton />
-      <h1>My Deposits</h1>
+      <h1>Deposits & Withdrawals</h1>
     </section>
 
     <section class="cardsContainer">
       <DepositsChart />
-
       <DepositsList />
     </section>
   </section>
@@ -123,6 +122,10 @@ export default {
   margin: 0 auto;
   margin-bottom: 4rem;
   margin-top: 3rem;
+}
+
+.backButton {
+  margin-bottom: 1rem;
 }
 
 @media screen and (min-width: 400px) {

@@ -81,7 +81,7 @@ html {
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-family: "Lexend", sans-serif;
   font-weight: 500;
   margin: 0;

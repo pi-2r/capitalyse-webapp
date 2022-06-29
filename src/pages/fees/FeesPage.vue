@@ -1,28 +1,29 @@
 <template>
   <Header :isDemo="isDemo"></Header>
   <section class="container">
+    <BackButton class="backButton" color="var(--clr-grey)"/>
+
     <Breadcrumbs
       v-if="isDemo"
       baseLink="/portfolios"
       baseLinkName="My Portfolios"
       :secondLink="'/dashboard/demo'"
-      :secondLinkName="'Dashboard ' + (portfolioName ? portfolioName : '')"
+      :secondLinkName="(portfolioName ? portfolioName : '')"
       thirdLink="#"
-      thirdLinkName="Fees and Costs"
+      thirdLinkName="Fees & Costs"
     />
     <Breadcrumbs
       v-else
       baseLink="/portfolios"
       baseLinkName="My Portfolios"
       :secondLink="'/dashboard/' + this.$route.params.id"
-      :secondLinkName="'Dashboard ' + (portfolioName ? portfolioName : '')"
+      :secondLinkName="(portfolioName ? portfolioName : '')"
       thirdLink="#"
-      thirdLinkName="Fees and Costs"
+      thirdLinkName="Fees & Costs"
     />
 
     <section class="titleAndBackButtonContainer">
-      <BackButton />
-      <h1>Fees and Costs</h1>
+      <h1>Fees & Costs</h1>
     </section>
 
     <section class="cardsContainer">
@@ -122,6 +123,10 @@ export default {
 </script>
 
 <style scoped>
+.backButton {
+  margin-bottom: 1rem;
+}
+
 .container {
   margin: 0 auto;
   margin-bottom: 4rem;

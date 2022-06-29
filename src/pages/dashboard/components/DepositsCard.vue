@@ -4,7 +4,7 @@
     title="Total Deposited"
     :resultValue="totDeposits"
     :to="'/dashboard/demo/deposits'"
-    btnText="My Deposits"
+    btnText="Deposits & Withdrawals"
     :withBtn="true"
   />
   <ResultCard
@@ -12,7 +12,7 @@
     title="Total Deposited"
     :resultValue="totDeposits"
     :to="'/dashboard/' + portfolioId + '/deposits'"
-    btnText="My Deposits"
+    btnText="Deposits & Withdrawals"
     :withBtn="true"
   />
 </template>

@@ -1,6 +1,7 @@
 <template>
   <Header :isDemo="isDemo"></Header>
   <section class="container">
+      <BackButton color="var(--clr-grey)" class="backButton" />
     <Breadcrumbs
       v-if="isDemo"
       baseLink="/portfolios"
@@ -21,7 +22,6 @@
     />
 
     <section class="titleAndBackButtonContainer">
-      <BackButton />
       <h1>Trading</h1>
     </section>
 
@@ -129,6 +129,10 @@ export default {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 1rem;
+}
+
+.backButton {
+  margin-bottom: 1rem;
 }
 
 @media screen and (min-width: 400px) {

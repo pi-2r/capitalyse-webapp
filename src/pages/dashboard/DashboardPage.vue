@@ -2,18 +2,18 @@
   <Header :isDemo="isDemo"></Header>
 
   <section class="container">
+    <BackButton to="/" class="backButton" color="var(--clr-grey)" />
     <section class="head">
       <section>
         <Breadcrumbs
           baseLink="/portfolios"
           baseLinkName="My Portfolios"
           secondLink="#"
-          :secondLinkName="'Dashboard ' + (portfolioName ? portfolioName : '')"
+          :secondLinkName="(portfolioName ? portfolioName : '')"
         />
         <section>
           <section class="titleAndBackButtonContainer">
-            <BackButton to="/" />
-            <h1>Dashboard {{ portfolioName }}</h1>
+            <h1>{{ portfolioName }}</h1>
           </section>
         </section>
       </section>
@@ -272,6 +272,10 @@ export default {
 
 .titleAndBackButtonContainer {
   margin-bottom: 0;
+}
+
+.backButton {
+  margin-bottom: 1rem;
 }
 
 .startDate {
