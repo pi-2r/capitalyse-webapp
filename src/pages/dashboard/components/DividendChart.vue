@@ -52,7 +52,7 @@
 
     <section class="dividendChartWrapper">
       <section class="dividendChartHeading">
-        <h2>Dividend Payments</h2>
+        <h2>Dividends</h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
             <span class="chartResultValue"> €{{ totalDividends }} </span>
@@ -117,6 +117,7 @@ export default {
             borderSkipped: "bottom",
             borderColor: "#0091ff",
             hoverBorderWidth: 1,
+            borderDash: [10,5],
             barPercentage: '0.7',
             hoverBorderColor: "#0091ff",
             data: [],
@@ -260,7 +261,7 @@ h2 {
   background-color: var(--clr-very-light-blue);
   border-radius: var(--card-border-radius);
   box-shadow: var(--box-shadow-big);
-  border: 1px solid var(--clr-very-light-grey);
+  border: 1px solid var(--clr-light-grey);
 }
 
 .dividendChartHeading {
@@ -307,7 +308,7 @@ h2 {
   background-color: var(--clr-very-light-blue);
   color: var(--clr-grey);
   transform: translateY(0px);
-  border: 1px solid var(--clr-medium-light-grey);
+  border: 1px solid var(--clr-light-grey);
   border-radius: var(--btn-radius);
   user-select: none;
   box-shadow: var(--btn-shadow);

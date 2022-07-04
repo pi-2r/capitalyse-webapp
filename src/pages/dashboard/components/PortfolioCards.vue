@@ -1,7 +1,7 @@
 <template>
   <section class="portfolioCards__container">
     <DetailedResultCard
-      title="Capital Gains"
+      title="Total P/L"
       :resultValue="totalProfitLoss"
       :subResultValue="totalProfitLossPercentage"
       subResultValuePostfix="%"
@@ -14,7 +14,7 @@
       subResultValuePostfix="%"
     />
     <DetailedResultCard
-      title="Total Balance"
+      title="Total balance"
       :resultValue="totalBalanceAmount"
       :subResultValue="cashAmount"
       subResultValuePrefix="Cash €"

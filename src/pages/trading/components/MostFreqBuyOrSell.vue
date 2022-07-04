@@ -89,10 +89,10 @@ export default {
     title() {
       if (this.isThereData) {
         return this.buyOrSell === "buy"
-          ? "Most Times Bought"
-          : "Most Times Sold";
+          ? "Most times bought"
+          : "Most times sold";
       }
-      return "Most Times Bought";
+      return "Most times bought";
     },
   },
   methods: {

@@ -181,7 +181,7 @@ h2 {
   background-color: var(--clr-very-light-blue);
   box-shadow: var(--box-shadow-big);
   border-radius: var(--card-border-radius);
-  border: 1px solid var(--clr-very-light-grey);
+  border: 1px solid var(--clr-light-grey);
   margin-bottom: 1rem;
 }
 

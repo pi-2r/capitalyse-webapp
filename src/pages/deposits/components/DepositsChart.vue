@@ -53,8 +53,7 @@
     <section class="depositChartWrapper">
       <section class="depositChartHeading">
         <h2>
-          Deposits & Withdrawals
-          <span class="chartDataTypeStyling">| Cumulative</span>
+          Deposits
         </h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
@@ -239,6 +238,9 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  color: var(--clr-grey);
+}
 
 .chartDataTypeStyling {
   color: var(--clr-grey);
@@ -265,7 +267,7 @@ export default {
   background-color: var(--clr-very-light-blue);
   border-radius: var(--card-border-radius);
   box-shadow: var(--box-shadow-big);
-  border: 1px solid var(--clr-very-light-grey);
+  border: 1px solid var(--clr-light-grey);
 }
 
 .depositChartContainer {
@@ -316,7 +318,7 @@ export default {
   background-color: var(--clr-very-light-blue);
   color: var(--clr-grey);
   transform: translateY(0px);
-  border: 1px solid var(--clr-medium-light-grey);
+  border: 1px solid var(--clr-light-grey);
   border-radius: var(--btn-radius);
   user-select: none;
   box-shadow: var(--btn-shadow);

@@ -9,11 +9,11 @@
           baseLink="/portfolios"
           baseLinkName="Portfolios"
           secondLink="#"
-          :secondLinkName="(portfolioName ? portfolioName : '')"
+          :secondLinkName="!isDemo ? (portfolioName ? portfolioName : '') : 'Demo'"
         />
         <section>
           <section class="titleAndBackButtonContainer">
-            <h1 v-if="!isDemo">Portfolio {{ portfolioName }}</h1>
+            <h1 v-if="!isDemo">{{ portfolioName }}</h1>
             <h1 v-else>Portfolio Demo</h1>
           </section>
         </section>

@@ -19,8 +19,8 @@
           <form @submit.prevent="submitForm" class="uploadFilesForm">
             <section class="uploadFilesGroup">
               <section class="uploadFilesGroup__heading">
-                <p class="filesLabelP">
-                  DEGIRO Files
+                <!-- <p class="filesLabelP">
+                  Files
                   <span class="filesLabel__help">
                     <Icon
                       @click="scrollToHelp"
@@ -30,7 +30,7 @@
                       height="20"
                     />
                   </span>
-                </p>
+                </p> -->
               </section>
               <label class="uploadFilesLabel">
                 <input
@@ -180,9 +180,7 @@
           </span>
         </h3>
         <p>
-          To download your files, click the links below and log in to DEGIRO.
-          For each file click the 'Export' button in the top right, then select
-          the 'CSV' format. All dates have already been set correctly.
+          For each file, click the "Export" button in the top right, then select "CSV". 
         </p>
         <p>
           <a
@@ -203,14 +201,12 @@
           </span>
         </h3>
         <p>
-          For manual export, you can follow this tutorial.
-          <br />
+          If you wish to manually export the files, follow
           <a
             target="_blank"
             href="https://capitalyse.app/support/export-degiro-files"
           >
-            How to export my DEGIRO files
-          </a>
+          our guide.</a>
         </p>
       </section>
       <!-- <button class="collapsible" @click="toggleCollapsible(1)">
@@ -684,20 +680,16 @@ input:checked + .slider:before {
   cursor: pointer;
   padding: 1rem;
   width: 100%;
-  border: 1px solid var(--clr-medium-light-grey);
+  border: 1px solid var(--clr-light-grey);
   text-align: left;
   outline: none;
   font-size: 1rem;
 }
 
-.collapsible:hover {
-  background-color: var(--clr-very-light-grey);
-}
 
 .active {
   border-radius: 0.6rem 0.6rem 0rem 0rem;
   border-bottom: none;
-  background-color: var(--clr-very-light-grey);
 }
 
 .listNumber {
@@ -724,7 +716,7 @@ input:checked + .slider:before {
   transition: all 0.3s ease-out;
   background-color: var(--clr-very-light-blue);
   margin-bottom: 0.75rem;
-  border: 1px solid var(--clr-medium-light-grey);
+  border: 1px solid var(--clr-light-grey);
   border-top: none;
   border-bottom: none;
 }
@@ -849,7 +841,7 @@ h1 {
   background-color: var(--clr-very-light-blue);
   box-shadow: var(--box-shadow-big);
   border-radius: var(--card-border-radius);
-  border: 1px solid var(--clr-very-light-grey);
+  border: 1px solid var(--clr-light-grey);
 }
 
 .fileValid {
@@ -980,10 +972,10 @@ input[type="submit"] {
 }
 
 .uploadFilesLabel {
-  background-color: #008cff07;
+  background-color: #0084ff15;
   border-radius: var(--btn-radius);
   width: 100%;
-  padding: 3rem 0rem;
+  padding: 4.5rem 0rem;
   border: 2px dashed var(--clr-blue);
   color: var(--clr-blue);
   text-align: center;
@@ -1002,7 +994,7 @@ input[type="submit"] {
 }
 
 .uploadFilesLabel:hover {
-  background-color: #0084ff1a;
+  background-color: rgba(0, 132, 255, 0.119);
 }
 
 .fileName {

@@ -1,7 +1,7 @@
 <template>
   <ResultCard
     v-if="isDemo"
-    title="Total Transaction Fees"
+    title="Transaction fees"
     :resultValue="totTransFees"
     :to="'/dashboard/demo/fees'"
     btnText="Fees and Costs"
@@ -9,7 +9,7 @@
   />
   <ResultCard
     v-else
-    title="Total Transaction Fees"
+    title="Transaction fees"
     :resultValue="totTransFees"
     :to="'/dashboard/' + portfolioId + '/fees'"
     btnText="Fees & Costs"

@@ -7,7 +7,7 @@
       baseLink="/portfolios"
       baseLinkName="Portfolios"
       :secondLink="'/dashboard/demo'"
-      :secondLinkName="'Portfolio Demo'"
+      :secondLinkName="'Demo'"
       thirdLink="#"
       thirdLinkName="Deposits & Withdrawals"
     />

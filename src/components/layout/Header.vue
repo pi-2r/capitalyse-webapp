@@ -559,11 +559,11 @@ a:hover {
 }
 
 .nav-wrapper {
-  background-color: var(--clr-white);
   height: var(--header-height);
   display: flex;
   align-items: center;
-  box-shadow: var(--box-shadow-medium);
+  border-bottom: 1px solid var(--clr-light-grey);
+  box-shadow: var(--box-shadow-small);
   justify-content: space-between;
 }
 

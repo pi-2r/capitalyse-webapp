@@ -1,7 +1,7 @@
 <template>
   <ResultCard
     v-if="isDemo"
-    title="Total Deposited"
+    title="Total deposits"
     :resultValue="totDeposits"
     :to="'/dashboard/demo/deposits'"
     btnText="Deposits & Withdrawals"
@@ -9,7 +9,7 @@
   />
   <ResultCard
     v-else
-    title="Total Deposited"
+    title="Total deposits"
     :resultValue="totDeposits"
     :to="'/dashboard/' + portfolioId + '/deposits'"
     btnText="Deposits & Withdrawals"

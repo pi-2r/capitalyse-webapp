@@ -34,6 +34,8 @@ export default {
         this.sortChartData();
         this.turnIntoHoldingsChartData();
 
+        console.log(this.holdingsArray);
+
         return {
           labels: this.labelsHolder,
           data: this.dataHolder,
@@ -73,10 +75,10 @@ export default {
       }
 
       // loopt door de holdings heen
-      // bij cash -> rename naar 'Cash'
+      // bij cash -> remove cash
       for (let i = 0; i < this.holdingsArray.length; i++) {
         if (this.includesFromArray(this.cashNames, this.holdingsArray[i].name)) {
-          this.holdingsArray[i].name = 'Cash';
+          this.holdingsArray.pop(i);
         }
       }
     },

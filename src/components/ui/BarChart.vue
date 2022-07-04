@@ -26,15 +26,16 @@ export default {
           yAxes: {
             beginAtZero: true,
               grid: {
-                color: 'rgba(0, 0, 0, 0.04)',
+                color: 'rgba(0, 0, 0, 0.125)',
                 drawBorder: false,
+                borderDash: [4, 5],
                 display: true,
               },
               ticks: {
                 color: '#fff',
                 callback: function(value) {
                   // replace dot with comma
-                  return '€' + value.toFixed(2).toString().replace('.', ",");
+                  return '€ ' + value.toFixed(2).toString().replace('.', ",");
                 }
               }
           },
@@ -42,10 +43,8 @@ export default {
             barThickness: 31,
               beginAtZero: true,
               grid: {
-                color: 'rgba(0, 0, 0, 0.05)',
                 drawBorder: false,
                 display: false,
-                
               },
               ticks: {
                 color: '#fff',

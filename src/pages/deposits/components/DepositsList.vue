@@ -3,8 +3,8 @@
     <section class="tablecontainer">
       <section class="tablecontainerHeading">
         <h2 class="tableTitle">
-          All Deposits & Withdrawals
-          <span class="amountOfDeposits">({{ amountOfDeposits }})</span>
+          Deposits & withdrawals
+          <span class="amountOfDeposits">- {{ amountOfDeposits }}</span>
         </h2>
         <section class="tableContainerHeading__dropdown">
           <select
@@ -212,7 +212,13 @@ export default {
   },
 };
 </script>
+
+
 <style scoped>
+h2 {
+  color: var(--clr-grey);
+}
+
 .spinner {
   margin: 2rem;
 }
@@ -254,7 +260,7 @@ select:hover {
   background-color: var(--clr-very-light-blue);
   border-radius: var(--card-border-radius);
   box-shadow: var(--box-shadow-big);
-  border: 1px solid var(--clr-very-light-grey);
+  border: 1px solid var(--clr-light-grey);
 }
 
 ::-webkit-scrollbar {
@@ -290,7 +296,7 @@ table {
 
 thead {
   color: var(--clr-dark-grey);
-  border-bottom: 1px solid var(--clr-light-grey);
+  border-bottom: 1px solid var(--clr-very-light-grey);
 }
 
 th {
@@ -301,7 +307,7 @@ th {
 }
 
 tr {
-  border-bottom: 1px solid var(--clr-light-grey);
+  border-bottom: 1px solid var(--clr-very-light-grey);
   transition: 0.1s all;
 }
 

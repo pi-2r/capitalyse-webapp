@@ -300,7 +300,7 @@ table {
 
 thead {
   color: var(--clr-black);
-  border-bottom: 1px solid var(--clr-light-grey);
+  border-bottom: 1px solid var(--clr-very-light-grey);
 }
 
 th {
@@ -318,7 +318,7 @@ th:last-of-type {
 }
 
 tr {
-  border-bottom: 1px solid var(--clr-light-grey);
+  border-bottom: 1px solid var(--clr-very-light-grey);
   transition: 0.1s all;
 }
 

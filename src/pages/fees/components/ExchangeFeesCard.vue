@@ -1,6 +1,6 @@
 <template>
   <ResultCard
-    title="Total Exchange Fees"
+    title="Exchange fees"
     :resultValue="totExchangeFees"
     :withBtn="false"
   />

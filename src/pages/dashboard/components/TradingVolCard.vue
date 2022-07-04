@@ -1,18 +1,18 @@
 <template>
   <ResultCard
     v-if="isDemo"
-    title="Total Trading Volume"
+    title="Total trading volume"
     :resultValue="totTradingVol"
     :to="'/dashboard/demo/trading'"
-    btnText="Trading Details"
+    btnText="Trading details"
     :withBtn="true"
   />
   <ResultCard
     v-else
-    title="Total Trading Volume"
+    title="Total trading volume"
     :resultValue="totTradingVol"
     :to="'/dashboard/' + portfolioId + '/trading'"
-    btnText="Trading Details"
+    btnText="Trading details"
     :withBtn="true"
   />
 </template>
