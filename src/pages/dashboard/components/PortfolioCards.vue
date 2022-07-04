@@ -8,7 +8,7 @@
       colorType="greenRed"
     />
     <DetailedResultCard
-      title="Portfolio"
+      title="Invested"
       :resultValue="totalInvestedAmount"
       :subResultValue="investedPercentage"
       subResultValuePostfix="%"
