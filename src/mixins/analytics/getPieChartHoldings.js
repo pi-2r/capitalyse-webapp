@@ -34,8 +34,6 @@ export default {
         this.sortChartData();
         this.turnIntoHoldingsChartData();
 
-        console.log(this.holdingsArray);
-
         return {
           labels: this.labelsHolder,
           data: this.dataHolder,
