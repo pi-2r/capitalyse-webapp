@@ -43,7 +43,6 @@
 
     
 
-    <DividendChart class="dividendChartDashboard" />
 
     <section class="holdingsContainer">
       <HoldingsPieChartCards />
@@ -54,6 +53,7 @@
       <TransFeesCard :isDemo="isDemo" />
       <TradingVolCard :isDemo="isDemo" />
     </section>
+    <DividendChart class="dividendChartDashboard" />
   </section>
 </template>
 
