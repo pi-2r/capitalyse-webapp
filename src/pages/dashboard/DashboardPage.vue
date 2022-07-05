@@ -53,7 +53,8 @@
       <TransFeesCard :isDemo="isDemo" />
       <TradingVolCard :isDemo="isDemo" />
     </section>
-    <DividendChart class="dividendChartDashboard" />
+
+    <DividendChart :hideTimeFrameBtns="false" class="dividendChartDashboard" />
   </section>
 </template>
 

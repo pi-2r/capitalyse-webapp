@@ -1,7 +1,7 @@
 <template>
   <section class="dividendChartContainer">
     <!-- time frame -->
-    <section class="timeFrame">
+    <section class="timeFrame" v-if="!hideTimeFrameBtns">
       <!-- radios -->
       <section class="timeFrame__buttons">
         <button
@@ -90,6 +90,12 @@ export default {
   ],
   components: {
     BarChart,
+  },
+  props: {
+    hideTimeFrameBtns: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
