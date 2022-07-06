@@ -1,30 +1,19 @@
 <template>
-    <section class="card">
+    <section class="defaultCard">
         <slot></slot>
     </section>
 </template>
 
 <script>
 export default {
-    name: 'Card',
-    props: {
-        chart: {
-            type: Boolean,
-            default: false,
-        },
-    },
 }
 </script>
-
 <style scoped>
-.card {
+.defaultCard {
     width: 100%;
     background-color: var(--clr-very-light-blue);
-    display: flex;
-    justify-content: center;
     border-radius: var(--card-border-radius);
-    flex-direction: column;
     box-shadow: var(--box-shadow-big);
-    border: var(--light-border);
+    border: 1px solid var(--clr-light-grey);
 }
 </style>

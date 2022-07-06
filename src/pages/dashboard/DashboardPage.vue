@@ -66,7 +66,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
 // import BackButton from "@/components/ui/BackButton.vue";
 
-import firebaseDate from "@/mixins/helpers/dateToWords.js";
+import firebaseDateMixin from "@/mixins/helpers/dateToWords.js";
 
 import DividendChart from "./components/DividendChart.vue";
 import DepositsCard from "./components/DepositsCard.vue";
@@ -75,7 +75,7 @@ import PortfolioCards from "./components/PortfolioCards.vue";
 import HoldingsPieChartCards from "./components/HoldingsPieChartCards.vue";
 
 export default {
-  mixins: [firebaseDate],
+  mixins: [firebaseDateMixin],
   name: "Dashboard",
   components: {
     DividendChart,
@@ -350,7 +350,7 @@ export default {
   }
 }
 
-@media screen and (min-width: 1050px) {
+@media screen and (min-width: 1150px) {
   .cardsContainer {
     grid-template-columns: 1fr 1fr 1fr;
   }

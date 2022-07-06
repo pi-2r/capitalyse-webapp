@@ -1,5 +1,5 @@
 <template>
-  <section class="holdingsPieChartContainer">
+  <Card>
     <section class="holdingsPieChartWrapper">
       <section class="holdingsPieChartTitle">
         <h2>{{ title }}</h2>
@@ -20,32 +20,23 @@
         }}</CardButtonArrow>
       </section>
     </section>
-  </section>
+  </Card>
 </template>
 
 <script>
 import { Doughnut } from "vue-chartjs";
 import { Chart, ArcElement } from "chart.js";
 
-import getPieChartHoldingsMixin from "@/mixins/analytics/getPieChartHoldings";
-import cleanNumberMixin from "@/mixins/helpers/cleanNumber";
-import includesFromArrayMixin from "@/mixins/helpers/includesFromArray";
-import splitDateMixin from "@/mixins/helpers/splitDate";
-
 import CardButtonArrow from "@/components/ui/CardButtonArrow.vue";
+import Card from "@/components/ui/Card.vue";
 
 Chart.register(ArcElement);
 
 export default {
-  mixins: [
-    cleanNumberMixin,
-    includesFromArrayMixin,
-    splitDateMixin,
-    getPieChartHoldingsMixin,
-  ],
   components: {
     Doughnut,
     CardButtonArrow,
+    Card,
   },
   props: {
     title: {
@@ -148,10 +139,6 @@ h2 {
 
 .holdingsPieChartWrapper {
   padding: 1.75rem;
-  background-color: var(--clr-very-light-blue);
-  border-radius: var(--card-border-radius);
-  box-shadow: var(--box-shadow-big);
-  border: 1px solid var(--clr-light-grey);
 }
 
 .holdingsPieChart__btn {

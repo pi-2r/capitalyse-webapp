@@ -10,7 +10,7 @@
         Are you sure you want to permanently delete this portfolio? This action
         can not be reversed.
       </p>
-      <div class="deletePopup__btns">
+      <section class="deletePopup__btns">
         <Button class="deletePopup__btn deleteBtn" @click="deletePortfolio">
           <Icon
             icon="bxs:trash"
@@ -23,7 +23,7 @@
         <Button class="deletePopup__btn noBtn" @click="toggleDeletePopup"
           >Cancel</Button
         >
-      </div>
+      </section>
     </ConfirmModal>
   </transition>
 
@@ -40,58 +40,61 @@
         />
         <h1>Portfolios</h1>
       </section>
-      <Button class="addPortfolioBtn" link @click="addPortfolio"> 
-        <Icon icon="fluent:add-square-multiple-16-filled" color="var(--clr-dark-grey)" height="20" />
+      <Button class="addPortfolioBtn" link @click="addPortfolio">
+        <Icon
+          icon="fluent:add-square-multiple-16-filled"
+          color="var(--clr-dark-grey)"
+          height="20"
+        />
         Add Portfolio
-        </Button>
+      </Button>
     </section>
 
-    <section class="tablecontainer">
-      <section class="tableBorder">
+      <Card class="tablecontainer">
+        <table class="portfoliosTable">
+          <thead>
+            <tr>
+              <th>Portfolio</th>
+              <th class="alignRight">Date added</th>
+              <th class="fileSize alignRight">Portfolio size</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr :key="portfolio.id" v-for="portfolio in portfolios">
+              <PortfolioListItem
+                @toggleDeletePopup="toggleDeletePopup"
+                :portfolio="portfolio"
+              />
+            </tr>
+            <!-- if no portfolios -->
+            <tr v-if="portfolios.length < 1 && !isLoading">
+              <td class="noPortfolios" colspan="3">
+                <h2>No Portfolios</h2>
+                <p>
+                  You haven't added any portfolios yet. <br />Add a portfolio to
+                  get started.
+                </p>
 
-   
-      <table class="portfoliosTable">
-        <thead>
-          <tr>
-            <th>Portfolio</th>
-            <th class="alignRight">Date added</th>
-            <th class="fileSize alignRight">Portfolio size</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr :key="portfolio.id" v-for="portfolio in portfolios">
-            <PortfolioListItem
-              @toggleDeletePopup="toggleDeletePopup"
-              :portfolio="portfolio"
-            />
-          </tr>
-          <!-- if no portfolios -->
-          <tr v-if="portfolios.length < 1 && !isLoading">
-            <td class="noPortfolios" colspan="3">
-              <h2>No Portfolios</h2>
-              <p>
-                You haven't added any portfolios yet. <br />Add a portfolio to
-                get started.
-              </p>
-
-              <Button class="addPortfolioBtn" link @click="addPortfolio"
+                <Button class="addPortfolioBtn" link @click="addPortfolio">
+                  <Icon
+                    icon="fluent:add-square-multiple-16-filled"
+                    color="var(--clr-dark-grey)"
+                    height="18"
+                  />
+                  Add Portfolio</Button
                 >
-                <Icon icon="fluent:add-square-multiple-16-filled" color="var(--clr-dark-grey)" height="18" />
-                Add Portfolio</Button
-              >
-            </td>
-          </tr>
-          <tr v-if="isLoading">
-            <td colspan="4" class="loading">
-              <Spinner />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-         </section>
+              </td>
+            </tr>
+            <tr v-if="isLoading">
+              <td colspan="4" class="loading">
+                <Spinner />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Card>
     </section>
-  </section>
 </template>
 
 <script>
@@ -99,6 +102,7 @@ import { Icon } from "@iconify/vue";
 
 import Header from "@/components/layout/Header.vue";
 import ConfirmModal from "@/components/ui/ConfirmModal.vue";
+import Card from "@/components/ui/Card.vue";
 
 import PortfolioListItem from "@/pages/portfolios/components/PortfolioListItem.vue";
 
@@ -107,6 +111,7 @@ export default {
     Header,
     PortfolioListItem,
     Icon,
+    Card,
     ConfirmModal,
   },
   data() {
@@ -259,11 +264,10 @@ export default {
 .tablecontainer {
   margin-top: 1.5rem;
   min-width: 20rem;
-
 }
 
 .tableBorder {
-  border: 1px solid var(--clr-very-light-grey);
+  border: 1px solid var(--clr-light-grey);
   border-radius: var(--card-border-radius);
   min-width: 20rem;
 }
@@ -272,7 +276,6 @@ export default {
   width: 100%;
   border-radius: var(--card-border-radius);
   border-collapse: collapse;
-  box-shadow: var(--box-shadow-big);
 }
 
 .addPortfolioBtn {
@@ -294,8 +297,6 @@ export default {
 
 table {
   width: 100%;
-  box-shadow: var(--box-shadow);
-  background-color: var(--clr-very-light-blue);
 }
 
 thead {
@@ -444,6 +445,5 @@ tr:nth-last-child(1) {
     margin-top: 0;
     min-width: 20rem;
   }
- 
 }
 </style>

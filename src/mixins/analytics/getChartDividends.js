@@ -1,8 +1,9 @@
 import cleanNumberMixin from '../helpers/cleanNumber';
 import includesFromArrayMixin from '../helpers/includesFromArray';
+import splitDateMixin from '../helpers/splitDate';
 
 export default {
-  mixins: [cleanNumberMixin, includesFromArrayMixin],
+  mixins: [cleanNumberMixin, includesFromArrayMixin, splitDateMixin],
   data() {
     return {
       monthNamesShort: [
@@ -56,7 +57,7 @@ export default {
       } else {
         return false;
       }
-        
+
     },
     getDividendsFromData(data) {
       const dateIndex = this.indexes.dateIndex;
@@ -162,14 +163,14 @@ export default {
         date = this.splitDate(date);
 
         // if american notation
-          if (
-            this.splitDate(dateArray[1])[0] !== this.splitDate(dateArray[0])[0]
-          ) {
-            date = date[0] + "-" + date[2];
-          } else {
-            // if normal notation
-            date = date[1] + "-" + date[2];
-          }
+        if (
+          this.splitDate(dateArray[1])[0] !== this.splitDate(dateArray[0])[0]
+        ) {
+          date = date[0] + "-" + date[2];
+        } else {
+          // if normal notation
+          date = date[1] + "-" + date[2];
+        }
 
         this.labelsHolder.push(date);
       }

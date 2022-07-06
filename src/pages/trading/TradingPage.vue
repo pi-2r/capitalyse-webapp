@@ -87,6 +87,9 @@ export default {
     hasPortfolios() {
       this.loadData();
     },
+    $route() {
+      this.loadData();
+    },
   },
   methods: {
     loadData() {
@@ -151,7 +154,7 @@ export default {
   }
 }
 
-@media screen and (min-width: 1050px) {
+@media screen and (min-width: 1150px) {
   .container {
     max-width: 1100px;
   }

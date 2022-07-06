@@ -1,5 +1,5 @@
 <template>
-  <div class="cardContainer">
+  <Card class="cardContainer">
     <section :class="{ cardContentNoBtn: !withBtn, cardContent: withBtn }">
       <h2>{{ title }}</h2>
       <transition name="slide-fade" mode="out-in">
@@ -50,15 +50,17 @@
         />
       </Button>
     </section>
-  </div>
+  </Card>
 </template>
 
 <script>
 import { Icon } from "@iconify/vue";
+import Card from "@/components/ui/Card.vue";
 
 export default {
   components: {
     Icon,
+    Card,
   },
   props: {
     withBtn: {

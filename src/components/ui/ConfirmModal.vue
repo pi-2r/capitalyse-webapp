@@ -1,9 +1,9 @@
 <template>
      <section class="deletePopup" >
-        <div class="overlay" @click="$emit('clickOutsidePopup')"></div>
-        <div class="deletePopup__content">
+        <section class="overlay" @click="$emit('clickOutsidePopup')"></section>
+        <section class="deletePopup__content">
            <slot></slot> 
-        </div>
+        </section>
     </section>
 </template>
 

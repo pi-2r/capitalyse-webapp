@@ -50,7 +50,7 @@
       </section>
     </section>
 
-    <section class="dividendChartWrapper">
+    <Card class="dividendChartWrapper">
       <section class="dividendChartHeading">
         <h2>Dividends</h2>
         <transition name="slide-fade" mode="out-in">
@@ -69,27 +69,23 @@
           <spinner />
         </section>
       </section>
-    </section>
+    </Card>
   </section>
 </template>
 
 <script>
 import BarChart from "@/components/ui/BarChart.vue";
+import Card from "@/components/ui/Card.vue";
 
 import getChartDividendsMixin from "@/mixins/analytics/getChartDividends";
-import cleanNumberMixin from "@/mixins/helpers/cleanNumber";
-import includesFromArrayMixin from "@/mixins/helpers/includesFromArray";
-import splitDateMixin from "@/mixins/helpers/splitDate";
 
 export default {
   mixins: [
     getChartDividendsMixin,
-    cleanNumberMixin,
-    includesFromArrayMixin,
-    splitDateMixin,
   ],
   components: {
     BarChart,
+    Card,
   },
   props: {
     hideTimeFrameBtns: {
@@ -123,8 +119,8 @@ export default {
             borderSkipped: "bottom",
             borderColor: "#0091ff",
             hoverBorderWidth: 1,
-            borderDash: [10,5],
-            barPercentage: '0.7',
+            borderDash: [10, 5],
+            barPercentage: "0.7",
             hoverBorderColor: "#0091ff",
             data: [],
           },
@@ -157,6 +153,9 @@ export default {
     isThereData() {
       this.loadData();
     },
+    $route() {
+      this.loadData();
+    }
   },
   methods: {
     setTheme() {

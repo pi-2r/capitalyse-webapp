@@ -87,6 +87,9 @@ export default {
     hasPortfolios() {
       this.loadData();
     },
+    $route() {
+      this.loadData();
+    },
   },
   methods: {
     loadData() {
@@ -144,7 +147,7 @@ export default {
   }
 }
 
-@media screen and (min-width: 1050px) {
+@media screen and (min-width: 1150px) {
   .cardsContainer {
     grid-template-columns: 1fr 1fr 1fr;
   }

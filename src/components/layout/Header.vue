@@ -6,7 +6,7 @@
   ></section>
   <header>
     <nav class="nav-wrapper">
-      <div class="nav-container">
+      <section class="nav-container">
         <section class="leftSide">
           <ul>
             <a href="https://www.capitalyse.app/" class="routerLinkLogo">
@@ -127,8 +127,8 @@
             </router-link>
           </section>
         </section>
-      </div>
-      <div class="nav-container-mobile">
+      </section>
+      <section class="nav-container-mobile">
         <a href="https://www.capitalyse.app/" class="routerLinkLogo">
           <Logo />
         </a>
@@ -147,7 +147,7 @@
           />
         </section>
         <transition name="slide-fade" mode="out-in">
-          <div class="nav-menu-mobile" :class="{ open: isMobileNavOpen }">
+          <section class="nav-menu-mobile" :class="{ open: isMobileNavOpen }">
             <Icon
               @click="toggleMobileNav"
               icon="carbon:close"
@@ -177,9 +177,9 @@
                 </li>
               </ul>
             </section>
-          </div>
+          </section>
         </transition>
-      </div>
+      </section>
     </nav>
   </header>
 </template>
@@ -613,7 +613,7 @@ a:hover {
   }
 }
 
-@media screen and (min-width: 1050px) {
+@media screen and (min-width: 1150px) {
   .nav-container,
   .nav-container-mobile {
     max-width: 1100px;

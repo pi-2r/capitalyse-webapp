@@ -23,15 +23,9 @@ import HoldingsPieChartCard from "./HoldingsPieChartCard";
 
 import getPieChartHoldingsMixin from "@/mixins/analytics/getPieChartHoldings";
 import getPieChartCurrenciesMixin from "@/mixins/analytics/getPieChartCurrencies";
-import cleanNumberMixin from "@/mixins/helpers/cleanNumber";
-import includesFromArrayMixin from "@/mixins/helpers/includesFromArray";
-import splitDateMixin from "@/mixins/helpers/splitDate";
 
 export default {
   mixins: [
-    cleanNumberMixin,
-    includesFromArrayMixin,
-    splitDateMixin,
     getPieChartCurrenciesMixin,
     getPieChartHoldingsMixin,
   ],
@@ -106,13 +100,18 @@ export default {
     isThereData() {
       this.loadData();
     },
+    $route() {
+      this.loadData();
+    }
   },
   methods: {
     setTheme() {
       const theme = localStorage.getItem("theme");
+      console.log(theme);
       if (theme === "dark") {
         this.currenciesChartData.datasets[0].borderColor = "rgb(45, 45, 45)";
         this.holdingsChartData.datasets[0].borderColor = "rgb(45, 45, 45)";
+        this.chartOptions.plugins.tooltip.backgroundColor = 'rgb(52, 52, 52)';
       } else {
         this.currenciesChartData.datasets[0].borderColor = "white";
         this.holdingsChartData.datasets[0].borderColor = "white";
@@ -184,8 +183,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.asdf {
-  color: grey;
-}
-</style>

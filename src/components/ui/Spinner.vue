@@ -1,8 +1,8 @@
 <template>
-  <div class="loading-wrapper">
-    <div v-if="btnSpinner" class="btnLoader"></div>
-    <div v-else class="loader"></div>
-  </div>
+  <section class="loading-wrapper">
+    <section v-if="btnSpinner" class="btnLoader"></section>
+    <section v-else class="loader"></section>
+  </section>
 </template>
 
 <script>

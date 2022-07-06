@@ -22,10 +22,10 @@
   </section>
 </template>
 <script>
-import getTotalBalance from "@/mixins/analytics/getTotalBalance";
-import getTotalInvestedAmount from "@/mixins/analytics/getTotalInvestedAmount";
-import getTotalProfitLoss from "@/mixins/analytics/getTotalProfitLoss";
-import currencyMarkup from "@/mixins//helpers/currencyMarkup";
+import getTotalBalanceMixin from "@/mixins/analytics/getTotalBalance";
+import getTotalInvestedAmountMixin from "@/mixins/analytics/getTotalInvestedAmount";
+import getTotalProfitLossMixin from "@/mixins/analytics/getTotalProfitLoss";
+import currencyMarkupMixin from "@/mixins//helpers/currencyMarkup";
 
 import DetailedResultCard from "./DetailedResultCard.vue";
 
@@ -39,10 +39,10 @@ export default {
     };
   },
   mixins: [
-    getTotalBalance,
-    getTotalInvestedAmount,
-    currencyMarkup,
-    getTotalProfitLoss,
+    getTotalBalanceMixin,
+    getTotalInvestedAmountMixin,
+    currencyMarkupMixin,
+    getTotalProfitLossMixin,
   ],
   computed: {
     currentPortfolio() {

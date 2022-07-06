@@ -1,8 +1,9 @@
 import cleanNumberMixin from '../helpers/cleanNumber';
 import includesFromArrayMixin from '../helpers/includesFromArray';
+import splitDateMixin from '../helpers/splitDate';
 
 export default {
-  mixins: [cleanNumberMixin, includesFromArrayMixin],
+  mixins: [cleanNumberMixin, includesFromArrayMixin, splitDateMixin],
   data() {
     return {
       depositsArray: [],

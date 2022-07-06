@@ -29,13 +29,12 @@
 <script>
 import ResultCard from "@/components/dashboard/ResultCard.vue";
 
-import capitalizeEachWord from "@/mixins/helpers/capitalizeEachWord.js";
 import getMostFrequentBuyOrSell from "@/mixins/analytics/getMostFrequentBuyOrSell.js";
 
 import { Icon } from "@iconify/vue";
 
 export default {
-  mixins: [getMostFrequentBuyOrSell, capitalizeEachWord],
+  mixins: [getMostFrequentBuyOrSell],
   components: {
     ResultCard,
     Icon,
@@ -54,6 +53,9 @@ export default {
   },
   watch: {
     isThereData() {
+      this.loadData();
+    },
+    $route() {
       this.loadData();
     },
     buyOrSell() {

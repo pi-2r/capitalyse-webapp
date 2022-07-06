@@ -1,37 +1,16 @@
 <template>
   <Header />
   <section class="container">
-    <!-- <Breadcrumbs
-      baseLink="/portfolios"
-      baseLinkName="My Portfolios"
-      secondLink="/portfolios/new"
-      secondLinkName="Add Portfolio"
-    /> -->
-
     <section class="titleAndBackButtonContainer">
       <BackButton />
       <h1 class="uploadFilesTitle">Add Portfolio</h1>
     </section>
 
     <section class="formCardContainer">
-      <section class="formCard">
-        <article class="wrapper">
+      <Card class="wrapper">
+        <article>
           <form @submit.prevent="submitForm" class="uploadFilesForm">
             <section class="uploadFilesGroup">
-              <section class="uploadFilesGroup__heading">
-                <!-- <p class="filesLabelP">
-                  Files
-                  <span class="filesLabel__help">
-                    <Icon
-                      @click="scrollToHelp"
-                      class="uploadFilesTooltipBtn"
-                      icon="fa6-regular:circle-question"
-                      color="var(--clr-grey)"
-                      height="20"
-                    />
-                  </span>
-                </p> -->
-              </section>
               <label class="uploadFilesLabel">
                 <input
                   @change="uploadFile"
@@ -106,7 +85,7 @@
                   icon="charm:rotate-anti-clockwise"
                   color="var(--clr-grey)"
                   height="14"
-                  :class="{'rotateResetIconClass': animatedResetIcon}"
+                  :class="{ rotateResetIconClass: animatedResetIcon }"
                   @animationend="animatedResetIcon = false"
                 />
                 Reset uploads
@@ -120,17 +99,12 @@
                   <span class="portfolioName__optional">(optional)</span></label
                 >
 
-                <label class="switch" @click="togglePortfolioNameInput">
-                  <input
-                    type="checkbox"
-                    id="theme"
-                    name="theme"
-                    value="darkMode"
-                    @change="togglePortfolioNameInput"
-                    v-model="isPortfolioNameInputVisible"
-                  />
-                  <span class="slider round"></span>
-                </label>
+                <ToggleButton
+                  :isOn="isPortfolioNameInputVisible"
+                  id="portfolioNameToggleButton"
+                  name="portfolioNameToggleButton"
+                  @toggleButtonClicked="togglePortfolioNameInput"
+                />
               </section>
               <input
                 type="text"
@@ -151,95 +125,13 @@
                 </section>
                 <section v-else>Add Portfolio</section>
               </Button>
-              <!-- <Button class="secondary" link to="/portfolios">Cancel</Button> -->
             </section>
           </form>
         </article>
-      </section>
+      </Card>
     </section>
 
-    <section class="addPortfolioHelp">
-      <h2>Need some help?</h2>
-      <button
-        class="collapsible"
-        id="exportFromDegiroHelp"
-        @click="toggleCollapsible(0)"
-      >
-        How do I export files from DEGIRO?
-      </button>
-      <section class="content">
-        <h3 class="contentTitle">
-          Easy Export
-          <span class="contentTitleThin">
-            <Icon
-              icon="fluent:checkmark-12-filled"
-              color="var(--clr-green)"
-              height="17"
-            />
-            Faster method
-          </span>
-        </h3>
-        <p>
-          For each file, click the "Export" button in the top right, then select "CSV". 
-        </p>
-        <p>
-          <a
-            href="https://trader.degiro.nl/staging-trader/#/portfolio"
-            target="_blank"
-            >Portfolio File</a
-          >
-          <br />
-          <a :href="transactionsLink" target="_blank">Transactions File</a>
-          <br />
-          <a :href="accountLink" target="_blank">Account File</a>
-        </p>
-        <h3 class="contentTitle">
-          Manual Export
-          <span class="contentTitleThinWorseMethod">
-            <Icon icon="akar-icons:info" color="orange" height="17" />
-            Slower method
-          </span>
-        </h3>
-        <p>
-          If you wish to manually export the files, follow
-          <a
-            target="_blank"
-            href="https://capitalyse.app/support/export-degiro-files"
-          >
-          our guide.</a>
-        </p>
-      </section>
-      <!-- <button class="collapsible" @click="toggleCollapsible(1)">
-        How do I import files into Capitalyse?
-      </button>
-      <section class="content">
-        <p>
-          Upload your exported Transactions.csv, Account.csv and Portfolio.csv
-          files by clicking the 'Upload Files' button.
-        </p>
-        <p>
-          Next, select all files you wish to upload. If there appears a green
-          checkmark, the upload was succesful.
-        </p>
-      </section> -->
-      <!-- <button class="collapsible" @click="toggleCollapsible(2)">
-        What's in these files?
-      </button>
-      <section class="content">
-        <p>
-          If you've correctly exported all files, they should contain your
-          trades, fees, holdings and account statements.
-        </p>
-        <p>
-          These files do not contain any personal data and you can permanently
-          delete all data from Capitalyse anytime you wish to do so.
-        </p>
-        <p>
-          Your data will not be used for any other purpose than to show you your
-          analytics and insights.
-        </p>
-      </section> -->
-    </section>
+    <UploadFilesHelp />
   </section>
 </template>
 
@@ -248,21 +140,27 @@ import CloseIcon from "vue-material-design-icons/Close.vue";
 import { Icon } from "@iconify/vue";
 import CheckMarkIcon from "vue-material-design-icons/CheckDecagram.vue";
 
-import csvToArrayMixin from "../../mixins/helpers/csvToArray.js";
-import includesFromArray from "../../mixins/helpers/includesFromArray.js";
+import csvToArrayMixin from "@/mixins/helpers/csvToArray.js";
+import includesFromArrayMixin from "@/mixins/helpers/includesFromArray.js";
 
-// import Breadcrumbs from "../../components/ui/Breadcrumbs.vue";
-import Header from "../../components/layout/Header.vue";
-import BackButton from "../../components/ui/BackButton.vue";
+// import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
+import Header from "@/components/layout/Header.vue";
+import Card from "@/components/ui/Card.vue";
+import UploadFilesHelp from "./components/UploadFilesHelp.vue";
+import BackButton from "@/components/ui/BackButton.vue";
+import ToggleButton from "@/components/ui/ToggleButton.vue";
 
 export default {
-  mixins: [csvToArrayMixin, includesFromArray],
+  mixins: [csvToArrayMixin, includesFromArrayMixin],
   components: {
     CloseIcon,
     CheckMarkIcon,
     Header,
     // Breadcrumbs,
+    Card,
+    ToggleButton,
     Icon,
+    UploadFilesHelp,
     BackButton,
   },
   data() {
@@ -279,7 +177,6 @@ export default {
       portfolioFileIsEmpty: null,
       portfolioNameIsValidClass: "",
       isLoading: false,
-      isTooltipOpen: false,
       isPortfolioNameInputVisible: false,
       animatedResetIcon: false,
     };
@@ -425,33 +322,6 @@ export default {
         content.style.padding = "1rem";
         content.style.borderBottom = "1px solid var(--clr-medium-light-grey)";
       }
-    },
-    openCollapsible(id) {
-      // open de collapsible in een keer zonder animatie
-      // wordt gebruikt voor de scrollToHelp om op de goede plek
-      // gerecht komt, animatie wordt weer toegevoegd op het eind
-      // na een korte timeout
-      const collapsible = document.querySelectorAll(".collapsible")[id];
-      const content = document.querySelectorAll(".content")[id];
-
-      if (!content.style.maxHeight) {
-        collapsible.classList.toggle("active");
-        content.style.transition = "0s all";
-        content.style.maxHeight = "calc(" + content.scrollHeight + "px + 2rem)";
-        content.style.padding = "1rem";
-        content.style.borderBottom = "1px solid var(--clr-medium-light-grey)";
-
-        setTimeout(() => {
-          content.style.transition = "0.3s all";
-        }, 1000);
-      }
-    },
-    scrollToHelp() {
-      // scrollt naar het eerste help blokje
-      this.openCollapsible(0);
-
-      const help = document.getElementById("exportFromDegiroHelp");
-      help.scrollIntoView({ behavior: "smooth" });
     },
     resetInputStyling() {
       // reset de error of success styling van de inputs
@@ -599,78 +469,8 @@ export default {
 </script>
 
 <style scoped>
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 45px;
-  height: 22px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--clr-medium-light-grey);
-  -webkit-transition: 0.15s ease-in-out;
-  transition: 0.15s ease-in-out;
-}
-
-.slider:hover {
-  background-color: var(--clr-medium-light-grey-2);
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 15px;
-  width: 15px;
-  left: 4px;
-  bottom: 4px;
-  background-color: var(--clr-very-light-blue);
-  -webkit-transition: 0.15s ease-in-out;
-  transition: 0.15s ease-in-out;
-}
-
-input:checked + .slider {
-  background-color: var(--clr-blue);
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(22px);
-  -ms-transform: translateX(22px);
-  transform: translateX(22px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 200px;
-}
-
-.slider.round:before {
-  border-radius: 200px;
-}
-
 .titleAndBackButtonContainer {
   margin-bottom: 2rem;
-}
-
-.addPortfolioHelp {
-  margin-top: 4rem;
-}
-
-.addPortfolioHelp h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-  font-size: 1.25rem;
 }
 
 .collapsible {
@@ -685,7 +485,6 @@ input:checked + .slider:before {
   outline: none;
   font-size: 1rem;
 }
-
 
 .active {
   border-radius: 0.6rem 0.6rem 0rem 0rem;
@@ -737,59 +536,6 @@ input:checked + .slider:before {
   font-size: 0.9rem;
 }
 
-.contentTitle {
-  margin-bottom: 0.4rem;
-  font-size: 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.contentTitle:last-of-type {
-  margin-top: 2rem;
-}
-.contentTitleThin {
-  background-color: rgba(0, 128, 0, 0.1);
-  padding: 0.2rem;
-  padding-left: 0.4rem;
-  padding-right: 0.4rem;
-  border-radius: 5px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  color: var(--clr-green);
-  display: inline-flex;
-  gap: 0.3rem;
-  justify-content: center;
-  align-items: center;
-}
-.contentTitleThinWorseMethod {
-  background-color: rgba(207, 167, 9, 0.1);
-  padding: 0.2rem;
-  padding-left: 0.4rem;
-  padding-right: 0.4rem;
-  border-radius: 5px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  color: orange;
-  display: inline-flex;
-  gap: 0.3rem;
-  justify-content: center;
-  align-items: center;
-}
-
-.content p {
-  color: var(--clr-dark-grey);
-  margin-bottom: 1rem;
-  font-size: 0.875rem;
-  line-height: 1.15rem;
-}
-.content p:nth-last-child(1) {
-  margin-bottom: 0;
-}
-
-a {
-  color: #00a8ff;
-}
-
 .uploadFilesTitle {
   margin: 0;
 }
@@ -835,13 +581,8 @@ h1 {
   align-items: center;
 }
 
-.formCard {
-  width: 100%;
+.wrapper {
   padding: 1.25rem;
-  background-color: var(--clr-very-light-blue);
-  box-shadow: var(--box-shadow-big);
-  border-radius: var(--card-border-radius);
-  border: 1px solid var(--clr-light-grey);
 }
 
 .fileValid {
@@ -1087,7 +828,7 @@ input[type="submit"] {
 }
 
 @media screen and (min-width: 768px) {
-  .formCard {
+  .wrapper {
     padding: 1.75rem;
   }
 }
@@ -1099,22 +840,14 @@ input[type="submit"] {
 }
 
 @media screen and (min-width: 650px) {
-  .cardsContainer {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .container {
     max-width: 90%;
   }
 }
 
-@media screen and (min-width: 1050px) {
-  .cardsContainer {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-
+@media screen and (min-width: 1150px) {
   .container {
-    max-width: 1000px;
+    max-width: 1100px;
   }
 }
 </style>

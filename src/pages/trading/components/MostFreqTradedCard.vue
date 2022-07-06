@@ -17,11 +17,10 @@
 <script>
 import ResultCard from "@/components/dashboard/ResultCard.vue";
 
-import capitalizeEachWord from "@/mixins/helpers/capitalizeEachWord.js";
 import getMostFrequentlyTraded from "@/mixins/analytics/getMostFrequentlyTraded.js";
 
 export default {
-  mixins: [getMostFrequentlyTraded, capitalizeEachWord],
+  mixins: [getMostFrequentlyTraded],
   components: {
     ResultCard,
   },
@@ -38,6 +37,9 @@ export default {
   },
   watch: {
     isThereData() {
+      this.loadData();
+    },
+    $route() {
       this.loadData();
     },
   },

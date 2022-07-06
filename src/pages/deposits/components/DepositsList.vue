@@ -1,71 +1,69 @@
 <template>
-  <div>
-    <section class="tablecontainer">
-      <section class="tablecontainerHeading">
-        <h2 class="tableTitle">
-          Deposits & withdrawals
-          <span class="amountOfDeposits">- {{ amountOfDeposits }}</span>
-        </h2>
-        <section class="tableContainerHeading__dropdown">
-          <select
-            name="sortDeposits"
-            id="sortDeposits"
-            class="tableSelect"
-            v-model="selectedSortType"
-          >
-            <option value="dateNewToOld">Date (new-old)</option>
-            <option value="dateOldToNew">Date (old-new)</option>
-            <option value="amountHighToLow">Amount (high-low)</option>
-            <option value="amountLowToHigh">Amount (low-high)</option>
-            <option value="typeDeposit">Deposits only</option>
-            <option value="typeWithdrawal">Withdrawals only</option>
-          </select>
-        </section>
-      </section>
-      <section class="depositsTableWrapper">
-        <table class="depositsTable">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Type</th>
-              <th class="number">Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr :key="deposit.id" v-for="deposit in deposits">
-              <DepositsListItem :deposit="deposit" />
-            </tr>
-            <tr v-if="deposits.length < 1 && !isLoading">
-              <td class="noDeposits" colspan="3">
-                <p>No results</p>
-              </td>
-            </tr>
-
-    
-            <tr v-if="isLoading">
-              <td colspan="3" class="loading">
-                  <Spinner class="spinner"/>
-              </td>
-          </tr>
-          </tbody>
-        </table>
+  <Card>
+    <section class="tablecontainerHeading">
+      <h2 class="tableTitle">
+        Deposits & withdrawals
+        <span class="amountOfDeposits">- {{ amountOfDeposits }}</span>
+      </h2>
+      <section class="tableContainerHeading__dropdown">
+        <select
+          name="sortDeposits"
+          id="sortDeposits"
+          class="tableSelect"
+          v-model="selectedSortType"
+        >
+          <option value="dateNewToOld">Date (new-old)</option>
+          <option value="dateOldToNew">Date (old-new)</option>
+          <option value="amountHighToLow">Amount (high-low)</option>
+          <option value="amountLowToHigh">Amount (low-high)</option>
+          <option value="typeDeposit">Deposits only</option>
+          <option value="typeWithdrawal">Withdrawals only</option>
+        </select>
       </section>
     </section>
-  </div>
+    <section class="depositsTableWrapper">
+      <table class="depositsTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th class="number">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr :key="deposit.id" v-for="deposit in deposits">
+            <DepositsListItem :deposit="deposit" />
+          </tr>
+          <tr v-if="deposits.length < 1 && !isLoading">
+            <td class="noDeposits" colspan="3">
+              <p>No results</p>
+            </td>
+          </tr>
+
+          <tr v-if="isLoading">
+            <td colspan="3" class="loading">
+              <Spinner class="spinner" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </Card>
 </template>
 <script>
 import cleanNumberMixin from "@/mixins/helpers/cleanNumber";
 import includesFromArrayMixin from "@/mixins/helpers/includesFromArray";
-import splitDateMixin from "@/mixins/helpers/splitDate";
 
 import DepositsListItem from "./DepositsListItem";
 import Spinner from "@/components/ui/Spinner.vue";
+import Card from "@/components/ui/Card.vue";
 
 export default {
-  mixins: [cleanNumberMixin, includesFromArrayMixin, splitDateMixin],
+  mixins: [cleanNumberMixin, includesFromArrayMixin],
   components: {
     DepositsListItem,
-    Spinner
+    Spinner,
+    Card,
   },
   data() {
     return {
@@ -77,6 +75,9 @@ export default {
   },
   watch: {
     isThereData() {
+      this.loadData();
+    },
+    $route() {
       this.loadData();
     },
     selectedSortType() {
@@ -256,13 +257,6 @@ select:hover {
   text-align: right;
 }
 
-.tablecontainer {
-  background-color: var(--clr-very-light-blue);
-  border-radius: var(--card-border-radius);
-  box-shadow: var(--box-shadow-big);
-  border: 1px solid var(--clr-light-grey);
-}
-
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -316,7 +310,6 @@ tr:nth-last-child(1) {
 }
 
 @media screen and (max-width: 650px) {
-
   th {
     padding: 1.5rem;
   }

@@ -50,11 +50,9 @@
       </section>
     </section>
 
-    <section class="depositChartWrapper">
+    <Card class="depositChartWrapper">
       <section class="depositChartHeading">
-        <h2>
-          Deposits
-        </h2>
+        <h2>Deposits</h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
             <span class="chartResultValue"> €{{ totalDeposits }} </span>
@@ -71,27 +69,22 @@
           <spinner />
         </section>
       </section>
-    </section>
+    </Card>
   </section>
 </template>
 <script>
 import LineChart from "@/components/ui/LineChart.vue";
+import Card from "@/components/ui/Card.vue";
 
 import getChartDepositsMixin from "@/mixins/analytics/getChartDeposits";
-
-import cleanNumberMixin from "@/mixins/helpers/cleanNumber";
-import includesFromArrayMixin from "@/mixins/helpers/includesFromArray";
-import splitDateMixin from "@/mixins/helpers/splitDate";
 
 export default {
   mixins: [
     getChartDepositsMixin,
-    cleanNumberMixin,
-    includesFromArrayMixin,
-    splitDateMixin,
   ],
   components: {
     LineChart,
+    Card,
   },
   data() {
     return {
@@ -159,6 +152,9 @@ export default {
     isThereData() {
       this.loadData();
     },
+    $route() {
+      this.loadData();
+    }
   },
   methods: {
     setTheme() {
@@ -194,8 +190,7 @@ export default {
         this.chartData.labels = [];
         this.chartData.datasets[0].data = [];
 
-        this.chartErrorMsg =
-          "No deposits yet.";
+        this.chartErrorMsg = "No deposits yet.";
       } else {
         this.chartErrorMsg = null;
         this.chartData.labels = chartDeposits.labels;
@@ -264,10 +259,6 @@ h2 {
 .depositChartWrapper {
   padding: 1.75rem;
   padding-bottom: 0rem;
-  background-color: var(--clr-very-light-blue);
-  border-radius: var(--card-border-radius);
-  box-shadow: var(--box-shadow-big);
-  border: 1px solid var(--clr-light-grey);
 }
 
 .depositChartContainer {

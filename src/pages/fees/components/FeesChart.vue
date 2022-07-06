@@ -159,6 +159,9 @@ export default {
     isThereData() {
       this.loadData();
     },
+    $route() {
+      this.loadData();
+    },
   },
   methods: {
     setTheme() {
