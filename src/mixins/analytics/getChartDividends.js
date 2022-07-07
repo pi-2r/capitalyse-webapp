@@ -49,6 +49,7 @@ export default {
         this.addMissingMonthsToChart();
         // this.convertLabelsToWords();
 
+
         return {
           labels: this.labelsHolder,
           data: this.dataHolder,
@@ -62,25 +63,61 @@ export default {
     getDividendsFromData(data) {
       const dateIndex = this.indexes.dateIndex;
       const searchIndex = this.indexes.searchIndex;
+      const isinIndex = this.indexes.isinIndex;
       const currencyIndex = this.indexes.currencyIndex;
       const productIndex = this.indexes.productIndex;
       const dividendIndex = this.indexes.dividendIndex;
       const dividendNamesEUR = this.dividendNamesEUR;
       const currencyNames = this.currencyNames;
 
+
       this.dividendsArray = [];
       this.dataHolder = [];
       this.labelsHolder = [];
 
       for (let i = 0; i < data.length - 1; i++) {
-        const validDividend =
+
+        const validDividendEUR =
           (this.includesFromArray(dividendNamesEUR, data[i][searchIndex]) &&
-            data[i][currencyIndex] === this.names.eur) ||
+            data[i][currencyIndex] === this.names.eur)
+
+        let validDividendOther = false;
+        const foundDividendNotEur =
           (this.includesFromArray(currencyNames, data[i][searchIndex]) &&
             data[i][currencyIndex] === this.names.eur &&
             data[i][productIndex] === "");
+        
+        let currentDividendName = "";
 
-        if (validDividend) {
+        // als ie een dividend heeft gevonden die niet in EUR is
+        if (foundDividendNotEur) {
+          // ga door op huidige index + 1
+          for (let j = i; j < data.length; j++) {
+            if (data[j][dateIndex] !== '') {
+              // als de row een dividend is
+              if (this.includesFromArray(dividendNamesEUR, data[j][searchIndex])) {
+                // dividend van de debit row, maakt het ook positief
+                const otherDividendAmount = (this.cleanNumber(data[i + 1][dividendIndex])) * -1;
+
+                // speling omdat het soms net iets meer of minder is, waarom weet ik niet
+                if (otherDividendAmount + 0.02 > this.cleanNumber(data[j][10]) &&
+                  otherDividendAmount - 0.02 < this.cleanNumber(data[j][10])) {
+                  // als ie een andere dividend heeft gevonden gebruik je j index
+                  currentDividendName = data[j][isinIndex];
+
+                  validDividendOther = true;
+                  break;
+                }
+              }
+            }
+          }
+        }
+
+        // als ie een dividend heeft gevonden die in EUR is gebruik de i index
+        // currentDividendName wordt alleen gevuld bij een andere dividend, daarom werkt deze check
+        currentDividendName === '' ? currentDividendName = data[i][isinIndex] : null;
+
+        if (validDividendEUR || validDividendOther) {
           let alreadyExists = false;
           let date = data[i][dateIndex].slice(3, 10);
 
@@ -89,6 +126,7 @@ export default {
           // first time
           if (this.dividendsArray.length === 0) {
             this.dividendsArray.push({
+              isin: currentDividendName,
               date: date,
               divAmt: divAmt,
             });
@@ -228,7 +266,6 @@ export default {
       // convert labels to words
       for (let i = 0; i < this.labelsHolder.length; i++) {
         let date = this.labelsHolder[i].split("-");
-        console.log(date);
         if (date[0] === '1') {
           this.labelsHolder[i] = date[1];
         } else {

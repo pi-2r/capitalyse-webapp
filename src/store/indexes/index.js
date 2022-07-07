@@ -8,6 +8,7 @@ export default {
                 dividendChart: {
                     searchIndex: 5,
                     dateIndex: 0,
+                    isinIndex: 4,
                     dividendIndex: 8,
                     currencyIndex: 7,
                     productIndex: 3,
