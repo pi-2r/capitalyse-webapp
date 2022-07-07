@@ -87,6 +87,7 @@ export default {
             data[i][currencyIndex] === this.names.eur &&
             data[i][productIndex] === "");
         
+        let currentDividendIsin = "";
         let currentDividendName = "";
 
         // als ie een dividend heeft gevonden die niet in EUR is
@@ -103,7 +104,8 @@ export default {
                 if (otherDividendAmount + 0.02 > this.cleanNumber(data[j][10]) &&
                   otherDividendAmount - 0.02 < this.cleanNumber(data[j][10])) {
                   // als ie een andere dividend heeft gevonden gebruik je j index
-                  currentDividendName = data[j][isinIndex];
+                  currentDividendIsin = data[j][isinIndex];
+                  currentDividendName = data[j][productIndex];
 
                   validDividendOther = true;
                   break;
@@ -115,7 +117,8 @@ export default {
 
         // als ie een dividend heeft gevonden die in EUR is gebruik de i index
         // currentDividendName wordt alleen gevuld bij een andere dividend, daarom werkt deze check
-        currentDividendName === '' ? currentDividendName = data[i][isinIndex] : null;
+        currentDividendName === '' ? currentDividendName = data[i][productIndex] : null;
+        currentDividendIsin === '' ? currentDividendIsin = data[i][isinIndex] : null;
 
         if (validDividendEUR || validDividendOther) {
           let alreadyExists = false;
@@ -123,10 +126,11 @@ export default {
 
           let divAmt = this.cleanNumber(data[i][dividendIndex]);
 
+          console.log(currentDividendName, currentDividendIsin, divAmt);
+
           // first time
           if (this.dividendsArray.length === 0) {
             this.dividendsArray.push({
-              isin: currentDividendName,
               date: date,
               divAmt: divAmt,
             });
