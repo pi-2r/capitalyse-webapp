@@ -45,8 +45,6 @@
         >
           {{ timeFrameOptions.fiveYears }}
         </button>
-        <!-- <button class="timeFrame__btn" id="js--timeFrame__btn--pastThreeYears">3 Years</button>
-                <button class="timeFrame__btn" id="js--timeFrame__btn--pastFiveYears">5 Years</button> -->
       </section>
     </section>
 
@@ -70,22 +68,28 @@
         </section>
       </section>
     </Card>
+
+    <!-- <section class="dividendChartBtns" v-if="!chartErrorMsg && !isLoading">
+      <CardButtonArrow class="goToDividendsPageBtn">
+        View Dividends
+      </CardButtonArrow>
+    </section> -->
   </section>
 </template>
 
 <script>
 import BarChart from "@/components/ui/BarChart.vue";
 import Card from "@/components/ui/Card.vue";
+// import CardButtonArrow from "@/components/ui/CardButtonArrow.vue";
 
 import getChartDividendsMixin from "@/mixins/analytics/getChartDividends";
 
 export default {
-  mixins: [
-    getChartDividendsMixin,
-  ],
+  mixins: [getChartDividendsMixin],
   components: {
     BarChart,
     Card,
+    // CardButtonArrow,
   },
   props: {
     hideTimeFrameBtns: {
@@ -155,7 +159,7 @@ export default {
     },
     $route() {
       this.loadData();
-    }
+    },
   },
   methods: {
     setTheme() {
@@ -242,6 +246,26 @@ export default {
 </script>
 
 <style scoped>
+.dividendChartHeadingContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+.timeFrame {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dividendChartBtns {
+  display: flex;
+  width: 100%;
+}
+.goToDividendsPageBtn {
+  margin-top: 0.5rem;
+  width: 15rem;
+}
+
 h2 {
   color: var(--clr-grey);
 }
@@ -270,7 +294,7 @@ h2 {
 }
 
 .dividendChartHeading {
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

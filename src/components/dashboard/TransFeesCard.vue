@@ -12,7 +12,7 @@
     title="Transaction fees"
     :resultValue="totTransFees"
     :to="'/dashboard/' + portfolioId + '/fees'"
-    btnText="Fees & Costs"
+    btnText="View Fees"
     :withBtn="true"
   />
 </template>

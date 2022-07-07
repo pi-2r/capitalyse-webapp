@@ -12,7 +12,7 @@
     title="Total trading volume"
     :resultValue="totTradingVol"
     :to="'/dashboard/' + portfolioId + '/trading'"
-    btnText="Trading details"
+    btnText="View Trades"
     :withBtn="true"
   />
 </template>

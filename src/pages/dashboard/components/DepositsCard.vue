@@ -12,7 +12,7 @@
     title="Total deposits"
     :resultValue="totDeposits"
     :to="'/dashboard/' + portfolioId + '/deposits'"
-    btnText="Deposits & Withdrawals"
+    btnText="View Deposits"
     :withBtn="true"
   />
 </template>

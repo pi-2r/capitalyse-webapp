@@ -107,7 +107,6 @@ export default {
   methods: {
     setTheme() {
       const theme = localStorage.getItem("theme");
-      console.log(theme);
       if (theme === "dark") {
         this.currenciesChartData.datasets[0].borderColor = "rgb(45, 45, 45)";
         this.holdingsChartData.datasets[0].borderColor = "rgb(45, 45, 45)";

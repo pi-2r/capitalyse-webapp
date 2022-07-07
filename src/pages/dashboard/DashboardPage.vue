@@ -48,6 +48,7 @@
       <HoldingsPieChartCards />
     </section>
 
+
     <section class="cardsContainer">
       <DepositsCard :isDemo="isDemo" />
       <TransFeesCard :isDemo="isDemo" />

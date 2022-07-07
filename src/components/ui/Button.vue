@@ -71,7 +71,6 @@ button:hover {
 }
 
 .card:hover {
-    box-shadow: none;
     cursor: pointer;
 }
 
@@ -82,10 +81,6 @@ button:hover {
     box-shadow: none;
     border: 1px solid var(--clr-medium-light-grey);
     box-shadow: var(--btn-shadow);
-    background-color: transparent;
-}
-
-.link:hover {
     background-color: var(--clr-very-light-blue);
 }
 
