@@ -43,19 +43,14 @@ export default {
     getChartDividends(data) {
 
       this.getDividendsFromData(data);
-      console.log(this.dividendsArray);
-
 
       if (this.dividendsArray.length > 0) {
         this.sortDividendsByDate();
         this.addMissingMonthsToChart();
         // this.convertLabelsToWords();
+        this.turnIntoChartData();
 
-
-        return {
-          labels: this.labelsHolder,
-          data: this.dataHolder,
-        }
+        return this.dividendsArray;
 
       } else {
         return false;
@@ -76,15 +71,13 @@ export default {
       this.dividendsArray = [];
       this.dataHolder = [];
       this.labelsHolder = [];
-      console.log(data);
 
       for (let i = 0; i < data.length - 1; i++) {
-       
 
         const validDividendEUR =
           (this.includesFromArray(dividendNamesEUR, data[i][searchIndex]) &&
             data[i][currencyIndex] === this.names.eur)
-            
+
         let validDividendOther = false;
         const foundDividendNotEur =
           (this.includesFromArray(currencyNames, data[i][searchIndex]) &&
@@ -93,6 +86,7 @@ export default {
 
         let currentDividendIsin = "";
         let currentDividendName = "";
+        let currentDividendDate = "";
 
         // als ie een dividend heeft gevonden die niet in EUR is
         if (foundDividendNotEur) {
@@ -110,6 +104,12 @@ export default {
                   // als ie een andere dividend heeft gevonden gebruik je j index
                   currentDividendIsin = data[j][isinIndex];
                   currentDividendName = data[j][productIndex];
+                  currentDividendDate = data[j][dateIndex];
+
+                  // if currentDividendDate has a day, remove it
+                  if (currentDividendDate.includes('-')) {
+                    currentDividendDate = currentDividendDate.split('-')[1] + '-' + currentDividendDate.split('-')[2];
+                  }
 
                   validDividendOther = true;
                   break;
@@ -124,15 +124,14 @@ export default {
         currentDividendName === '' ? currentDividendName = data[i][productIndex] : null;
         currentDividendIsin === '' ? currentDividendIsin = data[i][isinIndex] : null;
         if (validDividendEUR || validDividendOther) {
-          console.log(data[i], i);
           let isinAlreadyExists = false;
           let isinDateAlreadyExists = false;
           let date = data[i][dateIndex].slice(3, 10);
+          currentDividendDate === '' ? date = data[i][dateIndex].slice(3, 10) : date = currentDividendDate;
 
           let divAmt = this.cleanNumber(data[i][dividendIndex]);
-          divAmt = divAmt.toFixed(2);
+          divAmt = parseFloat(divAmt.toFixed(2));
 
-          console.log(currentDividendName, currentDividendIsin, divAmt, date);
 
           // first time
           if (this.dividendsArray.length === 0) {
@@ -170,7 +169,7 @@ export default {
               });
             } else if (!isinDateAlreadyExists) {
               // if date doesnt already exists, add new to existing isin
-              for(let j = 0; j < this.dividendsArray.length; j++) {
+              for (let j = 0; j < this.dividendsArray.length; j++) {
                 if (this.dividendsArray[j].isin === currentDividendIsin) {
                   this.dividendsArray[j].dividend.push({
                     date: date,
@@ -184,115 +183,168 @@ export default {
       }
     },
     sortDividendsByDate() {
-      // sort array by date if exists
-      this.dividendsArray
-        ? this.dividendsArray.sort((a, b) => {
-          return new Date(b.date) - new Date(a.date);
-        })
-        : null;
+      // dit is om de dividend per elke isin te sorteren op datum
+      for (let i = 0; i < this.dividendsArray.length; i++) {
+        this.dividendsArray[i].dividend.sort((a, b) => {
+          // maakt van de string datums een date object
+          let newADate = a.date.split('-');
+          newADate[0] = parseInt(newADate[0]);
+          newADate[1] = parseInt(newADate[1]);
+          newADate = new Date(newADate[1] - 1, newADate[0]);
 
-      let firstDate = this.dividendsArray[0].date.split("-");
-      let lastDate =
-        this.dividendsArray[this.dividendsArray.length - 1].date.split("-");
-      let newFirstDate = new Date(lastDate[1], lastDate[0] - 1);
-      let newLastDate = new Date(firstDate[1], firstDate[0]);
+          let newBDate = b.date.split('-');
+          newBDate[0] = parseInt(newBDate[0]);
+          newBDate[1] = parseInt(newBDate[1]);
+          newBDate = new Date(newBDate[1] - 1, newBDate[0]);
 
-      // create array from first date to last date
-      let dateArray = [];
-      while (newFirstDate < newLastDate) {
-        dateArray.push(newFirstDate.toLocaleDateString());
-        newFirstDate.setMonth(newFirstDate.getMonth() + 1);
-      }
-
-      this.dividendsArray.reverse();
-      // fill chart
-      for (let i = 0; i < dateArray.length; i++) {
-        let date = dateArray[i];
-        let found = false;
-
-        // find date in dividendsArray, if found add to chart
-        for (let x = 0; x < this.dividendsArray.length; x++) {
-          let dateFromArray = this.splitDate(this.dividendsArray[x].date);
-          let newDateFromArray = new Date(
-            dateFromArray[1],
-            dateFromArray[0] - 1
-          ).toLocaleDateString();
-
-          if (date === newDateFromArray) {
-            found = true;
-            let dividend = this.dividendsArray[x].divAmt;
-            this.dataHolder.push(dividend);
-          }
-        }
-
-        // if not found push 0 aka null
-        if (!found) {
-          this.dataHolder.push(null);
-        }
-
-        // date to month and year only
-        date = this.splitDate(date);
-
-        // if american notation
-        if (
-          this.splitDate(dateArray[1])[0] !== this.splitDate(dateArray[0])[0]
-        ) {
-          date = date[0] + "-" + date[2];
-        } else {
-          // if normal notation
-          date = date[1] + "-" + date[2];
-        }
-
-        this.labelsHolder.push(date);
+          return newADate - newBDate;
+        });
       }
     },
     addMissingMonthsToChart() {
-      // add potentially missing months untill current month
-      let currentMonth =
-        new Date().getMonth() + 1 + "-" + new Date().getFullYear();
-      if (!this.includesFromArray(this.labelsHolder, currentMonth)) {
-        let lastMonthInChart = this.labelsHolder[this.labelsHolder.length - 1];
-        let lastMonth = this.splitDate(lastMonthInChart);
-        let newLastMonth = new Date(lastMonth[1], lastMonth[0]);
-        let newCurrentMonth = new Date(
-          currentMonth.split("-")[1],
-          currentMonth.split("-")[0] - 1
-        );
-        let firstiteration = true;
+      let oldestDate = new Date();
+      let oldestDateString = '';
 
-        while (newLastMonth <= newCurrentMonth) {
-          firstiteration
-            ? (newLastMonth = new Date(
-              newLastMonth.getFullYear(),
-              newLastMonth.getMonth() + 1
-            ))
-            : null;
-          firstiteration = false;
+      for (let i = 0; i < this.dividendsArray.length; i++) {
+        for (let j = 0; j < this.dividendsArray[i].dividend.length; j++) {
+          let date = this.dividendsArray[i].dividend[j].date;
+          date = date.split('-');
+          date[0] = parseInt(date[0]);
+          date[1] = parseInt(date[1]);
+          let dateObject = new Date(date[1], date[0] - 1);
 
-          let pushedMonth = newLastMonth.getMonth();
-          let pushedYear = newLastMonth.getFullYear();
 
-          if (pushedMonth === 0) {
-            pushedMonth = 12;
-            pushedYear = pushedYear - 1;
+          if (dateObject < oldestDate) {
+            oldestDate = dateObject;
+            oldestDateString = this.dividendsArray[i].dividend[j].date;
           }
 
-          let pushedDate = pushedMonth + "-" + pushedYear;
-          this.labelsHolder.push(pushedDate);
-          newLastMonth.setMonth(newLastMonth.getMonth() + 1);
         }
-        this.labelsHolder.push(currentMonth);
+      }
+
+      // add missing months in between the dividend dates
+      for (let i = 0; i < this.dividendsArray.length; i++) {
+        if (this.dividendsArray[i].dividend[0].date !== oldestDateString)
+          this.dividendsArray[i].dividend.unshift({
+            date: oldestDateString,
+            amount: 0,
+          })
+
+        for (let j = 0; j < this.dividendsArray[i].dividend.length - 1; j++) {
+          let date = this.dividendsArray[i].dividend[j].date.split('-');
+          date[0] = parseInt(date[0]);
+          date[1] = parseInt(date[1]);
+          date = new Date(date[1], date[0] - 1);
+
+          let datePlusOneMonth = new Date(date.getFullYear(), date.getMonth() + 1);
+
+          let nextDate = this.dividendsArray[i].dividend[j + 1].date.split('-');
+          nextDate[0] = parseInt(nextDate[0]);
+          nextDate[1] = parseInt(nextDate[1]);
+          nextDate = new Date(nextDate[1], nextDate[0] - 1);
+
+          let datePlusOneMonthString = (datePlusOneMonth.getMonth() + 1) + '-' + datePlusOneMonth.getFullYear();
+          if ((datePlusOneMonth.getMonth() + 1) < 10) {
+            datePlusOneMonthString = '0' + datePlusOneMonthString;
+          }
+
+          if (nextDate > datePlusOneMonth) {
+            this.dividendsArray[i].dividend.splice(j + 1, 0, {
+              date: datePlusOneMonthString,
+              amount: 0,
+            });
+          }
+
+        }
+
+        let dateList = [];
+
+        for (let j = 0; j < this.dividendsArray[i].dividend.length; j++) {
+          let date = this.dividendsArray[i].dividend[j].date;
+          dateList.push(date);
+        }
+
+        // add potentially missing months untill current month
+        let currentMonth =
+          new Date().getMonth() + 1 + "-" + new Date().getFullYear();
+
+        if (parseFloat(currentMonth.split('-')[0]) < 10) {
+          currentMonth = '0' + currentMonth;
+        }
+
+        if (!this.includesFromArray(dateList, currentMonth)) {
+          let lastMonthInChart = dateList[dateList.length - 1];
+          let lastMonth = this.splitDate(lastMonthInChart);
+          let newLastMonth = new Date(lastMonth[1], lastMonth[0]);
+          let newCurrentMonth = new Date(
+            currentMonth.split("-")[1],
+            currentMonth.split("-")[0] - 1
+          );
+          let firstiteration = true;
+
+          while (newLastMonth <= newCurrentMonth) {
+            firstiteration
+              ? (newLastMonth = new Date(
+                newLastMonth.getFullYear(),
+                newLastMonth.getMonth() + 1
+              ))
+              : null;
+            firstiteration = false;
+
+            let pushedMonth = newLastMonth.getMonth();
+            let pushedYear = newLastMonth.getFullYear();
+
+            if (pushedMonth === 0) {
+              pushedMonth = 12;
+              pushedYear = pushedYear - 1;
+            }
+
+            let pushedDate = pushedMonth + "-" + pushedYear;
+            if (pushedMonth < 10) {
+              pushedDate = "0" + pushedDate;
+            }
+
+            this.dividendsArray[i].dividend.push({
+              date: pushedDate,
+              amount: 0,
+            });
+            newLastMonth.setMonth(newLastMonth.getMonth() + 1);
+          }
+
+
+          this.dividendsArray[i].dividend.push({
+            date: currentMonth,
+            amount: 0,
+          });
+        }
       }
 
       // remove duplicate last and second last bug
       this.removeDuplicateBug();
     },
     removeDuplicateBug() {
-      if (
-        this.labelsHolder[this.labelsHolder.length - 1] ===
-        this.labelsHolder[this.labelsHolder.length - 2]
-      ) {
-        this.labelsHolder.pop();
+      for (let i = 0; i < this.dividendsArray.length; i++) {
+        if (
+          this.dividendsArray[i].dividend[this.dividendsArray[i].dividend.length - 1].date ===
+          this.dividendsArray[i].dividend[this.dividendsArray[i].dividend.length - 2].date
+        ) {
+          this.dividendsArray[i].dividend.pop();
+        }
+      }
+    },
+    turnIntoChartData() {
+      for (let i = 0; i < this.dividendsArray.length; i++) {
+        this.dividendsArray[i].dividendsList = [];
+        this.dividendsArray[i].datesList = [];
+
+        for (let j = 0; j < this.dividendsArray[i].dividend.length; j++) {
+          this.dividendsArray[i].dividendsList.push(
+            this.dividendsArray[i].dividend[j].amount
+          );
+          this.dividendsArray[i].datesList.push(
+            this.dividendsArray[i].dividend[j].date
+          );
+        }
       }
     },
     convertLabelsToWords() {
@@ -309,21 +361,18 @@ export default {
     setYearToDate() {
       // delete all months before this year
       let currentYear = new Date().getFullYear();
-      for (let i = 0; i < this.labelsHolder.length; i++) {
-        let label = this.labelsHolder[i];
-        let labelYear = label.split("-")[1];
-        if (labelYear < currentYear) {
-          this.labelsHolder.splice(i, 1);
-          this.dataHolder.splice(i, 1);
-          i--;
-        }
-      }
-      // delete all dividends before this year
+
       for (let i = 0; i < this.dividendsArray.length; i++) {
-        let dividendYear = this.dividendsArray[i].date.split("-")[1];
-        if (dividendYear < currentYear) {
-          this.dividendsArray.splice(i, 1);
-          i--;
+        for (let j = 0; j < this.dividendsArray[i].dividend.length; j++) {
+          let dividendYear = parseFloat(this.dividendsArray[i].dividend[j].date.split("-")[1]);
+
+          if (dividendYear < currentYear) {
+            this.dividendsArray[i].dividend.splice(j, 1);
+            this.dividendsArray[i].datesList.splice(j, 1);
+            this.dividendsArray[i].dividendsList.splice(j, 1);
+            j--;
+          }
+
         }
       }
     },
@@ -334,28 +383,20 @@ export default {
       let yearAgo = new Date(currentYear - years, currentMonth);
 
       // delete all months before yearAgo
-      for (let i = 0; i < this.labelsHolder.length; i++) {
-        let label = this.labelsHolder[i];
-        let labelYear = label.split("-")[1];
-        let labelMonth = label.split("-")[0];
-        let labelDate = new Date(labelYear, labelMonth - 1);
-
-        if (labelDate < yearAgo || labelDate < yearAgo + 1) {
-          this.labelsHolder.splice(i, 1);
-          this.dataHolder.splice(i, 1);
-          i--;
-        }
-      }
-
-      // delete all dividends of more than one year ago
       for (let i = 0; i < this.dividendsArray.length; i++) {
-        let dividendYear = this.dividendsArray[i].date.split("-")[1];
-        let dividendMonth = this.dividendsArray[i].date.split("-")[0];
-        let dividendDate = new Date(dividendYear, dividendMonth - 1);
 
-        if (dividendDate < yearAgo || dividendDate < yearAgo + 1) {
-          this.dividendsArray.splice(i, 1);
-          i--;
+        for (let j = 0; j < this.dividendsArray[i].dividend.length; j++) {
+          let dividendYear = this.dividendsArray[i].dividend[j].date;
+          let labelYear = parseFloat(dividendYear.split("-")[1]);
+          let labelMonth = parseFloat(dividendYear.split("-")[0]);
+          let labelDate = new Date(labelYear, labelMonth - 1);
+
+          if (labelDate < yearAgo || labelDate < yearAgo + 1) {
+            this.dividendsArray[i].dividend.splice(j, 1);
+            this.dividendsArray[i].datesList.splice(j, 1);
+            this.dividendsArray[i].dividendsList.splice(j, 1);
+            j--;
+          }
         }
       }
     }

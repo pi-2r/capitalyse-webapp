@@ -114,21 +114,7 @@ export default {
       },
       chartData: {
         labels: [],
-        datasets: [
-          {
-            label: "Dividends Received",
-            backgroundColor: "#e1f1fb",
-            borderWidth: 0,
-            borderRadius: 5,
-            borderSkipped: "bottom",
-            borderColor: "#0091ff",
-            hoverBorderWidth: 1,
-            borderDash: [10, 5],
-            barPercentage: "0.7",
-            hoverBorderColor: "#0091ff",
-            data: [],
-          },
-        ],
+        datasets: [],
       },
     };
   },
@@ -137,17 +123,15 @@ export default {
       return this.$store.getters["files/getCurrentPortfolio"];
     },
     totalDividends() {
-      // bereken de totale dividenden van dit timeframe
       let total = 0;
-      for (let i = 0; i < this.dividendsArray.length; i++) {
-        total += this.dividendsArray[i].divAmt;
+      for(let i = 0; i < this.dividendsArray.length; i++) {
+        let dividendsList = this.dividendsArray[i].dividend;
+        // add all the dividends together
+        for(let j = 0; j < dividendsList.length; j++) {
+          total += dividendsList[j].amount;
+        }
       }
-      total = total.toFixed(2);
-      total = parseFloat(total).toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
-      return total;
+      return total.toFixed(2);
     },
     isThereData() {
       return !!this.currentPortfolio.accountFile;
@@ -174,6 +158,38 @@ export default {
         this.chartData.datasets[0].hoverBorderColor = "#007cda";
       }
     },
+    setColors(holdingsData) {
+      // sets as many colors as there are holdings
+      const colors = [
+        "#205aab",
+        "#1875c7",
+        "#4083b5",
+        "#4092b5",
+        "#40a5b5",
+        "#4069b5",
+        "#40a7b5",
+        "#6ea0c4",
+      ];
+      let holdingsList = [];
+      for (let i = 0; i < holdingsData.datasets.length; i++) {
+        // sum object
+        const sum = holdingsData.datasets[i].data.reduce((a, b) => a + b, 0);
+        const isin = holdingsData.datasets[i].isin;
+        holdingsList.push({
+          index: i,
+          sum: sum,
+          isin: isin,
+        });
+      }
+
+      // sort holdingsList by sum
+      holdingsList.sort((a, b) => b.sum - a.sum);
+
+      for (let i = 0; i < holdingsList.length; i++) {
+        holdingsData.datasets[holdingsList[i].index].backgroundColor =
+          colors[i];
+      }
+    },
     loadData() {
       if (this.isThereData) {
         this.getDividends();
@@ -191,10 +207,14 @@ export default {
       this.timeFrameDataUpdate();
     },
     getDividends() {
+      this.dividendsArray = [];
+      this.chartData.datasets = [];
+      
       // haal dividends op van de Mixin
       const chartDividends = this.getChartDividends(
         this.currentPortfolio.accountFile
       );
+
       // als er geen dividends zijn, geef een error message
       // als er wel dividends zijn, maak een array aan met de labels en data
       if (chartDividends === false) {
@@ -204,9 +224,29 @@ export default {
         this.chartErrorMsg = "No dividends received yet.";
       } else {
         this.chartErrorMsg = null;
-        this.chartData.labels = chartDividends.labels;
-        this.chartData.datasets[0].data = chartDividends.data;
+        this.dividendsArray = chartDividends;
+        this.chartData.labels = this.dividendsArray[0].datesList;
+
+        // fill stacked chart
+        for (let i = 0; i < chartDividends.length; i++) {
+          this.chartData.datasets.push({
+            label: chartDividends[i].name,
+            isin: chartDividends[i].isin,
+            backgroundColor: "#007cda",
+            borderRadius: 4,
+            borderWidth: 0,
+            borderSkipped: "bottom",
+            borderColor: "transparent",
+            borderDash: [10, 5],
+            barPercentage: "1",
+            hoverBorderColor: "transparent",
+            data: chartDividends[i].dividendsList,
+          });
+        }
       }
+
+      // voeg voor elke holding een kleur toe
+      this.setColors(this.chartData);
     },
     timeFrameDataUpdate() {
       // timeframes anders dan All-time
@@ -220,7 +260,6 @@ export default {
       } else if (this.selectedTimeFrame === this.timeFrameOptions.fiveYear) {
         this.setYearDate(5);
       }
-      this.updateChart();
     },
     setYearToDateData() {
       // Mixin
@@ -230,17 +269,11 @@ export default {
       // Mixin
       this.setYears(years);
     },
-    updateChart() {
-      // zorg dat de holders de meest recente data tonen op de kaart
-      this.chartData.labels = this.labelsHolder;
-      this.chartData.datasets[0].data = this.dataHolder;
-    },
   },
   created() {
     // laad data als deze al is gefetcht
     // zet het thema op de chart
     this.loadData();
-    this.setTheme();
   },
 };
 </script>
