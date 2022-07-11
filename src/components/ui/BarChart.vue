@@ -24,6 +24,7 @@ export default {
       chartOptions: {
         scales: {
           yAxes: {
+            stacked: true,
             beginAtZero: true,
               grid: {
                 color: 'rgba(0, 0, 0, 0.125)',
@@ -40,6 +41,7 @@ export default {
               }
           },
           xAxes: {
+            stacked: true,
             barThickness: 31,
               beginAtZero: true,
               grid: {
