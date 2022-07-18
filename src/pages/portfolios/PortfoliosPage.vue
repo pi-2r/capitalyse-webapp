@@ -438,12 +438,8 @@ tr:nth-last-child(1) {
 }
 
 @media screen and (max-width: 350px) {
-  .tablecontainer {
+  table {
     overflow-x: scroll;
-    padding: 2rem;
-    margin-left: -2rem;
-    margin-top: 0;
-    min-width: 20rem;
   }
 }
 </style>

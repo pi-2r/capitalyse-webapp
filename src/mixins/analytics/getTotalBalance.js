@@ -12,6 +12,7 @@ export default {
             const eurTotalIndex = this.indexes.eurTotalIndex;
             let total = 0;
 
+
             // loop door data heen
             for (let i = 0; i < data.length; i++) {
                 // voeg toe als data niet leeg is

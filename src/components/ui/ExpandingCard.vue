@@ -1,5 +1,5 @@
 <template>
-  <section class="expandingCard">
+  <Card class="expandingCard">
     <button
       class="collapsible"
       @click="toggleCollapsible(id)"
@@ -9,10 +9,16 @@
     <section class="content">
       <slot></slot>
     </section>
-  </section>
+  </Card>
 </template>
+
 <script>
+import Card from "@/components/ui/Card.vue";
+
 export default {
+  components: {
+    Card,
+  },
   props: {
     // requires a unique id for each collapsible
     // its the number of the collapisble in the html in order to match the right one
@@ -35,7 +41,7 @@ export default {
       } else {
         content.style.maxHeight = "calc(" + content.scrollHeight + "px + 2rem)";
         content.style.padding = "1rem";
-        content.style.borderBottom = "1px solid var(--clr-medium-light-grey)";
+        content.style.borderBottom = "1px solid var(--clr-light-grey)";
       }
     },
   }
@@ -43,7 +49,7 @@ export default {
 </script>
 <style scoped>
 .expandingCard {
-  box-shadow: var(--box-shadow-big);
+  border: none;
 }
 
 .collapsible {
