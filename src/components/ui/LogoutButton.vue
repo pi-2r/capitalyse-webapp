@@ -32,18 +32,20 @@ export default {
     justify-content: center;
     gap: 0.5rem;
     align-items: center;
-    padding: 0.5rem;
+    padding: 0.4rem;
     border-radius: var(--btn-radius);
     transition: 0.15s all;
-    background-color: rgba(255, 0, 0, 0.05);
+    background-color: rgba(255, 0, 0, 0.075);
     border: 1px solid var(--clr-red);
     box-shadow: var(--btn-shadow);
     color: var(--clr-red);
     font-size: 1rem;  
+    font-weight: 500;
 }
 
 .logoutWrapper:hover {
     cursor: pointer;
+    box-shadow: 1px 1px 8px rgba(251, 122, 122, 0.246);
 }	
 
 .logout {

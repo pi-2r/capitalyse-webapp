@@ -20,7 +20,6 @@ export default {
             // data wel echt een ISIN nummer heeft, hier wordt cash dus niet meegeteld
             for (let i = 0; i < data.length; i++) {
                 if (data[i][1] !== '' && data[i][0] !== '') {
-                    console.log(data[i]);
                     let amount = this.cleanNumber(data[i][eurTotalIndex]);
                     total += amount;
                 }

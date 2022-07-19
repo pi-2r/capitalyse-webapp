@@ -108,7 +108,6 @@ export default {
             data: [],
             fill: true,
             borderColor: "#0084ff",
-            backgroundColor: "red",
             borderWidth: 2,
             cubicInterpolationMode: "monotone",
           },

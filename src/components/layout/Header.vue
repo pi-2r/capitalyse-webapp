@@ -141,7 +141,7 @@
           <Icon
             @click="toggleMobileNav"
             class="hamburgerMenuIcon"
-            icon="eva:menu-outline"
+            icon="ci:menu-duo"
             color="var(--clr-grey)"
             height="30"
           />

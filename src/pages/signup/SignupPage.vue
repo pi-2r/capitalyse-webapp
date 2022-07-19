@@ -337,13 +337,8 @@ export default {
 
 .button {
   width: 100%;
-  padding: 0.85rem 1rem;
   margin-top: 2.5rem;
   margin-bottom: 1rem;
-}
-
-button {
-  background-image: linear-gradient(to right, #008cff, #006eff 100%);
 }
 
 .secondary:hover {

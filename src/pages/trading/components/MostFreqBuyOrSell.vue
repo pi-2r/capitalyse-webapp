@@ -160,6 +160,5 @@ export default {
   justify-content: center;
   border-radius: var(--card-border-radius);
   box-shadow: var(--box-shadow-big);
-  border: 1px solid var(--clr-very-light-grey);
 }
 </style>

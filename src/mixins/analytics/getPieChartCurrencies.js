@@ -27,8 +27,6 @@ export default {
       // gets all currencies from data
       this.createArrayOfCurrencies(data);
 
-      console.log(data);
-
       // if is not empty, do more data manipulation and return data
       if (this.currenciesArray.length > 0) {
 

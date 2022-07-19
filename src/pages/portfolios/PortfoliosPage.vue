@@ -40,10 +40,10 @@
         />
         <h1>Portfolios</h1>
       </section>
-      <Button class="addPortfolioBtn" link @click="addPortfolio">
+      <Button class="addPortfolioBtn" @click="addPortfolio">
         <Icon
           icon="fluent:add-square-multiple-16-filled"
-          color="var(--clr-dark-grey)"
+          color="var(--clr-white)"
           height="20"
         />
         Add Portfolio
@@ -76,10 +76,9 @@
                   get started.
                 </p>
 
-                <Button class="addPortfolioBtn" link @click="addPortfolio">
+                <Button class="addPortfolioBtn" @click="addPortfolio">
                   <Icon
                     icon="fluent:add-square-multiple-16-filled"
-                    color="var(--clr-dark-grey)"
                     height="18"
                   />
                   Add Portfolio</Button
@@ -252,7 +251,6 @@ export default {
   margin: 0 auto;
   margin-bottom: 4rem;
   margin-top: 3rem;
-  width: 50rem;
 }
 
 .myPortfolios__header {
@@ -283,16 +281,8 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  color: var(--clr-dark-grey) !important;
-  background-color: var(--clr-very-light-blue);
-  border: 1px solid var(--clr-medium-light-grey);
-  box-shadow: var(--btn-shadow);
   padding: var(--btn-small-padding);
   font-size: 1rem;
-}
-
-.addPortfolioBtn:hover {
-  border-color: var(--clr-medium-light-grey-2);
 }
 
 table {
@@ -391,9 +381,10 @@ tr:nth-last-child(1) {
 
 @media screen and (min-width: 650px) {
   .container {
-    max-width: 90%;
+    max-width: 1100px;
   }
 }
+
 
 /* max width */
 @media screen and (max-width: 768px) {

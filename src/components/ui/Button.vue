@@ -52,8 +52,15 @@ a {
 }
 
 button:hover {
-    box-shadow: 0px 0px 10px 0px rgba(0, 89, 255, 0.2);
+    box-shadow: 1px 1px 8px rgba(0, 110, 255, 0.25);
 }
+
+
+/* button {
+  background-image: linear-gradient(to right, #0b91ff, #0069f3 100%);
+} */
+
+
 
 .card {
     text-decoration: none;

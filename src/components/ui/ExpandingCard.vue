@@ -54,7 +54,7 @@ export default {
 
 .collapsible {
   background-color: var(--clr-very-light-blue);
-  border-radius: var(--btn-radius);
+  border-radius: var(--card-border-radius);
   color: var(--clr-black);
   cursor: pointer;
   padding: 1rem;
@@ -75,7 +75,9 @@ export default {
 
 
 .active {
-  border-radius: 0.6rem 0.6rem 0rem 0rem;
+  border-radius: var(--card-border-radius);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   border-bottom: none;
 }
 
@@ -83,7 +85,9 @@ export default {
   padding: 0 1rem;
   max-height: 0;
   overflow: hidden;
-  border-radius: 0rem 0rem 0.6rem 0.6rem;
+  border-radius: var(--card-border-radius);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
   transition: all 0.3s ease-out;
   background-color: var(--clr-very-light-blue);
   margin-bottom: 0.75rem;

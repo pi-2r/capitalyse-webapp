@@ -32,7 +32,6 @@
             @click="openThreeDots"
             class="head_"
             icon="entypo:dots-three-vertical"
-            color="var(--clr-grey)"
             height="18"
           />
         </section>
@@ -307,11 +306,12 @@ export default {
   display: flex;
   align-items: center;
   border-radius: 2rem;
+  color: var(--clr-grey);
 }
 
 .head__rightSection-icon:hover {
   cursor: pointer;
-  background-color: var(--clr-very-light-blue);
+  color: var(--clr-blue);
 }
 
 .dividendChartDashboard {

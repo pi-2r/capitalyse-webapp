@@ -38,7 +38,7 @@ export default {
     return {
       chartOptions: {
         interaction: {
-          mode: "point",
+          mode: "index",
         },
         scales: {
           yAxes: {
@@ -80,12 +80,13 @@ export default {
           tooltip: {
             filter: (tooltipItem) =>
               tooltipItem.dataset.data[tooltipItem.dataIndex] > 0,
-            position: "nearest",
+            position: "average",
             intersect: false,
-            cornerRadius: 5,
+            yAlign: "bottom",
+            cornerRadius: 8,
             usePointStyle: true,
             displayColors: false,
-            titleFont: { weight: "normal" },
+            titleFont: { weight: "bold", size: 14},
             titleColor: "grey",
             bodyColor: "grey",
             backgroundColor: "rgb(260, 260, 260)",
@@ -94,32 +95,38 @@ export default {
             padding: 10,
             enabled: true,
             callbacks: {
-              title: function () {
-                return "";
+              title: function (value) {
+                if (value[0]) {
+                  const date = value[0].label;
+                  const year = date.split("-")[1];
+                  const month = date.split("-")[0];
+                  const arrayOfMonths = [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December",
+                  ];
+                  return [`${arrayOfMonths[month - 1]} ${year}`];
+                } else {
+                  return null;
+                }
               },
               label: function (value) {
-                const date = value.label;
-                const year = date.split("-")[1];
-                const month = date.split("-")[0];
-                const arrayOfMonths = [
-                  "Jan",
-                  "Feb",
-                  "Mar",
-                  "Apr",
-                  "May",
-                  "Jun",
-                  "Jul",
-                  "Aug",
-                  "Sep",
-                  "Oct",
-                  "Nov",
-                  "Dec",
-                ];
-                return [
-                  `${value.dataset.label}`,
-                  `${arrayOfMonths[month - 1]} ${year}`,
-                  `€${value.formattedValue}`,
-                ];
+                if (value) {
+                  return [
+                    `€${value.formattedValue}  |  ${value.dataset.label}`,
+                  ];
+                } else {
+                  return null;
+                }
               },
             },
           },

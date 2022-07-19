@@ -119,7 +119,7 @@
             </section>
 
             <section class="fileButtons">
-              <Button type="submit" class="submitFiles">
+              <Button type="submit">
                 <section v-if="isLoading">
                   <Spinner class="spinner" :btnSpinner="true" />
                 </section>
@@ -808,9 +808,6 @@ input[type="submit"] {
   }
 }
 
-.submitFiles {
-  background-image: linear-gradient(to right, #008cff, #006eff 100%);
-}
 /* anims */
 .slide-fade-enter-active {
   transition: all 0.125s ease-out;
