@@ -70,7 +70,7 @@
         <ul>
           <li>
             Make sure it's <strong>between 1 and 30 characters</strong> long and
-        uses <strong>no special characters</strong>.
+            uses <strong>no special characters</strong>.
           </li>
         </ul>
       </p>

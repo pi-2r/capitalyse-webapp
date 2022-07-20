@@ -80,16 +80,34 @@
                   </p>
                 </section>
               </section>
-              <button class="resetUploadedBtn" type="button" @click="resetFiles">
-                <Icon
-                  icon="charm:rotate-anti-clockwise"
-                  color="var(--clr-grey)"
-                  height="14"
-                  :class="{ rotateResetIconClass: animatedResetIcon }"
-                  @animationend="animatedResetIcon = false"
-                />
-                Reset uploads
-              </button>
+              <section class="resetUploads">
+                <button
+                  class="resetUploadedBtn"
+                  type="button"
+                  @click="resetFiles"
+                >
+                  <Icon
+                    icon="charm:rotate-anti-clockwise"
+                    color="var(--clr-grey)"
+                    height="14"
+                    :class="{ rotateResetIconClass: animatedResetIcon }"
+                    @animationend="animatedResetIcon = false"
+                  />
+                  Reset uploads
+                </button>
+                <transition mode="out-in" name="slide-fade">
+                  <section v-if="animatedResetIcon">
+                    <p class="resetUploadConfirmText">
+                      <Icon
+                        icon="eva:checkmark-outline"
+                        color="var(--clr-green)"
+                        height="16"
+                      />
+                      Uploads reset!
+                    </p>
+                  </section>
+                </transition>
+              </section>
             </section>
 
             <section class="portfolioName">
@@ -125,13 +143,22 @@
                 </section>
                 <section v-else>Add Portfolio</section>
               </Button>
-              <section v-if="currentErrorMsgs.length > 0" class="errorMsgs">
-                <p v-for="errorMsg in currentErrorMsgs" :key="errorMsg" class="errorMsg">
-                  <Icon icon="bxs:error-circle" color="var(--clr-red)" height="18" />
-                  {{ errorMsg }}
-                </p>
-                <p class="errorMsgHelp">Need help? See 'Errors' below.</p>
-              </section>
+              <transition mode="out-in" name="slide-fade">
+                <section v-if="currentErrorMsgs.length > 0" class="errorMsgs">
+                  <p
+                    v-for="errorMsg in currentErrorMsgs"
+                    :key="errorMsg"
+                    class="errorMsg"
+                  >
+                    <Icon
+                      icon="bxs:error-circle"
+                      color="var(--clr-red)"
+                      height="18"
+                    />
+                    {{ errorMsg }}
+                  </p>
+                </section>
+              </transition>
             </section>
           </form>
         </article>
@@ -186,7 +213,7 @@ export default {
       isLoading: false,
       isPortfolioNameInputVisible: false,
       animatedResetIcon: false,
-      errorMsgs: { 
+      errorMsgs: {
         missingFiles: "Please import all files",
         invalidPortfolioName: "Invalid portfolio name",
         transactionsFileInvalid: "Missing Transactions.csv file",
@@ -356,16 +383,16 @@ export default {
     },
     setErrorMsgs() {
       this.currentErrorMsgs = [];
-      if(this.portfolioNameIsValidClass === "nameInvalid") {
+      if (this.portfolioNameIsValidClass === "nameInvalid") {
         this.currentErrorMsgs.push(this.errorMsgs.invalidPortfolioName);
       }
-      if(this.transactionsFileIsValid === false) {
+      if (this.transactionsFileIsValid === false) {
         this.currentErrorMsgs.push(this.errorMsgs.transactionsFileInvalid);
       }
-      if(this.accountFileIsValid === false) {
+      if (this.accountFileIsValid === false) {
         this.currentErrorMsgs.push(this.errorMsgs.accountFileInvalid);
       }
-      if(this.portfolioFileIsValid === false) {
+      if (this.portfolioFileIsValid === false) {
         this.currentErrorMsgs.push(this.errorMsgs.portfolioFileInvalid);
       }
     },
@@ -509,7 +536,7 @@ export default {
   align-items: center;
   gap: 0.25rem;
   color: var(--clr-red);
-  font-size:0.9rem;
+  font-size: 0.9rem;
 }
 
 .errorMsgHelp {
@@ -803,7 +830,6 @@ input[type="submit"] {
   flex-direction: column-reverse;
 }
 
-
 .filesLabel__help {
   color: var(--clr-blue);
   font-size: 1rem;
@@ -828,14 +854,31 @@ input[type="submit"] {
   padding-top: 1rem;
   padding-bottom: 1rem;
   border-radius: 0.4rem;
+  box-shadow: none;
   border: 1px solid transparent;
+  width: 100%;
 }
 
 .resetUploadedBtn:hover {
-  box-shadow: none;
-  cursor: pointer;
   border: 1px solid var(--clr-medium-light-grey);
   box-shadow: var(--btn-shadow);
+  cursor: pointer;
+}
+
+.resetUploadConfirmText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  text-align: center;
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--clr-green);
+}
+.resetUploadConfirmTextIcon {
+  margin-right: 0.3rem;
+  height: 0px;
+  width: 15px;
 }
 
 .secondary {
@@ -863,17 +906,17 @@ input[type="submit"] {
 
 /* anims */
 .slide-fade-enter-active {
-  transition: all 0.125s ease-out;
+  transition: all 0.2s ease-out;
 }
 .slide-fade-leave-active {
-  transition: all 0.125s ease-in;
+  transition: all 0.25s ease-in;
 }
 .slide-fade-enter-from {
-  transform: translateY(-10px) translateX(-20px) scale(0.95);
+  transform: translateY(-8px);
   opacity: 0;
 }
 .slide-fade-leave-to {
-  transform: translateY(-10px) translateX(-20px) scale(0.75);
+  transform: translateY(-8px);
   opacity: 0;
 }
 
@@ -881,14 +924,13 @@ input[type="submit"] {
   .wrapper {
     padding: 1.75rem;
   }
-
 }
 
 @media screen and (min-width: 400px) {
   .container {
     max-width: 92%;
   }
-    .btnAndFileNames {
+  .btnAndFileNames {
     flex-direction: row;
   }
 }
@@ -897,7 +939,6 @@ input[type="submit"] {
   .container {
     max-width: 90%;
   }
-
 }
 
 @media screen and (min-width: 1150px) {
