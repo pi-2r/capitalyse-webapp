@@ -36,7 +36,7 @@ button,a{
     background-color: var(--clr-blue);
     color: var(--clr-white);
     cursor: pointer;
-    transition: 0.15s all;
+    transition: .15s all;
     border: none;
     border-radius: var(--btn-radius);
     user-select: none;
@@ -52,7 +52,7 @@ a {
 }
 
 button:hover {
-    box-shadow: 1px 1px 8px rgba(0, 110, 255, 0.25);
+    box-shadow: 1px 1px 8px rgba(0, 110, 255, 0.275);
 }
 
 

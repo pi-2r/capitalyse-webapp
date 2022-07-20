@@ -1,5 +1,5 @@
 <template>
-  <section class="cardWrapper">
+  <Card class="cardWrapper">
     <Button class="secondary toggleBuySellBtn" @click="toggleBuySell">
       <Icon
         icon="heroicons-outline:switch-horizontal"
@@ -23,11 +23,12 @@
         :numberResult="false"
       />
     </section>
-  </section>
+  </Card>
 </template>
 
 <script>
 import ResultCard from "@/components/dashboard/ResultCard.vue";
+import Card from "@/components/ui/Card.vue";
 
 import getMostFrequentBuyOrSell from "@/mixins/analytics/getMostFrequentBuyOrSell.js";
 
@@ -37,6 +38,7 @@ export default {
   mixins: [getMostFrequentBuyOrSell],
   components: {
     ResultCard,
+    Card,
     Icon,
   },
   props: {
@@ -140,7 +142,6 @@ export default {
 .toggleBuySellBtn:hover {
   cursor: pointer;
   box-shadow: var(--box-shadow-small);
-  background-color: var(--clr-white);
   border: 1px solid var(--clr-light-grey);
 }
 
@@ -154,11 +155,5 @@ export default {
 
 .cardWrapper {
   position: relative;
-  width: 100%;
-  background-color: var(--clr-very-light-blue);
-  display: flex;
-  justify-content: center;
-  border-radius: var(--card-border-radius);
-  box-shadow: var(--box-shadow-big);
 }
 </style>

@@ -170,7 +170,7 @@ export default {
       const colors = [];
 
       for (let i = 0; i < holdings.data.length; i++) {
-        let color = "#007cda";
+        let color = "#4a89ff";
         colors.push(color);
       }
       holdingsData.datasets[0].backgroundColor = colors;
