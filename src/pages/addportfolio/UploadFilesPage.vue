@@ -80,7 +80,7 @@
                   </p>
                 </section>
               </section>
-              <button class="resetUploadedBtn" @click="resetFiles">
+              <button class="resetUploadedBtn" type="button" @click="resetFiles">
                 <Icon
                   icon="charm:rotate-anti-clockwise"
                   color="var(--clr-grey)"
@@ -125,6 +125,13 @@
                 </section>
                 <section v-else>Add Portfolio</section>
               </Button>
+              <section v-if="currentErrorMsgs.length > 0" class="errorMsgs">
+                <p v-for="errorMsg in currentErrorMsgs" :key="errorMsg" class="errorMsg">
+                  <Icon icon="bxs:error-circle" color="var(--clr-red)" height="18" />
+                  {{ errorMsg }}
+                </p>
+                <p class="errorMsgHelp">Need help? See 'Errors' below.</p>
+              </section>
             </section>
           </form>
         </article>
@@ -179,6 +186,14 @@ export default {
       isLoading: false,
       isPortfolioNameInputVisible: false,
       animatedResetIcon: false,
+      errorMsgs: { 
+        missingFiles: "Please import all files",
+        invalidPortfolioName: "Invalid portfolio name",
+        transactionsFileInvalid: "Missing Transactions.csv file",
+        accountFileInvalid: "Missing Account.csv file",
+        portfolioFileInvalid: "Missing Portfolio.csv file",
+      },
+      currentErrorMsgs: [],
     };
   },
   watch: {
@@ -306,7 +321,7 @@ export default {
       // zet de portfolio naam op leeg als de input zichbaar is
       this.isPortfolioNameInputVisible
         ? (this.portfolioName = "")
-        : (this.portfolioName = "DEGIRO");
+        : (this.portfolioName = "My Portfolio");
     },
     toggleCollapsible(id) {
       // toggle de collapsible uitleg blokken dmv id van de html
@@ -339,12 +354,28 @@ export default {
     getPortfolios() {
       return this.$store.dispatch("files/fetchAllPortfolios");
     },
+    setErrorMsgs() {
+      this.currentErrorMsgs = [];
+      if(this.portfolioNameIsValidClass === "nameInvalid") {
+        this.currentErrorMsgs.push(this.errorMsgs.invalidPortfolioName);
+      }
+      if(this.transactionsFileIsValid === false) {
+        this.currentErrorMsgs.push(this.errorMsgs.transactionsFileInvalid);
+      }
+      if(this.accountFileIsValid === false) {
+        this.currentErrorMsgs.push(this.errorMsgs.accountFileInvalid);
+      }
+      if(this.portfolioFileIsValid === false) {
+        this.currentErrorMsgs.push(this.errorMsgs.portfolioFileInvalid);
+      }
+    },
     submitForm() {
       // callt get portfolios
       // om een of andere rede moet getPortfolios aangeroepen worden
       // anders als je naar portfolios gaat, wordt de nieuwe niet opgehaald
       this.getPortfolios();
       this.checkPortfolioNameValidity();
+      this.setErrorMsgs();
       if (this.formIsValid) {
         this.isLoading = true;
         this.$store.dispatch("files/createNewPortfolio", {
@@ -403,26 +434,26 @@ export default {
     },
     addFile(file) {
       // voegt een file toe aan de juiste data() waarde
-      if (file.name.includes("Transactions")) {
+      if (file.name.includes("ransactions")) {
         this.transactionsFile = file;
         this.transactionsFileName = file.name;
-      } else if (file.name.includes("Account")) {
+      } else if (file.name.includes("ccount")) {
         this.accountFile = file;
         this.accountFileName = file.name;
-      } else if (file.name.includes("Portfolio")) {
+      } else if (file.name.includes("ortfolio")) {
         this.portfolioFile = file;
         this.portfolioFileName = file.name;
       }
     },
     incorrectFile(file) {
       // geef een error melding op de plek van de file soort
-      if (file.name.includes("Transactions")) {
+      if (file.name.includes("ransactions")) {
         this.transactionsFile = null;
         this.transactionsFileName = file.name;
-      } else if (file.name.includes("Account")) {
+      } else if (file.name.includes("ccount")) {
         this.accountFile = null;
         this.accountFileName = file.name;
-      } else if (file.name.includes("Portfolio")) {
+      } else if (file.name.includes("ortfolio")) {
         this.portfolioFile = null;
         this.portfolioFileName = file.name;
       }
@@ -469,6 +500,24 @@ export default {
 </script>
 
 <style scoped>
+.errorMsgs {
+  margin-top: 1rem;
+}
+
+.errorMsg {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--clr-red);
+  font-size:0.9rem;
+}
+
+.errorMsgHelp {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--clr-grey);
+}
+
 .titleAndBackButtonContainer {
   margin-bottom: 2rem;
 }
@@ -524,11 +573,12 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid var(--clr-light-grey);
   padding-top: 1rem;
+  padding-bottom: 0.25rem;
 }
 
 .portfolioName {
+  border-top: 1px solid var(--clr-light-grey);
   margin-bottom: 2rem;
 }
 .portfolioName__optional {
@@ -590,7 +640,7 @@ h1 {
 }
 
 .fileInvalid {
-  color: var(--clr-red);
+  color: var(--clr-grey);
 }
 
 input {
@@ -748,8 +798,11 @@ input[type="submit"] {
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
+  gap: 0.5rem;
   margin-bottom: 1rem;
+  flex-direction: column-reverse;
 }
+
 
 .filesLabel__help {
   color: var(--clr-blue);
@@ -828,11 +881,15 @@ input[type="submit"] {
   .wrapper {
     padding: 1.75rem;
   }
+
 }
 
 @media screen and (min-width: 400px) {
   .container {
     max-width: 92%;
+  }
+    .btnAndFileNames {
+    flex-direction: row;
   }
 }
 
@@ -840,6 +897,7 @@ input[type="submit"] {
   .container {
     max-width: 90%;
   }
+
 }
 
 @media screen and (min-width: 1150px) {

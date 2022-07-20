@@ -4,7 +4,7 @@
       class="collapsible"
       @click="toggleCollapsible(id)"
     >
-      How do I export files from DEGIRO?
+      {{title}}
     </button>
     <section class="content">
       <slot></slot>
@@ -26,6 +26,10 @@ export default {
       type: Number,
       required: true,
       default: 0,
+    },
+    title: {
+      type: String,
+      default: "",
     },
   },
   methods: {

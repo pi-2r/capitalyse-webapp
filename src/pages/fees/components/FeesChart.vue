@@ -52,7 +52,7 @@
 
     <section class="dividendChartWrapper">
       <section class="dividendChartHeading">
-        <h2>Dividend Payments</h2>
+        <h2>Fees</h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
             <span class="chartResultValue greenNumber">

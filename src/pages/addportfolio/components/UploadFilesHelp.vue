@@ -2,7 +2,7 @@
   <section class="addPortfolioHelp">
     <h2>Need some help?</h2>
 
-    <ExpandingCard :id="0">
+    <ExpandingCard title="How do I export files from DEGIRO?" :id="0">
       <h3 class="contentTitle">
         Easy Export
         <span class="contentTitleThin">
@@ -46,11 +46,40 @@
         >
       </p>
     </ExpandingCard>
+
+    <ExpandingCard title="Errors" :id="1">
+      <h3 class="contentTitle">
+        File not uploading
+      </h3>
+      <p>
+        <ul>
+          <li>
+            Make sure the file is <strong>not empty</strong>. If it's empty, select the <strong>correct Start Date</strong> in DEGIRO before downloading.
+          </li>
+          <li>
+            Make sure that you <strong>include 'Transactions', 'Account' or 'Portfolio' words</strong> in the filename. (Correct: Portfolio.csv or Portfolio-june24.csv.
+            Incorrect: june-24.csv or degiro.csv)
+          </li>
+        </ul>
+      </p>
+     
+      <h3 class="contentTitle">
+        Invalid portfolio name
+      </h3>
+      <p>
+        <ul>
+          <li>
+            Make sure it's <strong>between 1 and 30 characters</strong> long and
+        uses <strong>no special characters</strong>.
+          </li>
+        </ul>
+      </p>
+    </ExpandingCard>
   </section>
 </template>
 <script>
 import { Icon } from "@iconify/vue";
-import ExpandingCard from '@/components/ui/ExpandingCard.vue';
+import ExpandingCard from "@/components/ui/ExpandingCard.vue";
 
 export default {
   components: {
@@ -143,5 +172,12 @@ export default {
 
 a {
   color: #00a8ff;
+}
+
+ul {
+  margin-left: 1.25rem;
+}
+li {
+  margin-bottom: 0.5rem;
 }
 </style>
