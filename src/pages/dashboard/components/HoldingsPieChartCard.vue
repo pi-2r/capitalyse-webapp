@@ -5,7 +5,7 @@
         <h2>{{ title }}</h2>
         <p class="holdingsPieChartTitle__dataLength">{{ dataLength }}</p>
       </section>
-      <section class="holdingsPieChart">
+      <section class="holdingsPieChart" v-if="isThereData">
         <p v-if="chartErrorMsg">{{ chartErrorMsg }}</p>
         <Doughnut
           v-else
@@ -13,6 +13,9 @@
           :chartData="chartData"
           :chartOptions="chartOptions"
         />
+      </section>
+      <section v-else>
+        <Spinner class="spinner"/>
       </section>
       <section class="holdingsPieChart__btnSection">
         <CardButtonArrow class="holdingsPieChart__btn" v-if="showBtn">{{
@@ -94,6 +97,10 @@ export default {
 </script>
 
 <style scoped>
+.spinner {
+  height: 15rem;
+}
+
 .holdingsPieChartTitle {
   display: flex;
   justify-content: space-between;

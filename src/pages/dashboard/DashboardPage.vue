@@ -9,7 +9,9 @@
           baseLink="/portfolios"
           baseLinkName="Portfolios"
           secondLink="#"
-          :secondLinkName="!isDemo ? (portfolioName ? portfolioName : '') : 'Demo'"
+          :secondLinkName="
+            !isDemo ? (portfolioName ? portfolioName : '') : 'Demo'
+          "
         />
         <section>
           <section class="titleAndBackButtonContainer">
@@ -37,24 +39,26 @@
         </section>
       </section>
     </section>
-
-    <PortfolioCards />
-
     
+    <section >
+      <PortfolioCards />
 
+      <section class="holdingsContainer">
+        <HoldingsPieChartCards />
+      </section>
 
-    <section class="holdingsContainer">
-      <HoldingsPieChartCards />
+      <section class="cardsContainer">
+        <DepositsCard :isDemo="isDemo" />
+        <TransFeesCard :isDemo="isDemo" />
+        <TradingVolCard :isDemo="isDemo" />
+      </section>
+
+      <DividendChart
+        :hideTimeFrameBtns="false"
+        class="dividendChartDashboard"
+      />
     </section>
-
-
-    <section class="cardsContainer">
-      <DepositsCard :isDemo="isDemo" />
-      <TransFeesCard :isDemo="isDemo" />
-      <TradingVolCard :isDemo="isDemo" />
-    </section>
-
-    <DividendChart :hideTimeFrameBtns="false" class="dividendChartDashboard" />
+    
   </section>
 </template>
 
@@ -122,7 +126,11 @@ export default {
 
       portfolios.forEach((portfolio) => {
         if (portfolio.id === this.$route.params.id) {
-          if (portfolio.accountFile && portfolio.transactionsFile && portfolio.portfolioFile) {
+          if (
+            portfolio.accountFile &&
+            portfolio.transactionsFile &&
+            portfolio.portfolioFile
+          ) {
             hasFiles = true;
           }
         }
@@ -142,14 +150,14 @@ export default {
     },
     // dit werkt wanneer je gelijk van de ene naar de andere portfolio gaat
     files() {
-      if(this.hasCurrentFiles) {
+      if (this.hasCurrentFiles) {
         this.calculateStartAndEndDates();
         this.convertFirebaseTime();
       }
     },
     // dit werkt wanneer je nieuw op de pagina komt
     hasCurrentFiles() {
-      if(this.hasCurrentFiles) {
+      if (this.hasCurrentFiles) {
         this.calculateStartAndEndDates();
         this.convertFirebaseTime();
       }
@@ -157,7 +165,7 @@ export default {
     // wanneer de route veranderd, laad opnieuw data in
     $route() {
       this.loadData();
-    }
+    },
   },
   methods: {
     // drie puntjes op het dashboard
@@ -206,7 +214,7 @@ export default {
       }
     },
     convertFirebaseTime() {
-      // als de addedAt nog in de seconds en nanoseconds object format staat 
+      // als de addedAt nog in de seconds en nanoseconds object format staat
       if (this.files.addedAt.seconds && this.files.addedAt.nanoseconds) {
         const firebaseDateTime = new Date(
           this.files.addedAt.seconds * 1000 +
@@ -223,7 +231,7 @@ export default {
           hour12: true,
         });
         this.addedAt = firebaseDate + " " + firebaseTime;
-      // wanneer deze in een leesbaar formaat staat
+        // wanneer deze in een leesbaar formaat staat
       } else {
         this.addedAt = this.files.addedAt;
       }
@@ -265,6 +273,10 @@ export default {
 </script>
 
 <style scoped>
+.dashboardSpinner {
+  height: 10rem;
+}
+
 .holdingsContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
