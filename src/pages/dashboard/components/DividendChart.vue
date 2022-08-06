@@ -134,7 +134,11 @@ export default {
           total += dividendsList[j].amount;
         }
       }
-      return total.toFixed(2);
+      total = parseFloat(total).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+      return total;
     },
     averageDividendsPerMonth() {
       // if theres dividends
