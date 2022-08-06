@@ -49,6 +49,12 @@
                     </span>
 
                     <span>{{ portfolioFileName }}</span>
+
+                    <a v-if="!portfolioFileIsValid" href="https://trader.degiro.nl/staging-trader/#/portfolio" target="_blank" class="goToFile">
+                      <Icon icon="akar-icons:link-out" height="13" />
+                      Get
+                    </a>
+
                   </p>
                   <p
                     class="fileName"
@@ -64,6 +70,11 @@
                     </span>
 
                     <span>{{ transactionsFileName }}</span>
+
+                    <a v-if="!transactionsFileIsValid" :href="transactionsLink" target="_blank" class="goToFile">
+                      <Icon icon="akar-icons:link-out" height="13" />
+                      Get
+                    </a>
                   </p>
                   <p
                     class="fileName"
@@ -77,6 +88,11 @@
                     </span>
 
                     <span>{{ accountFileName }}</span>
+
+                    <a v-if="!accountFileIsValid" :href="accountLink" target="_blank" class="goToFile">
+                      <Icon icon="akar-icons:link-out" height="13" />
+                      Get
+                    </a>
                   </p>
                 </section>
               </section>
@@ -527,6 +543,21 @@ export default {
 </script>
 
 <style scoped>
+.goToFile {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-left: 0.5rem;
+  color: var(--clr-blue);
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+.goToFile:hover {
+  text-decoration: underline;
+}
+
 .errorMsgs {
   margin-top: 1rem;
 }
@@ -924,15 +955,16 @@ input[type="submit"] {
   .wrapper {
     padding: 1.75rem;
   }
+    .btnAndFileNames {
+    flex-direction: row;
+  }
 }
 
 @media screen and (min-width: 400px) {
   .container {
     max-width: 92%;
   }
-  .btnAndFileNames {
-    flex-direction: row;
-  }
+
 }
 
 @media screen and (min-width: 650px) {

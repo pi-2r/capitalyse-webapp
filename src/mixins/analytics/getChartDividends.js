@@ -49,7 +49,6 @@ export default {
         this.addMissingMonthsToChart();
         // this.convertLabelsToWords();
         this.turnIntoChartData();
-
         return this.dividendsArray;
 
       } else {

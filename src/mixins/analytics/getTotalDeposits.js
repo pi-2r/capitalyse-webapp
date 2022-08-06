@@ -11,7 +11,7 @@ export default {
             const indexes = this.$store.getters['indexes/deposits'];
             const searchIndex = indexes.searchIndex;
             const depositIndex = indexes.depositIndex;
-
+            
             let tot = 0;
 
             for (let i = 0; i < data.length; i++) {

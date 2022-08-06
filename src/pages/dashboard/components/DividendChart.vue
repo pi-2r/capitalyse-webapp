@@ -224,14 +224,21 @@ export default {
       const chartDividends = this.getChartDividends(
         this.currentPortfolio.accountFile
       );
+      console.log(chartDividends);
 
       // als er geen dividends zijn, geef een error message
       // als er wel dividends zijn, maak een array aan met de labels en data
       if (chartDividends === false) {
         this.chartData.labels = [];
-        this.chartData.datasets[0].data = [];
+        this.chartData.datasets.push({
+          label: "",
+          data: [],
+          backgroundColor: "#007cda",
+          borderColor: "#007cda",
+          hoverBorderColor: "#007cda",
+        });
 
-        this.chartErrorMsg = "No dividends received yet.";
+        this.chartErrorMsg = "No dividends found";
       } else {
         this.chartErrorMsg = null;
         this.dividendsArray = chartDividends;

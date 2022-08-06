@@ -251,6 +251,7 @@ export default {
   margin: 0 auto;
   margin-bottom: 4rem;
   margin-top: 3rem;
+  max-width: 92%;
 }
 
 .myPortfolios__header {
@@ -375,11 +376,14 @@ tr:nth-last-child(1) {
 
 @media screen and (min-width: 400px) {
   .container {
-    max-width: 92%;
+    max-width: 90%;
   }
 }
 
-@media screen and (min-width: 650px) {
+
+
+@media screen and (min-width: 1150px) {
+
   .container {
     max-width: 1100px;
   }

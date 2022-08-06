@@ -1,6 +1,8 @@
 export default {
     methods: {
         cleanNumber(number) {
+            // replace dots with commas for format with dots instead of commas
+            number = number.toString().replace(/\./g, ',');
             // als een - heeft, dan is het een negatief getal
             const isPositive = number.includes("-") ? false : true;
             // check voor '' of "" en verwijder dit
