@@ -55,7 +55,8 @@
         <h2>Deposits</h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
-            <span class="chartResultValue"> €{{ totalDeposits }} </span>
+            <span class="chartResultValue">€{{ totalDeposits }} </span>
+            <span class="chartAverageResultValue">€{{averageDepositsPerMonth}} per month</span>
           </p>
         </transition>
       </section>
@@ -143,6 +144,19 @@ export default {
       });
       return total;
     },
+    averageDepositsPerMonth() {
+      let total = 0;
+      for (let i = 0; i < this.depositsArray.length; i++) {
+        total += this.depositsArray[i].depAmt;
+      }
+      total = total.toFixed(2);
+      let average = (total / this.depositsArray.length).toFixed(2);
+      average = parseFloat(average).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+      return average;
+    },
     isThereData() {
       return !!this.currentPortfolio.accountFile;
     },
@@ -184,6 +198,7 @@ export default {
       const chartDeposits = this.getChartDeposits(
         this.currentPortfolio.accountFile
       );
+      console.log(chartDeposits);
 
       if (chartDeposits === false) {
         this.chartData.labels = [];
@@ -292,6 +307,12 @@ h2 {
 .chartResultValue {
   font-size: 1.5rem;
   font-weight: 600;
+  color: var(--clr-blue);
+}
+.chartAverageResultValue {
+  font-size: 0.8rem;
+  display: block;
+  font-weight: 500;
   color: var(--clr-blue);
 }
 
