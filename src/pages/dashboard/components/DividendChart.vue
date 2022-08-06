@@ -53,7 +53,10 @@
         <h2>Dividends</h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
-            <span class="chartResultValue"> €{{ totalDividends }} </span>
+            <span class="chartResultValue">€{{ totalDividends }} </span>
+            <span v-if="!isLoading" class="chartAverageResultValue"
+              >avg. €{{ averageDividendsPerMonth }}/mo</span
+            >
           </p>
         </transition>
       </section>
@@ -124,14 +127,38 @@ export default {
     },
     totalDividends() {
       let total = 0;
-      for(let i = 0; i < this.dividendsArray.length; i++) {
+      for (let i = 0; i < this.dividendsArray.length; i++) {
         let dividendsList = this.dividendsArray[i].dividend;
         // add all the dividends together
-        for(let j = 0; j < dividendsList.length; j++) {
+        for (let j = 0; j < dividendsList.length; j++) {
           total += dividendsList[j].amount;
         }
       }
       return total.toFixed(2);
+    },
+    averageDividendsPerMonth() {
+      // if theres dividends
+      if (this.dividendsArray.length > 0) {
+        let total = 0;
+        for (let i = 0; i < this.dividendsArray.length; i++) {
+          let dividendsList = this.dividendsArray[i].dividend;
+          // add all the dividends together
+          for (let j = 0; j < dividendsList.length; j++) {
+            total += dividendsList[j].amount;
+          }
+        }
+        console.log(this.dividendsArray[0].datesList.length);
+        let average = (total / this.dividendsArray[0].datesList.length).toFixed(
+          2
+        );
+        average = parseFloat(average).toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        });
+        return average;
+      } else {
+        return 0;
+      }
     },
     isThereData() {
       return !!this.currentPortfolio.accountFile;
@@ -219,7 +246,7 @@ export default {
     getDividends() {
       this.dividendsArray = [];
       this.chartData.datasets = [];
-      
+
       // haal dividends op van de Mixin
       const chartDividends = this.getChartDividends(
         this.currentPortfolio.accountFile
@@ -314,6 +341,13 @@ export default {
 .goToDividendsPageBtn {
   margin-top: 0.5rem;
   width: 15rem;
+}
+
+.chartAverageResultValue {
+  font-size: 0.8rem;
+  display: block;
+  font-weight: 500;
+  color: var(--clr-blue);
 }
 
 h2 {
