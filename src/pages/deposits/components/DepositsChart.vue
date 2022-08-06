@@ -56,7 +56,7 @@
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
             <span class="chartResultValue">€{{ totalDeposits }} </span>
-            <span class="chartAverageResultValue">€{{averageDepositsPerMonth}} per month</span>
+            <span class="chartAverageResultValue">avg. €{{averageDepositsPerMonth}}/mo</span>
           </p>
         </transition>
       </section>
