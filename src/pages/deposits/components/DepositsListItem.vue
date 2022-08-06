@@ -52,7 +52,11 @@ export default {
     depositAmount() {
       let amount = this.deposit.amount;
       amount = amount.toFixed(2);
-      amount = amount.replace(".", ",");
+      amount = parseFloat(amount).toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        });
+
       return "€" + amount;
     },
     isDeposit() {
