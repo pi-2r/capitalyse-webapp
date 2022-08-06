@@ -198,7 +198,6 @@ export default {
       const chartDeposits = this.getChartDeposits(
         this.currentPortfolio.accountFile
       );
-      console.log(chartDeposits);
 
       if (chartDeposits === false) {
         this.chartData.labels = [];

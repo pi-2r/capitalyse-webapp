@@ -151,7 +151,6 @@ export default {
             total += dividendsList[j].amount;
           }
         }
-        console.log(this.dividendsArray[0].datesList.length);
         let average = (total / this.dividendsArray[0].datesList.length).toFixed(
           2
         );
@@ -255,7 +254,6 @@ export default {
       const chartDividends = this.getChartDividends(
         this.currentPortfolio.accountFile
       );
-      console.log(chartDividends);
 
       // als er geen dividends zijn, geef een error message
       // als er wel dividends zijn, maak een array aan met de labels en data
