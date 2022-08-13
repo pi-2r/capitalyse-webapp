@@ -118,6 +118,8 @@ export default {
           }
         }
 
+     
+
         // als ie een dividend heeft gevonden die in EUR is gebruik de i index
         // currentDividendName wordt alleen gevuld bij een andere dividend, daarom werkt deze check
         currentDividendName === '' ? currentDividendName = data[i][productIndex] : null;
@@ -131,33 +133,13 @@ export default {
           let divAmt = this.cleanNumber(data[i][dividendIndex]);
           divAmt = parseFloat(divAmt.toFixed(2));
 
-
-          // first time
-          if (this.dividendsArray.length === 0) {
-            this.dividendsArray.push({
-              isin: currentDividendIsin,
-              name: currentDividendName,
-              dividend: [{
-                date: date,
-                amount: divAmt,
-              }]
-            });
-          } else {
-            // if already exists, find and add to existing
-            for (let j = 0; j < this.dividendsArray.length; j++) {
-              if (this.dividendsArray[j].isin === currentDividendIsin) {
-                isinAlreadyExists = true;
-                for (let k = 0; k < this.dividendsArray[j].dividend.length; k++) {
-                  if (this.dividendsArray[j].dividend[k].date === date) {
-                    this.dividendsArray[j].dividend[k].amount += divAmt;
-                    isinDateAlreadyExists = true;
-                    break;
-                  }
-                }
-              }
-            }
-            // if doesnt already exists, add new
-            if (!isinAlreadyExists) {
+          // checkt of ie geen dividendbelasting pakt als dividend, waardoor het negatief wordt
+          // en daardoor de chart negatief laat zien op de Y as.
+          const isDividendPositive = (this.cleanNumber(data[i][dividendIndex]) > 0);
+          if (isDividendPositive) {
+          
+            // first time
+            if (this.dividendsArray.length === 0) {
               this.dividendsArray.push({
                 isin: currentDividendIsin,
                 name: currentDividendName,
@@ -166,14 +148,39 @@ export default {
                   amount: divAmt,
                 }]
               });
-            } else if (!isinDateAlreadyExists) {
-              // if date doesnt already exists, add new to existing isin
+            } else {
+              // if already exists, find and add to existing
               for (let j = 0; j < this.dividendsArray.length; j++) {
                 if (this.dividendsArray[j].isin === currentDividendIsin) {
-                  this.dividendsArray[j].dividend.push({
+                  isinAlreadyExists = true;
+                  for (let k = 0; k < this.dividendsArray[j].dividend.length; k++) {
+                    if (this.dividendsArray[j].dividend[k].date === date) {
+                      this.dividendsArray[j].dividend[k].amount += divAmt;
+                      isinDateAlreadyExists = true;
+                      break;
+                    }
+                  }
+                }
+              }
+              // if doesnt already exists, add new
+              if (!isinAlreadyExists) {
+                this.dividendsArray.push({
+                  isin: currentDividendIsin,
+                  name: currentDividendName,
+                  dividend: [{
                     date: date,
                     amount: divAmt,
-                  });
+                  }]
+                });
+              } else if (!isinDateAlreadyExists) {
+                // if date doesnt already exists, add new to existing isin
+                for (let j = 0; j < this.dividendsArray.length; j++) {
+                  if (this.dividendsArray[j].isin === currentDividendIsin) {
+                    this.dividendsArray[j].dividend.push({
+                      date: date,
+                      amount: divAmt,
+                    });
+                  }
                 }
               }
             }

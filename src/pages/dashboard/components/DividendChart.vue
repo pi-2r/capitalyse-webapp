@@ -54,7 +54,7 @@
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
             <span class="chartResultValue">€{{ totalDividends }} </span>
-            <span v-if="!isLoading" class="chartAverageResultValue"
+            <span class="chartAverageResultValue"
               >avg. €{{ averageDividendsPerMonth }}/mo</span
             >
           </p>
@@ -242,9 +242,13 @@ export default {
       // als er op een timeframe button wordt geklikt, geeft
       // die butten de event mee. van deze event wordt de text
       // vd button gelezen opgeslagen als huidige timeframe
-      this.selectedTimeFrame = e.target.innerText;
-      this.isThereData ? this.getDividends() : null;
-      this.timeFrameDataUpdate();
+      this.isLoading = true;
+      setTimeout(() => {
+        this.selectedTimeFrame = e.target.innerText;
+        this.isThereData ? this.getDividends() : null;
+        this.timeFrameDataUpdate();
+        this.isLoading = false;
+      }, 1);
     },
     getDividends() {
       this.dividendsArray = [];

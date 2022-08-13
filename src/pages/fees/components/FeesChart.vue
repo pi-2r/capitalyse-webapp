@@ -55,8 +55,8 @@
         <h2>Fees</h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
-            <span class="chartResultValue greenNumber">
-              €{{ (totalExchangeFees + totalTransactionFees).toFixed(2) }}
+            <span class="chartResultValue redNumber">
+              -€{{ (totalExchangeFees + totalTransactionFees).toFixed(2) }}
             </span>
           </p>
         </transition>
@@ -117,7 +117,6 @@ export default {
             borderRadius: 5,
             borderSkipped: "bottom",
             borderColor: "#0091ff",
-            barPercentage: '0.7',
             hoverBorderWidth: 1,
             hoverBorderColor: "#0091ff",
             data: [],
@@ -402,6 +401,9 @@ export default {
 
         this.chartData.labels = this.labelsHolderTransLabels;
         this.chartData.datasets[1].data = this.dataHolderTransFees;
+
+        this.setColors(this.chartData);
+
       }
     },
     addMissingMonthsToChart() {
@@ -522,6 +524,43 @@ export default {
       this.chartData.labels = this.labelsHolder;
       this.chartData.datasets[0].data = this.dataHolder;
     },
+    setColors(holdingsData) {
+      // sets as many colors as there are holdings
+      const colors = [
+        "#4a7aff",
+        "#4ac6ff",
+        "#4ad5ff",
+        "#4adbff",
+        "#4af6ff",
+        "#4afff0",
+        "#4affe1",
+        "#4a4dff",
+        "#5c4aff",
+        "#4affcc",
+        "#4affb1",
+        "#4aff89",
+        "#77ff4a",
+      ];
+      let holdingsList = [];
+      for (let i = 0; i < holdingsData.datasets.length; i++) {
+        // sum object
+        const sum = holdingsData.datasets[i].data.reduce((a, b) => a + b, 0);
+        const isin = holdingsData.datasets[i].isin;
+        holdingsList.push({
+          index: i,
+          sum: sum,
+          isin: isin,
+        });
+      }
+
+      // sort holdingsList by sum
+      holdingsList.sort((a, b) => b.sum - a.sum);
+
+      for (let i = 0; i < holdingsList.length; i++) {
+        holdingsData.datasets[holdingsList[i].index].backgroundColor =
+          colors[i];
+      }
+    },
   },
   created() {
     this.loadData();
@@ -567,6 +606,10 @@ h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.redNumber {
+  color: var(--clr-red);
 }
 
 .dividendChartHeading p {
