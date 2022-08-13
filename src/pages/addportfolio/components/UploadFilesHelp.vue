@@ -16,7 +16,7 @@
       </h3>
       <p>
         For each file, click the "Export" button in the top right, then select
-        "CSV".
+        "CSV". Desktop & iOS only. On iOS click 'OPEN' in the top right when redirected.
       </p>
       <p>
         <a
