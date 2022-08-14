@@ -27,7 +27,7 @@ import getTotalInvestedAmountMixin from "@/mixins/analytics/getTotalInvestedAmou
 import getTotalProfitLossMixin from "@/mixins/analytics/getTotalProfitLoss";
 import currencyMarkupMixin from "@/mixins//helpers/currencyMarkup";
 
-import DetailedResultCard from "./DetailedResultCard.vue";
+import DetailedResultCard from "@/components/ui/DetailedResultCard.vue";
 
 export default {
   components: {

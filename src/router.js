@@ -69,6 +69,11 @@ const router = createRouter({
             meta: { requiresAuth: true },
         },
         {
+            path: "/dashboard/:id/holdings/:holdingId",
+            component: () => import("./pages/holding/HoldingPage.vue"),
+            meta: { requiresAuth: true },
+        },
+        {
             path: "/settings",
             component: () => import("./pages/settings/SettingsPage.vue"),
             meta: { requiresAuth: false },

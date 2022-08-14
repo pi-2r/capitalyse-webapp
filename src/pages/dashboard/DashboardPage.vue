@@ -72,7 +72,7 @@ import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
 
 import firebaseDateMixin from "@/mixins/helpers/dateToWords.js";
 
-import DividendChart from "./components/DividendChart.vue";
+import DividendChart from "@/components/ui/DividendChart.vue";
 import DepositsCard from "./components/DepositsCard.vue";
 import TradingVolCard from "./components/TradingVolCard.vue";
 import PortfolioCards from "./components/PortfolioCards.vue";
