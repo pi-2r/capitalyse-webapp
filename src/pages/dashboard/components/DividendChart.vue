@@ -305,9 +305,9 @@ export default {
         this.setYearToDateData();
       } else if (this.selectedTimeFrame === this.timeFrameOptions.oneYear) {
         this.setYearDate(1);
-      } else if (this.selectedTimeFrame === this.timeFrameOptions.threeYear) {
+      } else if (this.selectedTimeFrame === this.timeFrameOptions.threeYears) {
         this.setYearDate(3);
-      } else if (this.selectedTimeFrame === this.timeFrameOptions.fiveYear) {
+      } else if (this.selectedTimeFrame === this.timeFrameOptions.fiveYears) {
         this.setYearDate(5);
       }
     },
