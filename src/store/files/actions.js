@@ -176,6 +176,21 @@ export default {
                     const accountFile = e.target.result;
                     // turn into array of arrays
                     const rows = accountFile.slice(accountFile.indexOf("\n") + 1).split("\n");
+                    
+                    // double quote bug fix
+                    for (let i = 0; i < rows.length; i++) {
+                        if (rows[i][rows[i].length - 1] == '\r' && rows[i][0] == "\"") {
+                            // remove first character
+                            rows[i] = rows[i].slice(1);
+                            // remove last character
+                            rows[i] = rows[i].slice(0, -1);
+                            // replace "" with "
+                            rows[i] = rows[i].replaceAll("\"\"", '"');
+                            // remove last character again
+                            rows[i] = rows[i].slice(0, -1);
+                        }
+                    }
+
                     rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
                     const accountArray = rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
 
@@ -203,6 +218,21 @@ export default {
                     const portfolioFile = e.target.result;
                     // turn into array of arrays
                     const rows = portfolioFile.slice(portfolioFile.indexOf("\n") + 1).split("\n");
+                    
+                    // double quote bug fix
+                    for (let i = 0; i < rows.length; i++) {
+                        if (rows[i][rows[i].length - 1] == '\r' && rows[i][0] == "\"") {
+                            // remove first character
+                            rows[i] = rows[i].slice(1);
+                            // remove last character
+                            rows[i] = rows[i].slice(0, -1);
+                            // replace "" with "
+                            rows[i] = rows[i].replaceAll("\"\"", '"');
+                            // remove last character again
+                            rows[i] = rows[i].slice(0, -1);
+                        }
+                    }
+
                     rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
                     const portfolioArray = rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
 
