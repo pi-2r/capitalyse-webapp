@@ -205,7 +205,7 @@ export default {
                     const rows = portfolioFile.slice(portfolioFile.indexOf("\n") + 1).split("\n");
                     rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
                     const portfolioArray = rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
-
+             
                     context.commit("setPortfolioFile", {
                         portfolioFile: portfolioArray,
                         portfolioId: portfolioId,

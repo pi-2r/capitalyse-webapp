@@ -20,7 +20,14 @@ export default {
                 },
                 transactions: {
                     dateIndex: 0,
+                    isinIndex: 3,
                     searchIndex: 14,
+                },
+                accountStatement: {
+                    dateIndex: 0,
+                    isinIndex: 4,
+                    typeIndex: 5,
+                    amountIndex: 8,
                 },
                 tradingVolume: {
                     searchIndex: 16,

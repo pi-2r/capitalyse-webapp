@@ -28,13 +28,8 @@
     </section>
 
     <section class="cardsContainer">
-      <DetailedResultCard
-        title="Total P/L"
-        :resultValue="14"
-        :subResultValue="41"
-        subResultValuePostfix="%"
-        colorType="greenRed"
-      />
+      <HoldingProfitLossCard :isin="isin" />
+
       <DetailedResultCard
         title="Position value"
         :resultValue="1000"
@@ -59,6 +54,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 // import BackButton from "@/components/ui/BackButton.vue";
 import DetailedResultCard from "@/components/ui/DetailedResultCard.vue";
+import HoldingProfitLossCard from "./components/HoldingProfitLossCard.vue";
 import DividendChart from "@/components/ui/DividendChart.vue";
 
 export default {
@@ -67,6 +63,7 @@ export default {
     Header,
     DetailedResultCard,
     DividendChart,
+    HoldingProfitLossCard,
     // BackButton,
     // FeesChart
   },
@@ -77,6 +74,9 @@ export default {
     },
   },
   computed: {
+    isin() {
+      return this.$route.params.holdingId;
+    },
     portfolioName() {
       return this.$store.getters["files/getCurrentPortfolioName"];
     },
@@ -94,7 +94,7 @@ export default {
       let hasFiles = false;
       portfolios.forEach((portfolio) => {
         if (portfolio.id === this.$route.params.id) {
-          if (portfolio.accountFile && portfolio.transactionsFile) {
+          if (portfolio.portfolioFile && portfolio.transactionsFile) {
             hasFiles = true;
           }
         }
