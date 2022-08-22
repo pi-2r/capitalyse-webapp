@@ -23,4 +23,10 @@ export default {
     portfolioCash(state) {
         return state.dictionary.portfolioCash;
     },
+    currencyChange(state) {
+        return state.dictionary.currencyChange;
+    },
+    buy(state) {
+        return state.dictionary.buy;
+    }
 };

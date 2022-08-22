@@ -25,5 +25,9 @@ export default {
     },
     profitLossTransactionsIndexes(state) {
         return state.indexes.profitLossTransactionsIndexes;
+    },
+    accountStatement(state) {
+        return state.indexes.accountStatement;
     }
+    
 };

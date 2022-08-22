@@ -16,6 +16,7 @@ export default {
       holdingsArray: [],
       labelsHolder: [],
       dataHolder: [],
+      isinHolder: [],
     };
   },
   methods: {
@@ -37,6 +38,7 @@ export default {
         return {
           labels: this.labelsHolder,
           data: this.dataHolder,
+          isin: this.isinHolder,
         };
 
       } else {
@@ -85,11 +87,13 @@ export default {
       const indexes = this.indexes;
       const eurTotalIndex = indexes.eurTotalIndex;
       const productIndex = indexes.productIndex;
+      const isinIndex = indexes.isinIndex;
 
       // -1 omdat de laatste rij leeg is
       for (let i = 0; i < data.length - 1; i++) {
         let nr = this.cleanNumber(data[i][eurTotalIndex]);
         this.holdingsArray.push({
+          isin: data[i][isinIndex],
           name: data[i][productIndex],
           value: nr,
         });
@@ -98,6 +102,7 @@ export default {
     turnIntoHoldingsChartData() {
       // get labels and data from holdings array
       for (let i = 0; i < this.holdingsArray.length; i++) {
+        this.isinHolder.push(this.holdingsArray[i].isin);
         this.labelsHolder.push(this.holdingsArray[i].name);
         this.dataHolder.push(this.holdingsArray[i].value);
       }
