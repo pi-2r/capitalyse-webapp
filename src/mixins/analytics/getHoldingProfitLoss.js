@@ -1,17 +1,24 @@
 import cleanNumber from "../helpers/cleanNumber";
 import includesFromArray from "../helpers/includesFromArray";
-import getHoldingTransactionFees from "./getHoldingTransactionFees";
+import currencyMarkup from "../helpers/currencyMarkup";
 
+import getHoldingTransactionFees from "./getHoldingTransactionFees";
+import getHoldingPositionValue from "./getHoldingPositionValue";
 import getHoldingTransactions from "./getHoldingTransactions";
 
 export default {
-  mixins: [cleanNumber, getHoldingTransactions, includesFromArray, getHoldingTransactionFees],
+  mixins: [cleanNumber, getHoldingTransactions, includesFromArray, getHoldingTransactionFees, getHoldingPositionValue, currencyMarkup],
   data() {
     return {
       mixinHoldingSize: 0,
-      mixinsTransFees: 0,
+      mixinTransFees: 0,
       mixinNetTransWorth: 0,
+      mixinIsHoldingInEuro: null,
       mixinHoldingTransactions: [],
+      currencies: {
+        eur: "EUR",
+        usd: "USD",
+      }
     }
   },
   computed: {
@@ -21,8 +28,8 @@ export default {
     accountStatementIndexes() {
       return this.$store.getters['indexes/accountStatement'];
     },
-    currencyDebitNames() {
-      return this.$store.getters['dictionary/currencyDebit'];
+    currencyChangeNames() {
+      return this.$store.getters['dictionary/currencyChange'];
     },
     buyNames() {
       return this.$store.getters['dictionary/buy'];
@@ -30,48 +37,69 @@ export default {
   },
   methods: {
     getHoldingProfitLoss(accountData, portfolioData, transactionsData, isin) {
-
-      this.mixinHoldingSize = this.getHoldingSize(portfolioData, isin);
-
+      // Get holding size as currently is in portfoliofile
+      this.mixinHoldingSize = this.getHoldingPositionValue(portfolioData, isin);
+      // Get transactions array for this isin
       this.mixinHoldingTransactions = this.getHoldingTransactions(accountData, isin);
-      this.mixinNetTransWorth = this.getHoldingNetTransWorth(this.mixinHoldingTransactions, this.buyNames);
+      // Check if is EURO or other currency to give correct function
+      this.mixinIsHoldingInEuro = this.isHoldingInEuro(this.mixinHoldingTransactions);
+      // Give correct function to get net traded value in euro
+      if (this.mixinIsHoldingInEuro) {
+        this.mixinNetTransWorth = this.getHoldingNetTransWorthEUR(this.mixinHoldingTransactions);
+      } else {
+        this.mixinNetTransWorth = this.getHoldingNetTransWorthOther(this.mixinHoldingTransactions);
+      }
+      // Get transaction fees
+      this.mixinTransFees = this.getHoldingTransactionFees(transactionsData, portfolioData, isin);
+      // Calculate profit/loss
+      let totalPL = this.mixinHoldingSize.value - this.mixinNetTransWorth - this.mixinTransFees.fees;
+      // Calculate profit/loss percentage
+      let totalPLPercentage = totalPL / this.mixinHoldingSize.value * 100;
 
-      this.mixinTransFees = this.getHoldingTransactionFees(transactionsData, isin);
-
-      console.log(this.mixinHoldingSize, this.mixinNetTransWorth, this.mixinTransFees);
-
-      const totalPL = this.mixinHoldingSize - this.mixinNetTransWorth - this.mixinTransFees;
-      
       if (typeof totalPL === 'number') {
-        return totalPL;
+        return {
+          totalPL: totalPL,
+          totalPLPercentage: totalPLPercentage,
+        };
       } else {
         return false;
       }
     },
-    getHoldingSize(portfolioData, isin) {
-      // pak de holding uit portfolio file en neem de totale waarde in euros
-      // voor de huidige waarde vd holding
-      for(let i = 0; i < portfolioData.length; i++) {
-        if (portfolioData[i][this.portfolioIndexes.isinIndex] === isin) {
-          return this.cleanNumber(portfolioData[i][this.portfolioIndexes.eurTotalIndex]);
+    // check of holding in euro is ofwel in een andere valuta
+    // dit omdat ie andere dictionary namen nodig heeft bij verschillende valuta
+    isHoldingInEuro(holdingTransactions) {
+      for (let i = 0; i < holdingTransactions.length; i++) {
+        if (
+          this.includesFromArray(this.buyNames, holdingTransactions[i][this.accountStatementIndexes.typeIndex]) &&
+          holdingTransactions[i][this.accountStatementIndexes.ogCurrencyIndex] === this.currencies.eur
+        ) {
+          return true;
         }
       }
       return false;
     },
-    getHoldingNetTransWorth(holdingTransactions, names) {
+    getHoldingNetTransWorthEUR(holdingTransactions) {
       // 'names' bepaald of er gezocht wordt naar euro of een andere valuta
       // buyNames is euro
+      let tot = 0;
+
+      for (let i = 0; i < holdingTransactions.length; i++) {
+        if (this.includesFromArray(this.buyNames, holdingTransactions[i][this.accountStatementIndexes.typeIndex])) {
+          tot += this.cleanNumber(holdingTransactions[i][this.accountStatementIndexes.amountIndex]);
+        }
+      }
+      return tot * -1;
+    },
+    getHoldingNetTransWorthOther(holdingTransactions) {
+      // 'names' bepaald of er gezocht wordt naar euro of een andere valuta
       // currencyDebitNames is andere valuta
       let tot = 0;
 
       for (let i = 0; i < holdingTransactions.length; i++) {
-        if (holdingTransactions[i][this.accountStatementIndexes.typeIndex].includes("Vendre")) {
-          console.log(holdingTransactions[i]);
-        }
-        console.log(holdingTransactions[i]);
-
-        if (this.includesFromArray(names, holdingTransactions[i][this.accountStatementIndexes.typeIndex])) {
-      
+        if (
+          this.includesFromArray(this.currencyChangeNames, holdingTransactions[i][this.accountStatementIndexes.typeIndex]) &&
+          holdingTransactions[i][this.accountStatementIndexes.ogCurrencyIndex] === this.currencies.eur
+        ) {
           tot += this.cleanNumber(holdingTransactions[i][this.accountStatementIndexes.amountIndex]);
         }
       }

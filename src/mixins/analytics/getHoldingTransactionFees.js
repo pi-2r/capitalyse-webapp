@@ -1,14 +1,16 @@
 import cleanNumber from "../helpers/cleanNumber";
 
+import getHoldingPositionValue from "./getHoldingPositionValue";
+
 export default {
-  mixins: [cleanNumber],
+  mixins: [cleanNumber, getHoldingPositionValue],
   computed: {
     transactionsIndexes() {
       return this.$store.getters['indexes/transactions'];
     },
   },
   methods: {
-    getHoldingTransactionFees(data, isin) {
+    getHoldingTransactionFees(data, portfolioData, isin) {
       const searchIndex = this.transactionsIndexes.searchIndex;
       const isinIndex = this.transactionsIndexes.isinIndex;
 
@@ -28,11 +30,14 @@ export default {
         }
       }
 
-      // markup
-      tot = tot.toFixed(2);
-      tot = parseFloat(tot).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-
-      return this.cleanNumber(tot);
+      // get percentage of position size
+      let holdingValue = this.getHoldingPositionValue(portfolioData, isin);
+      let percentage = tot / holdingValue.value * 100;
+      
+      return {
+        fees: tot,
+        percentage: percentage,
+      };
     },
   }
 }

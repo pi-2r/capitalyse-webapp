@@ -27,6 +27,7 @@ export default {
                     dateIndex: 0,
                     isinIndex: 4,
                     typeIndex: 5,
+                    ogCurrencyIndex: 7,
                     amountIndex: 8,
                 },
                 tradingVolume: {

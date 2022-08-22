@@ -36,7 +36,9 @@ export default {
     return {
       isLoadingHoldings: true,
       isLoadingCurrencies: true,
+      chartHoldings: null,
       chartOptions: {
+        onClick: this.pieChartClickEvent,
         plugins: {
           legend: {
             display: false,
@@ -105,6 +107,14 @@ export default {
     }
   },
   methods: {
+    pieChartClickEvent(event, data) {
+      // check of niet buiten de chart klikt
+      if(data.length > 0){
+        if(event.chart.tooltip.title[0].length !== 3) {
+          this.$router.push('/dashboard/' + this.$route.params.id + '/holdings/' + this.chartHoldings.isin[data[0].index]);
+        } 
+      }
+    },
     setTheme() {
       const theme = localStorage.getItem("theme");
       if (theme === "dark") {
@@ -146,23 +156,23 @@ export default {
     },
     setHoldingsData() {
       // holdings
-      let chartHoldings = this.getPieChartHoldings(
+      this.chartHoldings = this.getPieChartHoldings(
         this.currentPortfolio.portfolioFile
       );
 
       // voeg voor elke holding een kleur toe
-      this.setColors(chartHoldings, this.holdingsChartData);
+      this.setColors(this.chartHoldings, this.holdingsChartData);
 
       // set data
-      if (chartHoldings === false) {
+      if (this.chartHoldings === false) {
         this.holdingsChartData.labels = [];
         this.holdingsChartData.datasets[0].data = [];
 
         this.chartErrorMsg = "You currently have no holdings.";
       } else {
         this.chartErrorMsg = null;
-        this.holdingsChartData.labels = chartHoldings.labels;
-        this.holdingsChartData.datasets[0].data = chartHoldings.data;
+        this.holdingsChartData.labels = this.chartHoldings.labels;
+        this.holdingsChartData.datasets[0].data = this.chartHoldings.data;
       }
     },
     setColors(holdings, holdingsData) {

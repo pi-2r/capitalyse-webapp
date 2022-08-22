@@ -24,7 +24,7 @@ export default {
                     "Giro Exchange",
                     "Frais de connexion aux places boursières 2021",
                 ],
-                currencyDebit: ["Valuta Debitering", "Opération de change - Débit", "Währungswechsel (Ausbuchung)"],
+                currencyChange: ["Valuta Debitering", "Valuta Creditering", "Opération de change", "Währungswechsel"],
             },
         };
     },

@@ -23,8 +23,8 @@ export default {
     portfolioCash(state) {
         return state.dictionary.portfolioCash;
     },
-    currencyDebit(state) {
-        return state.dictionary.currencyDebit;
+    currencyChange(state) {
+        return state.dictionary.currencyChange;
     },
     buy(state) {
         return state.dictionary.buy;

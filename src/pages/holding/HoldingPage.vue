@@ -10,7 +10,7 @@
       :secondLink="'/dashboard/demo'"
       :secondLinkName="'Demo'"
       thirdLink="#"
-      thirdLinkName="HOLDING_NAME"
+      :thirdLinkName="holdingName"
     />
     <Breadcrumbs
       v-else
@@ -19,33 +19,17 @@
       :secondLink="'/dashboard/' + this.$route.params.id"
       :secondLinkName="portfolioName ? portfolioName : ''"
       thirdLink="#"
-      thirdLinkName="HOLDING_NAME"
+      :thirdLinkName="holdingName"
     />
 
     <section class="titleAndBackButtonContainer">
-      <h1>HOLDING_NAME</h1>
-      <p>({{$route.params.holdingId}})</p>
+      <h1>{{holdingName}}</h1>
+      <p>{{$route.params.holdingId}}</p>
     </section>
+   
+    <HoldingInfoCards :isin="isin" />
 
-    <section class="cardsContainer">
-      <HoldingProfitLossCard :isin="isin" />
-
-      <DetailedResultCard
-        title="Position value"
-        :resultValue="1000"
-        :subResultValue="15"
-        subResultValuePostfix="%"
-      />
-      <DetailedResultCard
-        title="Transaction fees"
-        :resultValue="-3.5"
-        :subResultValue="0.9"
-        subResultValuePostfix="%"
-        colorType="greenRed"
-      />
-    </section>
-
-    <DividendChart :hideTimeFrameBtns="false" class="dividendChartDashboard" />
+    <!-- <DividendChart :hideTimeFrameBtns="false" class="dividendChartDashboard" /> -->
   </section>
 </template>
 
@@ -53,19 +37,25 @@
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 // import BackButton from "@/components/ui/BackButton.vue";
-import DetailedResultCard from "@/components/ui/DetailedResultCard.vue";
-import HoldingProfitLossCard from "./components/HoldingProfitLossCard.vue";
-import DividendChart from "@/components/ui/DividendChart.vue";
+import HoldingInfoCards from "./components/HoldingInfoCards.vue";
+// import DividendChart from "@/components/ui/DividendChart.vue";
+
+import getHoldingName from "@/mixins/analytics/getHoldingName.js";
 
 export default {
+  mixins: [getHoldingName],
   components: {
     Breadcrumbs,
     Header,
-    DetailedResultCard,
-    DividendChart,
-    HoldingProfitLossCard,
+    // DividendChart,
+    HoldingInfoCards,
     // BackButton,
     // FeesChart
+  },
+  data() {
+    return {
+      holdingName: "",
+    };
   },
   props: {
     isDemo: {
@@ -79,6 +69,16 @@ export default {
     },
     portfolioName() {
       return this.$store.getters["files/getCurrentPortfolioName"];
+    },
+    currentPortfolio() {
+      return this.$store.getters["files/getCurrentPortfolio"];
+    },
+    isThereData() {
+      return (
+        !!this.currentPortfolio.accountFile &&
+        !!this.currentPortfolio.portfolioFile &&
+        !!this.currentPortfolio.transactionsFile
+      );
     },
     hasCurrentPortfolio() {
       const portfolios = this.$store.getters["files/getPortfolios"];
@@ -94,7 +94,7 @@ export default {
       let hasFiles = false;
       portfolios.forEach((portfolio) => {
         if (portfolio.id === this.$route.params.id) {
-          if (portfolio.portfolioFile && portfolio.transactionsFile) {
+          if (portfolio.portfolioFile && portfolio.transactionsFile && portfolio.accountFile) {
             hasFiles = true;
           }
         }
@@ -109,11 +109,22 @@ export default {
     hasPortfolios() {
       this.loadData();
     },
+    isThereData() {
+      this.start();
+    },
     $route() {
       this.loadData();
     },
   },
   methods: {
+    start() {
+      if(this.isThereData) {
+          this.holdingName = this.getHoldingName(
+          this.currentPortfolio.portfolioFile,
+          this.isin
+        );
+      }
+    },
     loadData() {
       if (this.isDemo === false) {
         if (!this.hasCurrentFiles && this.hasCurrentPortfolio) {
@@ -139,6 +150,7 @@ export default {
   },
   created() {
     this.loadData();
+    this.start();
   },
 };
 </script>
@@ -160,13 +172,6 @@ export default {
   margin-top: 3rem;
 }
 
-.cardsContainer {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 1rem;
-  margin-bottom: 3rem;
-}
-
 @media screen and (min-width: 400px) {
   .container {
     max-width: 92%;
@@ -174,9 +179,6 @@ export default {
 }
 
 @media screen and (min-width: 650px) {
-  .cardsContainer {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
 
   .container {
     max-width: 90%;
