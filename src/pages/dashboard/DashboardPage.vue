@@ -43,6 +43,8 @@
     <section >
       <PortfolioCards />
 
+      <HoldingsList/>
+
       <section class="holdingsContainer">
         <HoldingsPieChartCards />
       </section>
@@ -77,6 +79,7 @@ import DepositsCard from "./components/DepositsCard.vue";
 import TradingVolCard from "./components/TradingVolCard.vue";
 import PortfolioCards from "./components/PortfolioCards.vue";
 import HoldingsPieChartCards from "./components/HoldingsPieChartCards.vue";
+import HoldingsList from './components/HoldingsList.vue';
 
 export default {
   mixins: [firebaseDateMixin],
@@ -92,6 +95,7 @@ export default {
     PortfolioCards,
     Icon,
     HoldingsPieChartCards,
+    HoldingsList
   },
   props: {
     isDemo: {
