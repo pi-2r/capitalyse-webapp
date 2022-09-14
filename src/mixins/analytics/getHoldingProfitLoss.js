@@ -57,10 +57,6 @@ export default {
       // Calculate profit/loss percentage
       let totalPLPercentage = totalPL / this.mixinNetTransWorth * 100;
 
-      console.log('holdingsize: ' + this.mixinHoldingSize.value);
-      console.log('nettransworth: ' + this.mixinNetTransWorth);
-      console.log('transfees: ' + this.mixinTransFees.fees);
-
       if (typeof totalPL === 'number') {
         return {
           totalPL: totalPL,

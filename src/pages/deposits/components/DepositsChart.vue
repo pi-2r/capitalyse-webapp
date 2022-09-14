@@ -150,7 +150,7 @@ export default {
         total += this.depositsArray[i].depAmt;
       }
       total = total.toFixed(2);
-      let average = (total / this.depositsArray.length).toFixed(2);
+      let average = (total / this.chartData.labels.length).toFixed(2);
       average = parseFloat(average).toLocaleString(undefined, {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
