@@ -1,16 +1,23 @@
 import cleanNumber from "../helpers/cleanNumber";
 
-import getHoldingPositionValue from "./getHoldingPositionValue";
+import getHoldingTransactions from "./getHoldingTransactions";
 
 export default {
-  mixins: [cleanNumber, getHoldingPositionValue],
+  mixins: [cleanNumber, getHoldingTransactions],
+  data() {
+    return {
+      mixinIsHoldingInEuro: null,
+      mixinHoldingTransactions: [],
+      mixinNetTransWorth: 0,
+    }
+  },
   computed: {
     transactionsIndexes() {
       return this.$store.getters['indexes/transactions'];
     },
   },
   methods: {
-    getHoldingTransactionFees(data, portfolioData, isin) {
+    getHoldingTransactionFees(data, accountData, isin) {
       const searchIndex = this.transactionsIndexes.searchIndex;
       const isinIndex = this.transactionsIndexes.isinIndex;
 
@@ -30,9 +37,19 @@ export default {
         }
       }
 
+      // Get transactions array for this isin
+      this.mixinHoldingTransactions = this.getHoldingTransactions(accountData, isin);
+      // Check if is EURO or other currency to give correct function
+      this.mixinIsHoldingInEuro = this.getIsHoldingInEuro(this.mixinHoldingTransactions);
+      // Give correct function to get net traded value in euro
+      if (this.mixinIsHoldingInEuro) {
+        this.mixinNetTransWorth = this.getHoldingNetTransWorthEUR(this.mixinHoldingTransactions);
+      } else {
+        this.mixinNetTransWorth = this.getHoldingNetTransWorthOther(this.mixinHoldingTransactions);
+      }
+
       // get percentage of position size
-      let holdingValue = this.getHoldingPositionValue(portfolioData, isin);
-      let percentage = tot / holdingValue.value * 100;
+      let percentage = tot / this.mixinNetTransWorth * 100;
       
       return {
         fees: tot,

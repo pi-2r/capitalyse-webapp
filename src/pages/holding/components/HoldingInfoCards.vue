@@ -99,7 +99,7 @@ export default {
 
         this.holdingTransactionFees = this.getHoldingTransactionFees(
           this.currentPortfolio.transactionsFile,
-          this.currentPortfolio.portfolioFile,
+          this.currentPortfolio.accountFile,
           this.isin
         );
 

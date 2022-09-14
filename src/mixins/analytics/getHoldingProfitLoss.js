@@ -5,9 +5,10 @@ import currencyMarkup from "../helpers/currencyMarkup";
 import getHoldingTransactionFees from "./getHoldingTransactionFees";
 import getHoldingPositionValue from "./getHoldingPositionValue";
 import getHoldingTransactions from "./getHoldingTransactions";
+import getIsHoldingInEuro from "./getIsHoldingInEuro";
 
 export default {
-  mixins: [cleanNumber, getHoldingTransactions, includesFromArray, getHoldingTransactionFees, getHoldingPositionValue, currencyMarkup],
+  mixins: [cleanNumber, getHoldingTransactions, includesFromArray, getHoldingTransactionFees, getHoldingPositionValue, currencyMarkup, getIsHoldingInEuro],
   data() {
     return {
       mixinHoldingSize: 0,
@@ -42,7 +43,7 @@ export default {
       // Get transactions array for this isin
       this.mixinHoldingTransactions = this.getHoldingTransactions(accountData, isin);
       // Check if is EURO or other currency to give correct function
-      this.mixinIsHoldingInEuro = this.isHoldingInEuro(this.mixinHoldingTransactions);
+      this.mixinIsHoldingInEuro = this.getIsHoldingInEuro(this.mixinHoldingTransactions);
       // Give correct function to get net traded value in euro
       if (this.mixinIsHoldingInEuro) {
         this.mixinNetTransWorth = this.getHoldingNetTransWorthEUR(this.mixinHoldingTransactions);
@@ -50,11 +51,15 @@ export default {
         this.mixinNetTransWorth = this.getHoldingNetTransWorthOther(this.mixinHoldingTransactions);
       }
       // Get transaction fees
-      this.mixinTransFees = this.getHoldingTransactionFees(transactionsData, portfolioData, isin);
+      this.mixinTransFees = this.getHoldingTransactionFees(transactionsData, accountData, isin);
       // Calculate profit/loss
       let totalPL = this.mixinHoldingSize.value - this.mixinNetTransWorth - this.mixinTransFees.fees;
       // Calculate profit/loss percentage
-      let totalPLPercentage = totalPL / this.mixinHoldingSize.value * 100;
+      let totalPLPercentage = totalPL / this.mixinNetTransWorth * 100;
+
+      console.log('holdingsize: ' + this.mixinHoldingSize.value);
+      console.log('nettransworth: ' + this.mixinNetTransWorth);
+      console.log('transfees: ' + this.mixinTransFees.fees);
 
       if (typeof totalPL === 'number') {
         return {
@@ -64,19 +69,6 @@ export default {
       } else {
         return false;
       }
-    },
-    // check of holding in euro is ofwel in een andere valuta
-    // dit omdat ie andere dictionary namen nodig heeft bij verschillende valuta
-    isHoldingInEuro(holdingTransactions) {
-      for (let i = 0; i < holdingTransactions.length; i++) {
-        if (
-          this.includesFromArray(this.buyNames, holdingTransactions[i][this.accountStatementIndexes.typeIndex]) &&
-          holdingTransactions[i][this.accountStatementIndexes.ogCurrencyIndex] === this.currencies.eur
-        ) {
-          return true;
-        }
-      }
-      return false;
     },
     getHoldingNetTransWorthEUR(holdingTransactions) {
       // 'names' bepaald of er gezocht wordt naar euro of een andere valuta
