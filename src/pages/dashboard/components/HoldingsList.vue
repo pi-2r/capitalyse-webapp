@@ -16,7 +16,7 @@
         </thead>
         <tbody>
           <tr :key="holding.id" v-for="holding in holdings">
-            <HoldingsListItem :holding="holding" />
+            <HoldingsListItem :isDemo="isDemo" :holding="holding" />
           </tr>
           <tr v-if="holdings.length < 1 && !isLoading">
             <td class="noHoldings" colspan="3">
@@ -44,6 +44,12 @@ export default {
   mixins: [getHoldingsList],
   components: {
     HoldingsListItem
+  },
+   props: {
+    isDemo: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {

@@ -60,7 +60,7 @@
         class="dividendChartDashboard"
       />
 
-      <HoldingsList/>
+      <HoldingsList :isDemo="isDemo"/>
     </section>
     
   </section>

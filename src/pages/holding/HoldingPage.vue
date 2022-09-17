@@ -8,7 +8,7 @@
       baseLink="/portfolios"
       baseLinkName="Portfolios"
       :secondLink="'/dashboard/demo'"
-      :secondLinkName="'Demo'"
+      secondLinkName="Demo"
       thirdLink="#"
       :thirdLinkName="holdingName"
     />

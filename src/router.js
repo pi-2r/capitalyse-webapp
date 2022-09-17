@@ -49,6 +49,11 @@ const router = createRouter({
             meta: { requiresAuth: false },
         },
         {
+            path: "/dashboard/demo/holdings/:holdingId",
+            component: () => import("./pages/demo/DemoHoldingPage.vue"),
+            meta: { requiresAuth: false },
+        },
+        {
             path: "/dashboard/:id",
             component: () => import("./pages/dashboard/DashboardPage.vue"),
             meta: { requiresAuth: true },
@@ -71,7 +76,7 @@ const router = createRouter({
         {
             path: "/dashboard/:id/holdings/:holdingId",
             component: () => import("./pages/holding/HoldingPage.vue"),
-            meta: { requiresAuth: true },
+            meta: { requiresAuth: false },
         },
         {
             path: "/settings",
