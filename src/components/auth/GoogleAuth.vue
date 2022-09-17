@@ -93,6 +93,7 @@ display: flex;
     align-items: center;
     color: var(--clr-grey);
     transition: 0.2s all;
+    font-size: 1rem;
 }
 .googleIcon {
     color: var(--clr-grey);
