@@ -98,7 +98,7 @@ display: flex;
     color: var(--clr-grey);
     transition: 0.2s all;
 }
-.wrapper:hover .signupText, .wrapper:hover .googleIcon, {
+.wrapper:hover .signupText, .wrapper:hover .googleIcon {
     color: var(--clr-dark-grey);
 }
 
