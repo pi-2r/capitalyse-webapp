@@ -1,7 +1,7 @@
 <template>
     <button class="googleLogin wrapper" @click="googleSignIn">
         <section v-if="!isLoading" class="contents">
-            <p class="signupText">Or authenticate with</p>
+            <p class="signupText">Or continue with</p>
             <Icon  icon="bi:google" class="googleIcon"/>
         </section>
         <Spinner class="spinner" v-else/>
