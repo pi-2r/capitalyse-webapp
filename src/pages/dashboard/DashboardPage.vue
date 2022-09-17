@@ -43,7 +43,7 @@
     <section >
       <PortfolioCards />
 
-      <HoldingsList/>
+      
 
       <section class="holdingsContainer">
         <HoldingsPieChartCards />
@@ -59,6 +59,8 @@
         :hideTimeFrameBtns="false"
         class="dividendChartDashboard"
       />
+
+      <HoldingsList/>
     </section>
     
   </section>
