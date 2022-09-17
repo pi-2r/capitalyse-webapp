@@ -60,8 +60,8 @@
             <router-link to="/signup" class="secondaryLink">
               Sign up instead
             </router-link>
+            <GoogleAuth />
 
-            <!-- <GoogleAuth /> -->
           </form>
         </section>
       </section>
@@ -91,14 +91,14 @@
 </template>
 
 <script>
-// import GoogleAuth from "@/components/auth/GoogleAuth.vue";
+import GoogleAuth from "@/components/auth/GoogleAuth.vue";
 import BackButton from "@/components/ui/BackButton.vue";
 import Logo from "@/components/ui/Logo.vue";
 import { Icon } from "@iconify/vue";
 
 export default {
   components: {
-    // GoogleAuth,
+    GoogleAuth,
     BackButton,
     Logo,
     Icon,
@@ -380,6 +380,9 @@ input[type="password"] {
   }
   .appimageoverlay-mobile {
     display: block;
+  }
+  .content {
+    overflow: scroll;
   }
 }
 

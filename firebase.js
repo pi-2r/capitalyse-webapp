@@ -21,5 +21,8 @@ const config = {
 const firebaseApp = initializeApp(config);
 getStorage(firebaseApp)
 
+
+
 const auth = getAuth();
+
 setPersistence(auth, browserLocalPersistence);

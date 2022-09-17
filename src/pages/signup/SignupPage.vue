@@ -76,7 +76,7 @@
               Log in instead
             </router-link>
 
-            <!-- <GoogleAuth /> -->
+            <GoogleAuth />
           </form>
         </section>
       </section>
@@ -106,13 +106,15 @@
 </template>
 
 <script>
-// import GoogleAuth from '@/components/auth/GoogleAuth.vue';
+
+
+import GoogleAuth from '@/components/auth/GoogleAuth.vue';
 import Logo from "@/components/ui/Logo.vue";
 import BackButton from '@/components/ui/BackButton.vue';
 
 export default {
   components: {
-    // GoogleAuth,
+    GoogleAuth,
     BackButton,
     Logo,
   },

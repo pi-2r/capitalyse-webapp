@@ -47,6 +47,14 @@ export default {
                 context.commit("setAuthError", error);
             });
     },
+    googleAuth(context, payload) {
+        context.commit('setAuthError', null);
+
+        context.commit('setUser', {
+            token: payload.accessToken,
+            userId: payload.userId,
+        });
+    },
     logout(context) {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
