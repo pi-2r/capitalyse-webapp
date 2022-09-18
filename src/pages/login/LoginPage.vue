@@ -285,8 +285,6 @@ input[type="password"]:-webkit-autofill:focus {
   align-items: center;
   height: 100vh;
   overflow-y: scroll;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
 }
 
 .invalid {
@@ -360,6 +358,8 @@ input[type="password"] {
   }
   .contentWrapper {
     justify-content: start;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
   }
  
 }
