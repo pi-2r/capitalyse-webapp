@@ -66,29 +66,8 @@
         </section>
       </section>
     </section>
-    <!-- <section class="imagesection">
-      <section class="appimageoverlay"></section>
-      <figure>
-        <img
-          class="loginFormImage"
-          loading="eager"
-          src="@/assets/buildings.webp"
-          alt="Big header image"
-        />
-      </figure>
 
-      <h1 class="centered">
-        <Logo
-          class="logo"
-          :ignoreTheme="true"
-          color="var(--clr-white)"
-        />Welcome back, we hope you're
-        <span class="customUnderline">making progress</span>
-      </h1>
-      <span class="appmark"></span>
-      
-    </section> -->
-    <AuthImageSection underlinedText="making progress" imageUrl="@/assets/buildings.webp">
+    <AuthImageSection underlinedText="making progress" imgName="@/assets/buildings.webp">
       Welcome back, we hope <br> you're  
     </AuthImageSection>
   </section>

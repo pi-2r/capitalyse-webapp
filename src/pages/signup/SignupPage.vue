@@ -81,27 +81,6 @@
         </section>
       </section>
     </section>
-    <!-- <section class="imagesection">
-      <section class="appimageoverlay"></section>
-      <figure>
-        <img
-          class="loginFormImage"
-          loading="eager"
-          src="@/assets/signup-bg.webp"
-          alt="Big header image"
-        />
-      </figure>
-
-      <h1 class="centered">
-        <Logo
-          class="logo"
-          :ignoreTheme="true"
-          color="var(--clr-white)"
-        />Financial insight <br />starts with
-        <span class="customUnderline">Capitalyse</span>
-      </h1>
-      <span class="appmark"></span> 
-    </section> -->
     <AuthImageSection underlinedText="Capitalyse" imgName="signup-bg.webp">
       Financial insight <br />starts with
     </AuthImageSection>
