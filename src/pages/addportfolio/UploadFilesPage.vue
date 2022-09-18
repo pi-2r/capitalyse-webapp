@@ -8,180 +8,204 @@
 
     <section class="formCardContainer">
       <Card class="wrapper">
-        <article>
-          <form @submit.prevent="submitForm" class="uploadFilesForm">
-            <section class="uploadFilesGroup">
-              <label class="uploadFilesLabel">
-                <input
-                  @change="uploadFile"
-                  type="file"
-                  accept=".csv"
-                  multiple
-                />
-                <Icon
-                  v-if="filesAreValid"
-                  icon="eva:checkmark-outline"
-                  color="var(--clr-blue)"
-                  height="22"
-                />
-                <Icon
-                  v-else
-                  icon="ph:upload-simple-duotone"
-                  color="var(--clr-blue)"
-                  height="22"
-                />
-                <span class="uploadFilesLabelText">{{ inputText }}</span>
-              </label>
+        <transition name="rtlIn">
+          <article v-if="exportFilesStepDone" class="uploadFilesStep">
+            <section class="uploadFilesCardHeader">
+              <!-- <BackButton to="other" @click="prevStep()"/> -->
+              <h2 class="addPortfolioCardTitle">
+                (2/2) Import into Capitalyse
+              </h2>
             </section>
 
-            <section class="btnAndFileNames">
-              <section class="fileNames">
-                <section class="fileNamesAndBtn u-noselect">
-                  <p
-                    class="fileName"
-                    :class="portfolioFileIsValid ? 'fileValid' : 'fileInvalid'"
-                  >
-                    <span v-if="portfolioFileIsValid">
-                      <CheckMarkIcon class="fileIcon" />
-                    </span>
-                    <span v-else>
-                      <CloseIcon class="fileIcon" />
-                    </span>
+            <p class="addPortfolioCardDesc">
+              Next, upload the downloaded files into Capitalyse. Give the
+              portfolio a name if you wish to do so.
+            </p>
 
-                    <span>{{ portfolioFileName }}</span>
+            <form @submit.prevent="submitForm" class="uploadFilesForm">
+              <section class="uploadFilesGroup">
+                <label class="uploadFilesLabel">
+                  <input
+                    @change="uploadFile"
+                    type="file"
+                    accept=".csv"
+                    multiple
+                  />
+                  <Icon
+                    v-if="filesAreValid"
+                    icon="eva:checkmark-outline"
+                    color="var(--clr-blue)"
+                    height="22"
+                  />
+                  <Icon
+                    v-else
+                    icon="ph:upload-simple-duotone"
+                    color="var(--clr-blue)"
+                    height="22"
+                  />
+                  <span class="uploadFilesLabelText">{{ inputText }}</span>
+                </label>
+              </section>
 
-                    <a v-if="!portfolioFileIsValid" href="https://trader.degiro.nl/staging-trader/#/portfolio" target="_blank" class="goToFile">
+              <section class="btnAndFileNames">
+                <section class="fileNames">
+                  <section class="fileNamesAndBtn u-noselect">
+                    <p
+                      class="fileName"
+                      :class="
+                        portfolioFileIsValid ? 'fileValid' : 'fileInvalid'
+                      "
+                    >
+                      <span v-if="portfolioFileIsValid">
+                        <CheckMarkIcon class="fileIcon" />
+                      </span>
+                      <span v-else>
+                        <CloseIcon class="fileIcon" />
+                      </span>
+
+                      <span>{{ portfolioFileName }}</span>
+
+                      <!-- <a v-if="!portfolioFileIsValid" href="https://trader.degiro.nl/staging-trader/#/portfolio" target="_blank" class="goToFile">
                       <Icon icon="akar-icons:link-out" height="13" />
                       Get
-                    </a>
+                    </a> -->
+                    </p>
+                    <p
+                      class="fileName"
+                      :class="
+                        transactionsFileIsValid ? 'fileValid' : 'fileInvalid'
+                      "
+                    >
+                      <span v-if="transactionsFileIsValid">
+                        <CheckMarkIcon class="fileIcon" />
+                      </span>
+                      <span v-else>
+                        <CloseIcon class="fileIcon" />
+                      </span>
 
-                  </p>
-                  <p
-                    class="fileName"
-                    :class="
-                      transactionsFileIsValid ? 'fileValid' : 'fileInvalid'
-                    "
-                  >
-                    <span v-if="transactionsFileIsValid">
-                      <CheckMarkIcon class="fileIcon" />
-                    </span>
-                    <span v-else>
-                      <CloseIcon class="fileIcon" />
-                    </span>
+                      <span>{{ transactionsFileName }}</span>
 
-                    <span>{{ transactionsFileName }}</span>
-
-                    <a v-if="!transactionsFileIsValid" :href="transactionsLink" target="_blank" class="goToFile">
+                      <!-- <a v-if="!transactionsFileIsValid" :href="transactionsLink" target="_blank" class="goToFile">
                       <Icon icon="akar-icons:link-out" height="13" />
                       Get
-                    </a>
-                  </p>
-                  <p
-                    class="fileName"
-                    :class="accountFileIsValid ? 'fileValid' : 'fileInvalid'"
-                  >
-                    <span v-if="accountFileIsValid">
-                      <CheckMarkIcon class="fileIcon" />
-                    </span>
-                    <span v-else>
-                      <CloseIcon class="fileIcon" />
-                    </span>
+                    </a> -->
+                    </p>
+                    <p
+                      class="fileName"
+                      :class="accountFileIsValid ? 'fileValid' : 'fileInvalid'"
+                    >
+                      <span v-if="accountFileIsValid">
+                        <CheckMarkIcon class="fileIcon" />
+                      </span>
+                      <span v-else>
+                        <CloseIcon class="fileIcon" />
+                      </span>
 
-                    <span>{{ accountFileName }}</span>
+                      <span>{{ accountFileName }}</span>
 
-                    <a v-if="!accountFileIsValid" :href="accountLink" target="_blank" class="goToFile">
+                      <!-- <a v-if="!accountFileIsValid" :href="accountLink" target="_blank" class="goToFile">
                       <Icon icon="akar-icons:link-out" height="13" />
                       Get
-                    </a>
-                  </p>
+                    </a> -->
+                    </p>
+                  </section>
+                </section>
+                <section class="resetUploads">
+                  <button
+                    class="resetUploadedBtn"
+                    type="button"
+                    @click="resetFiles"
+                  >
+                    <Icon
+                      icon="charm:rotate-anti-clockwise"
+                      color="var(--clr-grey)"
+                      height="14"
+                      :class="{ rotateResetIconClass: animatedResetIcon }"
+                      @animationend="animatedResetIcon = false"
+                    />
+                    Reset uploads
+                  </button>
+                  <transition mode="out-in" name="slide-fade">
+                    <section v-if="animatedResetIcon">
+                      <p class="resetUploadConfirmText">
+                        <Icon
+                          icon="eva:checkmark-outline"
+                          color="var(--clr-green)"
+                          height="16"
+                        />
+                        Uploads reset!
+                      </p>
+                    </section>
+                  </transition>
                 </section>
               </section>
-              <section class="resetUploads">
-                <button
-                  class="resetUploadedBtn"
-                  type="button"
-                  @click="resetFiles"
-                >
-                  <Icon
-                    icon="charm:rotate-anti-clockwise"
-                    color="var(--clr-grey)"
-                    height="14"
-                    :class="{ rotateResetIconClass: animatedResetIcon }"
-                    @animationend="animatedResetIcon = false"
+
+              <section class="portfolioName">
+                <section class="portfolioName__heading">
+                  <label for="portfolioName"
+                    >Portfolio name
+                    <span class="portfolioName__optional"
+                      >(optional)</span
+                    ></label
+                  >
+
+                  <ToggleButton
+                    :isOn="isPortfolioNameInputVisible"
+                    id="portfolioNameToggleButton"
+                    name="portfolioNameToggleButton"
+                    @toggleButtonClicked="togglePortfolioNameInput"
                   />
-                  Reset uploads
-                </button>
+                </section>
+                <input
+                  type="text"
+                  id="portfolioName"
+                  @blur="checkPortfolioNameValidity"
+                  @focus="resetInputStyling"
+                  v-model.trim="portfolioName"
+                  :class="portfolioNameIsValidClass"
+                  autocomplete="off"
+                  v-if="isPortfolioNameInputVisible"
+                />
+              </section>
+
+              <section class="fileButtons">
+                <Button type="submit">
+                  <section v-if="isLoading">
+                    <Spinner class="spinner" :btnSpinner="true" />
+                  </section>
+                  <section v-else>Add Portfolio</section>
+                </Button>
                 <transition mode="out-in" name="slide-fade">
-                  <section v-if="animatedResetIcon">
-                    <p class="resetUploadConfirmText">
+                  <section v-if="currentErrorMsgs.length > 0" class="errorMsgs">
+                    <p
+                      v-for="errorMsg in currentErrorMsgs"
+                      :key="errorMsg"
+                      class="errorMsg"
+                    >
                       <Icon
-                        icon="eva:checkmark-outline"
-                        color="var(--clr-green)"
-                        height="16"
+                        icon="bxs:error-circle"
+                        color="var(--clr-red)"
+                        height="18"
                       />
-                      Uploads reset!
+                      {{ errorMsg }}
                     </p>
                   </section>
                 </transition>
               </section>
-            </section>
-
-            <section class="portfolioName">
-              <section class="portfolioName__heading">
-                <label for="portfolioName"
-                  >Portfolio name
-                  <span class="portfolioName__optional">(optional)</span></label
-                >
-
-                <ToggleButton
-                  :isOn="isPortfolioNameInputVisible"
-                  id="portfolioNameToggleButton"
-                  name="portfolioNameToggleButton"
-                  @toggleButtonClicked="togglePortfolioNameInput"
-                />
-              </section>
-              <input
-                type="text"
-                id="portfolioName"
-                @blur="checkPortfolioNameValidity"
-                @focus="resetInputStyling"
-                v-model.trim="portfolioName"
-                :class="portfolioNameIsValidClass"
-                autocomplete="off"
-                v-if="isPortfolioNameInputVisible"
-              />
-            </section>
-
-            <section class="fileButtons">
-              <Button type="submit">
-                <section v-if="isLoading">
-                  <Spinner class="spinner" :btnSpinner="true" />
-                </section>
-                <section v-else>Add Portfolio</section>
-              </Button>
-              <transition mode="out-in" name="slide-fade">
-                <section v-if="currentErrorMsgs.length > 0" class="errorMsgs">
-                  <p
-                    v-for="errorMsg in currentErrorMsgs"
-                    :key="errorMsg"
-                    class="errorMsg"
-                  >
-                    <Icon
-                      icon="bxs:error-circle"
-                      color="var(--clr-red)"
-                      height="18"
-                    />
-                    {{ errorMsg }}
-                  </p>
-                </section>
-              </transition>
-            </section>
-          </form>
-        </article>
+            </form>
+          </article>
+        </transition>
+      
+          <ExportFilesStep
+            v-if="!exportFilesStepDone"
+            @next="nextStep()"
+            class="exportFilesStep"
+          />
+      
       </Card>
     </section>
 
-    <UploadFilesHelp />
+    <!-- <UploadFilesHelp /> -->
   </section>
 </template>
 
@@ -196,9 +220,10 @@ import includesFromArrayMixin from "@/mixins/helpers/includesFromArray.js";
 // import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 import Card from "@/components/ui/Card.vue";
-import UploadFilesHelp from "./components/UploadFilesHelp.vue";
+// import UploadFilesHelp from "./components/UploadFilesHelp.vue";
 import BackButton from "@/components/ui/BackButton.vue";
 import ToggleButton from "@/components/ui/ToggleButton.vue";
+import ExportFilesStep from "./components/ExportFilesStep.vue";
 
 export default {
   mixins: [csvToArrayMixin, includesFromArrayMixin],
@@ -210,11 +235,13 @@ export default {
     Card,
     ToggleButton,
     Icon,
-    UploadFilesHelp,
+    // UploadFilesHelp,
     BackButton,
+    ExportFilesStep,
   },
   data() {
     return {
+      exportFilesStepDone: false,
       transactionsFile: null,
       accountFile: null,
       portfolioFile: null,
@@ -354,6 +381,12 @@ export default {
     },
   },
   methods: {
+    nextStep() {
+      this.exportFilesStepDone = true;
+    },
+    prevStep() {
+      this.exportFilesStepDone = false;
+    },
     togglePortfolioNameInput() {
       // toggle portfolio naam input veld zichtbaarheid
       this.isPortfolioNameInputVisible = !this.isPortfolioNameInputVisible;
@@ -543,6 +576,33 @@ export default {
 </script>
 
 <style scoped>
+
+.rtlIn-enter-active,
+.rtlIn-leave-active {
+  transform: translate(0px);
+  transition: 0.4s ease;
+}
+.rtlIn-leave-to,
+.rtlIn-enter-from {
+  transform: translate(20px);
+  opacity: 0.2;
+}
+
+.uploadFilesCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.addPortfolioCardTitle {
+  font-size: 1.4rem;
+}
+.addPortfolioCardDesc {
+  margin-bottom: 1rem;
+  color: var(--clr-grey);
+  font-size: 0.9rem;
+}
 .goToFile {
   cursor: pointer;
   display: flex;
@@ -955,7 +1015,7 @@ input[type="submit"] {
   .wrapper {
     padding: 1.75rem;
   }
-    .btnAndFileNames {
+  .btnAndFileNames {
     flex-direction: row;
   }
 }
@@ -964,7 +1024,6 @@ input[type="submit"] {
   .container {
     max-width: 92%;
   }
-
 }
 
 @media screen and (min-width: 650px) {
