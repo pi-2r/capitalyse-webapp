@@ -1,8 +1,8 @@
 <template>
-    <button class="googleLogin wrapper" @click="googleSignIn">
+    <button class="googleLogin button" @click="googleSignIn">
         <section v-if="!isLoading" class="contents">
-            <p class="signupText">Or continue with</p>
-            <Icon  icon="bi:google" class="googleIcon"/>
+            <Icon  icon="logos:google-icon" class="googleIcon"/>
+            <p class="signupText">Sign in with Google</p>
         </section>
         <Spinner class="spinner" v-else/>
     </button>
@@ -48,7 +48,6 @@ export default {
                         accessToken: token,
                         userId: user.uid,
                     });
-                    this.isLoading = false;
                 } else {
                     this.isLoading = false;
                 }
@@ -73,12 +72,12 @@ export default {
 display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
 }
 .spinner {
     transform: scale(0.75);
 }
-.wrapper {
+.button {
     cursor: pointer;
     background-color: var(--clr-light-grey);
     padding-top: 0.85rem;
@@ -98,8 +97,9 @@ display: flex;
 .googleIcon {
     color: var(--clr-grey);
     transition: 0.2s all;
+    transform: scale(1.35);
 }
-.wrapper:hover .signupText, .wrapper:hover .googleIcon {
+.button:hover .signupText, .button:hover .googleIcon {
     color: var(--clr-dark-grey);
 }
 

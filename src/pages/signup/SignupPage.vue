@@ -16,7 +16,14 @@
             <BackButton :toHome="true"/>
             <Logo class="logo" color="var(--clr-black)" />
           </a>
-          <h1>Sign up</h1>
+          <h1>Let's get started.</h1>
+
+          <p class="subTitle">Please pick your preferred sign up method.</p>
+
+          <GoogleAuth />
+
+          <p class="textWithLine"><span class="line">or</span></p>
+
           <form @submit.prevent="submitForm" autocomplete="off">
             <section class="form-group">
               <section class="error-wrapper">
@@ -76,7 +83,6 @@
               Log in instead
             </router-link>
 
-            <GoogleAuth />
           </form>
         </section>
       </section>
@@ -228,6 +234,28 @@ export default {
 </script>
 
 <style scoped>
+.subTitle {
+  color: var(--clr-grey);
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
+  margin-bottom: 2rem;
+}
+.textWithLine {
+  width: 100%; 
+   text-align: center; 
+   border-bottom: 1px solid var(--clr-medium-light-grey); 
+   line-height: 0.1em;
+   margin: 10px 0 20px;
+   color: var(--clr-grey); 
+   margin-bottom: 2rem;
+   margin-top: 2rem;
+}
+.line {
+  background:var(--clr-white); 
+  padding:0 10px;
+}
+
+
 .appimageoverlay-mobile {
   display: none;
   position: absolute;
@@ -308,6 +336,7 @@ export default {
 .content {
   width: 80%;
   max-width: 350px;
+  overflow: scroll;
 }
 
 .backBtn {
@@ -322,7 +351,7 @@ export default {
 
 .button {
   width: 100%;
-  margin-top: 2.5rem;
+  margin-top: 2rem;
   margin-bottom: 1rem;
 }
 
@@ -396,7 +425,6 @@ input[type="password"]:-webkit-autofill:focus {
 
 h1 {
   font-weight: bold;
-  margin-bottom: 2rem;
   color: var(--clr-black);
   font-size: 2rem;
 }

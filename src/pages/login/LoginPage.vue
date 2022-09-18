@@ -16,7 +16,13 @@
             <BackButton :toHome="true" />
             <Logo class="logo" color="var(--clr-black)" />
           </a>
-          <h1>Log in</h1>
+          <h1>Welcome back.</h1>
+          <p class="subTitle">Please pick your preferred log in method.</p>
+
+          <GoogleAuth />
+
+          <p class="textWithLine"><span class="line">or</span></p>
+
           <form @submit.prevent="submitForm" autocomplete="off">
             <section class="form-group">
               <section class="error-wrapper">
@@ -60,7 +66,6 @@
             <router-link to="/signup" class="secondaryLink">
               Sign up instead
             </router-link>
-            <GoogleAuth />
 
           </form>
         </section>
@@ -147,6 +152,29 @@ export default {
 
 
 <style scoped>
+.subTitle {
+  color: var(--clr-grey);
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
+  margin-bottom: 2rem;
+}
+.textWithLine {
+  width: 100%; 
+   text-align: center; 
+   border-bottom: 1px solid var(--clr-medium-light-grey); 
+   line-height: 0.1em;
+   margin: 10px 0 20px;
+   color: var(--clr-grey); 
+   margin-bottom: 2rem;
+   margin-top: 2rem;
+}
+.line {
+  background:var(--clr-white); 
+  padding:0 10px;
+}
+
+
+
 .linkToMainSite {
   display: inline-flex;
   text-decoration: none;
@@ -214,6 +242,7 @@ export default {
 .content {
   width: 80%;
   max-width: 350px;
+  padding-bottom: 2rem;
 }
 
 .backBtn {
@@ -302,7 +331,6 @@ input[type="password"]:-webkit-autofill:focus {
 
 h1 {
   font-weight: bold;
-  margin-bottom: 2rem;
   color: var(--clr-black);
   font-size: 2rem;
 }
