@@ -20,7 +20,7 @@
 
           <p class="subTitle">Please pick your preferred sign up method.</p>
 
-          <GoogleAuth />
+          <GoogleAuth btnText="Sign up with Google"/>
 
           <p class="textWithLine"><span class="line">or</span></p>
 
@@ -238,7 +238,7 @@ export default {
 
 <style scoped>
 .toOtherAuth {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--clr-grey);
 }
 

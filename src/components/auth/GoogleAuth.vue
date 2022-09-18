@@ -2,7 +2,7 @@
     <button class="googleLogin button" @click="googleSignIn">
         <section v-if="!isLoading" class="contents">
             <Icon  icon="logos:google-icon" class="googleIcon"/>
-            <p class="signupText">Sign in with Google</p>
+            <p class="signupText">{{ btnText }}</p>
         </section>
         <Spinner class="spinner" v-else/>
     </button>
@@ -18,6 +18,13 @@ const auth = getAuth();
 export default {
     components: {
         Icon
+    },
+    props: {
+        btnText: {
+            type: String,
+            default: 'Authenticate with Google',
+            required: false
+        }
     },
     data() {
         return {

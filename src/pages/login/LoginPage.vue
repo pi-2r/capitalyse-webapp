@@ -19,7 +19,7 @@
           <h1>Welcome back.</h1>
           <p class="subTitle">Please pick your preferred log in method.</p>
 
-          <GoogleAuth />
+          <GoogleAuth btnText="Log in with Google"/>
 
           <p class="textWithLine"><span class="line">or</span></p>
 
@@ -156,7 +156,7 @@ export default {
 
 <style scoped>
 .toOtherAuth {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--clr-grey);
 }
 
