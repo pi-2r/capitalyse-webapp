@@ -1,18 +1,10 @@
 <template>
   <section class="loginContainer">
     <section class="contentWrapper">
-      <figure>
-        <img
-          class="loginFormImageMobile"
-          loading="eager"
-          src="@/assets/buildings.webp"
-          alt="Big header image"
-        />
-      </figure>
       <section class="content">
         <section class="form-wrapper">
           <a class="linkToMainSite" href="https://www.capitalyse.app">
-            <BackButton :toHome="true" />
+            <!-- <BackButton :toHome="true" /> -->
             <Logo class="logo" color="var(--clr-black)" />
           </a>
           <h1>Welcome back.</h1>
@@ -83,7 +75,7 @@
 <script>
 import GoogleAuth from "@/components/auth/GoogleAuth.vue";
 import AuthImageSection from "@/components/auth/AuthImageSection.vue";
-import BackButton from "@/components/ui/BackButton.vue";
+// import BackButton from "@/components/ui/BackButton.vue";
 import Logo from "@/components/ui/Logo.vue";
 
 import { Icon } from "@iconify/vue";
@@ -91,7 +83,7 @@ import { Icon } from "@iconify/vue";
 export default {
   components: {
     GoogleAuth,
-    BackButton,
+    // BackButton,
     Logo,
     Icon,
     AuthImageSection
@@ -183,7 +175,6 @@ export default {
 
 
 .linkToMainSite {
-  display: inline-flex;
   text-decoration: none;
 }
 
@@ -195,7 +186,7 @@ export default {
 }
 
 .logo {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .centered {
@@ -225,13 +216,6 @@ export default {
   overflow: hidden;
 }
 
-.loginFormImageMobile {
-  width: 100vw;
-  height: 6rem;
-  object-fit: cover;
-  margin-bottom: 4rem;
-  display: none;
-}
 
 
 
@@ -301,6 +285,8 @@ input[type="password"]:-webkit-autofill:focus {
   align-items: center;
   height: 100vh;
   overflow-y: scroll;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
 .invalid {
@@ -372,14 +358,8 @@ input[type="password"] {
   .centered {
     display: none;
   }
-  .loginFormImageMobile {
-    display: block;
-  }
   .contentWrapper {
     justify-content: start;
-  }
-  .content {
-    overflow: scroll;
   }
  
 }

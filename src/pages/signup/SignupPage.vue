@@ -1,18 +1,10 @@
 <template>
   <section class="loginContainer">
     <section class="contentWrapper">
-      <figure>
-        <img
-          class="loginFormImageMobile"
-          loading="eager"
-          src="@/assets/signup-bg.webp"
-          alt="Big header image"
-        />
-      </figure>
       <section class="content">
         <section class="form-wrapper">
           <a class="linkToMainSite" href="https://www.capitalyse.app">
-            <BackButton :toHome="true"/>
+            <!-- <BackButton :toHome="true" /> -->
             <Logo class="logo" color="var(--clr-black)" />
           </a>
           <h1>Let's get started.</h1>
@@ -100,13 +92,13 @@ import AuthImageSection from "@/components/auth/AuthImageSection.vue";
 
 import GoogleAuth from '@/components/auth/GoogleAuth.vue';
 import Logo from "@/components/ui/Logo.vue";
-import BackButton from '@/components/ui/BackButton.vue';
+// import BackButton from '@/components/ui/BackButton.vue';
 
 export default {
   components: {
     AuthImageSection,
     GoogleAuth,
-    BackButton,
+    // BackButton,
     Logo,
   },
   data() {
@@ -262,16 +254,7 @@ export default {
   padding:0 10px;
 }
 
-.loginFormImageMobile {
-  width: 100vw;
-  height: 6rem;
-  object-fit: cover;
-  margin-bottom: 4rem;
-  display: none;
-}
-
 .linkToMainSite {
-  display: inline-flex;
   text-decoration: none;
 }
 
@@ -283,7 +266,7 @@ export default {
 }
 
 .logo {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .imagesection {
@@ -392,6 +375,8 @@ input[type="password"]:-webkit-autofill:focus {
   align-items: center;
   height: 100vh;
   overflow-y: scroll;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
 .invalid {
@@ -463,9 +448,6 @@ input[type="password"] {
   }
   .centered {
     display: none;
-  }
-  .loginFormImageMobile {
-    display: block;
   }
   .contentWrapper {
     justify-content: start;
