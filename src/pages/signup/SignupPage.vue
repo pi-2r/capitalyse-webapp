@@ -81,7 +81,7 @@
         </section>
       </section>
     </section>
-    <section class="imagesection">
+    <!-- <section class="imagesection">
       <section class="appimageoverlay"></section>
       <figure>
         <img
@@ -100,13 +100,16 @@
         />Financial insight <br />starts with
         <span class="customUnderline">Capitalyse</span>
       </h1>
-      <!-- <span class="appmark"></span> -->
-    </section>
+      <span class="appmark"></span> 
+    </section> -->
+    <AuthImageSection underlinedText="Capitalyse" imgName="signup-bg.webp">
+      Financial insight <br />starts with
+    </AuthImageSection>
   </section>
 </template>
 
 <script>
-
+import AuthImageSection from "@/components/auth/AuthImageSection.vue";
 
 import GoogleAuth from '@/components/auth/GoogleAuth.vue';
 import Logo from "@/components/ui/Logo.vue";
@@ -114,6 +117,7 @@ import BackButton from '@/components/ui/BackButton.vue';
 
 export default {
   components: {
+    AuthImageSection,
     GoogleAuth,
     BackButton,
     Logo,
@@ -464,6 +468,9 @@ input[type="password"] {
   }
   .appimageoverlay-mobile {
     display: block;
+  }
+  .content {
+    overflow: scroll;
   }
 }
 

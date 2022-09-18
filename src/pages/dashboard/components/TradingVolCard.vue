@@ -1,17 +1,8 @@
 <template>
   <ResultCard
-    v-if="isDemo"
     title="Total trading volume"
     :resultValue="totTradingVol"
-    :to="'/dashboard/demo/trading'"
-    btnText="Trading details"
-    :withBtn="true"
-  />
-  <ResultCard
-    v-else
-    title="Total trading volume"
-    :resultValue="totTradingVol"
-    :to="'/dashboard/' + portfolioId + '/trading'"
+    :to="toLink"
     btnText="View Trades"
     :withBtn="true"
   />
@@ -48,6 +39,13 @@ export default {
     },
   },
   computed: {
+    toLink() {
+      if(this.isDemo) {
+        return '/dashboard/demo/trading';
+      } else {
+        return `/dashboard/${this.portfolioId}/trading`;
+      }
+    },
     portfolioId() {
       return this.$route.params.id;
     },

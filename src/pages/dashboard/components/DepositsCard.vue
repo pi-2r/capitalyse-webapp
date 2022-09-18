@@ -1,17 +1,8 @@
 <template>
   <ResultCard
-    v-if="isDemo"
     title="Total deposits"
     :resultValue="totDeposits"
-    :to="'/dashboard/demo/deposits'"
-    btnText="Deposits & Withdrawals"
-    :withBtn="true"
-  />
-  <ResultCard
-    v-else
-    title="Total deposits"
-    :resultValue="totDeposits"
-    :to="'/dashboard/' + portfolioId + '/deposits'"
+    :to="toLink"
     btnText="View Deposits"
     :withBtn="true"
   />
@@ -43,6 +34,13 @@ export default {
     };
   },
   computed: {
+    toLink() {
+      if(this.isDemo) {
+        return '/dashboard/demo/deposits';
+      } else {
+        return `/dashboard/${this.portfolioId}/deposits`;
+      }
+    },
     portfolioId() {
       // id wordt gebruikt voor de link naar de deposits pagina
       return this.$route.params.id;

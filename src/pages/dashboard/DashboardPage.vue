@@ -205,7 +205,7 @@ export default {
           " and " +
           (months - years * 12) +
           " month" +
-          (months - years * 12 > 1 ? "s" : "");
+          (months - years * 12 > 1 || months - years * 12 === 0 ? "s" : "");
       } else if (months > 0) {
         this.accountAge =
           months +

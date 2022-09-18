@@ -66,7 +66,7 @@
         </section>
       </section>
     </section>
-    <section class="imagesection">
+    <!-- <section class="imagesection">
       <section class="appimageoverlay"></section>
       <figure>
         <img
@@ -85,15 +85,21 @@
         />Welcome back, we hope you're
         <span class="customUnderline">making progress</span>
       </h1>
-      <!-- <span class="appmark"></span> -->
-    </section>
+      <span class="appmark"></span>
+      
+    </section> -->
+    <AuthImageSection underlinedText="making progress" imageUrl="@/assets/buildings.webp">
+      Welcome back, we hope <br> you're  
+    </AuthImageSection>
   </section>
 </template>
 
 <script>
 import GoogleAuth from "@/components/auth/GoogleAuth.vue";
+import AuthImageSection from "@/components/auth/AuthImageSection.vue";
 import BackButton from "@/components/ui/BackButton.vue";
 import Logo from "@/components/ui/Logo.vue";
+
 import { Icon } from "@iconify/vue";
 
 export default {
@@ -102,6 +108,7 @@ export default {
     BackButton,
     Logo,
     Icon,
+    AuthImageSection
   },
   data() {
     return {
@@ -177,8 +184,13 @@ export default {
   margin-bottom: 1rem;
 }
 
-.imagesection {
-  position: relative;
+.appimageoverlay-mobile {
+  display: none;
+  position: absolute;
+  height: 6rem;
+  width: 100vw;
+  background-color: black;
+  opacity: 0.5;
 }
 
 .centered {
@@ -216,27 +228,9 @@ export default {
   display: none;
 }
 
-.loginFormImage {
-  height: 100vh;
-  box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 30px 0px;
-}
 
-.appimageoverlay {
-  position: absolute;
-  height: 100vh;
-  width: 65vw;
-  background-color: black;
-  opacity: 0.65;
-}
 
-.appimageoverlay-mobile {
-  display: none;
-  position: absolute;
-  height: 6rem;
-  width: 100vw;
-  background-color: black;
-  opacity: 0.5;
-}
+
 
 .content {
   width: 80%;
@@ -384,6 +378,7 @@ input[type="password"] {
   .content {
     overflow: scroll;
   }
+ 
 }
 
 @keyframes appTitleTextChange {

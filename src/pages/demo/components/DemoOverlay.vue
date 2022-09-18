@@ -5,11 +5,10 @@
     </transition>
     <section class="demoOverlay__contentContainer" v-if="demoOverlayIsOpen">
       <section class="demoOverlay__content">
-        <h2 class="demoOverlay__title">Capitalyse Demo</h2>
+        <h2 class="demoOverlay__title">Capitalyse</h2>
         <p class="demoOverlay__text">
-          Hey there! In this demo you'll be able to see all Capitalyse has to
-          offer for you. <br /><br />Upload your own DEGIRO portfolio to see
-          personal tracking and insights.
+          Welcome to the Capitalyse demo. Here you'll be able to see all Capitalyse has to
+          offer. <br /><br />To see personalised analytics, please upload your own portfolio.
         </p>
         <button @click="closeDemoOverlay" class="demoOverlay__continueBtn">
           Continue to demo

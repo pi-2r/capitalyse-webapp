@@ -1,17 +1,8 @@
 <template>
   <ResultCard
-    v-if="isDemo"
     title="Transaction fees"
     :resultValue="totTransFees"
-    :to="'/dashboard/demo/fees'"
-    btnText="Fees and Costs"
-    :withBtn="true"
-  />
-  <ResultCard
-    v-else
-    title="Transaction fees"
-    :resultValue="totTransFees"
-    :to="'/dashboard/' + portfolioId + '/fees'"
+    :to="toLink"
     btnText="View Fees"
     :withBtn="true"
   />
@@ -49,6 +40,13 @@ export default {
     };
   },
   computed: {
+    toLink() {
+      if(this.isDemo) {
+        return '/dashboard/demo/fees';
+      } else {
+        return `/dashboard/${this.portfolioId}/fees`;
+      }
+    },
     portfolioId() {
       return this.$route.params.id;
     },

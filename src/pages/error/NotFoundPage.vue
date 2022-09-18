@@ -5,7 +5,7 @@
           <Logo />
         </section>
         <h2>Sorry, this page doesn't exist.</h2>
-        <Button link to="/portfolios">To My Portfolios</Button>
+        <Button link to="/portfolios">To Portfolios</Button>
     </section>
   </section>
 </template>

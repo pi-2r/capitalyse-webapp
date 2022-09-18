@@ -47,7 +47,6 @@ export default {
   },
   computed: {
     portfolioId() {
-      console.log(this.$route);
       return this.$route.params.id;
     }
   }
