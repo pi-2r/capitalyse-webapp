@@ -79,9 +79,12 @@
               </section>
               <span v-else>Sign up</span>
             </Button>
-            <router-link to="/login" class="secondaryLink">
-              Log in instead
-            </router-link>
+            <span class="toOtherAuth">
+              Already registered?
+              <router-link to="/login" class="secondaryLink">
+                Log in
+              </router-link>
+            </span>
 
           </form>
         </section>
@@ -234,6 +237,11 @@ export default {
 </script>
 
 <style scoped>
+.toOtherAuth {
+  font-size: 0.95rem;
+  color: var(--clr-grey);
+}
+
 .subTitle {
   color: var(--clr-grey);
   font-size: 0.9rem;
@@ -361,6 +369,7 @@ export default {
 
 .secondaryLink {
   color: var(--clr-blue);
+  font-weight: 500;
   text-decoration: none;
   transition: 0.15s all;
 }

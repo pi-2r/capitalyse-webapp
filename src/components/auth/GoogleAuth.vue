@@ -86,6 +86,7 @@ display: flex;
     margin: 0 auto;
     margin-top: 2rem;
 }
+
 .signupText {
     display: flex;
     justify-content: center;
