@@ -1,7 +1,6 @@
 <template>
   <section class="loginContainer">
     <section class="contentWrapper">
-      <section class="appimageoverlay-mobile"></section>
       <figure>
         <img
           class="loginFormImageMobile"
@@ -17,7 +16,7 @@
             <Logo class="logo" color="var(--clr-black)" />
           </a>
           <h1>Welcome back.</h1>
-          <p class="subTitle">Please pick your preferred log in method.</p>
+          <p class="subTitle">Please choose your preferred log in method.</p>
 
           <GoogleAuth btnText="Log in with Google"/>
 
@@ -199,15 +198,6 @@ export default {
   margin-bottom: 1rem;
 }
 
-.appimageoverlay-mobile {
-  display: none;
-  position: absolute;
-  height: 6rem;
-  width: 100vw;
-  background-color: black;
-  opacity: 0.5;
-}
-
 .centered {
   text-align: left;
   position: absolute;
@@ -310,7 +300,7 @@ input[type="password"]:-webkit-autofill:focus {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  /* overflow-y: scroll; */
+  overflow-y: scroll;
 }
 
 .invalid {
@@ -387,9 +377,6 @@ input[type="password"] {
   }
   .contentWrapper {
     justify-content: start;
-  }
-  .appimageoverlay-mobile {
-    display: block;
   }
   .content {
     overflow: scroll;

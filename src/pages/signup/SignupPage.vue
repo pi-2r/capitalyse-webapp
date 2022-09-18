@@ -1,7 +1,6 @@
 <template>
   <section class="loginContainer">
     <section class="contentWrapper">
-      <section class="appimageoverlay-mobile"></section>
       <figure>
         <img
           class="loginFormImageMobile"
@@ -18,7 +17,7 @@
           </a>
           <h1>Let's get started.</h1>
 
-          <p class="subTitle">Please pick your preferred sign up method.</p>
+          <p class="subTitle">Please choose your preferred sign up method.</p>
 
           <GoogleAuth btnText="Sign up with Google"/>
 
@@ -263,16 +262,6 @@ export default {
   padding:0 10px;
 }
 
-
-.appimageoverlay-mobile {
-  display: none;
-  position: absolute;
-  height: 6rem;
-  width: 100vw;
-  background-color: black;
-  opacity: 0.5;
-}
-
 .loginFormImageMobile {
   width: 100vw;
   height: 6rem;
@@ -344,7 +333,6 @@ export default {
 .content {
   width: 80%;
   max-width: 350px;
-  overflow: scroll;
 }
 
 .backBtn {
@@ -403,7 +391,7 @@ input[type="password"]:-webkit-autofill:focus {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  /* overflow-y: scroll; */
+  overflow-y: scroll;
 }
 
 .invalid {
@@ -481,12 +469,6 @@ input[type="password"] {
   }
   .contentWrapper {
     justify-content: start;
-  }
-  .appimageoverlay-mobile {
-    display: block;
-  }
-  .content {
-    overflow: scroll;
   }
 }
 
