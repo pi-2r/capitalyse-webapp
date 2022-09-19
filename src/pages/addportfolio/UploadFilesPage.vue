@@ -17,10 +17,9 @@
               </h2>
             </section>
 
-            <p class="addPortfolioCardDesc">
-              Next, upload the downloaded files into Capitalyse. Give the
-              portfolio a name if you wish to do so.
-            </p>
+            <!-- <p class="addPortfolioCardDesc">
+              Next, upload the downloaded files into Capitalyse.
+            </p> -->
 
             <form @submit.prevent="submitForm" class="uploadFilesForm">
               <section class="uploadFilesGroup">
@@ -697,7 +696,7 @@ export default {
 
 .portfolioName {
   border-top: 1px solid var(--clr-light-grey);
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 .portfolioName__optional {
   color: var(--clr-grey);
@@ -884,7 +883,7 @@ input[type="submit"] {
   background-color: #0084ff15;
   border-radius: var(--btn-radius);
   width: 100%;
-  padding: 4.5rem 0rem;
+  padding: 3.5rem 0rem;
   border: 2px dashed var(--clr-blue);
   color: var(--clr-blue);
   text-align: center;
@@ -939,7 +938,7 @@ input[type="submit"] {
   background-color: transparent;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   gap: 0.3rem;
   padding: 0.5rem;
   padding-top: 1rem;
@@ -1017,6 +1016,9 @@ input[type="submit"] {
   }
   .btnAndFileNames {
     flex-direction: row;
+  } 
+  .resetUploadedBtn {
+    justify-content: center;
   }
 }
 

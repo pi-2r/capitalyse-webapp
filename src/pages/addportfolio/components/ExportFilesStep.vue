@@ -2,7 +2,6 @@
   <section>
     <h2 class="addPortfolioCardTitle">(1/2) Export from DEGIRO</h2>
     <p class="addPortfolioCardDesc">
-      You'll first need to download all three DEGIRO files to your device. 
       For each file, click ‘Get file’  
       <Icon icon="akar-icons:arrow-right" class="descIcon" /> Login to DEGIRO 
       <Icon icon="akar-icons:arrow-right" class="descIcon" /> <span class="degiroExportButton">Click '<Icon icon="icons8:download" class="descIcon" />Export</span>' on the right 
@@ -190,6 +189,7 @@ export default {
 }
 .secondary:hover {
   box-shadow: none;
+  text-decoration: underline;
 }
 .btnSection {
   display: flex;
@@ -228,18 +228,22 @@ export default {
   justify-content: space-between;
   gap: 0.4rem;
   font-size: 1rem;
-  padding: 0.5rem;
+  padding: 0.75rem;
+  margin: 0;
   border-radius: var(--btn-radius);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
   color: var(--clr-blue);
   font-weight: 500;
   transition: 0.2s all;
+  border: 1px solid transparent;
 }
 .exportFiles__fileCard-getBtn:hover {
-  cursor: pointer;
   background-color: var(--clr-light-blue);
+  border: 1px solid var(--clr-blue);
+  cursor: pointer;
 }
 .exportFiles__fileCard-btnSection {
-  padding: 0.25rem;
   padding-left: 0;
 }
 .btnSection__btns {
