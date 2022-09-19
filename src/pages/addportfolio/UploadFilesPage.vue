@@ -28,7 +28,7 @@
                     @change="uploadFile"
                     type="file"
                     accept=".csv"
-                    multiple
+                    
                   />
                   <Icon
                     v-if="filesAreValid"
