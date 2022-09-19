@@ -6,7 +6,7 @@
         <p class="cardText" :key="resultValue">
           <span class="resultValue" :class="{ redNumber: isNegative }">
             <span v-if="numberResult">€</span>
-            <span :class="{ textResult: !numberResult }">{{
+            <span :class="{ textResult: !numberResult, blueTextResult: largeBlueText }">{{
               resultValue
             }}</span>
           </span>
@@ -54,6 +54,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    largeBlueText: {
+      type: Boolean,
+      default: false,
+    }
   },
   computed: {
     // laat weten of het resultaat negatief is met true of false
@@ -77,6 +81,10 @@ h2 {
 .textResult {
   font-size: 1rem;
   color: var(--clr-black);
+}
+.blueTextResult {
+  font-size: 1.5rem;
+  color: var(--clr-blue);
 }
 .resultValue {
   font-size: 1.5rem;

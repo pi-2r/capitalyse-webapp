@@ -1,20 +1,22 @@
 <template>
   <ResultCard
-    title="Total trading volume"
-    :resultValue="totTradingVol"
+    title="Total times traded"
+    :resultValue="totTradeCount + ' trades'"
     :to="toLink"
     btnText="View Trades"
     :withBtn="true"
+    :numberResult="false"
+    :largeBlueText="true"
   />
 </template>
 
 <script>
 import ResultCard from "@/components/dashboard/ResultCard.vue";
 
-import getTotalTradingVolumeMixin from "@/mixins/analytics/getTotalTradingVolume";
+import getTradeCountMixin from "@/mixins/analytics/getTradeCount";
 
 export default {
-  mixins: [getTotalTradingVolumeMixin],
+  mixins: [getTradeCountMixin],
   components: {
     ResultCard,
   },
@@ -30,7 +32,7 @@ export default {
   },
   data() {
     return {
-      totTradingVol: 0,
+      totTradeCount: 0,
     };
   },
   watch: {
@@ -59,7 +61,7 @@ export default {
   methods: {
     loadData() {
       if (this.isThereData) {
-        this.totTradingVol = this.getTotalTradingVolume(
+        this.totTradeCount = this.getTradeCount(
           this.currentPortfolio.transactionsFile
         );
       }

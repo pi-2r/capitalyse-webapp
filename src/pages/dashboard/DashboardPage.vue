@@ -52,7 +52,7 @@
       <section class="cardsContainer">
         <DepositsCard :isDemo="isDemo" />
         <TransFeesCard :isDemo="isDemo" />
-        <TradingVolCard :isDemo="isDemo" />
+        <TradeCountCard :isDemo="isDemo" />
       </section>
 
       <DividendChart
@@ -78,7 +78,7 @@ import firebaseDateMixin from "@/mixins/helpers/dateToWords.js";
 
 import DividendChart from "@/components/ui/DividendChart.vue";
 import DepositsCard from "./components/DepositsCard.vue";
-import TradingVolCard from "./components/TradingVolCard.vue";
+import TradeCountCard from "./components/TradeCountCard.vue";
 import PortfolioCards from "./components/PortfolioCards.vue";
 import HoldingsPieChartCards from "./components/HoldingsPieChartCards.vue";
 import HoldingsList from './components/HoldingsList.vue';
@@ -89,7 +89,7 @@ export default {
   components: {
     DividendChart,
     DepositsCard,
-    TradingVolCard,
+    TradeCountCard,
     TransFeesCard,
     Header,
     Breadcrumbs,
