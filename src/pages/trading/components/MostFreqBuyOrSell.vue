@@ -15,7 +15,7 @@
           mostFreqTraded +
           ' (' +
           timesTraded +
-          ' time' +
+          ' trade' +
           (timesTraded > 1 || timesTraded == 0 ? 's' : '') +
           ')'
         "

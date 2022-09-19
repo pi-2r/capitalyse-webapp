@@ -2,7 +2,7 @@
   <section>
     <h2 class="addPortfolioCardTitle">
       <span class="fileUploadCurrentStep">
-        1/2
+        1 / 2
       </span>
       Export from DEGIRO
     </h2>

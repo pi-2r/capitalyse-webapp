@@ -14,7 +14,7 @@
               <section class="uploadFilesCardHeader">
                 <!-- <BackButton to="other" @click="prevStep()"/> -->
                 <h2 class="addPortfolioCardTitle">
-                  <span class="fileUploadCurrentStep"> 2/2 </span>
+                  <span class="fileUploadCurrentStep"> 2 / 2 </span>
                   Import into Capitalyse
                 </h2>
               </section>
@@ -82,9 +82,9 @@
                         <span>{{ transactionsFileName }}</span>
 
                         <!-- <a v-if="!transactionsFileIsValid" :href="transactionsLink" target="_blank" class="goToFile">
-                      <Icon icon="akar-icons:link-out" height="13" />
-                      Get
-                    </a> -->
+                          <Icon icon="akar-icons:link-out" height="13" />
+                          Get
+                        </a> -->
                       </p>
                       <p
                         class="fileName"
@@ -102,9 +102,9 @@
                         <span>{{ accountFileName }}</span>
 
                         <!-- <a v-if="!accountFileIsValid" :href="accountLink" target="_blank" class="goToFile">
-                      <Icon icon="akar-icons:link-out" height="13" />
-                      Get
-                    </a> -->
+                          <Icon icon="akar-icons:link-out" height="13" />
+                          Get
+                        </a> -->
                       </p>
                     </section>
                   </section>

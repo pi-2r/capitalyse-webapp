@@ -26,6 +26,7 @@
     </section>
 
     <section class="cardsContainer">
+      <TradeCountCard :withBtn="false"/>
       <MostFreqBuyOrSell />
       <MostFreqTradedCard />
     </section>
@@ -38,6 +39,7 @@ import Header from "@/components/layout/Header.vue";
 // import BackButton from "@/components/ui/BackButton.vue";
 
 import MostFreqTradedCard from "./components/MostFreqTradedCard.vue";
+import TradeCountCard from "@/pages/dashboard/components/TradeCountCard.vue";
 import MostFreqBuyOrSell from "./components/MostFreqBuyOrSell.vue";
 
 export default {
@@ -47,6 +49,7 @@ export default {
     MostFreqTradedCard,
     MostFreqBuyOrSell,
     // BackButton,
+    TradeCountCard,
   },
   props: {
     isDemo: {
@@ -146,7 +149,7 @@ export default {
 
 @media screen and (min-width: 650px) {
   .cardsContainer {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   .container {

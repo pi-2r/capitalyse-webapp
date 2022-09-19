@@ -1,11 +1,11 @@
 <template>
   <ResultCard
-    title="Most times bought & sold"
+    title="Most traded product"
     :resultValue="
       mostFreqTraded +
       ' (' +
       timesTraded +
-      ' time' +
+      ' trade' +
       (timesTraded > 1 || timesTraded == 0 ? 's' : '') +
       ')'
     "
