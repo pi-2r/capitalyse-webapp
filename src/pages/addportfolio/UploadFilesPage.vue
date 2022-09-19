@@ -13,7 +13,10 @@
             <section class="uploadFilesCardHeader">
               <!-- <BackButton to="other" @click="prevStep()"/> -->
               <h2 class="addPortfolioCardTitle">
-                (2/2) Import into Capitalyse
+                <span class="fileUploadCurrentStep">
+                  2/2
+                </span>
+                Import into Capitalyse
               </h2>
             </section>
 
@@ -590,6 +593,16 @@ export default {
 </script>
 
 <style scoped>
+.fileUploadCurrentStep {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+  font-size: 0.8rem;
+  border-radius: var(--btn-radius);
+  background-color: var(--clr-light-blue);
+  color: var(--clr-blue);
+}
 
 .rtlIn-enter-active,
 .rtlIn-leave-active {
@@ -609,9 +622,15 @@ export default {
   gap: 1rem;
   margin-bottom: 1rem;
 }
+
 .addPortfolioCardTitle {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 0.5rem;
   font-size: 1.3rem;
 }
+
 .addPortfolioCardDesc {
   margin-bottom: 1rem;
   color: var(--clr-grey);

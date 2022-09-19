@@ -1,6 +1,11 @@
 <template>
   <section>
-    <h2 class="addPortfolioCardTitle">(1/2) Export from DEGIRO</h2>
+    <h2 class="addPortfolioCardTitle">
+      <span class="fileUploadCurrentStep">
+        1/2
+      </span>
+      Export from DEGIRO
+    </h2>
     <p class="addPortfolioCardDesc">
       For each file, click ‘Get file’  
       <Icon icon="akar-icons:arrow-right" class="descIcon" /> Login to DEGIRO 
@@ -171,6 +176,17 @@ export default {
 };
 </script>
 <style scoped>
+.fileUploadCurrentStep {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+  font-size: 0.8rem;
+  border-radius: var(--btn-radius);
+  background-color: var(--clr-light-blue);
+  color: var(--clr-blue);
+}
+
 .nextArrowWiggle {
    animation: wiggleArrow 0.75s infinite;
 }
@@ -284,6 +300,10 @@ export default {
 }
 
 .addPortfolioCardTitle {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 0.5rem;
   font-size: 1.3rem;
   margin-bottom: 1rem;
 }
