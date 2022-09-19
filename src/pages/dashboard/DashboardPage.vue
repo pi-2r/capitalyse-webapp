@@ -29,14 +29,14 @@
             Uploaded: {{ addedAt ? addedAt : "--/--/--" }}
           </p>
         </section>
-        <section class="head__rightSection-icon">
+        <!-- <section class="head__rightSection-icon">
           <Icon
             @click="openThreeDots"
             class="head_"
             icon="entypo:dots-three-vertical"
             height="18"
           />
-        </section>
+        </section> -->
       </section>
     </section>
     
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { Icon } from "@iconify/vue";
+// import { Icon } from "@iconify/vue";
 
 import Header from "@/components/layout/Header.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
@@ -95,7 +95,7 @@ export default {
     Breadcrumbs,
     // BackButton,
     PortfolioCards,
-    Icon,
+    // Icon,
     HoldingsPieChartCards,
     HoldingsList
   },

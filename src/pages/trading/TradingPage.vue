@@ -135,6 +135,7 @@ export default {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 1rem;
+  margin-bottom: 3rem;
 }
 
 .backButton {
@@ -149,7 +150,7 @@ export default {
 
 @media screen and (min-width: 650px) {
   .cardsContainer {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   .container {
@@ -158,6 +159,10 @@ export default {
 }
 
 @media screen and (min-width: 1150px) {
+  .cardsContainer {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
   .container {
     max-width: 1100px;
   }
