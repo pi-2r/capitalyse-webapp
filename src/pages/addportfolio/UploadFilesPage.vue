@@ -254,6 +254,7 @@ export default {
       portfolioNameIsValidClass: "",
       isLoading: false,
       isPortfolioNameInputVisible: false,
+      whichFileWasUploaded: null,
       animatedResetIcon: false,
       errorMsgs: {
         missingFiles: "Please import all files",
@@ -465,8 +466,7 @@ export default {
       }
     },
     // not used
-    validateFileContents(e) {
-      let isValid;
+    whichFile(e) {
       let reader = new FileReader();
 
       reader.onload = (e) => {
@@ -477,12 +477,22 @@ export default {
           fileAsArray[0].length === 19 && fileAsArray.length !== 0;
         const accountValid =
           fileAsArray[0].length === 12 && fileAsArray.length !== 0;
+        const portfolioValid = 
+          fileAsArray[0].length === 6 && fileAsArray.length !== 0;
 
-        isValid = !transactionsValid && !accountValid;
+        if (transactionsValid) {
+          this.whichFileWasUploaded = 'transactions';
+        } else if (accountValid) {
+          this.whichFileWasUploaded = 'account';
+        } else if (portfolioValid) {
+          this.whichFileWasUploaded = 'portfolio';
+        } else {
+          this.whichFileWasUploaded = 'invalid';
+        }
+
       };
       reader.readAsText(e);
-
-      return isValid;
+      
     },
     uploadFile(event) {
       this.checkFileValidity(event.target.files);
@@ -500,7 +510,6 @@ export default {
           file[i].size > 0 &&
           file[i].size < maxFileSizeKB * 1024 &&
           file[i].type.includes("csv");
-        // this.validateFileContents(file[i]);
 
         // als valide is voeg de file toe aan de juiste data() waarde
         // als niet valide, geef een error melding op de plek van de file soort
@@ -508,17 +517,23 @@ export default {
       }
     },
     addFile(file) {
-      // voegt een file toe aan de juiste data() waarde
-      if (file.name.includes("ransactions")) {
-        this.transactionsFile = file;
-        this.transactionsFileName = file.name;
-      } else if (file.name.includes("ccount")) {
-        this.accountFile = file;
-        this.accountFileName = file.name;
-      } else if (file.name.includes("ortfolio")) {
-        this.portfolioFile = file;
-        this.portfolioFileName = file.name;
-      }
+      this.whichFile(file);
+
+      setTimeout(() => {
+        // voegt een file toe aan de juiste data() waarde
+        if (this.whichFileWasUploaded === 'transactions') {
+          this.transactionsFile = file;
+          this.transactionsFileName = file.name;
+        } else if (this.whichFileWasUploaded === 'account') {
+          this.accountFile = file;
+          this.accountFileName = file.name;
+        } else if (this.whichFileWasUploaded === 'portfolio') {
+          this.portfolioFile = file;
+          this.portfolioFileName = file.name;
+        }
+      }, 50)
+
+      this.whichFileWasUploaded = null;     
     },
     incorrectFile(file) {
       // geef een error melding op de plek van de file soort
@@ -595,7 +610,7 @@ export default {
   margin-bottom: 1rem;
 }
 .addPortfolioCardTitle {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
 }
 .addPortfolioCardDesc {
   margin-bottom: 1rem;
