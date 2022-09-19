@@ -61,13 +61,16 @@
             </tr>
           </thead>
           <tbody>
+            <TransitionGroup name="portfolioList">
             <tr :key="portfolio.id" v-for="portfolio in portfolios">
               <PortfolioListItem
                 @toggleDeletePopup="toggleDeletePopup"
                 :portfolio="portfolio"
               />
             </tr>
+            </TransitionGroup>
             <!-- if no portfolios -->
+            <transition name="portfolioList">
             <tr v-if="portfolios.length < 1 && !isLoading">
               <td class="noPortfolios" colspan="3">
                 <h2>No Portfolios</h2>
@@ -85,6 +88,7 @@
                 >
               </td>
             </tr>
+            </transition>
             <tr v-if="isLoading">
               <td colspan="4" class="loading">
                 <Spinner />
@@ -210,6 +214,17 @@ export default {
 </script>
 
 <style scoped>
+/* list anim */
+.portfolioList-enter-active,
+.portfolioList-leave-active {
+  transition: all 0.5s ease;
+}
+.portfolioList-enter-from,
+.portfolioList-leave-to {
+  opacity: 0;
+  transform: translateX(-5px);
+}
+
 .alignRight {
   text-align: right;
   width: 12rem;

@@ -54,6 +54,9 @@ export default {
             token: payload.accessToken,
             userId: payload.userId,
         });
+
+        localStorage.setItem("token", payload.accessToken);
+        localStorage.setItem("userId", payload.userId);
     },
     logout(context) {
         localStorage.removeItem("token");
