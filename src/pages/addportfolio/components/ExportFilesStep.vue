@@ -8,7 +8,7 @@
     </h2>
     <p class="addPortfolioCardDesc">
       For each file, click ‘Get file’  
-      <Icon icon="akar-icons:arrow-right" class="descIcon" /> Login to DEGIRO 
+      <Icon icon="akar-icons:arrow-right" class="descIcon" /> Login to DEGIRO (first time)
       <Icon icon="akar-icons:arrow-right" class="descIcon" /> <span class="degiroExportButton">Click '<Icon icon="icons8:download" class="descIcon" />Export</span>' on the right 
       <Icon icon="akar-icons:arrow-right" class="descIcon" /> Click 'CSV'
     </p>
