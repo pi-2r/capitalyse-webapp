@@ -66,7 +66,7 @@
       </section>
     </section>
 
-    <AuthImageSection underlinedText="making progress" imgName="@/assets/buildings.webp">
+    <AuthImageSection underlinedText="making progress" imgName="login-bg.webp">
       Welcome back, we hope <br> you're  
     </AuthImageSection>
   </section>

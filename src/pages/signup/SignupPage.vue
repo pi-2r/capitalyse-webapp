@@ -81,7 +81,7 @@
         </section>
       </section>
     </section>
-    <AuthImageSection underlinedText="Capitalyse" imgName="signup-bg.webp">
+    <AuthImageSection underlinedText="Capitalyse" imgName="buildings.webp">
       Financial insight <br />starts with
     </AuthImageSection>
   </section>
