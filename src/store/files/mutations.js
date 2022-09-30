@@ -61,5 +61,36 @@ export default {
         state.portfolios = [];
         state.currentPortfolio = null;
         state.uploadingState = null;
-    }
+    },
+    setAnalytics(state, { data, portfolioId, analyticsType, isin }) {
+        console.log('setanalytics aangeroepen');
+        let alrExists = false;
+        for (let i = 0; i < state.analytics.length; i++) {
+            const portfolio = state.analytics[i];
+            // kijk of portfolioid al bestaat
+            if (Object.keys(portfolio).includes(portfolioId)) {
+                let typeAnalytics;
+                analyticsType === 'home' ? typeAnalytics = state.analytics[i][portfolioId].homeAnalytics : null;
+                analyticsType === 'trading' ? typeAnalytics = state.analytics[i][portfolioId].tradingAnalytics : null;
+                analyticsType === 'deposits' ? typeAnalytics = state.analytics[i][portfolioId].depositsAnalytics : null;
+                analyticsType === 'fees' ? typeAnalytics = state.analytics[i][portfolioId].feesAnalytics : null;
+                analyticsType === 'holdings' && isin !== undefined ? typeAnalytics = state.analytics[i][portfolioId].holdingAnalytics : null;
+                analyticsType === 'holdings' && isin === undefined ? typeAnalytics = state.analytics[i][portfolioId].holdingsAnalytics : null;
+                
+                // append nieuw analytics
+                if (!typeAnalytics && isin === undefined) {
+                    state.analytics[i][portfolioId] = { ...state.analytics[i][portfolioId], ...data }
+                }
+                // one holding analytics
+                if (analyticsType === 'holdings' && isin !== undefined) {
+                    state.analytics[i][portfolioId].holdingAnalytics = { ...state.analytics[i][portfolioId][isin], ...{ [isin]: data } }
+                }
+                alrExists = true
+            }
+        }
+        !alrExists ? state.analytics.push({
+            [portfolioId]: data,
+        }) : null;
+    }, 
+   
 };

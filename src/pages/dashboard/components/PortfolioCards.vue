@@ -9,126 +9,31 @@
     />
     <DetailedResultCard
       title="Invested"
-      :resultValue="totalInvestedAmount"
-      :subResultValue="investedPercentage"
+      :resultValue="totalInvested"
+      :subResultValue="totalInvestedPercentage"
       subResultValuePostfix="%"
     />
     <DetailedResultCard
       title="Total balance"
-      :resultValue="totalBalanceAmount"
-      :subResultValue="cashAmount"
+      :resultValue="totalBalance"
+      :subResultValue="totalCash"
       subResultValuePrefix="Cash €"
     />
   </section>
 </template>
 <script>
-import getTotalBalanceMixin from "@/mixins/analytics/getTotalBalance";
-import getTotalInvestedAmountMixin from "@/mixins/analytics/getTotalInvestedAmount";
-import getTotalProfitLossMixin from "@/mixins/analytics/getTotalProfitLoss";
-import currencyMarkupMixin from "@/mixins//helpers/currencyMarkup";
-
 import DetailedResultCard from "@/components/ui/DetailedResultCard.vue";
 
 export default {
   components: {
     DetailedResultCard,
   },
+  props: ['totalInvested', 'totalInvestedPercentage', 'totalBalance', 'totalCash', 'totalProfitLoss', 'totalProfitLossPercentage'],
   data() {
     return {
       isThereNoPortfolioFile: false,
+      test: 0,
     };
-  },
-  mixins: [
-    getTotalBalanceMixin,
-    getTotalInvestedAmountMixin,
-    currencyMarkupMixin,
-    getTotalProfitLossMixin,
-  ],
-  computed: {
-    currentPortfolio() {
-      return this.$store.getters["files/getCurrentPortfolio"];
-    },
-    isThereData() {
-      return (
-        !!this.currentPortfolio.portfolioFile &&
-        !!this.currentPortfolio.accountFile
-      );
-    },
-    isTherePortfolioFile() {
-      return !!this.currentPortfolio.portfolioFile;
-    },
-    isThereAccountFile() {
-      return !!this.currentPortfolio.accountFile;
-    },
-    totalBalanceAmount() {
-      if (this.isThereData) {
-        let tot = this.getTotalBalance(this.currentPortfolio.portfolioFile);
-        return this.currencyMarkup(tot);
-      }
-      return 0;
-    },
-    totalInvestedAmount() {
-      if (this.isThereData) {
-        let tot = this.getTotalInvestedAmount(
-          this.currentPortfolio.portfolioFile
-        );
-        return this.currencyMarkup(tot);
-      }
-      return 0;
-    },
-    investedPercentage() {
-      if (this.isThereData) {
-        // totaal geinvesteerd / totaal balans * 100
-        let totInvested = this.getTotalInvestedAmount(
-          this.currentPortfolio.portfolioFile
-        );
-        let totBalance = this.getTotalBalance(
-          this.currentPortfolio.portfolioFile
-        );
-        let perc = (totInvested / totBalance) * 100;
-        return this.currencyMarkup(perc);
-      }
-      return 0;
-    },
-    cashAmount() {
-      if (this.isThereData) {
-        // totaal balans - totaal geinvesteerd
-        let totInvested = this.getTotalInvestedAmount(
-          this.currentPortfolio.portfolioFile
-        );
-        let totBalance = this.getTotalBalance(
-          this.currentPortfolio.portfolioFile
-        );
-        let perc = totBalance - totInvested;
-        return this.currencyMarkup(perc);
-      }
-      return 0;
-    },
-    totalProfitLoss() {
-      if (this.isThereData) {
-        let totProfitLoss = this.getTotalProfitLoss(
-          this.currentPortfolio.portfolioFile,
-          this.currentPortfolio.accountFile
-        );
-        return this.currencyMarkup(totProfitLoss);
-      }
-      return 0;
-    },
-    totalProfitLossPercentage() {
-      if (this.isThereData) {
-        // totaal winst / totaal geinvesteerd * 100
-        let totProfitLoss = this.getTotalProfitLoss(
-          this.currentPortfolio.portfolioFile,
-          this.currentPortfolio.accountFile
-        );
-        let totInvested = this.getTotalInvestedAmount(
-          this.currentPortfolio.portfolioFile
-        );
-        let perc = (totProfitLoss / totInvested) * 100;
-        return this.currencyMarkup(perc);
-      }
-      return 0;
-    },
   },
 };
 </script>

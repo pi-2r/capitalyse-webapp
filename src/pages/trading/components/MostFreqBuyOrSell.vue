@@ -46,6 +46,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    mostFrequentBuysList: {
+      default: null,
+      required: true,
+    },
+    mostFrequentSellsList: {
+      default: null,
+      required: true,
+    },
   },
   data() {
     return {
@@ -72,15 +80,15 @@ export default {
       return this.$store.getters["files/getCurrentPortfolio"];
     },
     isThereData() {
-      return !!this.currentPortfolio.transactionsFile;
+      return this.mostFrequentBuysList !== null && this.mostFrequentSellsList !== null;
     },
     mostFreqTraded() {
       if (this.isThereData && this.mostFreqBuyOrSellList[0]) {
         return this.mostFreqBuyOrSellList
           ? this.mostFreqBuyOrSellList[0][0]
-          : "No data";
+          : "No result";
       }
-      return "No products";
+      return "No result";
     },
     timesTraded() {
       if (this.isThereData && this.mostFreqBuyOrSellList[0]) {
@@ -106,15 +114,9 @@ export default {
     loadData() {
       if (this.isThereData) {
         if (this.buyOrSell === "buy") {
-          this.mostFreqBuyOrSellList = this.getMostFrequentBuyOrSell(
-            this.currentPortfolio.transactionsFile,
-            "buy"
-          );
+          this.mostFreqBuyOrSellList = this.mostFrequentBuysList
         } else if (this.buyOrSell === "sell") {
-          this.mostFreqBuyOrSellList = this.getMostFrequentBuyOrSell(
-            this.currentPortfolio.transactionsFile,
-            "sell"
-          );
+          this.mostFreqBuyOrSellList = this.mostFrequentSellsList
         }
       }
     },

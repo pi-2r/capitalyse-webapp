@@ -26,9 +26,9 @@
     </section>
 
     <section class="cardsContainer">
-      <TradeCountCard :withBtn="false"/>
-      <MostFreqBuyOrSell />
-      <MostFreqTradedCard />
+      <TradeCountCard :withBtn="false" :totalTradeCount="tradingAnalytics.totalTradeCount"/>
+      <MostFreqBuyOrSell :mostFrequentBuysList="tradingAnalytics.mostFrequentBuysList" :mostFrequentSellsList="tradingAnalytics.mostFrequentSellsList"/>
+      <MostFreqTradedCard :mostFrequentlyTradedList="tradingAnalytics.mostFrequentlyTradedList"/>
     </section>
   </section>
 </template>
@@ -57,37 +57,47 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      tradingAnalytics: {
+        totalTradeCount: 0,
+        mostFrequentBuysList: null,
+        mostFrequentSellsList: null,
+        mostFrequentlyTradedList: null,
+      }
+    }
+  },
   computed: {
     portfolioName() {
       return this.$store.getters["files/getCurrentPortfolioName"];
     },
-    hasCurrentPortfolio() {
-      const portfolios = this.$store.getters["files/getPortfolios"];
-      for (let i = 0; i < portfolios.length; i++) {
-        if (portfolios[i].id === this.$route.params.id) {
-          return true;
+    hasTradingAnalytics() {
+      let analytics = this.$store.getters["files/getAnalytics"];
+      if (analytics.length > 0) {
+        for (let i = 0; i < analytics.length; i++) {
+          if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
+            if (
+              analytics[i][this.$route.params.id].tradingAnalytics !== undefined
+            ) {
+              return true;
+            }
+          }
         }
       }
       return false;
     },
-    hasCurrentFiles() {
-      const portfolios = this.$store.getters["files/getPortfolios"];
-      let hasFiles = false;
-      portfolios.forEach((portfolio) => {
-        if (portfolio.id === this.$route.params.id) {
-          if (portfolio.accountFile && portfolio.transactionsFile) {
-            hasFiles = true;
-          }
+    getTradingAnalytics() {
+      const analytics = this.$store.getters["files/getAnalytics"];
+      for (let i = 0; i < analytics.length; i++) {
+        if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
+          return analytics[i][this.$route.params.id].tradingAnalytics;
         }
-      });
-      return hasFiles;
-    },
-    hasPortfolios() {
-      return this.$store.getters["files/hasPortfolios"];
+      }
+      return null;
     },
   },
   watch: {
-    hasPortfolios() {
+    hasTradingAnalytics() {
       this.loadData();
     },
     $route() {
@@ -97,18 +107,15 @@ export default {
   methods: {
     loadData() {
       if (this.isDemo === false) {
-        if (!this.hasCurrentFiles && this.hasCurrentPortfolio) {
-          this.$store.dispatch(
-            "files/fetchOnePortfolio",
-            this.$route.params.id
-          );
+        if (this.hasTradingAnalytics === true) {
+          console.log("fetching from dashboard page");
+          this.tradingAnalytics = this.getTradingAnalytics;
+        } else {
+          this.$store.dispatch("files/fetchPortfolioAnalytics", {
+            type: "trading",
+            portfolioId: this.$route.params.id,
+          });
         }
-
-        if (this.hasCurrentPortfolio) {
-          this.setCurrentPortfolio(this.$route.params.id);
-        }
-      } else if (this.isDemo === true) {
-        this.$store.commit("files/setDemoAsCurrentPortfolio");
       }
     },
     setCurrentPortfolio(id) {

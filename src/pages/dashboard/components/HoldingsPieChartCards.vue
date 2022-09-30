@@ -6,7 +6,7 @@
     chartErrorMsg="You currently have no holdings."
     :chartOptions="chartOptions"
     :chartData="holdingsChartData"
-    :isLoadingHoldings="isLoadingHoldings"
+    :isLoading="isLoadingHoldings"
   />
   <HoldingsPieChartCard
     title="Currencies"
@@ -15,20 +15,14 @@
     chartErrorMsg="No currencies found."
     :chartOptions="chartOptions"
     :chartData="currenciesChartData"
-    :isLoadingCurrencies="isLoadingCurrencies"
+    :isLoading="isLoadingCurrencies"
   />
 </template>
 <script>
 import HoldingsPieChartCard from "./HoldingsPieChartCard";
 
-import getPieChartHoldingsMixin from "@/mixins/analytics/getPieChartHoldings";
-import getPieChartCurrenciesMixin from "@/mixins/analytics/getPieChartCurrencies";
-
 export default {
-  mixins: [
-    getPieChartCurrenciesMixin,
-    getPieChartHoldingsMixin,
-  ],
+  props: ['pieChartCurrencies', 'pieChartHoldings'],
   components: {
     HoldingsPieChartCard,
   },
@@ -91,15 +85,12 @@ export default {
     };
   },
   computed: {
-    currentPortfolio() {
-      return this.$store.getters["files/getCurrentPortfolio"];
-    },
-    isThereData() {
-      return !!this.currentPortfolio.portfolioFile;
+    isThereAnalyticsData() {
+      return this.pieChartCurrencies != null && this.pieChartHoldings != null
     },
   },
   watch: {
-    isThereData() {
+    isThereAnalyticsData() {
       this.loadData();
     },
     $route() {
@@ -127,17 +118,17 @@ export default {
       }
     },
     loadData() {
-      if (this.isThereData) {
+      if (this.isThereAnalyticsData) {
         // bereken data voor de holdings pie chart en de currencies pie chart
         this.setCurrenciesData();
+        this.isLoadingCurrencies = false
         this.setHoldingsData();
+        this.isLoadingHoldings = false
       }
     },
     setCurrenciesData() {
       // currencies
-      let chartCurrencies = this.getPieChartCurrencies(
-        this.currentPortfolio.portfolioFile
-      );
+      let chartCurrencies = this.pieChartCurrencies
 
       // voeg voor elke currency een kleur toe
       this.setColors(chartCurrencies, this.currenciesChartData);
@@ -147,7 +138,7 @@ export default {
         this.currenciesChartData.labels = [];
         this.currenciesChartData.datasets[0].data = [];
 
-        this.chartErrorMsg = "No currencies found.";
+        this.chartErrorMsg = "No currencies found";
       } else {
         this.chartErrorMsg = null;
         this.currenciesChartData.labels = chartCurrencies.labels;
@@ -156,9 +147,7 @@ export default {
     },
     setHoldingsData() {
       // holdings
-      this.chartHoldings = this.getPieChartHoldings(
-        this.currentPortfolio.portfolioFile
-      );
+      this.chartHoldings = this.pieChartHoldings
 
       // voeg voor elke holding een kleur toe
       this.setColors(this.chartHoldings, this.holdingsChartData);
@@ -168,7 +157,7 @@ export default {
         this.holdingsChartData.labels = [];
         this.holdingsChartData.datasets[0].data = [];
 
-        this.chartErrorMsg = "You currently have no holdings.";
+        this.chartErrorMsg = "You currently have no holdings";
       } else {
         this.chartErrorMsg = null;
         this.holdingsChartData.labels = this.chartHoldings.labels;
@@ -187,8 +176,10 @@ export default {
     },
   },
   created() {
-    this.loadData();
-    this.setTheme();
+    if(this.isThereAnalyticsData) {
+      this.loadData();
+      this.setTheme();
+    }
   },
 };
 </script>

@@ -143,11 +143,7 @@ export default {
   },
   methods: {
     addPortfolio() {
-      // if(this.amountOfPortfolios >= 1) {
-      //     window.alert('You can only have one portfolio, delete the existing one or upgrade your account to add more');
       this.$router.push("/portfolios/new");
-      // } else {
-      // }
     },
     loadData() {
       if (this.areTherePortfolios) {
@@ -165,13 +161,14 @@ export default {
         this.portfolios.push(this.portfoliosFromStore[i]);
 
         // only do this if addedAt hasnt been converted yet
+       
         if (
-          this.portfoliosFromStore[i].addedAt.seconds &&
-          this.portfoliosFromStore[i].addedAt.nanoseconds
+          this.portfoliosFromStore[i].addedAt._seconds &&
+          this.portfoliosFromStore[i].addedAt._nanoseconds
         ) {
           const firebaseDateTime = new Date(
-            this.portfoliosFromStore[i].addedAt.seconds * 1000 +
-              this.portfoliosFromStore[i].addedAt.nanoseconds / 1000000
+            this.portfoliosFromStore[i].addedAt._seconds * 1000 +
+              this.portfoliosFromStore[i].addedAt._nanoseconds / 1000000
           );
           const firebaseDate = firebaseDateTime.toLocaleDateString("en-US", {
             day: "numeric",

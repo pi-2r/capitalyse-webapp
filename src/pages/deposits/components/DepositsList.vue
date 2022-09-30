@@ -51,19 +51,20 @@
   </Card>
 </template>
 <script>
-import cleanNumberMixin from "@/mixins/helpers/cleanNumber";
-import includesFromArrayMixin from "@/mixins/helpers/includesFromArray";
-
 import DepositsListItem from "./DepositsListItem";
 import Spinner from "@/components/ui/Spinner.vue";
 import Card from "@/components/ui/Card.vue";
 
 export default {
-  mixins: [cleanNumberMixin, includesFromArrayMixin],
   components: {
     DepositsListItem,
     Spinner,
     Card,
+  },
+  props: {
+    depositsList: {
+      required: true,
+    },
   },
   data() {
     return {
@@ -85,23 +86,8 @@ export default {
     },
   },
   computed: {
-    indexes() {
-      return this.$store.getters["indexes/deposits"];
-    },
-    depositNames() {
-      return this.$store.getters["dictionary/deposit"];
-    },
-    failedDepositNames() {
-      return this.$store.getters["dictionary/failedDeposit"];
-    },
-    withdrawalNames() {
-      return this.$store.getters["dictionary/withdrawal"];
-    },
-    currentPortfolio() {
-      return this.$store.getters["files/getCurrentPortfolio"];
-    },
     isThereData() {
-      return !!this.currentPortfolio.accountFile;
+      return this.depositsList !== null;
     },
     amountOfDeposits() {
       return this.deposits.length;
@@ -109,6 +95,7 @@ export default {
   },
   methods: {
     loadData() {
+      console.log(this.isThereData);
       if (this.isThereData) {
         this.getDeposits();
         this.isLoading = false;
@@ -117,49 +104,9 @@ export default {
       }
     },
     getDeposits() {
-      const depositNames = this.depositNames;
-      const withdrawalNames = this.withdrawalNames;
-      // const failedDepositNames = this.failedDepositNames;
-
-      const data = this.currentPortfolio.accountFile;
-      const dateIndex = this.indexes.dateIndex;
-      const searchIndex = this.indexes.searchIndex;
-      const depositIndex = this.indexes.depositIndex;
-
-      this.deposits = [];
-
-      for (let i = 0; i < data.length; i++) {
-        if (data[i][depositIndex]) {
-          const validDeposit =
-            this.includesFromArray(depositNames, data[i][searchIndex]) &&
-            this.cleanNumber(data[i][depositIndex]) > 0;
-
-          const validWithdrawal =
-            this.includesFromArray(withdrawalNames, data[i][searchIndex]) &&
-            this.cleanNumber(data[i][depositIndex]) < 0;
-
-          // const validFailedDeposit =
-          // (this.includesFromArray(failedDepositNames, data[i][searchIndex]));
-
-          if (validDeposit || validWithdrawal) {
-            const date = data[i][dateIndex];
-            const deposit = this.cleanNumber(data[i][depositIndex]);
-
-            const depositObj = {
-              date: date,
-              amount: deposit,
-            };
-            this.deposits.push(depositObj);
-          }
-
-          // if(validFailedDeposit) {
-          //     const depositName = data[i][searchIndex];
-
-          //     console.log(depositName + ' is a failed deposit');
-          // }
-        }
-      }
-
+      this.deposits = this.depositsList
+      console.log(this.deposits);
+      
       this.sortItems();
     },
     sortItems() {

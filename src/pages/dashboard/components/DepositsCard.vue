@@ -1,7 +1,7 @@
 <template>
   <ResultCard
     title="Total deposits"
-    :resultValue="totDeposits"
+    :resultValue="totalDeposits"
     :to="toLink"
     btnText="View Deposits"
     :withBtn="true"
@@ -10,15 +10,16 @@
 <script>
 import ResultCard from "@/components/dashboard/ResultCard.vue";
 
-import getTotalDepositsMixin from "@/mixins/analytics/getTotalDeposits";
-import currencyMarkup from "@/mixins/helpers/currencyMarkup";
-
 export default {
-  mixins: [getTotalDepositsMixin, currencyMarkup],
   components: {
     ResultCard,
   },
   props: {
+    totalDeposits: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     withBth: {
       type: Boolean,
       default: false,
@@ -45,33 +46,9 @@ export default {
       // id wordt gebruikt voor de link naar de deposits pagina
       return this.$route.params.id;
     },
-    currentPortfolio() {
-      return this.$store.getters["files/getCurrentPortfolio"];
+    isThereAnalyticsData() {
+      return this.totalDeposits !== 0
     },
-    isThereData() {
-      return !!this.currentPortfolio.accountFile;
-    },
-  },
-  watch: {
-    isThereData() {
-      // op het moment dat data veranderd, roep loadData aan
-      this.loadData();
-    },
-  },
-  methods: {
-    loadData() {
-      // runt alleen als de verandering in data betekende dat
-      // er wél data nu is. berekent de totale deposits via een MIXIN en het accountFile
-      if (this.isThereData) {
-        this.totDeposits = this.currencyMarkup(
-          this.getTotalDeposits(this.currentPortfolio.accountFile)
-        );
-      }
-    },
-  },
-  created() {
-    // als er al data is, kan er gelijk worden berekend
-    this.loadData();
   },
 };
 </script>

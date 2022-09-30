@@ -1,7 +1,7 @@
 <template>
   <ResultCard
     title="Total times traded"
-    :resultValue="totTradeCount + ' trades'"
+    :resultValue="totalTradeCount + ' trades'"
     :to="toLink"
     btnText="View Trades"
     :withBtn="true"
@@ -29,16 +29,15 @@ export default {
       type: Boolean,
       default: false,
     },
+    totalTradeCount: {
+      type: Number,
+      required: true,
+    }
   },
   data() {
     return {
       totTradeCount: 0,
     };
-  },
-  watch: {
-    isThereData() {
-      this.loadData();
-    },
   },
   computed: {
     toLink() {
@@ -51,24 +50,6 @@ export default {
     portfolioId() {
       return this.$route.params.id;
     },
-    currentPortfolio() {
-      return this.$store.getters["files/getCurrentPortfolio"];
-    },
-    isThereData() {
-      return !!this.currentPortfolio.transactionsFile;
-    },
-  },
-  methods: {
-    loadData() {
-      if (this.isThereData) {
-        this.totTradeCount = this.getTradeCount(
-          this.currentPortfolio.transactionsFile
-        );
-      }
-    },
-  },
-  created() {
-    this.loadData();
   },
 };
 </script>

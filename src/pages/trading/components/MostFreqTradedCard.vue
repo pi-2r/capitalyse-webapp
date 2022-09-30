@@ -17,10 +17,7 @@
 <script>
 import ResultCard from "@/components/dashboard/ResultCard.vue";
 
-import getMostFrequentlyTraded from "@/mixins/analytics/getMostFrequentlyTraded.js";
-
 export default {
-  mixins: [getMostFrequentlyTraded],
   components: {
     ResultCard,
   },
@@ -29,56 +26,28 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  data() {
-    return {
-      mostFreqTradedList: [],
-    };
-  },
-  watch: {
-    isThereData() {
-      this.loadData();
-    },
-    $route() {
-      this.loadData();
+    mostFrequentlyTradedList: {
+      default: null,
+      required: true,
     },
   },
   computed: {
     portfolioId() {
       return this.$route.params.id;
     },
-    currentPortfolio() {
-      return this.$store.getters["files/getCurrentPortfolio"];
-    },
-    isThereData() {
-      return !!this.currentPortfolio.transactionsFile;
+    isThereAnalyticsData() {
+      return this.mostFrequentlyTradedList !== null;
     },
     mostFreqTraded() {
-      if (this.isThereData) {
-        return this.mostFreqTradedList
-          ? this.mostFreqTradedList[0][0]
-          : "No data";
-      }
-      return "No data";
+      return this.isThereAnalyticsData
+        ? this.mostFrequentlyTradedList[0][0]
+        : "No result";
     },
     timesTraded() {
-      if (this.isThereData) {
-        return this.mostFreqTradedList ? this.mostFreqTradedList[0][1] : 0;
-      }
-      return 0;
+      return this.isThereAnalyticsData
+        ? this.mostFrequentlyTradedList[0][1]
+        : 0;
     },
-  },
-  methods: {
-    loadData() {
-      if (this.isThereData) {
-        this.mostFreqTradedList = this.getMostFrequentlyTraded(
-          this.currentPortfolio.transactionsFile
-        );
-      }
-    },
-  },
-  created() {
-    this.loadData();
   },
 };
 </script>

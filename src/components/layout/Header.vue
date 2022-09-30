@@ -227,7 +227,7 @@ export default {
     sortHeaderPortfoliosByDate() {
       // sorteer portfolios op datum met de seconds waarde
       this.headerPortfoliosFromStore.sort((a, b) => {
-        return new Date(b.addedAt.seconds) - new Date(a.addedAt.seconds);
+        return new Date(b.addedAt._seconds) - new Date(a.addedAt._seconds);
       });
     },
     toggleMyPortfoliosPopup() {

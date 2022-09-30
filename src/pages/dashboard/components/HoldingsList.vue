@@ -15,14 +15,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr :key="holding.id" v-for="holding in holdings">
+          <tr :key="holding.id" v-for="holding in holdingsList">
             <HoldingsListItem :isDemo="isDemo" :holding="holding" />
           </tr>
-          <tr v-if="holdings.length < 1 && !isLoading">
-            <td class="noHoldings" colspan="3">
-              <p>No holdings found</p>
-            </td>
-          </tr>
+          <section v-if="holdingsList !== null">
+            <tr v-if="holdingsList.length < 1 && !isLoading">
+              <td class="noHoldings" colspan="3">
+                <p>No holdings found</p>
+              </td>
+            </tr>
+          </section>
+         
 
           <tr v-if="isLoading">
             <td colspan="3" class="loading">
@@ -50,56 +53,17 @@ export default {
       type: Boolean,
       default: false,
     },
+    holdingsList: {
+      default : null,
+      required: true,
+    },
   },
   data() {
     return {
-      holdings: [],
       holdingsPages: [],
       holdingsPage: 0,
       isLoading: false,
     }
-  },
-  watch: {
-    isThereData() {
-      this.loadData();
-    },
-    $route() {
-      this.loadData();
-    },
-  },
-  computed: {
-    currentPortfolio() {
-      return this.$store.getters["files/getCurrentPortfolio"];
-    },
-    isThereData() {
-      return !!this.currentPortfolio.portfolioFile;
-    },
-  },
-  methods: {
-    loadData() {
-      if (this.isThereData) {
-        this.getHoldings();
-        this.isLoading = false;
-      } else {
-        this.isLoading = true;
-      }
-    },
-    getHoldings() {
-      this.holdings = this.getHoldingsList(this.currentPortfolio.portfolioFile);
-
-      // if(this.holdings.length > 10) {
-      //   for(let i = 0; i < this.holdings.length; i++) {
-      //     if(i%10 == 0 && i != 0) {
-      //       this.holdingsPages.push({
-
-      //       })
-      //     }
-      //   }
-      // }
-    },
-  },
-  created() {
-    this.loadData();
   },
 };
 </script>

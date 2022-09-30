@@ -1,3 +1,4 @@
+
 <template>
   <section class="dividendChartContainer">
     <!-- time frame -->
@@ -81,20 +82,22 @@
 </template>
 
 <script>
+import {toRaw} from 'vue'
+
 import BarChart from "@/components/ui/BarChart.vue";
 import Card from "@/components/ui/Card.vue";
 // import CardButtonArrow from "@/components/ui/CardButtonArrow.vue";
 
-import getChartDividendsMixin from "@/mixins/analytics/getChartDividends";
-
 export default {
-  mixins: [getChartDividendsMixin],
   components: {
     BarChart,
     Card,
     // CardButtonArrow,
   },
   props: {
+    chartDividendsProps: {
+      required: true,
+    },
     hideTimeFrameBtns: {
       type: Boolean,
       default: false,
@@ -106,8 +109,6 @@ export default {
       selectedTimeFrame: "All Time",
       dividendsArray: [],
       chartErrorMsg: null,
-      dataHolder: [],
-      labelsHolder: [],
       timeFrameOptions: {
         allTime: "All Time",
         yearToDate: "YTD",
@@ -122,9 +123,6 @@ export default {
     };
   },
   computed: {
-    currentPortfolio() {
-      return this.$store.getters["files/getCurrentPortfolio"];
-    },
     totalDividends() {
       let total = 0;
       for (let i = 0; i < this.dividendsArray.length; i++) {
@@ -164,7 +162,16 @@ export default {
       }
     },
     isThereData() {
-      return !!this.currentPortfolio.accountFile;
+      return this.chartDividendsProps !== null;
+    },
+    gethomeAnalytics() {
+      const analytics = this.$store.getters["files/getAnalytics"];
+      for (let i = 0; i < analytics.length; i++) {
+        if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
+          return analytics[i][this.$route.params.id].homeAnalytics;
+        }
+      }
+      return null;
     },
   },
   watch: {
@@ -246,6 +253,7 @@ export default {
       setTimeout(() => {
         this.selectedTimeFrame = e.target.innerText;
         this.isThereData ? this.getDividends() : null;
+      console.log( 'timeframedatachange');
         this.timeFrameDataUpdate();
         this.isLoading = false;
       }, 1);
@@ -255,9 +263,10 @@ export default {
       this.chartData.datasets = [];
 
       // haal dividends op van de Mixin
-      const chartDividends = this.getChartDividends(
-        this.currentPortfolio.accountFile
-      );
+      let chartDividends = toRaw(this.chartDividendsProps)
+      // const chartDividends = this.getChartDividends(
+      //   this.currentPortfolio.accountFile
+      // );
 
       // als er geen dividends zijn, geef een error message
       // als er wel dividends zijn, maak een array aan met de labels en data
@@ -278,10 +287,10 @@ export default {
         this.chartData.labels = this.dividendsArray[0].datesList;
 
         // fill stacked chart
-        for (let i = 0; i < chartDividends.length; i++) {
+        for (let i = 0; i < this.dividendsArray.length; i++) {
           this.chartData.datasets.push({
-            label: chartDividends[i].name,
-            isin: chartDividends[i].isin,
+            label: this.dividendsArray[i].name,
+            isin: this.dividendsArray[i].isin,
             backgroundColor: "#007cda",
             borderRadius: 4,
             borderWidth: 0,
@@ -290,7 +299,7 @@ export default {
             borderDash: [10, 5],
             barPercentage: "1",
             hoverBorderColor: "transparent",
-            data: chartDividends[i].dividendsList,
+            data: this.dividendsArray[i].dividendsList,
           });
         }
       }
@@ -302,28 +311,64 @@ export default {
       // timeframes anders dan All-time
       // als geselecteerd wordt, verander de data in de chart
       if (this.selectedTimeFrame === this.timeFrameOptions.yearToDate) {
-        this.setYearToDateData();
+        this.setYearToDate();
       } else if (this.selectedTimeFrame === this.timeFrameOptions.oneYear) {
-        this.setYearDate(1);
+        this.setYears(1);
       } else if (this.selectedTimeFrame === this.timeFrameOptions.threeYears) {
-        this.setYearDate(3);
+        this.setYears(3);
       } else if (this.selectedTimeFrame === this.timeFrameOptions.fiveYears) {
-        this.setYearDate(5);
+        this.setYears(5);
       }
     },
-    setYearToDateData() {
-      // Mixin
-      this.setYearToDate();
+    setYearToDate() {
+      // // delete all months before this year
+      // let currentYear = new Date().getFullYear();
+
+      // for (let i = 0; i < this.dividendsArray.length; i++) {
+      //   for (let j = 0; j < this.dividendsArray[i].dividend.length; j++) {
+      //     let dividendYear = parseFloat(this.dividendsArray[i].dividend[j].date.split("-")[1]);
+
+      //     if (dividendYear < currentYear) {
+      //       this.dividendsArray[i].dividend.splice(j, 1);
+      //       this.dividendsArray[i].datesList.splice(j, 1);
+      //       this.dividendsArray[i].dividendsList.splice(j, 1);
+      //       j--;
+      //     }
+
+      //   }
+      // }
     },
-    setYearDate(years) {
-      // Mixin
-      this.setYears(years);
-    },
+    setYears(years) {
+      // get one year ago in MM-YYYY
+      let currentYear = new Date().getFullYear();
+      let currentMonth = new Date().getMonth() + 1;
+      let yearAgo = new Date(currentYear - years, currentMonth);
+
+      // delete all months before yearAgo
+      for (let i = 0; i < this.dividendsArray.length; i++) {
+        for (let j = 0; j < this.dividendsArray[i].dividend.length; j++) {
+          let dividendYear = this.dividendsArray[i].dividend[j].date;
+          let labelYear = parseFloat(dividendYear.split("-")[1]);
+          let labelMonth = parseFloat(dividendYear.split("-")[0]);
+          let labelDate = new Date(labelYear, labelMonth - 1);
+
+          if (labelDate < yearAgo || labelDate < yearAgo + 1) {
+            this.dividendsArray[i].dividend.splice(j, 1);
+            this.dividendsArray[i].datesList.splice(j, 1);
+            this.dividendsArray[i].dividendsList.splice(j, 1);
+            j--;
+          }
+        }
+      }
+    }
   },
   created() {
     // laad data als deze al is gefetcht
     // zet het thema op de chart
-    this.loadData();
+    if(this.isThereData) {
+      console.log(this.chartDividendsProps);
+      this.loadData();
+    }
   },
 };
 </script>

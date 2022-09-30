@@ -1,5 +1,5 @@
 import '../../../firebase'
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 const db = getFirestore();
@@ -31,16 +31,25 @@ export default {
             });
     },
     async signup(context, payload) {
+        const API_BASE = 'https://capitalyse-backend.herokuapp.com'
+        const API_URL = '/api/auth/register'
+
         context.commit('setAuthError', null);
 
-        const auth = getAuth();
-        createUserWithEmailAndPassword(auth, payload.email, payload.password)
-            .then((userCredential) => {
-                localStorage.setItem("token", userCredential.user.accessToken);
-                localStorage.setItem("userId", userCredential.user.uid);
+        fetch(API_BASE + API_URL, {
+            method: "POST",
+            body: JSON.stringify({
+                email: payload.email,
+                password: payload.password,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((response) => response.json())
+            .then((data) => {
                 context.commit("setUser", {
-                    token: userCredential.user.accessToken,
-                    userId: userCredential.user.uid,
+                    token: data.token,
+                    userId: data.userId,
                 });
             })
             .catch((error) => {
@@ -48,11 +57,17 @@ export default {
             });
     },
     googleAuth(context, payload) {
+        // This gives you a Google Access Token. You can use it to access Google APIs.
+        const credential = GoogleAuthProvider.credentialFromResult(payload.result);
+        // The signed-in user info.
+        const token = credential.accessToken;
+        const user = payload.result.user;
+
         context.commit('setAuthError', null);
 
         context.commit('setUser', {
-            token: payload.accessToken,
-            userId: payload.userId,
+            token: token,
+            userId: user,
         });
 
         localStorage.setItem("token", payload.accessToken);

@@ -29,4 +29,7 @@ export default {
     getUploadingState(state) {
         return state.uploadingState;
     },
+    getAnalytics(state) {
+        return state.analytics;
+    },
 };

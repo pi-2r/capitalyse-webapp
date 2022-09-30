@@ -1,7 +1,7 @@
 <template>
   <ResultCard
     title="Transaction fees"
-    :resultValue="totTransFees"
+    :resultValue="totalTransactionFees"
     :to="toLink"
     btnText="View Fees"
     :withBtn="true"
@@ -25,6 +25,11 @@ export default {
     ResultCard,
   },
   props: {
+    totalTransactionFees : {
+      type: Number,
+      require: true,
+      default: 0,
+    },
     withBth: {
       type: Boolean,
       default: false,

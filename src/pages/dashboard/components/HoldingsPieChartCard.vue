@@ -5,7 +5,7 @@
         <h2>{{ title }}</h2>
         <p class="holdingsPieChartTitle__dataLength">{{ dataLength }}</p>
       </section>
-      <section class="holdingsPieChart" v-if="isThereData">
+      <section class="holdingsPieChart" v-if="!isLoading">
         <p v-if="chartErrorMsg">{{ chartErrorMsg }}</p>
         <Doughnut
           v-else
@@ -62,35 +62,20 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    isLoading: {
+      type: Boolean,
+    }
   },
   data() {
     return {
-      isLoading: true,
       chartErrorMsg: null,
       dataHolder: [],
       labelsHolder: [],
     };
   },
   computed: {
-    currentPortfolio() {
-      return this.$store.getters["files/getCurrentPortfolio"];
-    },
-    isThereData() {
-      return !!this.currentPortfolio.portfolioFile;
-    },
     dataLength() {
-      // haalt de lengte van de chartData data op en geeft deze weer op de kaart
-      // als er Cash wordt gevonden wordt deze verwijderd van de lengte
-      let total = 0;
-
-      for (let i = 0; i < this.chartData.datasets[0].data.length; i++) {
-        total++;
-        if (this.chartData.labels[i] === "Cash") {
-          total--;
-        }
-      }
-
-      return total;
+      return this.chartData.datasets[0].data.length;
     },
   },
 };

@@ -39,30 +39,50 @@
         </section> -->
       </section>
     </section>
-    
-    <section >
-      <PortfolioCards />
 
-      
+    <section>
+      <PortfolioCards
+        :totalProfitLoss="homeAnalytics.totalProfitLoss"
+        :totalProfitLossPercentage="homeAnalytics.totalProfitLossPercentage"
+        :totalCash="homeAnalytics.totalCash"
+        :totalInvested="homeAnalytics.totalInvested"
+        :totalInvestedPercentage="homeAnalytics.totalInvestedPercentage"
+        :totalBalance="homeAnalytics.totalBalance"
+      />
 
       <section class="holdingsContainer">
-        <HoldingsPieChartCards />
+        <HoldingsPieChartCards
+          :pieChartCurrencies="homeAnalytics.pieChartCurrencies"
+          :pieChartHoldings="homeAnalytics.pieChartHoldings"
+        />
       </section>
 
       <section class="cardsContainer">
-        <DepositsCard :isDemo="isDemo" />
-        <TransFeesCard :isDemo="isDemo" />
-        <TradeCountCard :isDemo="isDemo" />
+        <DepositsCard
+          :isDemo="isDemo"
+          :totalDeposits="homeAnalytics.totalDeposits"
+        />
+        <TransFeesCard
+          :isDemo="isDemo"
+          :totalTransactionFees="homeAnalytics.totalTransactionFees"
+        />
+        <TradeCountCard
+          :isDemo="isDemo"
+          :totalTradeCount="homeAnalytics.totalTradeCount"
+        />
       </section>
 
       <DividendChart
         :hideTimeFrameBtns="false"
+        :chartDividendsProps="homeAnalytics.chartDividends"
         class="dividendChartDashboard"
       />
 
-      <HoldingsList :isDemo="isDemo"/>
+      <HoldingsList
+        :isDemo="isDemo"
+        :holdingsList="homeAnalytics.holdingsList"
+      />
     </section>
-    
   </section>
 </template>
 
@@ -81,7 +101,7 @@ import DepositsCard from "./components/DepositsCard.vue";
 import TradeCountCard from "./components/TradeCountCard.vue";
 import PortfolioCards from "./components/PortfolioCards.vue";
 import HoldingsPieChartCards from "./components/HoldingsPieChartCards.vue";
-import HoldingsList from './components/HoldingsList.vue';
+import HoldingsList from "./components/HoldingsList.vue";
 
 export default {
   mixins: [firebaseDateMixin],
@@ -97,7 +117,7 @@ export default {
     PortfolioCards,
     // Icon,
     HoldingsPieChartCards,
-    HoldingsList
+    HoldingsList,
   },
   props: {
     isDemo: {
@@ -109,63 +129,55 @@ export default {
     return {
       accountAge: "",
       addedAt: null,
+      homeAnalytics: {
+        totalProfitLoss: 0,
+        totalProfitLossPercentage: 0,
+        totalInvested: 0,
+        totalInvestedPercentage: 0,
+        totalBalance: 0,
+        totalCash: 0,
+        totalTradeCount: 0,
+        totalTransactionFees: 0,
+        chartDividends: null,
+        holdingsList: null,
+        pieChartCurrencies: null,
+        pieChartHoldings: null,
+      },
     };
   },
   computed: {
     portfolioName() {
       return this.$store.getters["files/getCurrentPortfolioName"];
     },
-    hasCurrentPortfolio() {
-      // pakt alle portfolios van store en kijkt met het id van de url of de goede in de store zit
-      const portfolios = this.$store.getters["files/getPortfolios"];
-      for (let i = 0; i < portfolios.length; i++) {
-        if (portfolios[i].id === this.$route.params.id) {
-          return true;
+    hasHomeAnalytics() {
+      let analytics = this.$store.getters["files/getAnalytics"];
+      if (analytics.length > 0) {
+        for (let i = 0; i < analytics.length; i++) {
+          if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
+            if (
+              analytics[i][this.$route.params.id].homeAnalytics !== undefined
+            ) {
+              return true;
+            }
+          }
         }
       }
       return false;
     },
-    hasCurrentFiles() {
-      // pakt alle portfolios van storekijkt of elke file van het juiste portfolio in de store zit
-      const portfolios = this.$store.getters["files/getPortfolios"];
-      let hasFiles = false;
-
-      portfolios.forEach((portfolio) => {
-        if (portfolio.id === this.$route.params.id) {
-          if (
-            portfolio.accountFile &&
-            portfolio.transactionsFile &&
-            portfolio.portfolioFile
-          ) {
-            hasFiles = true;
-          }
+    getHomeAnalytics() {
+      const analytics = this.$store.getters["files/getAnalytics"];
+      for (let i = 0; i < analytics.length; i++) {
+        if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
+          return analytics[i][this.$route.params.id].homeAnalytics;
         }
-      });
-      return hasFiles;
-    },
-    hasPortfolios() {
-      return this.$store.getters["files/hasPortfolios"];
-    },
-    files() {
-      return this.$store.getters["files/getCurrentPortfolio"];
+      }
+      return null;
     },
   },
   watch: {
-    hasPortfolios() {
-      this.loadData();
-    },
-    // dit werkt wanneer je gelijk van de ene naar de andere portfolio gaat
-    files() {
-      if (this.hasCurrentFiles) {
-        this.calculateStartAndEndDates();
-        this.convertFirebaseTime();
-      }
-    },
-    // dit werkt wanneer je nieuw op de pagina komt
-    hasCurrentFiles() {
-      if (this.hasCurrentFiles) {
-        this.calculateStartAndEndDates();
-        this.convertFirebaseTime();
+    hasHomeAnalytics() {
+      if (this.hasHomeAnalytics === true) {
+        this.loadData();
       }
     },
     // wanneer de route veranderd, laad opnieuw data in
@@ -221,10 +233,10 @@ export default {
     },
     convertFirebaseTime() {
       // als de addedAt nog in de seconds en nanoseconds object format staat
-      if (this.files.addedAt.seconds && this.files.addedAt.nanoseconds) {
+      if (this.files.addedAt._seconds && this.files.addedAt._nanoseconds) {
         const firebaseDateTime = new Date(
-          this.files.addedAt.seconds * 1000 +
-            this.files.addedAt.nanoseconds / 1000000
+          this.files.addedAt._seconds * 1000 +
+            this.files.addedAt._nanoseconds / 1000000
         );
         const firebaseDate = firebaseDateTime.toLocaleDateString("en-US", {
           day: "numeric",
@@ -244,20 +256,15 @@ export default {
     },
     loadData() {
       if (this.isDemo === false) {
-        // if doesnt have current portfolio's files, but has current portfolio's meta-data
-        if (!this.hasCurrentFiles && this.hasCurrentPortfolio) {
-          this.$store.dispatch(
-            "files/fetchOnePortfolio",
-            this.$route.params.id
-          );
+        if (this.hasHomeAnalytics === true) {
+          console.log("fetching from dashboard page");
+          this.homeAnalytics = this.getHomeAnalytics;
+        } else {
+          this.$store.dispatch("files/fetchPortfolioAnalytics", {
+            type: "home",
+            portfolioId: this.$route.params.id,
+          });
         }
-
-        // if has current portfolio's meta-data
-        if (this.hasCurrentPortfolio) {
-          this.setCurrentPortfolio(this.$route.params.id);
-        }
-      } else if (this.isDemo === true) {
-        this.$store.dispatch("files/setDemoAsCurrentPortfolio");
       }
     },
     setCurrentPortfolio(id) {

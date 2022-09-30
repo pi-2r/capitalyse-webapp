@@ -16,7 +16,7 @@
       baseLink="/portfolios"
       baseLinkName="Portfolios"
       :secondLink="'/dashboard/' + this.$route.params.id"
-      :secondLinkName="(portfolioName ? portfolioName : '')"
+      :secondLinkName="portfolioName ? portfolioName : ''"
       thirdLink="#"
       thirdLinkName="Deposits & Withdrawals"
     />
@@ -26,8 +26,8 @@
     </section>
 
     <section class="cardsContainer">
-      <DepositsChart />
-      <DepositsList />
+      <DepositsChart :chartDepositsProps="depositsAnalytics.chartDeposits"/>
+      <DepositsList :depositsList="depositsAnalytics.depositsList" />
     </section>
   </section>
 </template>
@@ -54,37 +54,45 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      depositsAnalytics: {
+        chartDeposits: null,
+        depositsList: null,
+      }
+    }
+  },
   computed: {
     portfolioName() {
       return this.$store.getters["files/getCurrentPortfolioName"];
     },
-    hasCurrentPortfolio() {
-      const portfolios = this.$store.getters["files/getPortfolios"];
-      for (let i = 0; i < portfolios.length; i++) {
-        if (portfolios[i].id === this.$route.params.id) {
-          return true;
+     hasDepositsAnalytics() {
+      let analytics = this.$store.getters["files/getAnalytics"];
+      if (analytics.length > 0) {
+        for (let i = 0; i < analytics.length; i++) {
+          if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
+            if (
+              analytics[i][this.$route.params.id].depositsAnalytics !== undefined
+            ) {
+              return true;
+            }
+          }
         }
       }
       return false;
     },
-    hasCurrentFiles() {
-      const portfolios = this.$store.getters["files/getPortfolios"];
-      let hasFiles = false;
-      portfolios.forEach((portfolio) => {
-        if (portfolio.id === this.$route.params.id) {
-          if (portfolio.accountFile && portfolio.transactionsFile) {
-            hasFiles = true;
-          }
+    getDepositsAnalytics() {
+      const analytics = this.$store.getters["files/getAnalytics"];
+      for (let i = 0; i < analytics.length; i++) {
+        if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
+          return analytics[i][this.$route.params.id].depositsAnalytics;
         }
-      });
-      return hasFiles;
-    },
-    hasPortfolios() {
-      return this.$store.getters["files/hasPortfolios"];
+      }
+      return null;
     },
   },
   watch: {
-    hasPortfolios() {
+    hasDepositsAnalytics() {
       this.loadData();
     },
     $route() {
@@ -94,24 +102,17 @@ export default {
   methods: {
     loadData() {
       if (this.isDemo === false) {
-        if (!this.hasCurrentFiles && this.hasCurrentPortfolio) {
-          this.$store.dispatch(
-            "files/fetchOnePortfolio",
-            this.$route.params.id
-          );
+        if (this.hasDepositsAnalytics === true) {
+          console.log("fetching from deposits page");
+          this.depositsAnalytics = this.getDepositsAnalytics;
+          console.log(this.depositsAnalytics);
+        } else {
+          this.$store.dispatch("files/fetchPortfolioAnalytics", {
+            type: "deposits",
+            portfolioId: this.$route.params.id,
+          });
         }
-        if (this.hasCurrentPortfolio) {
-          this.setCurrentPortfolio(this.$route.params.id);
-        }
-      } else if (this.isDemo === true) {
-        this.$store.dispatch("files/setDemoAsCurrentPortfolio");
       }
-    },
-    setCurrentPortfolio(id) {
-      this.$store.dispatch("files/setCurrentPortfolio", id);
-    },
-    resetCurrentPortfolio() {
-      this.$store.dispatch("files/resetCurrentPortfolio");
     },
   },
   created() {

@@ -2,12 +2,11 @@ import '../../../firebase'
 import {
     // writeBatch,
     getFirestore,
-    collection,
-    getDocs,
+    // collection,
+    // getDocs,
     deleteDoc,
     doc,
     // getDoc,
-    addDoc,
     // setDoc,
     updateDoc,
 } from 'firebase/firestore'
@@ -18,7 +17,6 @@ import {
     getDownloadURL,
     getStorage,
     ref,
-    uploadBytes,
     deleteObject,
 } from 'firebase/storage';
 
@@ -38,94 +36,92 @@ export default {
         context.commit('setUploadingState', uploadingState);
     },
     async createNewPortfolio(context, payload) {
-        const storage = getStorage();
+        const API_BASE = 'https://capitalyse-backend.herokuapp.com'
+        const API_URL = '/api/portfolios/new'
 
-        const userId = context.rootGetters.userId;
-        const transactionsFile = payload.transactionsFile;
-        const accountFile = payload.accountFile;
-        const portfolioFile = payload.portfolioFile;
+        // files and portfolio name
+        const token = context.rootGetters.token
+        const tFile = payload.transactionsFile
+        const aFile = payload.accountFile
+        const pFile = payload.portfolioFile
+        const portfolioName = payload.portfolioName
 
-        const transactionsFileSize = (transactionsFile.size / 1024).toFixed(2);
-        const accountFileSize = (accountFile.size / 1024).toFixed(2);
-        const portfolioFileSize = (portfolioFile.size / 1024).toFixed(2);
+        // formdata
+        var formData = new FormData();
+        formData.append("uploadCsv", tFile);
+        formData.append("uploadCsv", pFile);
+        formData.append("uploadCsv", aFile);
+        formData.append("portfolioname", portfolioName)
 
-        const firebaseDocData = {
-            portfolioName: payload.portfolioName,
-            addedAt: payload.addedAt,
-            transactionsFileUrl: '',
-            accountFileUrl: '',
-            portfolioFileUrl: '',
-            transactionsFileSize: transactionsFileSize,
-            accountFileSize: accountFileSize,
-            portfolioFileSize: portfolioFileSize,
-        }
-
-        // firestore link
-        const setFirestorePortfolioRef = collection(db, `users/${userId}/portfolios`);
-
-        // firestore upload
-        addDoc(setFirestorePortfolioRef, firebaseDocData).then((docRef) => {
-            const portfolioId = docRef.id;
-            // csv file storage upload, with newly gotten portfolio ID
-            const transactionsStorageFileUrl = `users/${userId}/portfolios/${portfolioId}/Transactions.csv`
-            const accountStorageFileUrl = `users/${userId}/portfolios/${portfolioId}/Account.csv`
-            const portfolioStorageFileUrl = `users/${userId}/portfolios/${portfolioId}/Portfolio.csv`
-            const transactionsStorageFileRef = ref(storage, transactionsStorageFileUrl);
-            const accountStorageFileRef = ref(storage, accountStorageFileUrl);
-            const portfolioStorageFileRef = ref(storage, portfolioStorageFileUrl);
-            // upload transactions file
-            uploadBytes(portfolioStorageFileRef, portfolioFile).then(() => {
-                uploadBytes(transactionsStorageFileRef, transactionsFile).then(() => {
-                    uploadBytes(accountStorageFileRef, accountFile).then(() => {
-                        // update firestore storage url
-                        const updateFireStorePortfolioRef = doc(db, `users/${userId}/portfolios/${portfolioId}`);
-
-                        updateDoc(updateFireStorePortfolioRef, {
-                            transactionsFileUrl: transactionsStorageFileUrl,
-                            accountFileUrl: accountStorageFileUrl,
-                            portfolioFileUrl: portfolioStorageFileUrl,
-                        }).then(() => {
-                            context.commit("setUploadingState", "success");
-                        }).catch((error) => {
-                            context.commit("setUploadingState", "error");
-                            console.log('error at updating firestore storage url');
-                            console.log(error);
-                        });
-                    }).catch((error) => {
-                        context.commit("setUploadingState", "error");
-                        console.log('error at account file upload');
-                        console.log(error);
-                    });
-                }).catch((error) => {
-                    context.commit("setUploadingState", "error");
-                    console.log('error at transactions file upload');
-                    console.log(error);
-                });
-            }).catch((error) => {
+        // request
+        var request = new XMLHttpRequest();
+        request.open("POST", API_BASE + API_URL, true);
+        // request.setRequestHeader("Content-type", "multipart/form-data"); //----(*)
+        request.setRequestHeader("Authorization", token);
+        request.onreadystatechange = function () {
+            if (
+                request.readyState === XMLHttpRequest.DONE &&
+                request.status === 200
+            ) {
+                console.log(JSON.parse(request.responseText));
+                context.commit("setUploadingState", "success");
+            } else if (request.status !== 200) {
+                console.log(request.status, request.responseText);
                 context.commit("setUploadingState", "error");
-                console.log('error at portfolio file upload');
-                console.log(error);
-            });
-        }).catch(error => {
-            context.commit("setUploadingState", "error");
-            console.log('error at firestore upload');
-            console.log(error);
-        });
+            }
+        };
+
+        request.send(formData);
     },
     async fetchAllPortfolios(context) {
-        const userId = context.rootGetters.userId;
-        const portfoliosRef = collection(db, `users/${userId}/portfolios`);
-        const querySnapshot = await getDocs(portfoliosRef);
+        console.log( 'fetch all portfolio');
+        const API_BASE = 'https://capitalyse-backend.herokuapp.com'
+        const API_URL = '/api/portfolios'
 
-        let portfolios = [];
-        querySnapshot.forEach(doc => {
-            portfolios.push({
-                id: doc.id,
-                ...doc.data()
-            });
-        });
+        const token = context.rootGetters.token
+        await fetch(API_BASE + API_URL, {
+            method: 'GET',
+            headers: new Headers({
+                'Authorization': token,
+            })
+        }).then((response) => response.json())
+            .then(data => {
+                let portfolios = []
+                for (let i = 0; i < data.length; i++) {
+                    const portfolio = data[i];
+                    portfolios.push(
+                        portfolio,
+                    );
+                }
+                context.commit("setPortfolios", portfolios);
+            })
+    },
+    async fetchPortfolioAnalytics(context, payload) {
+        console.log('fetchportfolioanalytics ' + payload.type);
+        const analyticsType = payload.type
+        const token = context.rootGetters.token
+        const portfolioId = payload.portfolioId;
 
-        context.commit("setPortfolios", portfolios);
+        let holding = "";
+        if (analyticsType === 'holdings' && payload.isin !== undefined) {
+            holding = `/${payload.isin}`
+        }
+
+        const API_BASE = 'https://capitalyse-backend.herokuapp.com'
+        const API_URL = `/api/portfolios/${portfolioId}/analytics/${analyticsType}${holding}`
+
+        console.log(API_URL);
+
+        await fetch(API_BASE + API_URL, {
+            method: 'GET',
+            headers: new Headers({
+                'Authorization': token,
+            })
+        })
+            .then((response) => response.json())
+            .then(data => {
+                context.commit("setAnalytics", { data: data, portfolioId: portfolioId, analyticsType: analyticsType, isin: payload.isin });
+            })
     },
     async fetchOnePortfolio(context, payload) {
         const userId = context.rootGetters.userId;

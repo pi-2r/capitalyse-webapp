@@ -45,15 +45,8 @@ export default {
         getRedirectResult(auth)
             .then((result) => {
                 if(result !== null) {
-                    // This gives you a Google Access Token. You can use it to access Google APIs.
-                    const credential = GoogleAuthProvider.credentialFromResult(result);
-                    // The signed-in user info.
-                    const token = credential.accessToken;
-                    const user = result.user;
-
                     this.$store.dispatch("googleAuth", {
-                        accessToken: token,
-                        userId: user.uid,
+                        result: result
                     });
                 } else {
                     this.isLoading = false;
