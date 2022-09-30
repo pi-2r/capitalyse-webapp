@@ -54,7 +54,7 @@ export default {
                 return `${value[0].label}`;
               },
               label: function(value) {
-                return `€${value.formattedValue}`;
+                return Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(value.parsed);
               },
             }
           }

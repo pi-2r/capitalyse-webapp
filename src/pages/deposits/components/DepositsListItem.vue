@@ -10,7 +10,7 @@
     class="number"
     :class="{ depositGreen: isDeposit, withdrawalRed: !isDeposit }"
   >
-    {{ depositAmount }}
+    {{ Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(this.deposit.amount) }}
   </td>
 </template>
 <script>
@@ -48,16 +48,6 @@ export default {
       let year = this.deposit.date.split("-")[2];
 
       return `${day} ${month} ${year}`;
-    },
-    depositAmount() {
-      let amount = this.deposit.amount;
-      amount = amount.toFixed(2);
-      amount = parseFloat(amount).toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
-
-      return "€" + amount;
     },
     isDeposit() {
       return this.deposit.amount > 0;

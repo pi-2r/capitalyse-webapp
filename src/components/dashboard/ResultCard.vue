@@ -5,8 +5,8 @@
       <transition name="slide-fade" mode="out-in">
         <p class="cardText" :key="resultValue">
           <span class="resultValue" :class="{ redNumber: isNegative }">
-            <span v-if="numberResult">€</span>
-            <span :class="{ textResult: !numberResult, blueTextResult: largeBlueText }">{{
+            <span v-if="numberResult">{{Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(resultValue)}}</span>
+            <span v-else :class="{ textResult: !numberResult, blueTextResult: largeBlueText }">{{
               resultValue
             }}</span>
           </span>

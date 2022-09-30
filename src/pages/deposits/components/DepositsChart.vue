@@ -55,8 +55,8 @@
         <h2>Deposits</h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
-            <span class="chartResultValue">€{{ totalDeposits }} </span>
-            <span class="chartAverageResultValue">avg. €{{averageDepositsPerMonth}}/mo</span>
+            <span class="chartResultValue">{{ Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(totalDeposits) }} </span>
+            <span class="chartAverageResultValue">avg. {{Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(averageDepositsPerMonth)}}/mo</span>
           </p>
         </transition>
       </section>

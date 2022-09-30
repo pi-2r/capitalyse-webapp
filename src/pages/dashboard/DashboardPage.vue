@@ -10,12 +10,12 @@
           baseLinkName="Portfolios"
           secondLink="#"
           :secondLinkName="
-            !isDemo ? (portfolioName ? portfolioName : '') : 'Demo'
+            !isDemo ? (portfolioInfo.portfolioName ? portfolioInfo.portfolioName : '') : 'Demo'
           "
         />
         <section>
           <section class="titleAndBackButtonContainer">
-            <h1 v-if="!isDemo">{{ portfolioName }}</h1>
+            <h1 v-if="!isDemo">{{ portfolioInfo.portfolioName }}</h1>
             <h1 v-else>Portfolio Demo</h1>
           </section>
         </section>
@@ -23,10 +23,10 @@
       <section class="head__rightSection">
         <section class="header__rightSection-dates">
           <p class="startDate">
-            Portfolio: {{ accountAge ? accountAge : "--/--/--" }}
+            Portfolio: {{ homeAnalytics.startDate ? homeAnalytics.startDate : "--/--/--" }}
           </p>
           <p class="startDate">
-            Uploaded: {{ addedAt ? addedAt : "--/--/--" }}
+            Uploaded: {{ portfolioInfo.addedAt ? portfolioInfo.addedAt : "--/--/--" }}
           </p>
         </section>
         <!-- <section class="head__rightSection-icon">
@@ -128,7 +128,10 @@ export default {
   data() {
     return {
       accountAge: "",
-      addedAt: null,
+      portfolioInfo: {
+        portfolioName: null,
+        startDate: null,
+      },
       homeAnalytics: {
         totalProfitLoss: 0,
         totalProfitLossPercentage: 0,
@@ -142,13 +145,11 @@ export default {
         holdingsList: null,
         pieChartCurrencies: null,
         pieChartHoldings: null,
+        startDate: null,
       },
     };
   },
   computed: {
-    portfolioName() {
-      return this.$store.getters["files/getCurrentPortfolioName"];
-    },
     hasHomeAnalytics() {
       let analytics = this.$store.getters["files/getAnalytics"];
       if (analytics.length > 0) {
@@ -186,57 +187,25 @@ export default {
     },
   },
   methods: {
-    // drie puntjes op het dashboard
+    getPortfolioInfo() {
+      const portfolios = this.$store.getters["files/getPortfolios"];
+      if (portfolios.length > 0) {
+        for (let i = 0; i < portfolios.length; i++) {
+          if (portfolios[i].id === this.$route.params.id) {
+            this.portfolioInfo = portfolios[i]
+          }
+        }
+      }
+    },
     openThreeDots() {
       window.alert("Coming soon!");
     },
-    // dit is de functie die de start en einddatum berekent
-    calculateStartAndEndDates() {
-      const today = new Date();
-      // accountfile is nodig om de startdatum te bepalen
-      const accountFile = this.files.accountFile;
-
-      // pakt eerste gebeurtenis de datum daarvan en maakt er een datum object van
-      let startDate = accountFile[accountFile.length - 2][0];
-      startDate = new Date(
-        startDate.split("-")[2],
-        startDate.split("-")[1] - 1,
-        startDate.split("-")[0]
-      );
-      // dagen maanden en jaren om er zo een zin van te maken
-      let days = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
-      let months = Math.floor(days / 30);
-      const years = Math.floor(months / 12);
-
-      // maakt er een zin van
-      if (years > 0) {
-        this.accountAge =
-          years +
-          " year" +
-          (years > 1 ? "s" : "") +
-          " and " +
-          (months - years * 12) +
-          " month" +
-          (months - years * 12 > 1 || months - years * 12 === 0 ? "s" : "");
-      } else if (months > 0) {
-        this.accountAge =
-          months +
-          " month" +
-          (months > 1 ? "s" : "") +
-          " and " +
-          (days - months * 30) +
-          " day" +
-          (days - months * 30 > 1 ? "s" : "");
-      } else {
-        this.accountAge = days + " day" + (days > 1 ? "s" : "");
-      }
-    },
     convertFirebaseTime() {
       // als de addedAt nog in de seconds en nanoseconds object format staat
-      if (this.files.addedAt._seconds && this.files.addedAt._nanoseconds) {
+      if (this.portfolioInfo.addedAt._seconds && this.portfolioInfo.addedAt._nanoseconds) {
         const firebaseDateTime = new Date(
-          this.files.addedAt._seconds * 1000 +
-            this.files.addedAt._nanoseconds / 1000000
+          this.portfolioInfo.addedAt._seconds * 1000 +
+            this.portfolioInfo.addedAt._nanoseconds / 1000000
         );
         const firebaseDate = firebaseDateTime.toLocaleDateString("en-US", {
           day: "numeric",
@@ -248,10 +217,8 @@ export default {
           minute: "numeric",
           hour12: true,
         });
-        this.addedAt = firebaseDate + " " + firebaseTime;
+        this.portfolioInfo.addedAt = firebaseDate + " " + firebaseTime;
         // wanneer deze in een leesbaar formaat staat
-      } else {
-        this.addedAt = this.files.addedAt;
       }
     },
     loadData() {
@@ -259,6 +226,8 @@ export default {
         if (this.hasHomeAnalytics === true) {
           console.log("fetching from dashboard page");
           this.homeAnalytics = this.getHomeAnalytics;
+          this.getPortfolioInfo();
+          this.convertFirebaseTime();
         } else {
           this.$store.dispatch("files/fetchPortfolioAnalytics", {
             type: "home",
@@ -267,20 +236,9 @@ export default {
         }
       }
     },
-    setCurrentPortfolio(id) {
-      this.$store.dispatch("files/setCurrentPortfolio", id);
-    },
-    resetCurrentPortfolio() {
-      this.$store.dispatch("files/resetCurrentPortfolio");
-    },
   },
   created() {
     this.loadData();
-
-    if (this.hasCurrentFiles) {
-      this.calculateStartAndEndDates();
-      this.convertFirebaseTime();
-    }
   },
 };
 </script>

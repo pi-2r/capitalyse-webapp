@@ -17,7 +17,7 @@
       baseLink="/portfolios"
       baseLinkName="Portfolios"
       :secondLink="'/dashboard/' + this.$route.params.id"
-      :secondLinkName="portfolioName ? portfolioName : ''"
+      :secondLinkName="portfolioInfo.portfolioName ? portfolioInfo.portfolioName : ''"
       thirdLink="#"
       thirdLinkName="Fees & Costs"
     />
@@ -65,6 +65,9 @@ export default {
         totalExchangeFees: 0,
         totalTransactionFees: 0,
       },
+      portfolioInfo: {
+        portfolioName: null,
+      },
     };
   },
   computed: {
@@ -105,12 +108,23 @@ export default {
     },
   },
   methods: {
+    getPortfolioInfo() {
+      const portfolios = this.$store.getters["files/getPortfolios"];
+      if (portfolios.length > 0) {
+        for (let i = 0; i < portfolios.length; i++) {
+          if (portfolios[i].id === this.$route.params.id) {
+            this.portfolioInfo = portfolios[i]
+          }
+        }
+      }
+    },
     loadData() {
       if (this.isDemo === false) {
         if (this.hasFeesAnalytics === true) {
           console.log("fetching from dashboard page");
           this.feesAnalytics = this.getFeesAnalytics;
           console.log(this.feesAnalytics);
+          this.getPortfolioInfo()
         } else {
           this.$store.dispatch("files/fetchPortfolioAnalytics", {
             type: "fees",

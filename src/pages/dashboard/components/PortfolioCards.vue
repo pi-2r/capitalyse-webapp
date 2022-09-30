@@ -4,6 +4,7 @@
       title="Total P/L"
       :resultValue="totalProfitLoss"
       :subResultValue="totalProfitLossPercentage"
+      :isSubResultACurrency="false"
       subResultValuePostfix="%"
       colorType="greenRed"
     />
@@ -11,13 +12,14 @@
       title="Invested"
       :resultValue="totalInvested"
       :subResultValue="totalInvestedPercentage"
+      :isSubResultACurrency="false"
       subResultValuePostfix="%"
     />
     <DetailedResultCard
       title="Total balance"
       :resultValue="totalBalance"
       :subResultValue="totalCash"
-      subResultValuePrefix="Cash €"
+      subResultValuePrefix="Cash"
     />
   </section>
 </template>

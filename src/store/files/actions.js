@@ -74,7 +74,7 @@ export default {
         request.send(formData);
     },
     async fetchAllPortfolios(context) {
-        console.log( 'fetch all portfolio');
+        console.log('fetch all portfolio');
         const API_BASE = 'https://capitalyse-backend.herokuapp.com'
         const API_URL = '/api/portfolios'
 
@@ -97,31 +97,33 @@ export default {
             })
     },
     async fetchPortfolioAnalytics(context, payload) {
-        console.log('fetchportfolioanalytics ' + payload.type);
-        const analyticsType = payload.type
-        const token = context.rootGetters.token
-        const portfolioId = payload.portfolioId;
+        if (payload.portfolioId !== undefined && payload.portfolioId !== null) {
+            console.log('fetchportfolioanalytics ' + payload.type);
+            const analyticsType = payload.type
+            const token = context.rootGetters.token
+            const portfolioId = payload.portfolioId;
 
-        let holding = "";
-        if (analyticsType === 'holdings' && payload.isin !== undefined) {
-            holding = `/${payload.isin}`
+            let holding = "";
+            if (analyticsType === 'holdings' && payload.isin !== undefined) {
+                holding = `/${payload.isin}`
+            }
+
+            const API_BASE = 'https://capitalyse-backend.herokuapp.com'
+            const API_URL = `/api/portfolios/${portfolioId}/analytics/${analyticsType}${holding}`
+
+            console.log(API_URL);
+
+            await fetch(API_BASE + API_URL, {
+                method: 'GET',
+                headers: new Headers({
+                    'Authorization': token,
+                })
+            })
+                .then((response) => response.json())
+                .then(data => {
+                    context.commit("setAnalytics", { data: data, portfolioId: portfolioId, analyticsType: analyticsType, isin: payload.isin });
+                })
         }
-
-        const API_BASE = 'https://capitalyse-backend.herokuapp.com'
-        const API_URL = `/api/portfolios/${portfolioId}/analytics/${analyticsType}${holding}`
-
-        console.log(API_URL);
-
-        await fetch(API_BASE + API_URL, {
-            method: 'GET',
-            headers: new Headers({
-                'Authorization': token,
-            })
-        })
-            .then((response) => response.json())
-            .then(data => {
-                context.commit("setAnalytics", { data: data, portfolioId: portfolioId, analyticsType: analyticsType, isin: payload.isin });
-            })
     },
     async fetchOnePortfolio(context, payload) {
         const userId = context.rootGetters.userId;
@@ -172,7 +174,7 @@ export default {
                     const accountFile = e.target.result;
                     // turn into array of arrays
                     const rows = accountFile.slice(accountFile.indexOf("\n") + 1).split("\n");
-                    
+
                     // double quote bug fix
                     for (let i = 0; i < rows.length; i++) {
                         if (rows[i][rows[i].length - 1] == '\r' && rows[i][0] == "\"") {
@@ -214,7 +216,7 @@ export default {
                     const portfolioFile = e.target.result;
                     // turn into array of arrays
                     const rows = portfolioFile.slice(portfolioFile.indexOf("\n") + 1).split("\n");
-                    
+
                     // double quote bug fix
                     for (let i = 0; i < rows.length; i++) {
                         if (rows[i][rows[i].length - 1] == '\r' && rows[i][0] == "\"") {
@@ -231,7 +233,7 @@ export default {
 
                     rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
                     const portfolioArray = rows.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
-             
+
                     context.commit("setPortfolioFile", {
                         portfolioFile: portfolioArray,
                         portfolioId: portfolioId,

@@ -70,87 +70,60 @@ export default {
     portfolioName() {
       return this.$store.getters["files/getCurrentPortfolioName"];
     },
-    currentPortfolio() {
-      return this.$store.getters["files/getCurrentPortfolio"];
-    },
-    isThereData() {
-      return (
-        !!this.currentPortfolio.accountFile &&
-        !!this.currentPortfolio.portfolioFile &&
-        !!this.currentPortfolio.transactionsFile
-      );
-    },
-    hasCurrentPortfolio() {
-      const portfolios = this.$store.getters["files/getPortfolios"];
-      for (let i = 0; i < portfolios.length; i++) {
-        if (portfolios[i].id === this.$route.params.id) {
-          return true;
+    hasHoldingAnalytics() {
+      let analytics = this.$store.getters["files/getAnalytics"];
+      if (analytics.length > 0) {
+        for (let i = 0; i < analytics.length; i++) {
+          if (Object.keys(analytics[i]).includes(this.isin)) {
+            if (
+              analytics[i][this.$route.params.id].holdingAnalytics[this.isin] !== undefined
+            ) {
+              return true;
+            }
+          }
         }
       }
       return false;
     },
-    hasCurrentFiles() {
-      const portfolios = this.$store.getters["files/getPortfolios"];
-      let hasFiles = false;
-      portfolios.forEach((portfolio) => {
-        if (portfolio.id === this.$route.params.id) {
-          if (portfolio.portfolioFile && portfolio.transactionsFile && portfolio.accountFile) {
-            hasFiles = true;
-          }
+    getHoldingAnalytics() {
+      const analytics = this.$store.getters["files/getAnalytics"];
+      for (let i = 0; i < analytics.length; i++) {
+        if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
+          return analytics[i][this.$route.params.id].holdingAnalytics[this.isin];
         }
-      });
-      return hasFiles;
+      }
+      return null;
     },
     hasPortfolios() {
       return this.$store.getters["files/hasPortfolios"];
     },
   },
   watch: {
-    hasPortfolios() {
+    hasHoldingAnalytics() {
       this.loadData();
-    },
-    isThereData() {
-      this.start();
     },
     $route() {
       this.loadData();
     },
   },
   methods: {
-    start() {
-      if(this.isThereData) {
-          this.holdingName = this.getHoldingName(
-          this.currentPortfolio.portfolioFile,
-          this.isin
-        );
-      }
-    },
     loadData() {
       if (this.isDemo === false) {
-        if (!this.hasCurrentFiles && this.hasCurrentPortfolio) {
-          this.$store.dispatch(
-            "files/fetchOnePortfolio",
-            this.$route.params.id
-          );
+        if (this.hasHoldingAnalytics === true) {
+          console.log("fetching from holding page");
+          this.holdingAnalytics = this.getHoldingAnalytics;
+        } else {
+          this.$store.dispatch("files/fetchPortfolioAnalytics", {
+            type: "holdings",
+            isin: this.isin,
+            portfolioId: this.$route.params.id,
+          });
         }
-
-        if (this.hasCurrentPortfolio) {
-          this.setCurrentPortfolio(this.$route.params.id);
-        }
-      } else if (this.isDemo === true) {
-        this.$store.dispatch("files/setDemoAsCurrentPortfolio");
       }
-    },
-    setCurrentPortfolio(id) {
-      this.$store.dispatch("files/setCurrentPortfolio", id);
-    },
-    resetCurrentPortfolio() {
-      this.$store.dispatch("files/resetCurrentPortfolio");
     },
   },
   created() {
     this.loadData();
-    this.start();
   },
 };
 </script>

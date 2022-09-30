@@ -54,7 +54,7 @@ export default {
               color: "#fff",
               callback: function (value) {
                 // replace dot with comma
-                return "€ " + value.toFixed(2).toString().replace(".", ",");
+                return Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(value);
               },
             },
           },
@@ -122,7 +122,7 @@ export default {
               label: function (value) {
                 if (value) {
                   return [
-                    `€${value.formattedValue}  |  ${value.dataset.label}`,
+                    `${Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(value.raw)}  |  ${value.dataset.label}`,
                   ];
                 } else {
                   return null;

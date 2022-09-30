@@ -54,9 +54,9 @@
         <h2>Dividends</h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
-            <span class="chartResultValue">€{{ totalDividends }} </span>
+            <span class="chartResultValue">{{ Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(totalDividends) }} </span>
             <span class="chartAverageResultValue"
-              >avg. €{{ averageDividendsPerMonth }}/mo</span
+              >avg. {{ Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(averageDividendsPerMonth) }}/mo</span
             >
           </p>
         </transition>
@@ -132,10 +132,6 @@ export default {
           total += dividendsList[j].amount;
         }
       }
-      total = parseFloat(total).toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
       return total;
     },
     averageDividendsPerMonth() {
@@ -152,10 +148,7 @@ export default {
         let average = (total / this.dividendsArray[0].datesList.length).toFixed(
           2
         );
-        average = parseFloat(average).toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
+       
         return average;
       } else {
         return 0;

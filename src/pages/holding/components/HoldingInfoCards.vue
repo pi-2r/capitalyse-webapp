@@ -5,6 +5,7 @@
       :resultValue="holdingProfitLoss.totalPL"
       :subResultValue="holdingProfitLoss.totalPLPercentage"
       subResultValuePostfix="%"
+      :isSubResultACurrency="false"
       colorType="greenRed"
     />
 
@@ -12,6 +13,7 @@
       title="Position"
       :resultValue="holdingPositionValue.value"
       :subResultValue="holdingPositionValue.percentage"
+      :isSubResultACurrency="false"
       subResultValuePostfix="%"
     />
 
@@ -19,6 +21,7 @@
       title="Transaction fees"
       :resultValue="holdingTransactionFees.fees"
       :subResultValue="holdingTransactionFees.percentage"
+      :isSubResultACurrency="false"
       subResultValuePostfix="%"
     />
   </section>

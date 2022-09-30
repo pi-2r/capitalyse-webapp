@@ -23,8 +23,8 @@
     {{ holding.amount }}
   </td>
   <td class="u-align-right">
-    €{{ 
-        parseFloat(holding.totalValue).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    {{ 
+        Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(holding.totalValue)
      }}
   </td>
 </template>

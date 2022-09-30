@@ -11,8 +11,7 @@
               { greenNumber: !isNegative && colorType == 'greenRed' },
             ]"
           >
-            <span v-if="numberResult">€</span>
-            <span>{{ resultValue }}</span>
+            <span>{{ Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(resultValue) }}</span>
           </span>
         </p>
       </transition>
@@ -20,14 +19,20 @@
       <transition name="slide-fade" mode="out-in">
         <p class="subCardText" :key="subResultValue">
           <span class="subResultValue">
-            <span>{{ subResultValuePrefix }}</span>
+            <span>{{ subResultValuePrefix }} </span>
             <span
               :class="{
                 redNumber: isNegative,
                 greenNumber: !isNegative && colorType == 'greenRed',
               }"
-              >{{ subResultValue }}</span
-            >
+              >
+              <span v-if="isSubResultACurrency">
+                {{' ' + Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(subResultValue) }}
+              </span>
+              <span v-else>
+                {{subResultValue}}
+              </span>
+            </span>
             <span
               :class="{
                 redNumber: isNegative,
@@ -92,6 +97,10 @@ export default {
       default: "View Details",
     },
     numberResult: {
+      type: Boolean,
+      default: true,
+    },
+    isSubResultACurrency: {
       type: Boolean,
       default: true,
     },
