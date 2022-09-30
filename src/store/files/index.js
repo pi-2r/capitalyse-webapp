@@ -7,7 +7,9 @@ export default {
     state() {
         return {
             portfolios: [],
-            analytics: [],
+            analytics: [
+                
+            ],
             currentPortfolio: {
                 accountFile: null,
                 transactionsFile: null,

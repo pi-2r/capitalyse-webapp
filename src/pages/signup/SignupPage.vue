@@ -18,14 +18,14 @@
           <form @submit.prevent="submitForm" autocomplete="off">
             <section class="form-group">
               <section class="error-wrapper">
-                <label for="email">E-mail</label>
+                <!-- <label for="email">E-mail</label> -->
                 <p class="error">{{ emailErrorMsg }}</p>
               </section>
               <input
                 type="email"
                 id="email"
                 :class="emailFormControl"
-                placeholder="john@example.com"
+                placeholder="E-mail"
                 autocomplete="current-email"
                 v-model.trim="email"
                 @blur="checkEmailFormControl"
@@ -34,7 +34,7 @@
             </section>
             <section class="form-group">
               <section class="error-wrapper">
-                <label for="password">Password</label>
+                <!-- <label for="password">Password</label> -->
                 <p class="error">{{ passwordErrorMessage }}</p>
               </section>
               <input
@@ -42,6 +42,7 @@
                 id="password"
                 :class="passwordFormControl"
                 autocomplete="new-password"
+                placeholder="Password"
                 v-model.trim="password"
                 @blur="checkPasswordFormControl"
                 @focus="resetPasswordFormControl"
@@ -49,7 +50,7 @@
             </section>
             <section class="form-group">
               <section class="error-wrapper">
-                <label for="repeat-password">Repeat Password</label>
+                <!-- <label for="repeat-password">Repeat Password</label> -->
                 <p class="error">{{ repeatPasswordErrorMessage }}</p>
               </section>
               <input
@@ -58,6 +59,7 @@
                 :class="repeatPasswordFormControl"
                 v-model.trim="repeatPassword"
                 autocomplete="new-password"
+                placeholder="Repeat password"
                 @blur="checkRepeatPasswordFormControl"
                 @focus="resetRepeatPasswordFormControl"
                 @keyup.enter="submitForm"
@@ -246,8 +248,8 @@ export default {
    line-height: 0.1em;
    margin: 10px 0 20px;
    color: var(--clr-grey); 
-   margin-bottom: 2rem;
-   margin-top: 2rem;
+   margin-bottom: 2.5rem;
+   margin-top: 2.5rem;
 }
 .line {
   background:var(--clr-white); 
@@ -330,7 +332,7 @@ export default {
 
 .button {
   width: 100%;
-  margin-top: 2rem;
+  margin-top: 1.25rem;
   margin-bottom: 1rem;
 }
 
@@ -365,7 +367,7 @@ select:-webkit-autofill:focus {
 input[type="password"]:-webkit-autofill,
 input[type="password"]:-webkit-autofill:hover,
 input[type="password"]:-webkit-autofill:focus {
-  letter-spacing: 0.25rem;
+  /* letter-spacing: 0.25rem; */
 }
 
 .contentWrapper {
@@ -429,9 +431,9 @@ input {
   border-radius: var(--btn-radius);
 }
 
-input[type="password"] {
+/* input[type="password"] {
   letter-spacing: 0.25em;
-}
+} */
 
 /* media queries */
 

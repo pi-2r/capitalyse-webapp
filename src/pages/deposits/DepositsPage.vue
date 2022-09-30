@@ -16,7 +16,9 @@
       baseLink="/portfolios"
       baseLinkName="Portfolios"
       :secondLink="'/dashboard/' + this.$route.params.id"
-      :secondLinkName="portfolioName ? portfolioName : ''"
+      :secondLinkName="
+        portfolioInfo.portfolioName ? portfolioInfo.portfolioName : ''
+      "
       thirdLink="#"
       thirdLinkName="Deposits & Withdrawals"
     />
@@ -26,7 +28,7 @@
     </section>
 
     <section class="cardsContainer">
-      <DepositsChart :chartDepositsProps="depositsAnalytics.chartDeposits"/>
+      <DepositsChart :chartDepositsProps="depositsAnalytics.chartDeposits" />
       <DepositsList :depositsList="depositsAnalytics.depositsList" />
     </section>
   </section>
@@ -59,20 +61,24 @@ export default {
       depositsAnalytics: {
         chartDeposits: null,
         depositsList: null,
-      }
-    }
+      },
+      portfolioInfo: {
+        portfolioName: null,
+      },
+    };
   },
   computed: {
     portfolioName() {
       return this.$store.getters["files/getCurrentPortfolioName"];
     },
-     hasDepositsAnalytics() {
+    hasDepositsAnalytics() {
       let analytics = this.$store.getters["files/getAnalytics"];
       if (analytics.length > 0) {
         for (let i = 0; i < analytics.length; i++) {
           if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
             if (
-              analytics[i][this.$route.params.id].depositsAnalytics !== undefined
+              analytics[i][this.$route.params.id].depositsAnalytics !==
+              undefined
             ) {
               return true;
             }
@@ -103,14 +109,23 @@ export default {
     loadData() {
       if (this.isDemo === false) {
         if (this.hasDepositsAnalytics === true) {
-          console.log("fetching from deposits page");
           this.depositsAnalytics = this.getDepositsAnalytics;
-          console.log(this.depositsAnalytics);
+          this.getPortfolioInfo();
         } else {
           this.$store.dispatch("files/fetchPortfolioAnalytics", {
             type: "deposits",
             portfolioId: this.$route.params.id,
           });
+        }
+      }
+    },
+    getPortfolioInfo() {
+      const portfolios = this.$store.getters["files/getPortfolios"];
+      if (portfolios.length > 0) {
+        for (let i = 0; i < portfolios.length; i++) {
+          if (portfolios[i].id === this.$route.params.id) {
+            this.portfolioInfo = portfolios[i];
+          }
         }
       }
     },

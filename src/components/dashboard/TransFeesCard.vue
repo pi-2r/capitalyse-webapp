@@ -55,32 +55,6 @@ export default {
     portfolioId() {
       return this.$route.params.id;
     },
-    currentPortfolio() {
-      return this.$store.getters["files/getCurrentPortfolio"];
-    },
-    isThereData() {
-      return !!this.currentPortfolio.transactionsFile;
-    },
-  },
-  watch: {
-    isThereData() {
-      // op het moment dat er data is worden de totale transactiekosten berekend
-      this.loadData();
-    },
-  },
-  methods: {
-    loadData() {
-      // bereken de totale transactiekosten
-      if (this.isThereData) {
-        // MIXIN: getTotalTransactionsFeesMixin
-        this.totTransFees = this.getTotalTransactionsFees(
-          this.currentPortfolio.transactionsFile
-        );
-      }
-    },
-  },
-  created() {
-    this.loadData();
   },
 };
 </script>

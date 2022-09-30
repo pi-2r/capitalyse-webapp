@@ -1,6 +1,6 @@
 <template>
   <Header :isDemo="isDemo"></Header>
-  <section class="container">
+  <section class="container" v-if="!isLoading">
     <!-- <BackButton class="backButton" color="var(--clr-grey)"/> -->
 
     <Breadcrumbs
@@ -10,26 +10,32 @@
       :secondLink="'/dashboard/demo'"
       secondLinkName="Demo"
       thirdLink="#"
-      :thirdLinkName="holdingName"
+      :thirdLinkName="holdingAnalytics.holdingName"
     />
     <Breadcrumbs
       v-else
       baseLink="/portfolios"
       baseLinkName="Portfolios"
       :secondLink="'/dashboard/' + this.$route.params.id"
-      :secondLinkName="portfolioName ? portfolioName : ''"
+      :secondLinkName="portfolioInfo.portfolioName ? portfolioInfo.portfolioName : ''"
       thirdLink="#"
-      :thirdLinkName="holdingName"
+      :thirdLinkName="holdingAnalytics.holdingName"
     />
 
     <section class="titleAndBackButtonContainer">
-      <h1>{{holdingName}}</h1>
+      <h1>{{holdingAnalytics.holdingName}}</h1>
       <p>{{$route.params.holdingId}}</p>
     </section>
    
-    <HoldingInfoCards :isin="isin" />
-
+    <HoldingInfoCards :isin="isin"
+      :holdingPositionValue="holdingAnalytics.holdingPositionValue"
+      :holdingProfitLoss="holdingAnalytics.holdingProfitLoss"
+      :holdingTransactionFees="holdingAnalytics.holdingTransactionFees"
+    />
     <!-- <DividendChart :hideTimeFrameBtns="false" class="dividendChartDashboard" /> -->
+  </section>
+  <section v-else>
+    <Spinner class="loadingspinner"/>
   </section>
 </template>
 
@@ -54,7 +60,26 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       holdingName: "",
+      holdingAnalytics: {
+        holdingName: null,
+        holdingPositionValue: {
+          percentage: 0,
+          value: 0,
+        },
+        holdingProfitLoss: {
+          totalPL: 0,
+          totalPLPercentage: 0,
+        },
+        holdingTransactionFees: {
+          fees: 0,
+          percentage: 0,
+        },
+      },
+      portfolioInfo: {
+        portfolioName: null,
+      }
     };
   },
   props: {
@@ -74,10 +99,8 @@ export default {
       let analytics = this.$store.getters["files/getAnalytics"];
       if (analytics.length > 0) {
         for (let i = 0; i < analytics.length; i++) {
-          if (Object.keys(analytics[i]).includes(this.isin)) {
-            if (
-              analytics[i][this.$route.params.id].holdingAnalytics[this.isin] !== undefined
-            ) {
+          if (Object.keys(analytics[i][this.$route.params.id].holdingAnalytics).includes(this.isin)) {
+            if (analytics[i][this.$route.params.id].holdingAnalytics) {
               return true;
             }
           }
@@ -111,24 +134,43 @@ export default {
       if (this.isDemo === false) {
         if (this.hasHoldingAnalytics === true) {
           console.log("fetching from holding page");
-          this.holdingAnalytics = this.getHoldingAnalytics;
+          this.holdingAnalytics = this.getHoldingAnalytics['holdingAnalytics'];
+          this.getPortfolioInfo();
+          this.isLoading = false
         } else {
           this.$store.dispatch("files/fetchPortfolioAnalytics", {
             type: "holdings",
             isin: this.isin,
             portfolioId: this.$route.params.id,
+          }).then(() => {
+            this.isLoading = false
           });
+        }
+      }
+    },
+    getPortfolioInfo() {
+      const portfolios = this.$store.getters["files/getPortfolios"];
+      if (portfolios.length > 0) {
+        for (let i = 0; i < portfolios.length; i++) {
+          if (portfolios[i].id === this.$route.params.id) {
+            this.portfolioInfo = portfolios[i];
+          }
         }
       }
     },
   },
   created() {
+    this.isLoading = true;
     this.loadData();
   },
 };
 </script>
 
 <style scoped>
+.loadingspinner {
+  margin-top: 6rem;
+}
+
 .titleAndBackButtonContainer {
   display: flex;
   flex-direction: column;

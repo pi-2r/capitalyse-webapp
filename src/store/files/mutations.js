@@ -83,14 +83,25 @@ export default {
                 }
                 // one holding analytics
                 if (analyticsType === 'holdings' && isin !== undefined) {
-                    state.analytics[i][portfolioId].holdingAnalytics = { ...state.analytics[i][portfolioId][isin], ...{ [isin]: data } }
+                    state.analytics[i][portfolioId].holdingAnalytics = { ...state.analytics[i][portfolioId].holdingAnalytics, ...{ [isin]: data } }
                 }
                 alrExists = true
             }
         }
-        !alrExists ? state.analytics.push({
-            [portfolioId]: data,
-        }) : null;
+       
+        if (!alrExists && isin === undefined) {
+            console.log('hi', alrExists, analyticsType, isin);
+            state.analytics.push({
+                [portfolioId]: data,
+            });
+        } else if (!alrExists && analyticsType === 'holdings' && isin !== undefined) {
+            console.log('bye');
+            state.analytics.push({ [portfolioId]: { holdingAnalytics: { [isin]: data } }})
+            // state.analytics.holdingAnalytics.push({
+            //     [portfolioId]: { [isin]: data },
+            // })
+            
+        }
     }, 
    
 };

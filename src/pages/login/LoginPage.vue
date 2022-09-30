@@ -17,24 +17,25 @@
           <form @submit.prevent="submitForm" autocomplete="off">
             <section class="form-group">
               <section class="error-wrapper">
-                <label for="email">E-mail</label>
+                <!-- <label for="email">E-mail</label> -->
               </section>
               <input
                 type="email"
                 id="email"
-                placeholder="john@example.com"
+                placeholder="E-mail"
                 autocomplete="current-email"
                 v-model.trim="email"
               />
             </section>
             <section class="form-group">
               <section class="error-wrapper">
-                <label for="password">Password</label>
+                <!-- <label for="password">Password</label> -->
               </section>
               <input
                 type="password"
                 id="password"
                 v-model.trim="password"
+                placeholder="Password"
                 autocomplete="current-password"
                 @keyup.enter="submitForm"
               />
@@ -164,8 +165,8 @@ export default {
    line-height: 0.1em;
    margin: 10px 0 20px;
    color: var(--clr-grey); 
-   margin-bottom: 2rem;
-   margin-top: 2rem;
+   margin-bottom: 2.5rem;
+   margin-top: 2.5rem;
 }
 .line {
   background:var(--clr-white); 
@@ -239,7 +240,7 @@ export default {
 
 .button {
   width: 100%;
-  margin-top: 2rem;
+  margin-top: 1rem;
   margin-bottom: 1rem;
 }
 
@@ -272,11 +273,11 @@ select:-webkit-autofill:focus {
   color: var(--clr-black);
 }
 
-input[type="password"]:-webkit-autofill,
+/* input[type="password"]:-webkit-autofill,
 input[type="password"]:-webkit-autofill:hover,
 input[type="password"]:-webkit-autofill:focus {
   letter-spacing: 0.25rem;
-}
+} */
 
 .contentWrapper {
   display: flex;
@@ -307,7 +308,7 @@ input[type="password"]:-webkit-autofill:focus {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
   color: var(--clr-red);
   font-size: 0.9em;
 }
@@ -337,9 +338,9 @@ input {
   border-radius: var(--btn-radius);
 }
 
-input[type="password"] {
+/* input[type="password"] {
   letter-spacing: 0.25rem;
-}
+} */
 
 /* media queries */
 

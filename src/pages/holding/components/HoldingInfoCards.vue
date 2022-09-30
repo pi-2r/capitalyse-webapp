@@ -30,20 +30,7 @@
 <script>
 import DetailedResultCard from "@/components/ui/DetailedResultCard.vue";
 
-import currencyMarkup from "@/mixins/helpers/currencyMarkup";
-import getHoldingProfitLoss from "@/mixins/analytics/getHoldingProfitLoss";
-import getHoldingPositionValue from "@/mixins/analytics/getHoldingPositionValue";
-import getHoldingTransactionFees from "@/mixins/analytics/getHoldingTransactionFees";
-import getHoldingName from "@/mixins/analytics/getHoldingName";
-
 export default {
-  mixins: [
-    getHoldingProfitLoss,
-    currencyMarkup,
-    getHoldingPositionValue,
-    getHoldingTransactionFees,
-    getHoldingName,
-  ],
   components: {
     DetailedResultCard,
   },
@@ -56,80 +43,15 @@ export default {
       type: String,
       default: "",
     },
-  },
-  data() {
-    return {
-      holdingName: "",
-      holdingProfitLoss: 0,
-      holdingPositionValue: 0,
-      holdingTransactionFees: 0,
-    };
-  },
-  watch: {
-    isThereData() {
-      this.loadData();
+    holdingProfitLoss: {
+      required: true,
     },
-  },
-  computed: {
-    portfolioId() {
-      return this.$route.params.id;
+    holdingPositionValue: {
+      required: true,
     },
-    currentPortfolio() {
-      return this.$store.getters["files/getCurrentPortfolio"];
-    },
-    isThereData() {
-      return (
-        !!this.currentPortfolio.accountFile &&
-        !!this.currentPortfolio.portfolioFile &&
-        !!this.currentPortfolio.transactionsFile
-      );
-    },
-  },
-  methods: {
-    loadData() {
-      if (this.isThereData) {
-        this.holdingProfitLoss = this.getHoldingProfitLoss(
-          this.currentPortfolio.accountFile,
-          this.currentPortfolio.portfolioFile,
-          this.currentPortfolio.transactionsFile,
-          this.isin
-        );
-
-        this.holdingPositionValue = this.getHoldingPositionValue(
-          this.currentPortfolio.portfolioFile,
-          this.isin
-        );
-
-        this.holdingTransactionFees = this.getHoldingTransactionFees(
-          this.currentPortfolio.transactionsFile,
-          this.currentPortfolio.accountFile,
-          this.isin
-        );
-
-
-        this.holdingProfitLoss.totalPL = this.currencyMarkup(
-          this.holdingProfitLoss.totalPL
-        );
-        this.holdingProfitLoss.totalPLPercentage = this.currencyMarkup(
-          this.holdingProfitLoss.totalPLPercentage
-        );
-        this.holdingPositionValue.value = this.currencyMarkup(
-          this.holdingPositionValue.value
-        );
-        this.holdingPositionValue.percentage = this.currencyMarkup(
-          this.holdingPositionValue.percentage
-        );
-        this.holdingTransactionFees.fees = this.currencyMarkup(
-          this.holdingTransactionFees.fees
-        );
-        this.holdingTransactionFees.percentage = this.currencyMarkup(
-          this.holdingTransactionFees.percentage
-        );
-      }
-    },
-  },
-  created() {
-    this.loadData();
+    holdingTransactionFees: {
+      required: true,
+    }  
   },
 };
 </script>
