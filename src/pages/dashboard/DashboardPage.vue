@@ -1,7 +1,7 @@
 <template>
   <Header :isDemo="isDemo"></Header>
 
-  <section class="container">
+  <section class="container" v-if="!isLoading">
     <!-- <BackButton to="/" class="backButton" color="var(--clr-grey)" /> -->
     <section class="head">
       <section>
@@ -84,6 +84,7 @@
       />
     </section>
   </section>
+  <LoadingOverlay v-else/>
 </template>
 
 <script>
@@ -127,6 +128,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       accountAge: "",
       portfolioInfo: {
         portfolioName: null,
@@ -228,16 +230,20 @@ export default {
           this.homeAnalytics = this.getHomeAnalytics;
           this.getPortfolioInfo();
           this.convertFirebaseTime();
+          this.isLoading = false
         } else {
           this.$store.dispatch("files/fetchPortfolioAnalytics", {
             type: "home",
             portfolioId: this.$route.params.id,
+          }).then(() => {
+            this.isLoading = false
           });
         }
       }
     },
   },
   created() {
+    this.isLoading = true;
     this.loadData();
   },
 };

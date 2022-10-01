@@ -35,7 +35,7 @@
     <!-- <DividendChart :hideTimeFrameBtns="false" class="dividendChartDashboard" /> -->
   </section>
   <section v-else>
-    <Spinner class="loadingspinner"/>
+    <LoadingOverlay class="loadingspinner"/>
   </section>
 </template>
 

@@ -10,6 +10,7 @@ import Card from "./components/ui/Card.vue";
 import Spinner from "./components/ui/Spinner.vue";
 import Footer from "./components/layout/Footer.vue";
 import Header from "./components/layout/Header.vue";
+import LoadingOverlay from './components/ui/LoadingOverlay.vue';
 
 import App from './App.vue'
 
@@ -24,6 +25,7 @@ app.component("Card", Card);
 app.component("Spinner", Spinner);
 app.component("Footer", Footer);
 app.component("Header", Header);
+app.component("LoadingOverlay", LoadingOverlay);
 
 app.mount('#app');
 

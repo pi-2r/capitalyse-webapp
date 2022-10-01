@@ -1,6 +1,6 @@
 <template>
   <section class="loading-wrapper">
-    <section v-if="btnSpinner" class="btnLoader"></section>
+    <section v-if="btnSpinner" class="btnLoader" :style="{ 'border-color': color }"></section>
     <section v-else class="loader"></section>
   </section>
 </template>
@@ -10,13 +10,18 @@ export default {
   props: {
     btnSpinner: {
       type: Boolean,
-      default: false
+      default: false,
+    },
+    color: {
+      default: 'var(--clr-blue)'
     }
   },
-}
+};
 </script>
 
 <style scoped>
+
+
 .loading-wrapper {
   display: flex;
   justify-content: center;
