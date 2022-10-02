@@ -179,15 +179,20 @@ export default {
     hasFirebaseTime() {
       return !!this.portfolioInfo.addedAt?._seconds && !!this.portfolioInfo.addedAt?._nanoseconds
     },
+    hasPortfolios() {
+      return this.$store.getters["files/hasPortfolios"];
+    },
   },
   watch: {
+    hasPortfolios() {
+      this.getPortfolioInfo();
+    },
     hasHomeAnalytics() {
       if (this.hasHomeAnalytics === true) {
         this.loadData();
       }
     },
     hasFirebaseTime() {
-      console.log('hsafirebasetime', this.hasFirebaseTime);
       if(this.hasFirebaseTime === true) {
         this.convertFirebaseTime();
       }
@@ -235,7 +240,6 @@ export default {
     loadData() {
       if (this.isDemo === false) {
         if (this.hasHomeAnalytics === true) {
-          console.log("fetching from dashboard page");
           this.homeAnalytics = this.getHomeAnalytics;
           this.getPortfolioInfo();
           this.isLoading = false

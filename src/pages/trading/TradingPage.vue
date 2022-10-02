@@ -1,6 +1,6 @@
 <template>
   <Header :isDemo="isDemo"></Header>
-  <section class="container">
+  <section class="container" v-if="!isLoading">
     <!-- <BackButton color="var(--clr-grey)" class="backButton" /> -->
     <Breadcrumbs
       v-if="isDemo"
@@ -31,6 +31,9 @@
       <MostFreqTradedCard :mostFrequentlyTradedList="tradingAnalytics.mostFrequentlyTradedList"/>
     </section>
   </section>
+  <section v-else>
+    <LoadingOverlay/>
+  </section>
 </template>
 
 <script>
@@ -59,6 +62,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       tradingAnalytics: {
         totalTradeCount: 0,
         mostFrequentBuysList: null,
@@ -117,13 +121,15 @@ export default {
     loadData() {
       if (this.isDemo === false) {
         if (this.hasTradingAnalytics === true) {
-          console.log("fetching from dashboard page");
           this.tradingAnalytics = this.getTradingAnalytics;
           this.getPortfolioInfo();
+          this.isLoading = false
         } else {
           this.$store.dispatch("files/fetchPortfolioAnalytics", {
             type: "trading",
             portfolioId: this.$route.params.id,
+          }).then(() => {
+            this.isLoading = false
           });
         }
       }
@@ -146,6 +152,7 @@ export default {
     },
   },
   created() {
+    this.isLoading = true
     this.loadData();
   },
 };

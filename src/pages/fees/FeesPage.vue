@@ -1,6 +1,6 @@
 <template>
   <Header :isDemo="isDemo"></Header>
-  <section class="container">
+  <section class="container" v-if="!isLoading">
     <!-- <BackButton class="backButton" color="var(--clr-grey)"/> -->
 
     <Breadcrumbs
@@ -35,6 +35,9 @@
     </section>
     <!-- <FeesChart/> -->
   </section>
+  <section v-else>
+    <LoadingOverlay/>
+  </section>
 </template>
 
 <script>
@@ -61,6 +64,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       feesAnalytics: {
         totalExchangeFees: 0,
         totalTransactionFees: 0,
@@ -127,20 +131,22 @@ export default {
     loadData() {
       if (this.isDemo === false) {
         if (this.hasFeesAnalytics === true) {
-          console.log("fetching from dashboard page");
           this.feesAnalytics = this.getFeesAnalytics;
-          console.log(this.feesAnalytics);
           this.getPortfolioInfo()
+          this.isLoading = false
         } else {
           this.$store.dispatch("files/fetchPortfolioAnalytics", {
             type: "fees",
             portfolioId: this.$route.params.id,
+          }).then(() => {
+            this.isLoading = false
           });
         }
       }
     },
   },
   created() {
+    this.isLoading = true
     this.loadData();
   },
 };

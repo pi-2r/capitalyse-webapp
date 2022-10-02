@@ -190,6 +190,7 @@ export default {
         return new Date(b.addedAt) - new Date(a.addedAt);
       });
     },
+    // send request to store to delete portfolio
     deletePortfolio() {
       const id = this.deletePortfolioId;
       this.$store.dispatch("files/deletePortfolio", id);
@@ -198,6 +199,7 @@ export default {
       );
       this.toggleDeletePopup();
     },
+    // toggle popup to delete portfolio
     toggleDeletePopup(id) {
       this.isDeletePopupOpen = !this.isDeletePopupOpen;
       this.deletePortfolioId = id;

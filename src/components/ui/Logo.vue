@@ -3,8 +3,8 @@
         <Icon v-if="!ignoreTheme" icon="bxs:doughnut-chart" :color="color" height="20" />
         <Icon v-else icon="bxs:doughnut-chart" color="white" height="20" />
 
-        <h2 v-if="!ignoreTheme" :style="{'color': color}">Capitalyse</h2>
-        <h2 v-else style="color: white;">Capitalyse</h2>
+        <h2 v-if="!ignoreTheme && !onlyIcon" :style="{'color': color}" >Capitalyse</h2>
+        <h2 v-else-if="ignoreTheme && !onlyIcon" style="color: white;">Capitalyse</h2>
     </section>
 </template>
 
@@ -16,6 +16,10 @@ export default {
         Icon
     },
     props: {
+        onlyIcon: {
+            default: false,
+            required: false,
+        },
         color: {
             type: String,
             default: 'var(--clr-dark-grey)'

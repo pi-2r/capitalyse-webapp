@@ -246,7 +246,7 @@ export default {
       setTimeout(() => {
         this.selectedTimeFrame = e.target.innerText;
         this.isThereData ? this.getDividends() : null;
-      console.log( 'timeframedatachange');
+        console.log( 'timeframedatachange');
         this.timeFrameDataUpdate();
         this.isLoading = false;
       }, 1);

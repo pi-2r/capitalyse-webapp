@@ -63,9 +63,6 @@ export default {
         state.uploadingState = null;
     },
     setAnalytics(state, { data, portfolioId, analyticsType, isin }) {
-        console.log(data);
-
-        console.log('setanalytics aangeroepen');
         let alrExists = false;
         for (let i = 0; i < state.analytics.length; i++) {
             const portfolio = state.analytics[i];
@@ -92,12 +89,10 @@ export default {
         }
        
         if (!alrExists && isin === undefined) {
-            console.log('hi', alrExists, analyticsType, isin);
             state.analytics.push({
                 [portfolioId]: data,
             });
         } else if (!alrExists && analyticsType === 'holdings' && isin !== undefined) {
-            console.log('bye');
             state.analytics.push({ [portfolioId]: { holdingAnalytics: { [isin]: data } }})
             // state.analytics.holdingAnalytics.push({
             //     [portfolioId]: { [isin]: data },

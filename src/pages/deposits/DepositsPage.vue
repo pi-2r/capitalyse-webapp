@@ -1,6 +1,6 @@
 <template>
   <Header :isDemo="isDemo"></Header>
-  <section class="container">
+  <section class="container" v-if="!isLoading">
     <!-- <BackButton class="backButton" color="var(--clr-grey)" /> -->
     <Breadcrumbs
       v-if="isDemo"
@@ -32,6 +32,9 @@
       <DepositsList :depositsList="depositsAnalytics.depositsList" />
     </section>
   </section>
+  <section v-else>
+    <LoadingOverlay/>
+  </section>
 </template>
 
 <script>
@@ -58,6 +61,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       depositsAnalytics: {
         chartDeposits: null,
         depositsList: null,
@@ -117,10 +121,13 @@ export default {
         if (this.hasDepositsAnalytics === true) {
           this.depositsAnalytics = this.getDepositsAnalytics;
           this.getPortfolioInfo();
+          this.isLoading = false
         } else {
           this.$store.dispatch("files/fetchPortfolioAnalytics", {
             type: "deposits",
             portfolioId: this.$route.params.id,
+          }).then(() => {
+            this.isLoading = false
           });
         }
       }
@@ -137,6 +144,7 @@ export default {
     },
   },
   created() {
+    this.isLoading = true
     this.loadData();
   },
 };

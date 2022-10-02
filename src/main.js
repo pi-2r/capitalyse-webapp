@@ -11,6 +11,7 @@ import Spinner from "./components/ui/Spinner.vue";
 import Footer from "./components/layout/Footer.vue";
 import Header from "./components/layout/Header.vue";
 import LoadingOverlay from './components/ui/LoadingOverlay.vue';
+import Logo from './components/ui/Logo.vue';
 
 import App from './App.vue'
 
@@ -21,6 +22,7 @@ app.use(router);
 app.use(store);
 
 app.component("Button", Button);
+app.component("Logo", Logo);
 app.component("Card", Card);
 app.component("Spinner", Spinner);
 app.component("Footer", Footer);

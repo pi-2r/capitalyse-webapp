@@ -38,7 +38,7 @@
     <!-- <DividendChart :hideTimeFrameBtns="false" class="dividendChartDashboard" /> -->
   </section>
   <section v-else>
-    <LoadingOverlay class="loadingspinner" />
+    <LoadingOverlay/>
   </section>
 </template>
 
@@ -102,7 +102,6 @@ export default {
       let analytics = this.$store.getters["files/getAnalytics"];
       if (analytics.length > 0) {
         for (let i = 0; i < analytics.length; i++) {
-          console.log(analytics[i][this.$route.params.id]?.holdingAnalytics);
           if (
             analytics[i][this.$route.params.id]?.holdingAnalytics &&
             this.isin !== undefined
@@ -157,7 +156,6 @@ export default {
       if (this.isDemo === false) {
         if (!this.getHoldingAnalytics?.message) {
           if (this.hasHoldingAnalytics === true) {
-            console.log("fetching from holding page");
             this.holdingAnalytics =
               this.getHoldingAnalytics["holdingAnalytics"];
             this.getPortfolioInfo();
@@ -200,10 +198,6 @@ export default {
 </script>
 
 <style scoped>
-.loadingspinner {
-  margin-top: 6rem;
-}
-
 .titleAndBackButtonContainer {
   display: flex;
   flex-direction: column;
