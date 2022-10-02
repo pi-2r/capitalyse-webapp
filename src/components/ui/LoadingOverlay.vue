@@ -63,13 +63,14 @@ export default {
   text-align: center;
   width: 100%;
   height: 100px;
-  line-height: 50px;
+  line-height: 75px;
 }
 .loading-text span {
   display: inline-block;
   margin: 0 5px;
   color: var(--clr-blue);
   font-weight: 500;
+  font-size: 1.25rem;
   font-family: "Poppins", sans-serif;
 }
 .loading-text span:nth-child(1) {

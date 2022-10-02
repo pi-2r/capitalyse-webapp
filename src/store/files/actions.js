@@ -108,8 +108,8 @@ export default {
                 holding = `/${payload.isin}`
             }
 
-            // const API_BASE = 'https://capitalyse-backend.herokuapp.com'
-            const API_BASE = 'http://localhost:3000'
+            const API_BASE = 'https://capitalyse-backend.herokuapp.com'
+            // const API_BASE = 'http://localhost:3000'
             const API_URL = `/api/portfolios/${portfolioId}/analytics/${analyticsType}${holding}`
 
             console.log(API_URL);
