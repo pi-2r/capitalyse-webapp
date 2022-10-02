@@ -98,8 +98,14 @@ export default {
       }
       return null;
     },
+    hasPortfolios() {
+      return this.$store.getters["files/hasPortfolios"];
+    },
   },
   watch: {
+    hasPortfolios() {
+      this.getPortfolioInfo();
+    },
     hasFeesAnalytics() {
       this.loadData();
     },

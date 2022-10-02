@@ -176,11 +176,20 @@ export default {
       }
       return null;
     },
+    hasFirebaseTime() {
+      return !!this.portfolioInfo.addedAt?._seconds && !!this.portfolioInfo.addedAt?._nanoseconds
+    },
   },
   watch: {
     hasHomeAnalytics() {
       if (this.hasHomeAnalytics === true) {
         this.loadData();
+      }
+    },
+    hasFirebaseTime() {
+      console.log('hsafirebasetime', this.hasFirebaseTime);
+      if(this.hasFirebaseTime === true) {
+        this.convertFirebaseTime();
       }
     },
     // wanneer de route veranderd, laad opnieuw data in
@@ -229,7 +238,6 @@ export default {
           console.log("fetching from dashboard page");
           this.homeAnalytics = this.getHomeAnalytics;
           this.getPortfolioInfo();
-          this.convertFirebaseTime();
           this.isLoading = false
         } else {
           this.$store.dispatch("files/fetchPortfolioAnalytics", {

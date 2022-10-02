@@ -63,6 +63,8 @@ export default {
         state.uploadingState = null;
     },
     setAnalytics(state, { data, portfolioId, analyticsType, isin }) {
+        console.log(data);
+
         console.log('setanalytics aangeroepen');
         let alrExists = false;
         for (let i = 0; i < state.analytics.length; i++) {

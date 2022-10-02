@@ -16,7 +16,7 @@
       baseLink="/portfolios"
       baseLinkName="  Portfolios"
       :secondLink="'/dashboard/' + this.$route.params.id"
-      :secondLinkName="(portfolioName ? portfolioName : '')"
+      :secondLinkName="(portfolioInfo.portfolioName ? portfolioInfo.portfolioName : '')"
       thirdLink="#"
       thirdLinkName="Trading"
     />
@@ -64,6 +64,9 @@ export default {
         mostFrequentBuysList: null,
         mostFrequentSellsList: null,
         mostFrequentlyTradedList: null,
+      },
+      portfolioInfo: {
+        portfolioName: null,
       }
     }
   },
@@ -95,8 +98,14 @@ export default {
       }
       return null;
     },
+    hasPortfolios() {
+      return this.$store.getters["files/hasPortfolios"];
+    },
   },
   watch: {
+    hasPortfolios() {
+      this.getPortfolioInfo();
+    },
     hasTradingAnalytics() {
       this.loadData();
     },
@@ -110,11 +119,22 @@ export default {
         if (this.hasTradingAnalytics === true) {
           console.log("fetching from dashboard page");
           this.tradingAnalytics = this.getTradingAnalytics;
+          this.getPortfolioInfo();
         } else {
           this.$store.dispatch("files/fetchPortfolioAnalytics", {
             type: "trading",
             portfolioId: this.$route.params.id,
           });
+        }
+      }
+    },
+    getPortfolioInfo() {
+      const portfolios = this.$store.getters["files/getPortfolios"];
+      if (portfolios.length > 0) {
+        for (let i = 0; i < portfolios.length; i++) {
+          if (portfolios[i].id === this.$route.params.id) {
+            this.portfolioInfo = portfolios[i];
+          }
         }
       }
     },

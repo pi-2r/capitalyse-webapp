@@ -17,17 +17,20 @@
       baseLink="/portfolios"
       baseLinkName="Portfolios"
       :secondLink="'/dashboard/' + this.$route.params.id"
-      :secondLinkName="portfolioInfo.portfolioName ? portfolioInfo.portfolioName : ''"
+      :secondLinkName="
+        portfolioInfo.portfolioName ? portfolioInfo.portfolioName : ''
+      "
       thirdLink="#"
       :thirdLinkName="holdingAnalytics.holdingName"
     />
 
     <section class="titleAndBackButtonContainer">
-      <h1>{{holdingAnalytics.holdingName}}</h1>
-      <p>{{$route.params.holdingId}}</p>
+      <h1>{{ holdingAnalytics.holdingName }}</h1>
+      <p>{{ $route.params.holdingId }}</p>
     </section>
-   
-    <HoldingInfoCards :isin="isin"
+
+    <HoldingInfoCards
+      :isin="isin"
       :holdingPositionValue="holdingAnalytics.holdingPositionValue"
       :holdingProfitLoss="holdingAnalytics.holdingProfitLoss"
       :holdingTransactionFees="holdingAnalytics.holdingTransactionFees"
@@ -35,7 +38,7 @@
     <!-- <DividendChart :hideTimeFrameBtns="false" class="dividendChartDashboard" /> -->
   </section>
   <section v-else>
-    <LoadingOverlay class="loadingspinner"/>
+    <LoadingOverlay class="loadingspinner" />
   </section>
 </template>
 
@@ -79,7 +82,7 @@ export default {
       },
       portfolioInfo: {
         portfolioName: null,
-      }
+      },
     };
   },
   props: {
@@ -99,9 +102,19 @@ export default {
       let analytics = this.$store.getters["files/getAnalytics"];
       if (analytics.length > 0) {
         for (let i = 0; i < analytics.length; i++) {
-          if (Object.keys(analytics[i][this.$route.params.id].holdingAnalytics).includes(this.isin)) {
-            if (analytics[i][this.$route.params.id].holdingAnalytics) {
-              return true;
+          console.log(analytics[i][this.$route.params.id]?.holdingAnalytics);
+          if (
+            analytics[i][this.$route.params.id]?.holdingAnalytics &&
+            this.isin !== undefined
+          ) {
+            if (
+              Object.keys(
+                analytics[i][this.$route.params.id].holdingAnalytics
+              ).includes(this.isin)
+            ) {
+              if (analytics[i][this.$route.params.id].holdingAnalytics) {
+                return true;
+              }
             }
           }
         }
@@ -111,8 +124,15 @@ export default {
     getHoldingAnalytics() {
       const analytics = this.$store.getters["files/getAnalytics"];
       for (let i = 0; i < analytics.length; i++) {
-        if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
-          return analytics[i][this.$route.params.id].holdingAnalytics[this.isin];
+        if (
+          analytics[i][this.$route.params.id]?.holdingAnalytics &&
+          this.isin !== undefined
+        ) {
+          if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
+            return analytics[i][this.$route.params.id].holdingAnalytics[
+              this.isin
+            ];
+          }
         }
       }
       return null;
@@ -122,6 +142,9 @@ export default {
     },
   },
   watch: {
+    hasPortfolios() {
+      this.getPortfolioInfo();
+    },
     hasHoldingAnalytics() {
       this.loadData();
     },
@@ -132,19 +155,29 @@ export default {
   methods: {
     loadData() {
       if (this.isDemo === false) {
-        if (this.hasHoldingAnalytics === true) {
-          console.log("fetching from holding page");
-          this.holdingAnalytics = this.getHoldingAnalytics['holdingAnalytics'];
-          this.getPortfolioInfo();
-          this.isLoading = false
+        if (!this.getHoldingAnalytics?.message) {
+          if (this.hasHoldingAnalytics === true) {
+            console.log("fetching from holding page");
+            this.holdingAnalytics =
+              this.getHoldingAnalytics["holdingAnalytics"];
+            this.getPortfolioInfo();
+            this.isLoading = false;
+          } else {
+            this.$store
+              .dispatch("files/fetchPortfolioAnalytics", {
+                type: "holdings",
+                isin: this.isin,
+                portfolioId: this.$route.params.id,
+              })
+              .then(() => {
+                this.isLoading = false;
+              });
+          }
         } else {
-          this.$store.dispatch("files/fetchPortfolioAnalytics", {
-            type: "holdings",
-            isin: this.isin,
-            portfolioId: this.$route.params.id,
-          }).then(() => {
-            this.isLoading = false
-          });
+          if (this.getHoldingAnalytics.message === "product-not-found") {
+            // product not found
+            this.$router.back();
+          }
         }
       }
     },
@@ -194,7 +227,6 @@ export default {
 }
 
 @media screen and (min-width: 650px) {
-
   .container {
     max-width: 90%;
   }
