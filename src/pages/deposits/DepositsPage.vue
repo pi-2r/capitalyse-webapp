@@ -142,6 +142,9 @@ export default {
         }
       }
     },
+    getDemoPortfolioInfo() {
+      this.portfolioInfo = this.$store.getters['files/getDemoPortfolioInfo']
+    },
   },
   created() {
     this.isLoading = true

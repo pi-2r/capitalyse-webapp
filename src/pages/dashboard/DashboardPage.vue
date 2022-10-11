@@ -182,6 +182,9 @@ export default {
     hasPortfolios() {
       return this.$store.getters["files/hasPortfolios"];
     },
+    getDemo() {
+      return this.$store.getters['files/getDemo'];
+    },
   },
   watch: {
     hasPortfolios() {
@@ -212,6 +215,9 @@ export default {
           }
         }
       }
+    },
+    getDemoPortfolioInfo() {
+      this.portfolioInfo = this.$store.getters['files/getDemoPortfolioInfo']
     },
     openThreeDots() {
       window.alert("Coming soon!");
@@ -251,6 +257,10 @@ export default {
             this.isLoading = false
           });
         }
+      } else {
+        this.homeAnalytics = this.getDemo.homeAnalytics
+        this.getDemoPortfolioInfo();
+        this.isLoading = false
       }
     },
   },
