@@ -55,7 +55,7 @@
         <h2>Deposits</h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
-            <span class="chartResultValue">{{ Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(totalDeposits) }} </span>
+            <span class="chartResultValue">{{ Intl.NumberFormat('nl-nl', {style: 'currency',currency: 'EUR'}).format(totalDeposits) }} </span>
             <span class="chartAverageResultValue">avg. {{Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(averageDepositsPerMonth)}}/mo</span>
           </p>
         </transition>
@@ -142,11 +142,18 @@ export default {
       return this.$store.getters["files/getCurrentPortfolio"];
     },
     totalDeposits() {
-      return this.chartData.datasets[0].data[this.chartData.datasets[0].data.length - 1]
+      const firstMonthIndex = this.chartDepositsProps.labels.indexOf(this.chartData.labels[0]);
+
+      if(firstMonthIndex > 0) {
+        return this.chartData.datasets[0].data[this.chartData.datasets[0].data.length - 1] - this.chartDepositsProps.data[firstMonthIndex - 1]
+      } else {
+        return this.chartData.datasets[0].data[this.chartData.datasets[0].data.length - 1]
+      }
     },
     averageDepositsPerMonth() {
       let total = this.totalDeposits
-      let average = (total / this.chartData.datasets[0].data.length);
+      let average = (total / this.chartData.labels.length);
+      console.log(this.chartData.labels);
       return average;
     },
     isThereData() {
@@ -192,8 +199,8 @@ export default {
 
         this.chartErrorMsg = "No deposits yet.";
       } else {
-        this.chartData.labels = this.chartDepositsProps.labels;
-        this.chartData.datasets[0].data = this.chartDepositsProps.data;
+        this.chartData.labels = JSON.parse(JSON.stringify(this.chartDepositsProps.labels));
+        this.chartData.datasets[0].data = JSON.parse(JSON.stringify(this.chartDepositsProps.data));
         this.chartErrorMsg = null;
         console.log(holder);
       }

@@ -102,7 +102,13 @@ export default {
       // check of niet buiten de chart klikt
       if(data.length > 0){
         if(event.chart.tooltip.title[0].length !== 3) {
-          this.$router.push('/dashboard/' + this.$route.params.id + '/holdings/' + this.chartHoldings.isin[data[0].index]);
+          if(this.$route.params.id != null) {
+            // default behaviour
+            this.$router.push('/dashboard/' + this.$route.params.id + '/holdings/' + this.chartHoldings.isin[data[0].index]);
+          } else {
+            // if is demo, because theres no id param on the demo route
+            this.$router.push('/dashboard/demo/holdings/' + this.chartHoldings.isin[data[0].index]);
+          }
         } 
       }
     },

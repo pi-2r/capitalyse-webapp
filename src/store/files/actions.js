@@ -22,8 +22,8 @@ import {
 
 const db = getFirestore();
 
-const API_BASE = 'https://capitalyse-backend.herokuapp.com'
-// const API_BASE = 'http://localhost:3000'
+// const API_BASE = 'https://capitalyse-backend.herokuapp.com'
+const API_BASE = 'http://localhost:3000'
 
 export default {
     setCurrentPortfolio(context, id) {
@@ -69,6 +69,7 @@ export default {
             } else if (request.status !== 200) {
                 console.log(request.status, request.responseText);
                 context.commit("setUploadingState", "error");
+                console.log('error');
             }
         };
 

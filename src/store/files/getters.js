@@ -9,7 +9,7 @@ export default {
         return state.currentPortfolio.portfolioName;
     },
     hasPortfolios(state) {
-        return state.portfolios.length > 1; // because of demo
+        return state.portfolios.length;
     },
     amountOfPortfolios(state) {
         return state.portfolios.length;

@@ -4,6 +4,9 @@ import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 const db = getFirestore();
 
+// const API_BASE = 'https://capitalyse-backend.herokuapp.com'
+const API_BASE = 'http://localhost:3000'
+
 export default {
     resetPasswordEmail(email) {
         const auth = getAuth();
@@ -31,7 +34,6 @@ export default {
             });
     },
     async signup(context, payload) {
-        const API_BASE = 'https://capitalyse-backend.herokuapp.com'
         const API_URL = '/api/auth/register'
 
         context.commit('setAuthError', null);

@@ -105,6 +105,9 @@ export default {
     hasPortfolios() {
       return this.$store.getters["files/hasPortfolios"];
     },
+    getDemo() {
+      return this.$store.getters['files/getDemo'];
+    },
   },
   watch: {
     hasPortfolios() {
@@ -132,6 +135,10 @@ export default {
             this.isLoading = false
           });
         }
+      } else {
+        this.tradingAnalytics = this.getDemo.tradingAnalytics
+        this.getDemoPortfolioInfo();
+        this.isLoading = false
       }
     },
     getPortfolioInfo() {
@@ -143,6 +150,9 @@ export default {
           }
         }
       }
+    },
+    getDemoPortfolioInfo() {
+      this.portfolioInfo = this.$store.getters['files/getDemoPortfolioInfo']
     },
     setCurrentPortfolio(id) {
       this.$store.dispatch("files/setCurrentPortfolio", id);

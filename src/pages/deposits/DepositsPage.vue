@@ -100,6 +100,9 @@ export default {
       }
       return null;
     },
+    getDemo() {
+      return this.$store.getters['files/getDemo'];
+    },
     hasPortfolios() {
       return this.$store.getters["files/hasPortfolios"];
     },
@@ -130,6 +133,10 @@ export default {
             this.isLoading = false
           });
         }
+      } else {
+        this.depositsAnalytics = this.getDemo.depositsAnalytics
+        this.getDemoPortfolioInfo();
+        this.isLoading = false
       }
     },
     getPortfolioInfo() {

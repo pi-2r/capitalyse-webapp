@@ -93,6 +93,9 @@ export default {
       }
       return false;
     },
+    getDemo() {
+      return this.$store.getters['files/getDemo'];
+    },
     getFeesAnalytics() {
       const analytics = this.$store.getters["files/getAnalytics"];
       for (let i = 0; i < analytics.length; i++) {
@@ -128,6 +131,9 @@ export default {
         }
       }
     },
+    getDemoPortfolioInfo() {
+      this.portfolioInfo = this.$store.getters['files/getDemoPortfolioInfo']
+    },
     loadData() {
       if (this.isDemo === false) {
         if (this.hasFeesAnalytics === true) {
@@ -142,6 +148,10 @@ export default {
             this.isLoading = false
           });
         }
+      } else {
+        this.feesAnalytics = this.getDemo.feesAnalytics
+        this.getDemoPortfolioInfo();
+        this.isLoading = false
       }
     },
   },

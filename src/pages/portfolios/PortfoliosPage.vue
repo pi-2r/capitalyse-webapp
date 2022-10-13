@@ -138,6 +138,7 @@ export default {
   },
   watch: {
     amountOfPortfolios() {
+      console.log('amtofport');
       this.loadData();
     },
   },
@@ -148,7 +149,9 @@ export default {
     loadData() {
       if (this.areTherePortfolios) {
         this.loadPortfoliosIntoArray();
-        this.isLoading = false;
+        this.$store.dispatch("files/fetchAllPortfolios").then(() => {
+          this.isLoading = false;
+        });
       } else {
         this.$store.dispatch("files/fetchAllPortfolios").then(() => {
           this.isLoading = false;

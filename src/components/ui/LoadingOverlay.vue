@@ -10,7 +10,7 @@
         <span class="loading-text-words">N</span>
         <span class="loading-text-words">G</span> -->
         <!-- <span class="loading-text-words"><Logo :onlyIcon="true" color="var(--clr-blue)" class="logoIcon"/></span> -->
-        <span class="loading-text-words">C</span>
+        <!-- <span class="loading-text-words">C</span>
         <span class="loading-text-words">A</span>
         <span class="loading-text-words">P</span>
         <span class="loading-text-words">I</span>
@@ -19,7 +19,7 @@
         <span class="loading-text-words">L</span>
         <span class="loading-text-words">Y</span>
         <span class="loading-text-words">S</span>
-        <span class="loading-text-words">E</span>
+        <span class="loading-text-words">E</span> -->
 
         <div class="holder">
           <div class="preloader">
@@ -91,8 +91,8 @@ export default {
 
 .preloader {
   /* size */
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -390,7 +390,7 @@ export default {
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: -20rem;
+  top: -5rem;
   bottom: 0;
   left: 0;
   right: 0;

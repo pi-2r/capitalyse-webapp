@@ -7,7 +7,7 @@ export default {
     state() {
         return {
             portfolios: [
-                
+
             ],
             analytics: [
 
@@ -25,12 +25,14 @@ export default {
                 tradingAnalytics: { "totalTradeCount": 35, "mostFrequentBuysList": [["VANGUARD FTSE AW", 8], ["ISHARES MSCI WOR A", 7], ["VANGUARD FTSE ALL-WORLD UCITS ETF - (USD) ACCUMULATING", 6], ["VANGUARD FTSE HDY", 3], ["ISHARES STOXX GLOBAL SELECT DIVIDEND 100 (DE)", 3], ["TESLA MOTORS INC. - C", 3], ["REALTY INCOME CORPORAT", 2], ["SPDR S&P US DIVIDEND ARISTOCRATS ETF", 2], ["ISHARES ESTOXX DIV", 2], ["DELTA AIR LINES INC.", 2], ["MEDICAL PROPERTIES TRU", 1], ["ETF CYBER SECURITY", 1], ["XTRACKERS ARTIFIC INTELLIG AND BIGDATAUCITS ETF 1C", 1], ["FUBOTV INC. COMMON STOCK", 1], ["AMERICAN ELECTRIC POWE", 1], ["NATIONAL HEALTH INVEST", 1], ["JP MORGAN CHASE & CO.", 1], ["PEPSICO INC", 1], ["COCA-COLA COMPANY (THE", 1], ["WAL-MART STORES INC.", 1], ["NASDAQ INC. - COMMON", 1], ["ISHARES S&P 500", 1], ["VANGUARD S&P500", 1], ["TORTOISE ACQUISITION CORP. CLASS A COMMON STOCK", 1]], "mostFrequentSellsList": [["VANGUARD FTSE AW", 4], ["TESLA MOTORS INC. - C", 3], ["ISHARES ESTOXX DIV", 2], ["DELTA AIR LINES INC.", 2], ["VANGUARD FTSE HDY", 1], ["SPDR S&P US DIVIDEND ARISTOCRATS ETF", 1], ["ISHARES STOXX GLOBAL SELECT DIVIDEND 100 (DE)", 1], ["VANGUARD FTSE ALL-WORLD UCITS ETF - (USD) ACCUMULATING", 1], ["ISHARES MSCI WOR A", 1], ["ETF CYBER SECURITY", 1], ["XTRACKERS ARTIFIC INTELLIG AND BIGDATAUCITS ETF 1C", 1], ["FUBOTV INC. COMMON STOCK", 1], ["PEPSICO INC", 1], ["REALTY INCOME CORPORAT", 1], ["COCA-COLA COMPANY (THE", 1], ["AMERICAN ELECTRIC POWE", 1], ["NATIONAL HEALTH INVEST", 1], ["JP MORGAN CHASE & CO.", 1], ["WAL-MART STORES INC.", 1], ["ISHARES S&P 500", 1], ["NASDAQ INC. - COMMON", 1], ["VANGUARD S&P500", 1], ["TORTOISE ACQUISITION CORP. CLASS A COMMON STOCK", 1]], "mostFrequentlyTradedList": [["VANGUARD FTSE AW", 12], ["ISHARES MSCI WOR A", 8], ["VANGUARD FTSE ALL-WORLD UCITS ETF - (USD) ACCUMULATING", 7], ["TESLA MOTORS INC. - C", 6], ["VANGUARD FTSE HDY", 4], ["ISHARES STOXX GLOBAL SELECT DIVIDEND 100 (DE)", 4], ["ISHARES ESTOXX DIV", 4], ["DELTA AIR LINES INC.", 4], ["REALTY INCOME CORPORAT", 3], ["SPDR S&P US DIVIDEND ARISTOCRATS ETF", 3], ["ETF CYBER SECURITY", 2], ["XTRACKERS ARTIFIC INTELLIG AND BIGDATAUCITS ETF 1C", 2], ["FUBOTV INC. COMMON STOCK", 2], ["PEPSICO INC", 2], ["COCA-COLA COMPANY (THE", 2], ["AMERICAN ELECTRIC POWE", 2], ["NATIONAL HEALTH INVEST", 2], ["JP MORGAN CHASE & CO.", 2], ["WAL-MART STORES INC.", 2], ["ISHARES S&P 500", 2], ["NASDAQ INC. - COMMON", 2], ["VANGUARD S&P500", 2], ["TORTOISE ACQUISITION CORP. CLASS A COMMON STOCK", 2], ["MEDICAL PROPERTIES TRU", 1]] },
 
                 holdingAnalytics: {
-                    IE00BK5BQT80: { "holdingName": "REALTY INCOME CORPORAT", "holdingProfitLoss": { "totalPL": 30.16, "totalPLPercentage": 15.94 }, "holdingPositionValue": { "value": 217.83, "percentage": 5.32 }, "holdingTransactionFees": { "fees": -1.52, "percentage": -0.8 } },
+                    "US7561091049": { "holdingAnalytics": { "holdingName": "REALTY INCOME CORPORAT", "holdingProfitLoss": { "totalPL": 30.16, "totalPLPercentage": 15.94 }, "holdingPositionValue": { "value": 217.83, "percentage": 5.32 }, "holdingTransactionFees": { "fees": -1.52, "percentage": -0.8 } } },
+                    
+                    "IE00BK5BQT80": { "holdingAnalytics": { "holdingName": "VANGUARD FTSE ALL-WORLD UCITS E...", "holdingProfitLoss": { "totalPL": 56.51, "totalPLPercentage": 1.52 }, "holdingPositionValue": { "value": 3778.44, "percentage": 92.35 }, "holdingTransactionFees": { "fees": 0, "percentage": 0 } } },
+                    
+                    "US58463J3041": { "holdingAnalytics": { "holdingName": "MEDICAL PROPERTIES TRU", "holdingProfitLoss": { "totalPL": -13.34, "totalPLPercentage": -12.22 }, "holdingPositionValue": { "value": 95.31, "percentage": 2.33 }, "holdingTransactionFees": { "fees": -0.5, "percentage": -0.46 } } }
+                },
 
-                    US7561091049: { "holdingAnalytics": { "holdingName": "REALTY INCOME CORPORAT", "holdingProfitLoss": { "totalPL": 30.16, "totalPLPercentage": 15.94 }, "holdingPositionValue": { "value": 217.83, "percentage": 5.32 }, "holdingTransactionFees": { "fees": -1.52, "percentage": -0.8 } } },
 
-                    US58463J3041: { "holdingName": "MEDICAL PROPERTIES TRU", "holdingProfitLoss": { "totalPL": -13.34, "totalPLPercentage": -12.22 }, "holdingPositionValue": { "value": 95.31, "percentage": 2.33 }, "holdingTransactionFees": { "fees": -0.5, "percentage": -0.46 } },
-                }
             },
             currentPortfolio: {
                 accountFile: null,

@@ -82,8 +82,6 @@
 </template>
 
 <script>
-import {toRaw} from 'vue'
-
 import BarChart from "@/components/ui/BarChart.vue";
 import Card from "@/components/ui/Card.vue";
 // import CardButtonArrow from "@/components/ui/CardButtonArrow.vue";
@@ -105,6 +103,7 @@ export default {
   },
   data() {
     return {
+      test: null,
       isLoading: true,
       selectedTimeFrame: "All Time",
       dividendsArray: [],
@@ -256,7 +255,7 @@ export default {
       this.chartData.datasets = [];
 
       // haal dividends op van de Mixin
-      let chartDividends = toRaw(this.chartDividendsProps)
+      let chartDividends = JSON.parse(JSON.stringify(this.chartDividendsProps))
       // const chartDividends = this.getChartDividends(
       //   this.currentPortfolio.accountFile
       // );
@@ -314,22 +313,22 @@ export default {
       }
     },
     setYearToDate() {
-      // // delete all months before this year
-      // let currentYear = new Date().getFullYear();
+      // delete all months before this year
+      let currentYear = new Date().getFullYear();
 
-      // for (let i = 0; i < this.dividendsArray.length; i++) {
-      //   for (let j = 0; j < this.dividendsArray[i].dividend.length; j++) {
-      //     let dividendYear = parseFloat(this.dividendsArray[i].dividend[j].date.split("-")[1]);
+      for (let i = 0; i < this.dividendsArray.length; i++) {
+        for (let j = 0; j < this.dividendsArray[i].dividend.length; j++) {
+          let dividendYear = parseFloat(this.dividendsArray[i].dividend[j].date.split("-")[1]);
 
-      //     if (dividendYear < currentYear) {
-      //       this.dividendsArray[i].dividend.splice(j, 1);
-      //       this.dividendsArray[i].datesList.splice(j, 1);
-      //       this.dividendsArray[i].dividendsList.splice(j, 1);
-      //       j--;
-      //     }
+          if (dividendYear < currentYear) {
+            this.dividendsArray[i].dividend.splice(j, 1);
+            this.dividendsArray[i].datesList.splice(j, 1);
+            this.dividendsArray[i].dividendsList.splice(j, 1);
+            j--;
+          }
 
-      //   }
-      // }
+        }
+      }
     },
     setYears(years) {
       // get one year ago in MM-YYYY

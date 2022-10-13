@@ -139,6 +139,9 @@ export default {
     hasPortfolios() {
       return this.$store.getters["files/hasPortfolios"];
     },
+    getDemo() {
+      return this.$store.getters['files/getDemo'];
+    },
   },
   watch: {
     hasPortfolios() {
@@ -148,7 +151,9 @@ export default {
       this.loadData();
     },
     $route() {
-      this.loadData();
+      if(this.isin != null) {
+        this.loadData();
+      }
     },
   },
   methods: {
@@ -177,6 +182,12 @@ export default {
             this.$router.back();
           }
         }
+      } else {
+        console.log(this.getDemo.holdingAnalytics[this.isin]);
+        console.log(this.isin);
+        this.holdingAnalytics = this.getDemo.holdingAnalytics[this.isin].holdingAnalytics
+        this.getDemoPortfolioInfo();
+        this.isLoading = false
       }
     },
     getPortfolioInfo() {
@@ -188,6 +199,9 @@ export default {
           }
         }
       }
+    },
+    getDemoPortfolioInfo() {
+      this.portfolioInfo = this.$store.getters['files/getDemoPortfolioInfo']
     },
   },
   created() {
