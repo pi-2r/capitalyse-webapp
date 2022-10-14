@@ -24,8 +24,6 @@ export default {
             .then((userCredential) => {
                 localStorage.setItem("token", userCredential.user.accessToken);
                 localStorage.setItem("userId", userCredential.user.uid);
-                console.log(userCredential.user.accessToken);
-                console.log(userCredential.user.uid);
                 context.commit("setUser", {
                     token: userCredential.user.accessToken,
                     userId: userCredential.user.uid,
@@ -56,7 +54,6 @@ export default {
                     .then((userCredential) => {
                         // Signed in
                         const user = userCredential.user;
-                        console.log(user);
                          context.commit("setUser", {
                             token: user.accessToken,
                             userId: user.uid,
