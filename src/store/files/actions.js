@@ -20,10 +20,11 @@ import {
     // deleteObject,
 } from 'firebase/storage';
 
+
 const db = getFirestore();
 
-// const API_BASE = 'https://capitalyse-backend.herokuapp.com'
-const API_BASE = 'http://localhost:3000'
+const API_BASE = 'https://capitalyse-backend.herokuapp.com'
+// const API_BASE = 'http://localhost:3000'
 
 export default {
     setCurrentPortfolio(context, id) {
@@ -59,7 +60,7 @@ export default {
         var request = new XMLHttpRequest();
         request.open("POST", API_BASE + API_URL, true);
         // request.setRequestHeader("Content-type", "multipart/form-data"); //----(*)
-        request.setRequestHeader("Authorization", token);
+        request.setRequestHeader("Authorization", 'Bearer ' + token);
         request.onreadystatechange = function () {
             if (
                 request.readyState === XMLHttpRequest.DONE &&
@@ -67,9 +68,8 @@ export default {
             ) {
                 context.commit("setUploadingState", "success");
             } else if (request.status !== 200) {
-                console.log(request.status, request.responseText);
+                console.log(request.status, JSON.parse(request.responseText));
                 context.commit("setUploadingState", "error");
-                console.log('error');
             }
         };
 
@@ -82,10 +82,13 @@ export default {
         await fetch(API_BASE + API_URL, {
             method: 'GET',
             headers: new Headers({
-                'Authorization': token,
+                'Authorization': 'Bearer ' + token,
             })
         }).then((response) => response.json())
             .then(data => {
+                if (data.message === 'unauthorized') {
+                    // this.dispatch('logout')
+                }
                 let portfolios = []
                 for (let i = 0; i < data.length; i++) {
                     const portfolio = data[i];
@@ -94,6 +97,8 @@ export default {
                     );
                 }
                 context.commit("setPortfolios", portfolios);
+            }).catch((e) => {
+                console.log(e);
             })
     },
     async fetchPortfolioAnalytics(context, payload) {
@@ -112,12 +117,19 @@ export default {
             await fetch(API_BASE + API_URL, {
                 method: 'GET',
                 headers: new Headers({
-                    'Authorization': token,
+                    'Authorization': 'Bearer ' + token,
                 })
             })
-                .then((response) => response.json())
+                .then((response) => {
+                    return response.json()
+                })
                 .then(data => {
+                    if (data.message === 'unauthorized') {
+                        // this.dispatch('logout')
+                    }
                     context.commit("setAnalytics", { data: data, portfolioId: portfolioId, analyticsType: analyticsType, isin: payload.isin });
+                }).catch((e) => {
+                    console.log(e);
                 })
         }
     },
@@ -146,13 +158,18 @@ export default {
         await fetch(API_BASE + API_URL, {
             method: 'DELETE',
             headers: new Headers({
-                'Authorization': token,
+                'Authorization': 'Bearer ' + token,
             })
         })
             .then((response) => response.json())
             .then((data) => {
-                console.info(data);
-                context.commit("deletePortfolio", portfolioId);
+                if (data.message === 'unauthorized') {
+                    this.dispatch('logout')
+                } else if (data.message === 'delete-success') {
+                    context.commit("deletePortfolio", portfolioId);
+                }
+            }).catch((e) => {
+                console.log(e);
             })
 
     }

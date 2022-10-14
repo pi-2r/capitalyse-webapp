@@ -1,32 +1,19 @@
 <template>
   <Header :isDemo="isDemo"></Header>
   <section class="container" v-if="!isLoading">
-    <!-- <BackButton class="backButton" color="var(--clr-grey)"/> -->
 
     <Breadcrumbs
-      v-if="isDemo"
       baseLink="/portfolios"
       baseLinkName="Portfolios"
-      :secondLink="'/dashboard/demo'"
-      secondLinkName="Demo"
-      thirdLink="#"
-      :thirdLinkName="holdingAnalytics.holdingName"
-    />
-    <Breadcrumbs
-      v-else
-      baseLink="/portfolios"
-      baseLinkName="Portfolios"
-      :secondLink="'/dashboard/' + this.$route.params.id"
-      :secondLinkName="
-        portfolioInfo.portfolioName ? portfolioInfo.portfolioName : ''
-      "
+      :secondLink="this.isDemo ? '/dashboard/demo' : '/dashboard/' + this.$route.params.id"
+      :secondLinkName="portfolioInfo.portfolioName"
       thirdLink="#"
       :thirdLinkName="holdingAnalytics.holdingName"
     />
 
     <section class="titleAndBackButtonContainer">
+      <BackButton/>
       <h1>{{ holdingAnalytics.holdingName }}</h1>
-      <p>{{ $route.params.holdingId }}</p>
     </section>
 
     <HoldingInfoCards
@@ -35,6 +22,8 @@
       :holdingProfitLoss="holdingAnalytics.holdingProfitLoss"
       :holdingTransactionFees="holdingAnalytics.holdingTransactionFees"
     />
+    
+    <p class="isinText">ISIN: {{ $route.params.holdingId }}</p>
     <!-- <DividendChart :hideTimeFrameBtns="false" class="dividendChartDashboard" /> -->
   </section>
   <section v-else>
@@ -45,20 +34,17 @@
 <script>
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
-// import BackButton from "@/components/ui/BackButton.vue";
+import BackButton from "@/components/ui/BackButton.vue";
 import HoldingInfoCards from "./components/HoldingInfoCards.vue";
 // import DividendChart from "@/components/ui/DividendChart.vue";
 
-import getHoldingName from "@/mixins/analytics/getHoldingName.js";
-
 export default {
-  mixins: [getHoldingName],
   components: {
     Breadcrumbs,
     Header,
     // DividendChart,
     HoldingInfoCards,
-    // BackButton,
+    BackButton,
     // FeesChart
   },
   data() {
@@ -183,8 +169,6 @@ export default {
           }
         }
       } else {
-        console.log(this.getDemo.holdingAnalytics[this.isin]);
-        console.log(this.isin);
         this.holdingAnalytics = this.getDemo.holdingAnalytics[this.isin].holdingAnalytics
         this.getDemoPortfolioInfo();
         this.isLoading = false
@@ -212,11 +196,20 @@ export default {
 </script>
 
 <style scoped>
+.isinText {
+  color: var(--clr-medium-light-grey);
+}
+
 .titleAndBackButtonContainer {
+  display: flex;
+  align-items: center;
+}
+
+/* .titleAndBackButtonContainer {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-}
+} */
 
 .backButton {
   margin-bottom: 1rem;

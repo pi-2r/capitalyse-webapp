@@ -1,6 +1,6 @@
 <template>
   <section class="loading-wrapper">
-    <section v-if="btnSpinner" class="btnLoader" :style="{ 'border-color': color }"></section>
+    <section v-if="btnSpinner" class="btnLoader"></section>
     <section v-else class="loader"></section>
   </section>
 </template>
@@ -13,7 +13,7 @@ export default {
       default: false,
     },
     color: {
-      default: 'var(--clr-blue)'
+      default: 'var(--clr-black)'
     }
   },
 };

@@ -13,10 +13,7 @@
 <script>
 import ResultCard from "@/components/dashboard/ResultCard.vue";
 
-import getTradeCountMixin from "@/mixins/analytics/getTradeCount";
-
 export default {
-  mixins: [getTradeCountMixin],
   components: {
     ResultCard,
   },

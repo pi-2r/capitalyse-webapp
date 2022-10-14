@@ -1,27 +1,17 @@
 <template>
   <Header :isDemo="isDemo"></Header>
   <section class="container" v-if="!isLoading">
-    <!-- <BackButton color="var(--clr-grey)" class="backButton" /> -->
-    <Breadcrumbs
-      v-if="isDemo"
+      <Breadcrumbs
       baseLink="/portfolios"
       baseLinkName="Portfolios"
-      :secondLink="'/dashboard/demo'"
-      :secondLinkName="'Demo'"
-      thirdLink="#"
-      thirdLinkName="Trading"
-    />
-    <Breadcrumbs
-      v-else
-      baseLink="/portfolios"
-      baseLinkName="  Portfolios"
-      :secondLink="'/dashboard/' + this.$route.params.id"
-      :secondLinkName="(portfolioInfo.portfolioName ? portfolioInfo.portfolioName : '')"
+      :secondLink="this.isDemo ? '/dashboard/demo' : '/dashboard/' + this.$route.params.id"
+      :secondLinkName="portfolioInfo.portfolioName"
       thirdLink="#"
       thirdLinkName="Trading"
     />
 
     <section class="titleAndBackButtonContainer">
+      <BackButton />
       <h1>Trading</h1>
     </section>
 
@@ -39,7 +29,7 @@
 <script>
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
-// import BackButton from "@/components/ui/BackButton.vue";
+import BackButton from "@/components/ui/BackButton.vue";
 
 import MostFreqTradedCard from "./components/MostFreqTradedCard.vue";
 import TradeCountCard from "@/pages/dashboard/components/TradeCountCard.vue";
@@ -51,7 +41,7 @@ export default {
     Header,
     MostFreqTradedCard,
     MostFreqBuyOrSell,
-    // BackButton,
+    BackButton,
     TradeCountCard,
   },
   props: {
@@ -169,6 +159,11 @@ export default {
 </script>
 
 <style scoped>
+.titleAndBackButtonContainer {
+  display: flex;
+  align-items: center;
+}
+
 .container {
   margin: 0 auto;
   margin-bottom: 4rem;

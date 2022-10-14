@@ -16,6 +16,8 @@ export default {
     isAuth() {
       if(this.isAuth) {
         this.fetchAllPortfolioMetaData();
+      } else {
+        this.$router.replace('/login')
       }
     },
   },

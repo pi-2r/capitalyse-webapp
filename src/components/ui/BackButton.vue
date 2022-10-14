@@ -1,9 +1,9 @@
 <template>
   <Icon
-    icon="akar-icons:arrow-left"
+    icon="charm:arrow-left"
     @click="goBack"
     color="var(--clr-black)"
-    height="25"
+    height="27"
     class="backBtn"
   />
 </template>
@@ -55,6 +55,6 @@ export default {
 }
 
 .backBtn:hover {
-  transform: translateX(-1px);
+  transform: translateX(-2px);
 }
 </style>

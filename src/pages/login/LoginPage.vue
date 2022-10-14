@@ -51,7 +51,7 @@
             </p>
             <Button class="button">
               <section v-if="isLoading">
-                <Spinner class="spinner" :btnSpinner="true" />
+                <Spinner :btnSpinner="true" />
               </section>
               <span v-else>Log in</span>
             </Button>

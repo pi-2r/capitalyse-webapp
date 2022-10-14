@@ -30,12 +30,9 @@
 import ResultCard from "@/components/dashboard/ResultCard.vue";
 import Card from "@/components/ui/Card.vue";
 
-import getMostFrequentBuyOrSell from "@/mixins/analytics/getMostFrequentBuyOrSell.js";
-
 import { Icon } from "@iconify/vue";
 
 export default {
-  mixins: [getMostFrequentBuyOrSell],
   components: {
     ResultCard,
     Card,

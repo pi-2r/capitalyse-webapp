@@ -21,7 +21,7 @@
         <span class="loading-text-words">S</span>
         <span class="loading-text-words">E</span> -->
 
-        <div class="holder">
+        <!-- <div class="holder">
           <div class="preloader">
             <div></div>
             <div></div>
@@ -34,8 +34,9 @@
             <div></div>
             <div></div>
           </div>
-        </div>
-        <!-- <Spinner color="blue"/> -->
+        </div> -->
+
+        <Spinner/>
         <!-- <span class="loading-text-words">A</span>
         <span class="loading-text-words">N</span>
         <span class="loading-text-words">A</span>

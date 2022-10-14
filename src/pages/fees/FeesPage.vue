@@ -1,28 +1,18 @@
 <template>
   <Header :isDemo="isDemo"></Header>
   <section class="container" v-if="!isLoading">
-    <!-- <BackButton class="backButton" color="var(--clr-grey)"/> -->
 
     <Breadcrumbs
-      v-if="isDemo"
       baseLink="/portfolios"
       baseLinkName="Portfolios"
-      :secondLink="'/dashboard/demo'"
-      :secondLinkName="'Demo'"
-      thirdLink="#"
-      thirdLinkName="Fees & Costs"
-    />
-    <Breadcrumbs
-      v-else
-      baseLink="/portfolios"
-      baseLinkName="Portfolios"
-      :secondLink="'/dashboard/' + this.$route.params.id"
-      :secondLinkName="portfolioInfo.portfolioName ? portfolioInfo.portfolioName : ''"
+      :secondLink="this.isDemo ? '/dashboard/demo' : '/dashboard/' + this.$route.params.id"
+      :secondLinkName="portfolioInfo.portfolioName"
       thirdLink="#"
       thirdLinkName="Fees & Costs"
     />
 
     <section class="titleAndBackButtonContainer">
+      <BackButton />
       <h1>Fees & Costs</h1>
     </section>
 
@@ -44,6 +34,7 @@
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
+import BackButton from "@/components/ui/BackButton.vue";
 
 import ExchangeFeesCard from "./components/ExchangeFeesCard.vue";
 // import FeesChart from './components/FeesChart.vue';
@@ -52,6 +43,7 @@ export default {
   components: {
     Breadcrumbs,
     Header,
+    BackButton,
     TransFeesCard,
     ExchangeFeesCard,
     // FeesChart
@@ -163,6 +155,11 @@ export default {
 </script>
 
 <style scoped>
+.titleAndBackButtonContainer {
+  display: flex;
+  align-items: center;
+}
+
 .backButton {
   margin-bottom: 1rem;
 }

@@ -55,8 +55,23 @@
         <h2>Deposits</h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
-            <span class="chartResultValue">{{ Intl.NumberFormat('nl-nl', {style: 'currency',currency: 'EUR'}).format(totalDeposits) }} </span>
-            <span class="chartAverageResultValue">avg. {{Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(averageDepositsPerMonth)}}/mo</span>
+            <span class="chartResultValue"
+              >{{
+                Intl.NumberFormat("nl-nl", {
+                  style: "currency",
+                  currency: "EUR",
+                }).format(totalDeposits)
+              }}
+            </span>
+            <span class="chartAverageResultValue"
+              >avg.
+              {{
+                Intl.NumberFormat("nl-nl", {
+                  style: "currency",
+                  currency: "EUR",
+                }).format(averageDepositsPerMonth)
+              }}/mo</span
+            >
           </p>
         </transition>
       </section>
@@ -77,19 +92,17 @@
 import LineChart from "@/components/ui/LineChart.vue";
 import Card from "@/components/ui/Card.vue";
 
-let holder;
-
 // import getChartDepositsMixin from "@/mixins/analytics/getChartDeposits";
 
 export default {
   // mixins: [
-    // getChartDepositsMixin,
+  // getChartDepositsMixin,
   // ],
   props: {
     chartDepositsProps: {
       default: null,
       required: true,
-    }
+    },
   },
   components: {
     LineChart,
@@ -142,19 +155,32 @@ export default {
       return this.$store.getters["files/getCurrentPortfolio"];
     },
     totalDeposits() {
-      const firstMonthIndex = this.chartDepositsProps.labels.indexOf(this.chartData.labels[0]);
+      if (this.chartDepositsProps != false) {
+        const firstMonthIndex = this.chartDepositsProps.labels.indexOf(
+          this.chartData.labels[0]
+        );
 
-      if(firstMonthIndex > 0) {
-        return this.chartData.datasets[0].data[this.chartData.datasets[0].data.length - 1] - this.chartDepositsProps.data[firstMonthIndex - 1]
-      } else {
-        return this.chartData.datasets[0].data[this.chartData.datasets[0].data.length - 1]
+        if (firstMonthIndex > 0) {
+          return (
+            this.chartData.datasets[0].data[
+              this.chartData.datasets[0].data.length - 1
+            ] - this.chartDepositsProps.data[firstMonthIndex - 1]
+          );
+        } else {
+          return this.chartData.datasets[0].data[
+            this.chartData.datasets[0].data.length - 1
+          ];
+        }
       }
+      return 0;
     },
     averageDepositsPerMonth() {
-      let total = this.totalDeposits
-      let average = (total / this.chartData.labels.length);
-      console.log(this.chartData.labels);
-      return average;
+      if (this.chartDepositsProps != false) {
+        let total = this.totalDeposits;
+        let average = total / this.chartData.labels.length;
+        return average;
+      }
+      return 0;
     },
     isThereData() {
       return this.chartDepositsProps !== null;
@@ -166,7 +192,7 @@ export default {
     },
     $route() {
       this.loadData();
-    }
+    },
   },
   methods: {
     setTheme() {
@@ -193,16 +219,20 @@ export default {
       this.timeFrameDataUpdate();
     },
     getDeposits() {
-      if (this.chartDeposits === false) {
+      if (this.chartDepositsProps === false) {
         this.chartData.labels = [];
         this.chartData.datasets[0].data = [];
 
-        this.chartErrorMsg = "No deposits yet.";
+        this.chartErrorMsg =
+          "No results";
       } else {
-        this.chartData.labels = JSON.parse(JSON.stringify(this.chartDepositsProps.labels));
-        this.chartData.datasets[0].data = JSON.parse(JSON.stringify(this.chartDepositsProps.data));
+        this.chartData.labels = JSON.parse(
+          JSON.stringify(this.chartDepositsProps.labels)
+        );
+        this.chartData.datasets[0].data = JSON.parse(
+          JSON.stringify(this.chartDepositsProps.data)
+        );
         this.chartErrorMsg = null;
-        console.log(holder);
       }
     },
     addMissingMonthsToChart() {},
@@ -217,8 +247,6 @@ export default {
       } else if (this.selectedTimeFrame === this.timeFrameOptions.fiveYears) {
         this.setYears(5);
       }
-
-      this.updateChart();
     },
     setYearToDate() {
       // delete all months before this year
@@ -232,19 +260,12 @@ export default {
           i--;
         }
       }
-
-      console.log(this.chartData.labels);
-
-      // let total = 0;
-
-      // this.countFromZero(total);
     },
     setYears(years) {
       // get one year ago in MM-YYYY
       let currentYear = new Date().getFullYear();
       let currentMonth = new Date().getMonth() + 1;
       let yearAgo = new Date(currentYear - years, currentMonth);
-      console.log(yearAgo);
 
       // delete all months before yearAgo
       for (let i = 0; i < this.chartData.labels.length; i++) {
@@ -260,19 +281,10 @@ export default {
         }
       }
     },
-    updateChart() {
-      console.log(this.labelsHolder);
-      console.log(this.dataHolder);
-      // this.chartData.labels = this.labelsHolder;
-      // this.chartData.datasets[0].data = this.dataHolder;
-    },
   },
   created() {
     this.loadData();
     this.setTheme();
-    if(this.isThereData) {
-      holder = this.chartDepositsProps
-    }
   },
 };
 </script>
@@ -290,7 +302,7 @@ h2 {
 .chartErrorMsg {
   margin-top: 2rem;
   margin-bottom: 2rem;
-  color: var(--clr-blue);
+  color: var(--clr-grey);
 }
 
 .spinnerContainer {

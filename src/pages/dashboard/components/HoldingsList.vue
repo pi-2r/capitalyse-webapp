@@ -39,12 +39,9 @@
 </template>
 
 <script>
-import getHoldingsList from '@/mixins/analytics/getHoldingsList';
-
 import HoldingsListItem from './HoldingsListItem.vue';
 
 export default {
-  mixins: [getHoldingsList],
   components: {
     HoldingsListItem
   },

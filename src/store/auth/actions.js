@@ -1,11 +1,11 @@
 import '../../../firebase'
-import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider, signInWithCustomToken } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 const db = getFirestore();
 
-// const API_BASE = 'https://capitalyse-backend.herokuapp.com'
-const API_BASE = 'http://localhost:3000'
+const API_BASE = 'https://capitalyse-backend.herokuapp.com'
+// const API_BASE = 'http://localhost:3000'
 
 export default {
     resetPasswordEmail(email) {
@@ -24,6 +24,8 @@ export default {
             .then((userCredential) => {
                 localStorage.setItem("token", userCredential.user.accessToken);
                 localStorage.setItem("userId", userCredential.user.uid);
+                console.log(userCredential.user.accessToken);
+                console.log(userCredential.user.uid);
                 context.commit("setUser", {
                     token: userCredential.user.accessToken,
                     userId: userCredential.user.uid,
@@ -34,6 +36,7 @@ export default {
             });
     },
     async signup(context, payload) {
+        const auth = getAuth();
         const API_URL = '/api/auth/register'
 
         context.commit('setAuthError', null);
@@ -49,10 +52,19 @@ export default {
             },
         }).then((response) => response.json())
             .then((data) => {
-                context.commit("setUser", {
-                    token: data.token,
-                    userId: data.userId,
-                });
+                signInWithCustomToken(auth, data.token)
+                    .then((userCredential) => {
+                        // Signed in
+                        const user = userCredential.user;
+                        console.log(user);
+                         context.commit("setUser", {
+                            token: user.accessToken,
+                            userId: user.uid,
+                        });
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
             })
             .catch((error) => {
                 context.commit("setAuthError", error);
@@ -62,8 +74,8 @@ export default {
         // This gives you a Google Access Token. You can use it to access Google APIs.
         const credential = GoogleAuthProvider.credentialFromResult(payload.result);
         // The signed-in user info.
-        const token = credential.accessToken;
-        const user = payload.result.user;
+        const token = credential.idToken;
+        const user = payload.result.user.uid;
 
         context.commit('setAuthError', null);
 
@@ -72,8 +84,8 @@ export default {
             userId: user,
         });
 
-        localStorage.setItem("token", payload.accessToken);
-        localStorage.setItem("userId", payload.userId);
+        localStorage.setItem("token", token);
+        localStorage.setItem("userId", user);
     },
     logout(context) {
         localStorage.removeItem("token");

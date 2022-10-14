@@ -95,7 +95,6 @@ export default {
   },
   methods: {
     loadData() {
-      console.log(this.isThereData);
       if (this.isThereData) {
         this.getDeposits();
         this.isLoading = false;
@@ -104,10 +103,11 @@ export default {
       }
     },
     getDeposits() {
-      this.deposits = this.depositsList
-      console.log(this.deposits);
-      
-      this.sortItems();
+      if(this.depositsList != false) {
+        this.deposits = this.depositsList
+
+        this.sortItems();
+      }
     },
     sortItems() {
       const sortType = this.selectedSortType;

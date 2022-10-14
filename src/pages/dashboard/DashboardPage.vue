@@ -9,14 +9,11 @@
           baseLink="/portfolios"
           baseLinkName="Portfolios"
           secondLink="#"
-          :secondLinkName="
-            !isDemo ? (portfolioInfo.portfolioName ? portfolioInfo.portfolioName : '') : 'Demo'
-          "
+          :secondLinkName="portfolioInfo.portfolioName"
         />
         <section>
           <section class="titleAndBackButtonContainer">
-            <h1 v-if="!isDemo">{{ portfolioInfo.portfolioName }}</h1>
-            <h1 v-else>Portfolio Demo</h1>
+            <h1>{{ portfolioInfo.portfolioName }}</h1>
           </section>
         </section>
       </section>
@@ -95,8 +92,6 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
 // import BackButton from "@/components/ui/BackButton.vue";
 
-import firebaseDateMixin from "@/mixins/helpers/dateToWords.js";
-
 import DividendChart from "@/components/ui/DividendChart.vue";
 import DepositsCard from "./components/DepositsCard.vue";
 import TradeCountCard from "./components/TradeCountCard.vue";
@@ -105,7 +100,6 @@ import HoldingsPieChartCards from "./components/HoldingsPieChartCards.vue";
 import HoldingsList from "./components/HoldingsList.vue";
 
 export default {
-  mixins: [firebaseDateMixin],
   name: "Dashboard",
   components: {
     DividendChart,

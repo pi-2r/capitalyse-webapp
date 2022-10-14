@@ -89,7 +89,7 @@
               </td>
             </tr>
             </transition>
-            <tr v-if="isLoading">
+            <tr v-if="isLoading && !areTherePortfolios">
               <td colspan="4" class="loading">
                 <Spinner />
               </td>
@@ -138,7 +138,6 @@ export default {
   },
   watch: {
     amountOfPortfolios() {
-      console.log('amtofport');
       this.loadData();
     },
   },
