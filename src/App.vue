@@ -15,7 +15,7 @@ export default {
   watch: {
     isAuth() {
       if(this.isAuth) {
-        this.fetchAllPortfolioMetaData();
+        this.fetchAllPortfolios();
       } else {
         this.$router.replace('/login')
       }
@@ -27,7 +27,7 @@ export default {
     },
   },
   methods: {
-    fetchAllPortfolioMetaData() {
+    fetchAllPortfolios() {
       this.$store.dispatch("files/fetchAllPortfolios");
     }
   }

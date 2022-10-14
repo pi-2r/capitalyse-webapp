@@ -148,9 +148,6 @@ export default {
     loadData() {
       if (this.areTherePortfolios) {
         this.loadPortfoliosIntoArray();
-        this.$store.dispatch("files/fetchAllPortfolios").then(() => {
-          this.isLoading = false;
-        });
       } else {
         this.$store.dispatch("files/fetchAllPortfolios").then(() => {
           this.isLoading = false;
@@ -161,9 +158,7 @@ export default {
       this.portfolios = [];
       for (let i = 0; i < this.portfoliosFromStore.length; i++) {
         this.portfolios.push(this.portfoliosFromStore[i]);
-
         // only do this if addedAt hasnt been converted yet
-       
         if (
           this.portfoliosFromStore[i].addedAt._seconds &&
           this.portfoliosFromStore[i].addedAt._nanoseconds

@@ -274,6 +274,7 @@ export default {
       // als de uploadingstate succesvol is, ga dan naar de portfolio page
       if (this.uploadingState === "success") {
         this.$store.dispatch("files/setUploadingState", "none");
+        this.$store.dispatch("files/fetchAllPortfolios");
         this.isLoading = false;
         this.$router.push({ path: "/portfolios" });
       } else if (this.uploadingState === "error") {
