@@ -87,7 +87,6 @@ export default {
         }).then((response) => {
             // log out if invalid token
             if (!response.ok) {
-                console.log(response.status);
                 if (response.status === 401) {
                     this.dispatch('logout')
                 }
