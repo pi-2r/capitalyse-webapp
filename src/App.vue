@@ -72,7 +72,6 @@ export default {
     handleInactive() {
       if (this.isAuth) {
         this.hasTimeRunOut = true;
-        console.log("inactive for too long");
         this.$store.dispatch("logout");
       }
     },
@@ -82,7 +81,6 @@ export default {
     resetTimer() {
       // throttle to every 1 second
       if (Date.now() - this.lastMove > 1000) {
-        console.log("reset inactivity timer");
         clearTimeout(inactivityTimer);
         this.startTimer();
         this.lastMove = Date.now();
