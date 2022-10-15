@@ -1,23 +1,62 @@
 <template>
-  <article class="websiteWrapper">
+  <article
+    class="websiteWrapper"
+    @keyup="resetTimer"
+    @mousemove="resetTimer"
+    @mousedown="resetTimer"
+    @touchmove="resetTimer"
+    @touchdown="resetTimer"
+  >
     <main class="websiteWrapperMain">
+      <!-- inactivity modal -->
+      <transition name="slide-fade" mode="out-in">
+        <ConfirmModal
+          v-if="hasTimeRunOut"
+          @clickOutsidePopup="hasTimeRunOut = false"
+        >
+          <h1 class="loginTimeoutModal__title">You've been logged out</h1>
+          <p class="loginTimeoutModal__text">
+            You have been logged out due to inactivity. Please authenticate yourself again.
+          </p>
+          <Button class="loginTimeoutModal__btn" @click="hasTimeRunOut = false"
+            >Continue</Button
+          >
+        </ConfirmModal>
+      </transition>
+
       <router-view></router-view>
     </main>
   </article>
 </template>
 
 <script>
+import ConfirmModal from "@/components/ui/ConfirmModal.vue";
+let inactivityTimer;
+
 export default {
+  components: { ConfirmModal },
   name: "App",
+  data() {
+    return {
+      timeoutInMs: 6 * 1000,
+      lastMove: 0,
+      hasTimeRunOut: false,
+    };
+  },
   created() {
+    window.addEventListener("scroll", this.resetTimer);
     this.$store.dispatch("tryLogin");
+    this.startTimer();
+  },
+  unmounted() {
+    window.removeEventListener("scroll", this.resetTimer);
   },
   watch: {
     isAuth() {
-      if(this.isAuth) {
+      if (this.isAuth) {
         this.fetchAllPortfolios();
       } else {
-        this.$router.replace('/login')
+        this.$router.replace("/login");
       }
     },
   },
@@ -29,12 +68,41 @@ export default {
   methods: {
     fetchAllPortfolios() {
       this.$store.dispatch("files/fetchAllPortfolios");
-    }
-  }
+    },
+    handleInactive() {
+      if (this.isAuth) {
+        this.hasTimeRunOut = true;
+        console.log("inactive for too long");
+        this.$store.dispatch("logout");
+      }
+    },
+    startTimer() {
+      inactivityTimer = setTimeout(this.handleInactive, this.timeoutInMs);
+    },
+    resetTimer() {
+      // throttle to every 1 second
+      if (Date.now() - this.lastMove > 1000) {
+        console.log("reset inactivity timer");
+        clearTimeout(inactivityTimer);
+        this.startTimer();
+        this.lastMove = Date.now();
+      }
+    },
+  },
 };
 </script>
 
 <style>
+.loginTimeoutModal__title {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+.loginTimeoutModal__text {
+  margin-bottom: 1.5rem;
+}
+.loginTimeoutModal__btn {
+  width: 100%;
+}
 /* * {
   border: 1px solid red;
 } */
@@ -51,18 +119,17 @@ export default {
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent; 
+  background: transparent;
 }
- 
+
 ::-webkit-scrollbar-thumb {
-  background: var(--clr-medium-light-grey); 
+  background: var(--clr-medium-light-grey);
   border-radius: var(--btn-radius);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--clr-medium-light-grey-2); 
+  background: var(--clr-medium-light-grey-2);
 }
-
 
 .titleAndBackButtonContainer {
   display: flex;
@@ -110,13 +177,13 @@ div {
 }
 
 button {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   transition: 0.2s all;
   outline: none;
 }
 
 select {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 input {
