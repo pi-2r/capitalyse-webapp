@@ -23,8 +23,8 @@ import {
 
 const db = getFirestore();
 
-const API_BASE = 'https://capitalyse.herokuapp.com'
-// const API_BASE = 'http://localhost:3000'
+// const API_BASE = 'https://capitalyse.herokuapp.com'
+const API_BASE = 'http://localhost:3000'
 
 export default {
     setCurrentPortfolio(context, id) {
@@ -136,6 +136,30 @@ export default {
                 })
                 .then(data => {
                     context.commit("setAnalytics", { data: data, portfolioId: portfolioId, analyticsType: analyticsType, isin: payload.isin });
+                }).catch((e) => {
+                    console.log(e);
+                })
+        }
+    },
+    async fetchSharedPortfolioAnalytics(context, payload) {
+        if (payload.userId !== undefined && payload.portfolioId !== null) {
+            const analyticsType = payload.type
+            const portfolioId = payload.portfolioId;
+            const userId = payload.userId;
+
+            let holding = "";
+            if (analyticsType === 'holdings' && payload.isin !== undefined) {
+                holding = `/${payload.isin}`
+            }
+
+            const API_URL = `/api/portfolios/share/${userId}/${portfolioId}/${analyticsType}${holding}`
+
+            await fetch(API_BASE + API_URL, {
+                method: 'GET',
+            })
+                .then((response) => response.json())
+                .then(data => {
+                    context.commit("setSharedAnalytics", { data: data, portfolioId: portfolioId, analyticsType: analyticsType, isin: payload.isin });
                 }).catch((e) => {
                     console.log(e);
                 })

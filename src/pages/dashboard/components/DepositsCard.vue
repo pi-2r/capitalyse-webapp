@@ -28,6 +28,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isPublic: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {
@@ -36,8 +40,10 @@ export default {
   },
   computed: {
     toLink() {
-      if(this.isDemo) {
+      if(this.isDemo === true) {
         return '/dashboard/demo/deposits';
+      } else if(this.isPublic === true) {
+        return `/shared/${this.$route.params.uid}/${this.$route.params.pid}/deposits`
       } else {
         return `/dashboard/${this.portfolioId}/deposits`;
       }

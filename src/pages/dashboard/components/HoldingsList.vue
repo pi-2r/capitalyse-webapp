@@ -16,7 +16,7 @@
         </thead>
         <tbody>
           <tr :key="holding.id" v-for="holding in holdingsList">
-            <HoldingsListItem :isDemo="isDemo" :holding="holding" />
+            <HoldingsListItem :isDemo="isDemo" :isPublic="isPublic" :holding="holding" />
           </tr>
           <section v-if="holdingsList !== null">
             <tr v-if="holdingsList.length < 1 && !isLoading">
@@ -47,6 +47,10 @@ export default {
   },
    props: {
     isDemo: {
+      type: Boolean,
+      default: false,
+    },
+    isPublic: {
       type: Boolean,
       default: false,
     },

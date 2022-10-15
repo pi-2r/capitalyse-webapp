@@ -6,24 +6,28 @@
     <section class="head">
       <section>
         <Breadcrumbs
+          v-if="!isPublic"
           baseLink="/portfolios"
           baseLinkName="Portfolios"
           secondLink="#"
           :secondLinkName="portfolioInfo.portfolioName"
         />
+        <p v-else class="sharedPortfolioOwnerText">{{homeAnalytics.sharedPortfolioOwner.displayName || homeAnalytics.sharedPortfolioOwner.email}}'s portfolio</p>
         <section>
           <section class="titleAndBackButtonContainer">
-            <h1>{{ portfolioInfo.portfolioName }}</h1>
+            <h1>{{ portfolioInfo.portfolioName || homeAnalytics.portfolioMetadata.portfolioName }}</h1>
           </section>
         </section>
       </section>
       <section class="head__rightSection">
         <section class="header__rightSection-dates">
           <p class="startDate">
-            Portfolio: {{ homeAnalytics.startDate ? homeAnalytics.startDate : "--/--/--" }}
+            Investing for
+            {{ homeAnalytics.startDate ? homeAnalytics.startDate : "--/--/--" }}
           </p>
           <p class="startDate">
-            Uploaded: {{ portfolioInfo.addedAt ? portfolioInfo.addedAt : "--/--/--" }}
+            Uploaded date:
+            {{ portfolioInfo.addedAt ? portfolioInfo.addedAt : "--/--/--" }}
           </p>
         </section>
         <!-- <section class="head__rightSection-icon">
@@ -57,14 +61,17 @@
       <section class="cardsContainer">
         <DepositsCard
           :isDemo="isDemo"
+          :isPublic="isPublic"
           :totalDeposits="homeAnalytics.totalDeposits"
         />
         <TransFeesCard
           :isDemo="isDemo"
+          :isPublic="isPublic"
           :totalTransactionFees="homeAnalytics.totalTransactionFees"
         />
         <TradeCountCard
           :isDemo="isDemo"
+          :isPublic="isPublic"
           :totalTradeCount="homeAnalytics.totalTradeCount"
         />
       </section>
@@ -77,11 +84,12 @@
 
       <HoldingsList
         :isDemo="isDemo"
+        :isPublic="isPublic"
         :holdingsList="homeAnalytics.holdingsList"
       />
     </section>
   </section>
-  <LoadingOverlay v-else/>
+  <LoadingOverlay v-else />
 </template>
 
 <script>
@@ -116,6 +124,10 @@ export default {
   },
   props: {
     isDemo: {
+      type: Boolean,
+      default: false,
+    },
+    isPublic: {
       type: Boolean,
       default: false,
     },
@@ -170,19 +182,53 @@ export default {
       }
       return null;
     },
+    hasSharedHomeAnalytics() {
+      let sharedAnalytics = this.$store.getters["files/getSharedAnalytics"];
+      if (sharedAnalytics.length > 0) {
+        for (let i = 0; i < sharedAnalytics.length; i++) {
+          if (Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)) {
+            if (
+              sharedAnalytics[i][this.$route.params.pid].homeAnalytics !== undefined
+            ) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    },
+    getSharedHomeAnalytics() {
+      if (this.isPublic === true) {
+        const sharedAnalytics = this.$store.getters["files/getSharedAnalytics"];
+        for (let i = 0; i < sharedAnalytics.length; i++) {
+          if (Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)) {
+            return sharedAnalytics[i][this.$route.params.pid].homeAnalytics;
+          }
+        }
+      }
+      return null;
+    },
     hasFirebaseTime() {
-      return !!this.portfolioInfo.addedAt?._seconds && !!this.portfolioInfo.addedAt?._nanoseconds
+      return (
+        !!this.portfolioInfo.addedAt?._seconds &&
+        !!this.portfolioInfo.addedAt?._nanoseconds
+      );
     },
     hasPortfolios() {
       return this.$store.getters["files/hasPortfolios"];
     },
     getDemo() {
-      return this.$store.getters['files/getDemo'];
+      return this.$store.getters["files/getDemo"];
     },
   },
   watch: {
     hasPortfolios() {
       this.getPortfolioInfo();
+    },
+    hasSharedHomeAnalytics() {
+      if(this.hasSharedHomeAnalytics === true) {
+        this.loadData();
+      }
     },
     hasHomeAnalytics() {
       if (this.hasHomeAnalytics === true) {
@@ -190,7 +236,7 @@ export default {
       }
     },
     hasFirebaseTime() {
-      if(this.hasFirebaseTime === true) {
+      if (this.hasFirebaseTime === true) {
         this.convertFirebaseTime();
       }
     },
@@ -205,20 +251,23 @@ export default {
       if (portfolios.length > 0) {
         for (let i = 0; i < portfolios.length; i++) {
           if (portfolios[i].id === this.$route.params.id) {
-            this.portfolioInfo = portfolios[i]
+            this.portfolioInfo = portfolios[i];
           }
         }
       }
     },
     getDemoPortfolioInfo() {
-      this.portfolioInfo = this.$store.getters['files/getDemoPortfolioInfo']
+      this.portfolioInfo = this.$store.getters["files/getDemoPortfolioInfo"];
     },
     openThreeDots() {
       window.alert("Coming soon!");
     },
     convertFirebaseTime() {
       // als de addedAt nog in de seconds en nanoseconds object format staat
-      if (this.portfolioInfo.addedAt._seconds && this.portfolioInfo.addedAt._nanoseconds) {
+      if (
+        this.portfolioInfo.addedAt._seconds &&
+        this.portfolioInfo.addedAt._nanoseconds
+      ) {
         const firebaseDateTime = new Date(
           this.portfolioInfo.addedAt._seconds * 1000 +
             this.portfolioInfo.addedAt._nanoseconds / 1000000
@@ -238,23 +287,40 @@ export default {
       }
     },
     loadData() {
-      if (this.isDemo === false) {
+      if (!this.isDemo && !this.isPublic) {
         if (this.hasHomeAnalytics === true) {
           this.homeAnalytics = this.getHomeAnalytics;
           this.getPortfolioInfo();
+          this.isLoading = false;
+        } else {
+          this.$store
+            .dispatch("files/fetchPortfolioAnalytics", {
+              type: "home",
+              portfolioId: this.$route.params.id,
+            })
+            .then(() => {
+              this.isLoading = false;
+            });
+        }
+      } else if (this.isDemo) {
+        this.homeAnalytics = this.getDemo.homeAnalytics;
+        this.getDemoPortfolioInfo();
+        this.isLoading = false;
+      } else if (this.isPublic) {
+        if(this.hasSharedHomeAnalytics === true) {
+          this.homeAnalytics = this.getSharedHomeAnalytics;
           this.isLoading = false
         } else {
-          this.$store.dispatch("files/fetchPortfolioAnalytics", {
+        this.$store
+          .dispatch("files/fetchSharedPortfolioAnalytics", {
             type: "home",
-            portfolioId: this.$route.params.id,
-          }).then(() => {
-            this.isLoading = false
+            userId: this.$route.params.uid,
+            portfolioId: this.$route.params.pid,
+          })
+          .then(() => {
+            this.isLoading = false;
           });
         }
-      } else {
-        this.homeAnalytics = this.getDemo.homeAnalytics
-        this.getDemoPortfolioInfo();
-        this.isLoading = false
       }
     },
   },
@@ -266,6 +332,11 @@ export default {
 </script>
 
 <style scoped>
+.sharedPortfolioOwnerText {
+  color: var(--clr-grey);
+  font-weight: 300;
+}
+
 .dashboardSpinner {
   height: 10rem;
 }

@@ -84,6 +84,26 @@ const router = createRouter({
             meta: { requiresAuth: false },
         },
         {
+            path: "/shared/:uid/:pid",
+            component: () => import("./pages/share/ShareDashboardPage.vue")
+        },
+        {
+            path: "/shared/:uid/:pid/deposits",
+            component: () => import("./pages/share/ShareDepositsPage.vue")
+        },
+        {
+            path: "/shared/:uid/:pid/fees",
+            component: () => import("./pages/share/ShareFeesPage.vue")
+        },
+        {
+            path: "/shared/:uid/:pid/trading",
+            component: () => import("./pages/share/ShareTradingPage.vue")
+        },
+        {
+            path: "/shared/:uid/:pid/holdings/:holdingId",
+            component: () => import("./pages/share/ShareHoldingPage.vue")
+        },
+        {
             path: "/:notFound(.*)",
             component: () => import("./pages/error/NotFoundPage.vue"),
         },

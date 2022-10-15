@@ -105,8 +105,10 @@ export default {
           if(this.$route.params.id != null) {
             // default behaviour
             this.$router.push('/dashboard/' + this.$route.params.id + '/holdings/' + this.chartHoldings.isin[data[0].index]);
+          } else if(this.$route.params.uid != null && this.$route.params.pid != null) {
+            this.$router.push('/dashboard/shared/' + this.$route.params.uid + '/' + this.$route.params.pid + '/holdings/' + this.chartHoldings.isin[data[0].index])
           } else {
-            // if is demo, because theres no id param on the demo route
+             // if is demo, because theres no id param on the demo route
             this.$router.push('/dashboard/demo/holdings/' + this.chartHoldings.isin[data[0].index]);
           }
         } 

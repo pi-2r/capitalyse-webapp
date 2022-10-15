@@ -3,6 +3,7 @@
   <section class="container" v-if="!isLoading">
 
     <Breadcrumbs
+      v-if="!isPublic"
       baseLink="/portfolios"
       baseLinkName="Portfolios"
       :secondLink="this.isDemo ? '/dashboard/demo' : '/dashboard/' + this.$route.params.id"
@@ -10,6 +11,12 @@
       thirdLink="#"
       :thirdLinkName="holdingAnalytics.holdingName"
     />
+    <p v-else class="sharedPortfolioOwnerText">
+      {{
+        holdingAnalytics.sharedPortfolioOwner.displayName ||
+        holdingAnalytics.sharedPortfolioOwner.email
+      }}'s portfolio
+    </p>
 
     <section class="titleAndBackButtonContainer">
       <BackButton/>
@@ -76,6 +83,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isPublic: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     isin() {
@@ -122,6 +133,43 @@ export default {
       }
       return null;
     },
+    hasSharedHoldingAnalytics() {
+      let sharedAnalytics = this.$store.getters["files/getSharedAnalytics"];
+      if (sharedAnalytics.length > 0) {
+        for (let i = 0; i < sharedAnalytics.length; i++) {
+          if (
+            sharedAnalytics[i][this.$route.params.pid]?.holdingAnalytics &&
+            this.isin !== undefined
+          ) {
+            if (
+              Object.keys(
+                sharedAnalytics[i][this.$route.params.pid].holdingAnalytics
+              ).includes(this.isin)
+            ) {
+              if (sharedAnalytics[i][this.$route.params.pid].holdingAnalytics) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+      return false;
+    },
+    getSharedHoldingAnalytics() {
+      if (this.isPublic === true) {
+        const sharedAnalytics = this.$store.getters["files/getSharedAnalytics"];
+        for (let i = 0; i < sharedAnalytics.length; i++) {
+          if (
+            Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)
+          ) {
+            return sharedAnalytics[i][this.$route.params.pid].holdingAnalytics[
+              this.isin
+            ];
+          }
+        }
+      }
+      return null;
+    },
     hasPortfolios() {
       return this.$store.getters["files/hasPortfolios"];
     },
@@ -134,7 +182,14 @@ export default {
       this.getPortfolioInfo();
     },
     hasHoldingAnalytics() {
-      this.loadData();
+      if (this.hasHoldingAnalytics === true) {
+        this.loadData();
+      }
+    },
+    hasSharedHoldingAnalytics() {
+      if (this.hasSharedHoldingAnalytics === true) {
+        this.loadData();
+      }
     },
     $route() {
       if(this.isin != null) {
@@ -144,7 +199,7 @@ export default {
   },
   methods: {
     loadData() {
-      if (this.isDemo === false) {
+      if (!this.isDemo && !this.isPublic) {
         if (!this.getHoldingAnalytics?.message) {
           if (this.hasHoldingAnalytics === true) {
             this.holdingAnalytics =
@@ -168,10 +223,27 @@ export default {
             this.$router.back();
           }
         }
-      } else {
-        this.holdingAnalytics = this.getDemo.holdingAnalytics[this.isin].holdingAnalytics
+      } else if (this.isDemo) {
+        this.holdingAnalytics = this.getDemo.holdingAnalytics[this.isin].holdingAnalytics;
         this.getDemoPortfolioInfo();
-        this.isLoading = false
+        this.isLoading = false;
+      } else if (this.isPublic) {
+        if (this.hasSharedHoldingAnalytics === true) {
+          this.holdingAnalytics =
+              this.getSharedHoldingAnalytics["holdingAnalytics"];
+          this.isLoading = false;
+        } else {
+          this.$store
+            .dispatch("files/fetchSharedPortfolioAnalytics", {
+              type: "holdings",
+              isin: this.isin,
+              userId: this.$route.params.uid,
+              portfolioId: this.$route.params.pid,
+            })
+            .then(() => {
+              this.isLoading = false;
+            });
+        }
       }
     },
     getPortfolioInfo() {
@@ -196,6 +268,11 @@ export default {
 </script>
 
 <style scoped>
+.sharedPortfolioOwnerText {
+  color: var(--clr-grey);
+  font-weight: 300;
+}
+
 .isinText {
   color: var(--clr-medium-light-grey);
 }

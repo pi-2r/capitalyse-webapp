@@ -76,7 +76,7 @@ export default {
                 analyticsType === 'holdings' && isin !== undefined ? typeAnalytics = state.analytics[i][portfolioId].holdingAnalytics : null;
                 analyticsType === 'holdings' && isin === undefined ? typeAnalytics = state.analytics[i][portfolioId].holdingsAnalytics : null;
                 
-                // append nieuw analytics
+                // append nieuwe analytics
                 if (!typeAnalytics && isin === undefined) {
                     state.analytics[i][portfolioId] = { ...state.analytics[i][portfolioId], ...data }
                 }
@@ -99,4 +99,41 @@ export default {
             // })
         }
     }, 
+    setSharedAnalytics(state, { data, portfolioId, analyticsType, isin }) {
+        let alrExists = false;
+        for (let i = 0; i < state.sharedAnalytics.length; i++) {
+            const portfolio = state.sharedAnalytics[i];
+            // kijk of portfolioid al bestaat
+            if (Object.keys(portfolio).includes(portfolioId)) {
+                let typeAnalytics;
+                analyticsType === 'home' ? typeAnalytics = state.sharedAnalytics[i][portfolioId].homeAnalytics : null;
+                analyticsType === 'trading' ? typeAnalytics = state.sharedAnalytics[i][portfolioId].tradingAnalytics : null;
+                analyticsType === 'deposits' ? typeAnalytics = state.sharedAnalytics[i][portfolioId].depositsAnalytics : null;
+                analyticsType === 'fees' ? typeAnalytics = state.sharedAnalytics[i][portfolioId].feesAnalytics : null;
+                analyticsType === 'holdings' && isin !== undefined ? typeAnalytics = state.sharedAnalytics[i][portfolioId].holdingAnalytics : null;
+                analyticsType === 'holdings' && isin === undefined ? typeAnalytics = state.sharedAnalytics[i][portfolioId].holdingsAnalytics : null;
+
+                // append nieuwe analytics
+                if (!typeAnalytics && isin === undefined) {
+                    state.sharedAnalytics[i][portfolioId] = { ...state.sharedAnalytics[i][portfolioId], ...data }
+                }
+                // one holding analytics
+                if (analyticsType === 'holdings' && isin !== undefined) {
+                    state.sharedAnalytics[i][portfolioId].holdingAnalytics = { ...state.sharedAnalytics[i][portfolioId].holdingAnalytics, ...{ [isin]: data } }
+                }
+                alrExists = true
+            }
+        }
+
+        if (!alrExists && isin === undefined) {
+            state.sharedAnalytics.push({
+                [portfolioId]: data,
+            });
+        } else if (!alrExists && analyticsType === 'holdings' && isin !== undefined) {
+            state.sharedAnalytics.push({ [portfolioId]: { holdingAnalytics: { [isin]: data } } })
+            // state.sharedAnalytics.holdingAnalytics.push({
+            //     [portfolioId]: { [isin]: data },
+            // })
+        }
+    },
 };

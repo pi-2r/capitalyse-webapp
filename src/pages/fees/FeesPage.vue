@@ -1,15 +1,23 @@
 <template>
   <Header :isDemo="isDemo"></Header>
   <section class="container" v-if="!isLoading">
-
     <Breadcrumbs
+      v-if="!isPublic"
       baseLink="/portfolios"
       baseLinkName="Portfolios"
-      :secondLink="this.isDemo ? '/dashboard/demo' : '/dashboard/' + this.$route.params.id"
+      :secondLink="
+        this.isDemo ? '/dashboard/demo' : '/dashboard/' + this.$route.params.id
+      "
       :secondLinkName="portfolioInfo.portfolioName"
       thirdLink="#"
       thirdLinkName="Fees & Costs"
     />
+    <p v-else class="sharedPortfolioOwnerText">
+      {{
+        feesAnalytics.sharedPortfolioOwner.displayName ||
+        feesAnalytics.sharedPortfolioOwner.email
+      }}'s portfolio
+    </p>
 
     <section class="titleAndBackButtonContainer">
       <BackButton />
@@ -26,7 +34,7 @@
     <!-- <FeesChart/> -->
   </section>
   <section v-else>
-    <LoadingOverlay/>
+    <LoadingOverlay />
   </section>
 </template>
 
@@ -50,6 +58,10 @@ export default {
   },
   props: {
     isDemo: {
+      type: Boolean,
+      default: false,
+    },
+    isPublic: {
       type: Boolean,
       default: false,
     },
@@ -86,13 +98,44 @@ export default {
       return false;
     },
     getDemo() {
-      return this.$store.getters['files/getDemo'];
+      return this.$store.getters["files/getDemo"];
     },
     getFeesAnalytics() {
       const analytics = this.$store.getters["files/getAnalytics"];
       for (let i = 0; i < analytics.length; i++) {
         if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
           return analytics[i][this.$route.params.id].feesAnalytics;
+        }
+      }
+      return null;
+    },
+    hasSharedFeesAnalytics() {
+      let sharedAnalytics = this.$store.getters["files/getSharedAnalytics"];
+      if (sharedAnalytics.length > 0) {
+        for (let i = 0; i < sharedAnalytics.length; i++) {
+          if (
+            Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)
+          ) {
+            if (
+              sharedAnalytics[i][this.$route.params.pid].feesAnalytics !==
+              undefined
+            ) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    },
+    getSharedFeesAnalytics() {
+      if (this.isPublic === true) {
+        const sharedAnalytics = this.$store.getters["files/getSharedAnalytics"];
+        for (let i = 0; i < sharedAnalytics.length; i++) {
+          if (
+            Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)
+          ) {
+            return sharedAnalytics[i][this.$route.params.pid].feesAnalytics;
+          }
         }
       }
       return null;
@@ -106,7 +149,14 @@ export default {
       this.getPortfolioInfo();
     },
     hasFeesAnalytics() {
-      this.loadData();
+      if (this.hasFeesAnalytics === true) {
+        this.loadData();
+      }
+    },
+    hasSharedFeesAnalytics() {
+      if (this.hasSharedFeesAnalytics === true) {
+        this.loadData();
+      }
     },
     $route() {
       this.loadData();
@@ -118,43 +168,65 @@ export default {
       if (portfolios.length > 0) {
         for (let i = 0; i < portfolios.length; i++) {
           if (portfolios[i].id === this.$route.params.id) {
-            this.portfolioInfo = portfolios[i]
+            this.portfolioInfo = portfolios[i];
           }
         }
       }
     },
     getDemoPortfolioInfo() {
-      this.portfolioInfo = this.$store.getters['files/getDemoPortfolioInfo']
+      this.portfolioInfo = this.$store.getters["files/getDemoPortfolioInfo"];
     },
     loadData() {
-      if (this.isDemo === false) {
+      if (!this.isDemo && !this.isPublic) {
         if (this.hasFeesAnalytics === true) {
           this.feesAnalytics = this.getFeesAnalytics;
-          this.getPortfolioInfo()
-          this.isLoading = false
+          this.getPortfolioInfo();
+          this.isLoading = false;
         } else {
-          this.$store.dispatch("files/fetchPortfolioAnalytics", {
-            type: "fees",
-            portfolioId: this.$route.params.id,
-          }).then(() => {
-            this.isLoading = false
-          });
+          this.$store
+            .dispatch("files/fetchPortfolioAnalytics", {
+              type: "fees",
+              portfolioId: this.$route.params.id,
+            })
+            .then(() => {
+              this.isLoading = false;
+            });
         }
-      } else {
-        this.feesAnalytics = this.getDemo.feesAnalytics
+      } else if (this.isDemo) {
+        this.feesAnalytics = this.getDemo.feesAnalytics;
         this.getDemoPortfolioInfo();
-        this.isLoading = false
+        this.isLoading = false;
+      } else if (this.isPublic) {
+        if (this.hasSharedFeesAnalytics === true) {
+          this.feesAnalytics = this.getSharedFeesAnalytics;
+          this.isLoading = false;
+        } else {
+          this.$store
+            .dispatch("files/fetchSharedPortfolioAnalytics", {
+              type: "fees",
+              userId: this.$route.params.uid,
+              portfolioId: this.$route.params.pid,
+            })
+            .then(() => {
+              this.isLoading = false;
+            });
+        }
       }
     },
   },
   created() {
-    this.isLoading = true
+    this.isLoading = true;
     this.loadData();
   },
 };
 </script>
 
 <style scoped>
+.sharedPortfolioOwnerText {
+  color: var(--clr-grey);
+  font-weight: 300;
+}
+
 .titleAndBackButtonContainer {
   display: flex;
   align-items: center;

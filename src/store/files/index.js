@@ -8,6 +8,8 @@ export default {
         return {
             portfolios: [],
             analytics: [],
+            sharedAnalytics: [],
+
             demoPortfolio: [
                 { "id": "demo", "transactionsFileSize": 12.90234375, "accountFileSize": 0.37890625, "portfolioFileUrl": "", "portfolioFileSize": 72.4345703125, "accountFileUrl": "", "portfolioName": "Capitalyse Demo", "addedAt": { "_seconds": 1664739429, "_nanoseconds": 326000000 }, "transactionsFileUrl": "" }
             ],

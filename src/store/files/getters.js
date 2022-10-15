@@ -38,4 +38,7 @@ export default {
     getDemoPortfolioInfo(state) {
         return state.demoPortfolio[0]
     },
+    getSharedAnalytics(state) {
+        return state.sharedAnalytics
+    }
 };

@@ -1,15 +1,6 @@
 <template>
   <td class="name">
-     <router-link v-if="!isDemo" class="holdingName" :to="'/dashboard/' + portfolioId + '/holdings/' + holding.isin">
-      {{ holding.name }}
-      <Icon
-        class="holdingName__icon"
-        icon="fa6-solid:arrow-right"
-        color="var(--clr-blue)"
-        height="13"
-      />
-    </router-link>
-    <router-link v-else  class="holdingName" :to="'/dashboard/demo/holdings/' + holding.isin">
+     <router-link class="holdingName" :to="toLink">
       {{ holding.name }}
       <Icon
         class="holdingName__icon"
@@ -43,9 +34,22 @@ export default {
     isDemo: {
       type: Boolean,
       default: false,
-    }
+    },
+    isPublic: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
+    toLink() {
+      if(this.isDemo === true) {
+        return '/dashboard/demo/holdings/' + this.holding.isin;
+      } else if(this.isPublic === true) {
+        return `/shared/${this.$route.params.uid}/${this.$route.params.pid}/holdings/${this.holding.isin}`
+      } else {
+        return `/dashboard/${this.portfolioId}/holdings/${this.holding.isin}`;
+      }
+    },
     portfolioId() {
       return this.$route.params.id;
     }
