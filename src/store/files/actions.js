@@ -23,7 +23,7 @@ import {
 
 const db = getFirestore();
 
-const API_BASE = 'https://capitalyse-backend.herokuapp.com'
+const API_BASE = 'https://capitalyse.herokuapp.com'
 // const API_BASE = 'http://localhost:3000'
 
 export default {
