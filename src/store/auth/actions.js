@@ -92,7 +92,7 @@ export default {
         context.commit("resetAuthState");
     },
     tryLogin(context) {
-        const token = localStorage.getItem("token") + 'asdf';
+        const token = localStorage.getItem("token");
         const userId = localStorage.getItem("userId");
 
         if (token && userId) {
