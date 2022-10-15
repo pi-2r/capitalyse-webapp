@@ -99,9 +99,4 @@ export default {
             // })
         }
     }, 
-    setIsUnauthorized(state, payload) {
-        if (payload === true || payload === false) {
-            state.isUnauthorized = payload;
-        }
-    }
 };

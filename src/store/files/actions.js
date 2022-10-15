@@ -39,9 +39,6 @@ export default {
     setUploadingState(context, uploadingState) {
         context.commit('setUploadingState', uploadingState);
     },
-    setIsUnauthorizedState(context, payload) {
-        context.commit('setIsUnauthorized', payload)
-    },
     async createNewPortfolio(context, payload) {
         const API_URL = '/api/portfolios/new'
 
