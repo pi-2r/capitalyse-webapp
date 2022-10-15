@@ -47,6 +47,7 @@ export default {
     window.addEventListener("scroll", this.resetTimer);
     this.$store.dispatch("tryLogin");
     this.startTimer();
+    console.log(this.hasTokenExpired);
   },
   unmounted() {
     window.removeEventListener("scroll", this.resetTimer);
@@ -63,6 +64,10 @@ export default {
   computed: {
     isAuth() {
       return this.$store.getters["isAuthenticated"];
+    },
+    hasTokenExpired() {
+      // check if token has expired
+      return this.$store.getters["files/getIsUnauthorized"]
     },
   },
   methods: {

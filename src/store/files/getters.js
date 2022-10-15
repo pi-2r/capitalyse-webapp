@@ -37,5 +37,8 @@ export default {
     },
     getDemoPortfolioInfo(state) {
         return state.demoPortfolio[0]
+    },
+    getIsUnauthorized(state) {
+        return state.isUnauthorized
     }
 };

@@ -17,5 +17,5 @@ export default {
     },
     setProfileData(state, payload) {
         state.profileData = payload;
-    }
+    },
 };

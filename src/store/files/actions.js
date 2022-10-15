@@ -39,6 +39,9 @@ export default {
     setUploadingState(context, uploadingState) {
         context.commit('setUploadingState', uploadingState);
     },
+    setIsUnauthorizedState(context, payload) {
+        context.commit('setIsUnauthorized', payload)
+    },
     async createNewPortfolio(context, payload) {
         const API_URL = '/api/portfolios/new'
 
@@ -84,11 +87,17 @@ export default {
             headers: new Headers({
                 'Authorization': 'Bearer ' + token,
             })
-        }).then((response) => response.json())
-            .then(data => {
-                if (data.message === 'unauthorized') {
-                    // this.dispatch('logout')
+        }).then((response) => {
+            // log out if invalid token
+            if (!response.ok) {
+                console.log(response.status);
+                if (response.status === 401) {
+                    this.dispatch('logout')
                 }
+            }
+            return response.json()
+        })
+            .then(data => {
                 let portfolios = []
                 for (let i = 0; i < data.length; i++) {
                     const portfolio = data[i];
@@ -121,12 +130,15 @@ export default {
                 })
             })
                 .then((response) => {
+                    // log out if invalid token
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            this.dispatch('logout')
+                        }
+                    }
                     return response.json()
                 })
                 .then(data => {
-                    if (data.message === 'unauthorized') {
-                        // this.dispatch('logout')
-                    }
                     context.commit("setAnalytics", { data: data, portfolioId: portfolioId, analyticsType: analyticsType, isin: payload.isin });
                 }).catch((e) => {
                     console.log(e);
@@ -161,11 +173,17 @@ export default {
                 'Authorization': 'Bearer ' + token,
             })
         })
-            .then((response) => response.json())
+            .then((response) => {
+                // log out if invalid token
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        this.dispatch('logout')
+                    }
+                }
+                return response.json()
+            })
             .then((data) => {
-                if (data.message === 'unauthorized') {
-                    this.dispatch('logout')
-                } else if (data.message === 'delete-success') {
+                if (data.message === 'delete-success') {
                     context.commit("deletePortfolio", portfolioId);
                 }
             }).catch((e) => {

@@ -97,8 +97,11 @@ export default {
             // state.analytics.holdingAnalytics.push({
             //     [portfolioId]: { [isin]: data },
             // })
-            
         }
     }, 
-   
+    setIsUnauthorized(state, payload) {
+        if (payload === true || payload === false) {
+            state.isUnauthorized = payload;
+        }
+    }
 };
