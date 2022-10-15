@@ -38,7 +38,7 @@ export default {
   name: "App",
   data() {
     return {
-      timeoutInMs: 6 * 1000,
+      timeoutInMs: 10 * 60 * 1000,
       lastMove: 0,
       hasTimeRunOut: false,
     };
