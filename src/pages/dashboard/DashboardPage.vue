@@ -26,18 +26,13 @@
             {{ homeAnalytics.startDate ? homeAnalytics.startDate : "--/--/--" }}
           </p>
           <p class="startDate">
-            Uploaded date:
+            Uploaded on
             {{ portfolioInfo.addedAt ? portfolioInfo.addedAt : "--/--/--" }}
           </p>
         </section>
-        <!-- <section class="head__rightSection-icon">
-          <Icon
-            @click="openThreeDots"
-            class="head_"
-            icon="entypo:dots-three-vertical"
-            height="18"
-          />
-        </section> -->
+        <section class="head__rightSection-icon">
+          <ThreeDotsPopup/>
+        </section>
       </section>
     </section>
 
@@ -93,7 +88,6 @@
 </template>
 
 <script>
-// import { Icon } from "@iconify/vue";
 
 import Header from "@/components/layout/Header.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
@@ -106,6 +100,7 @@ import TradeCountCard from "./components/TradeCountCard.vue";
 import PortfolioCards from "./components/PortfolioCards.vue";
 import HoldingsPieChartCards from "./components/HoldingsPieChartCards.vue";
 import HoldingsList from "./components/HoldingsList.vue";
+import ThreeDotsPopup from './components/ThreeDotsPopup.vue'
 
 export default {
   name: "Dashboard",
@@ -118,6 +113,7 @@ export default {
     Breadcrumbs,
     // BackButton,
     PortfolioCards,
+    ThreeDotsPopup,
     // Icon,
     HoldingsPieChartCards,
     HoldingsList,

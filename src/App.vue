@@ -16,7 +16,8 @@
         >
           <h1 class="loginTimeoutModal__title">You've been logged out</h1>
           <p class="loginTimeoutModal__text">
-            You have been logged out due to inactivity. Please authenticate yourself again.
+            You have been logged out due to inactivity. Please authenticate
+            yourself again.
           </p>
           <Button class="loginTimeoutModal__btn" @click="hasTimeRunOut = false"
             >Continue</Button
@@ -47,6 +48,8 @@ export default {
     window.addEventListener("scroll", this.resetTimer);
     this.$store.dispatch("tryLogin");
     this.startTimer();
+
+    this.wakeUpHeroku();
   },
   unmounted() {
     window.removeEventListener("scroll", this.resetTimer);
@@ -66,6 +69,16 @@ export default {
     },
   },
   methods: {
+    wakeUpHeroku() {
+      // wake up heroku on site load for faster wakeup
+      fetch(
+        (process.env.VUE_APP_API_BASE || "https://capitalyse.herokuapp.com") +
+          "/api/ping",
+        {
+          method: "GET",
+        }
+      );
+    },
     fetchAllPortfolios() {
       this.$store.dispatch("files/fetchAllPortfolios");
     },

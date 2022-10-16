@@ -5,7 +5,7 @@ import { getFirestore, doc, getDoc } from "firebase/firestore";
 const db = getFirestore();
 
 // const API_BASE = 'https://capitalyse.herokuapp.com'
-const API_BASE = 'http://localhost:3000'
+const API_BASE = process.env.VUE_APP_API_BASE || 'https://capitalyse.herokuapp.com'
 
 export default {
     resetPasswordEmail(email) {
