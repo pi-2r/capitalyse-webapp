@@ -20,7 +20,7 @@
         </section>
       </section>
       <section class="head__rightSection">
-        <section class="header__rightSection-dates">
+        <section class="header__rightSection-dates" v-if="!isDemo">
           <p class="startDate">
             Investing for
             {{ homeAnalytics.startDate ? homeAnalytics.startDate : "--/--/--" }}
@@ -31,7 +31,7 @@
           </p>
         </section>
         <section class="head__rightSection-icon">
-          <ThreeDotsPopup/>
+          <ThreeDotsPopup v-if="!isPublic && !isDemo" :isPublic="portfolioInfo.isPublic"/>
         </section>
       </section>
     </section>

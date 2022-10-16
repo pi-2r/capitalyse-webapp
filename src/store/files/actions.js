@@ -165,6 +165,34 @@ export default {
                 })
         }
     },
+    async setPortfolioPublicity(context, payload) {
+        if (payload.isPublic === false || payload.isPublic === true) {
+            const portfolioId = payload.portfolioId;
+            const API_URL = `/api/portfolios/${portfolioId}/ispublic`
+
+            const token = context.rootGetters.token
+            await fetch(API_BASE + API_URL, {
+                method: 'PUT',
+                headers: new Headers({
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }),
+                body: JSON.stringify({
+                    isPublic: payload.isPublic,
+                })
+            }).then((response) => {
+                // log out if invalid token
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        this.dispatch('logout')
+                    }
+                }
+                return response.json()
+            }).catch((e) => {
+                    console.log(e);
+                })
+        }
+    },
     editPortfolioName(context, payload) {
         const userId = context.rootGetters.userId;
         const portfolioId = payload.id;
@@ -209,6 +237,6 @@ export default {
             }).catch((e) => {
                 console.log(e);
             })
+    },
 
-    }
 };

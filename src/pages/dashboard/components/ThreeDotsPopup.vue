@@ -1,8 +1,12 @@
 <template>
+  <section
+    class="popupOverlay"
+    v-if="isPopupVisible"
+    @click="togglePopup"
+  ></section>
   <section class="dropdown">
     <Icon
       @click="togglePopup"
-      class="head_"
       icon="entypo:dots-three-vertical"
       height="20"
     />
@@ -13,12 +17,13 @@
         <section class="dropDownItem">
           <section class="dropDownItem__checkBoxItem">
             <input
+              @click="updatePublicState"
               type="checkbox"
               v-model="isPortfolioPublic"
               name="public"
               id="public"
             />
-            <label for="public">Make public</label>
+            <label for="public">Public portfolio</label>
           </section>
 
           <transition mode="out-in" name="slide-fade">
@@ -51,10 +56,16 @@ import { Icon } from "@iconify/vue";
 export default {
   data() {
     return {
-      isPopupVisible: true,
-      isPortfolioPublic: true,
+      isPopupVisible: false,
       justClickedCopy: false,
+      isPortfolioPublic: false,
     };
+  },
+  props: {
+    isPublic: {
+      type: Boolean,
+      default: false,
+    }
   },
   components: {
     Icon,
@@ -68,9 +79,20 @@ export default {
       }
     },
   },
+  watch: {
+    isPublic() {
+      this.setData()
+    }
+  },
   methods: {
     togglePopup() {
       this.isPopupVisible = !this.isPopupVisible;
+    },
+    updatePublicState() {
+      this.$store.dispatch('files/setPortfolioPublicity', {
+        portfolioId: this.$route.params.id,
+        isPublic: !this.isPortfolioPublic,
+      });
     },
     async copyPublicURL() {
       try {
@@ -86,10 +108,27 @@ export default {
         console.log(e);
       }
     },
+    setData() {
+      this.isPortfolioPublic = this.isPublic
+    }
   },
+  created() {
+    this.setData()
+  }
 };
 </script>
 <style scoped>
+.popupOverlay {
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  cursor: auto;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .explanation {
   font-size: 0.75rem;
   color: var(--clr-medium-light-grey-2);
@@ -134,12 +173,12 @@ input {
   display: block;
   position: absolute;
   right: 0;
-  top: 2.5rem;
+  top: 1.8rem;
   background-color: var(--clr-white);
   border: 1px solid var(--clr-medium-light-grey);
   border-radius: var(--card-border-radius);
   box-shadow: var(--box-shadow-small);
-  min-width: 12rem;
+  min-width: 15rem;
   z-index: 99999;
   padding: 0.5rem;
 }
