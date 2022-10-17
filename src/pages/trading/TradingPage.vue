@@ -1,14 +1,23 @@
 <template>
   <Header :isDemo="isDemo"></Header>
   <section class="container" v-if="!isLoading">
-      <Breadcrumbs
+    <Breadcrumbs
+      v-if="!isPublic"
       baseLink="/portfolios"
       baseLinkName="Portfolios"
-      :secondLink="this.isDemo ? '/dashboard/demo' : '/dashboard/' + this.$route.params.id"
+      :secondLink="
+        this.isDemo ? '/dashboard/demo' : '/dashboard/' + this.$route.params.id
+      "
       :secondLinkName="portfolioInfo.portfolioName"
       thirdLink="#"
       thirdLinkName="Trading"
     />
+    <p v-else class="sharedPortfolioOwnerText">
+      {{
+        tradingAnalytics.sharedPortfolioOwner.displayName ||
+        tradingAnalytics.sharedPortfolioOwner.email
+      }}'s portfolio
+    </p>
 
     <section class="titleAndBackButtonContainer">
       <BackButton />
@@ -16,13 +25,21 @@
     </section>
 
     <section class="cardsContainer">
-      <TradeCountCard :withBtn="false" :totalTradeCount="tradingAnalytics.totalTradeCount"/>
-      <MostFreqBuyOrSell :mostFrequentBuysList="tradingAnalytics.mostFrequentBuysList" :mostFrequentSellsList="tradingAnalytics.mostFrequentSellsList"/>
-      <MostFreqTradedCard :mostFrequentlyTradedList="tradingAnalytics.mostFrequentlyTradedList"/>
+      <TradeCountCard
+        :withBtn="false"
+        :totalTradeCount="tradingAnalytics.totalTradeCount"
+      />
+      <MostFreqBuyOrSell
+        :mostFrequentBuysList="tradingAnalytics.mostFrequentBuysList"
+        :mostFrequentSellsList="tradingAnalytics.mostFrequentSellsList"
+      />
+      <MostFreqTradedCard
+        :mostFrequentlyTradedList="tradingAnalytics.mostFrequentlyTradedList"
+      />
     </section>
   </section>
   <section v-else>
-    <LoadingOverlay/>
+    <LoadingOverlay />
   </section>
 </template>
 
@@ -49,6 +66,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isPublic: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -61,8 +82,8 @@ export default {
       },
       portfolioInfo: {
         portfolioName: null,
-      }
-    }
+      },
+    };
   },
   computed: {
     portfolioName() {
@@ -92,19 +113,57 @@ export default {
       }
       return null;
     },
+    hasSharedTradingAnalytics() {
+      let sharedAnalytics = this.$store.getters["files/getSharedAnalytics"];
+      if (sharedAnalytics.length > 0) {
+        for (let i = 0; i < sharedAnalytics.length; i++) {
+          if (
+            Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)
+          ) {
+            if (
+              sharedAnalytics[i][this.$route.params.pid].tradingAnalytics !==
+              undefined
+            ) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    },
+    getSharedTradingAnalytics() {
+      if (this.isPublic === true) {
+        const sharedAnalytics = this.$store.getters["files/getSharedAnalytics"];
+        for (let i = 0; i < sharedAnalytics.length; i++) {
+          if (
+            Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)
+          ) {
+            return sharedAnalytics[i][this.$route.params.pid].tradingAnalytics;
+          }
+        }
+      }
+      return null;
+    },
     hasPortfolios() {
       return this.$store.getters["files/hasPortfolios"];
     },
     getDemo() {
-      return this.$store.getters['files/getDemo'];
+      return this.$store.getters["files/getDemo"];
     },
   },
   watch: {
     hasPortfolios() {
       this.getPortfolioInfo();
     },
+    hasSharedTradingAnalytics() {
+      if (this.hasSharedTradingAnalytics === true) {
+        this.loadData();
+      }
+    },
     hasTradingAnalytics() {
-      this.loadData();
+      if (this.hasTradingAnalytics === true) {
+        this.loadData();
+      }
     },
     $route() {
       this.loadData();
@@ -112,23 +171,40 @@ export default {
   },
   methods: {
     loadData() {
-      if (this.isDemo === false) {
+      if (!this.isDemo && !this.isPublic) {
         if (this.hasTradingAnalytics === true) {
           this.tradingAnalytics = this.getTradingAnalytics;
           this.getPortfolioInfo();
-          this.isLoading = false
+          this.isLoading = false;
         } else {
-          this.$store.dispatch("files/fetchPortfolioAnalytics", {
-            type: "trading",
-            portfolioId: this.$route.params.id,
-          }).then(() => {
-            this.isLoading = false
-          });
+          this.$store
+            .dispatch("files/fetchPortfolioAnalytics", {
+              type: "trading",
+              portfolioId: this.$route.params.id,
+            })
+            .then(() => {
+              this.isLoading = false;
+            });
         }
-      } else {
-        this.tradingAnalytics = this.getDemo.tradingAnalytics
+      } else if (this.isDemo) {
+        this.tradingAnalytics = this.getDemo.tradingAnalytics;
         this.getDemoPortfolioInfo();
-        this.isLoading = false
+        this.isLoading = false;
+      } else if (this.isPublic) {
+        if (this.hasSharedTradingAnalytics === true) {
+          this.tradingAnalytics = this.getSharedTradingAnalytics;
+          this.isLoading = false;
+        } else {
+          this.$store
+            .dispatch("files/fetchSharedPortfolioAnalytics", {
+              type: "trading",
+              userId: this.$route.params.uid,
+              portfolioId: this.$route.params.pid,
+            })
+            .then(() => {
+              this.isLoading = false;
+            });
+        }
       }
     },
     getPortfolioInfo() {
@@ -142,7 +218,7 @@ export default {
       }
     },
     getDemoPortfolioInfo() {
-      this.portfolioInfo = this.$store.getters['files/getDemoPortfolioInfo']
+      this.portfolioInfo = this.$store.getters["files/getDemoPortfolioInfo"];
     },
     setCurrentPortfolio(id) {
       this.$store.dispatch("files/setCurrentPortfolio", id);
@@ -152,13 +228,18 @@ export default {
     },
   },
   created() {
-    this.isLoading = true
+    this.isLoading = true;
     this.loadData();
   },
 };
 </script>
 
 <style scoped>
+.sharedPortfolioOwnerText {
+  color: var(--clr-grey);
+  font-weight: 300;
+}
+
 .titleAndBackButtonContainer {
   display: flex;
   align-items: center;
