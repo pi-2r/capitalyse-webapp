@@ -39,6 +39,12 @@
                 autocomplete="current-password"
                 @keyup.enter="submitForm"
               />
+              <p class="forgotPassword">
+              
+              <router-link to="/resetpassword" class="secondaryLink">
+                Forgot your password?
+              </router-link>
+            </p>
             </section>
             <p class="error">
               <Icon
@@ -55,12 +61,13 @@
               </section>
               <span v-else>Log in</span>
             </Button>
-            <span class="toOtherAuth">
+            <p class="toOtherAuth">
               Don't have an account?
               <router-link to="/signup" class="secondaryLink">
                 Sign up
               </router-link>
-            </span>
+            </p>
+            
 
           </form>
         </section>
@@ -150,6 +157,12 @@ export default {
 .toOtherAuth {
   font-size: 0.9rem;
   color: var(--clr-grey);
+}
+
+.forgotPassword {
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+  text-align: right;
 }
 
 .subTitle {

@@ -1,12 +1,24 @@
 <template>
   <input
     class="input"
+    :value="value"
+    @input="handleInput"
   />
 </template>
 
 <script>
 export default {
-  
+  props: ['value'],
+  data() {
+    return {
+      content: this.value,
+    }
+  },
+  methods: {
+    handleInput() {
+      this.$emit('input', this.content)
+    }
+  }
 }
 </script>
 

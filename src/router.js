@@ -104,6 +104,10 @@ const router = createRouter({
             component: () => import("./pages/share/ShareHoldingPage.vue")
         },
         {
+            path: "/resetpassword",
+            component: () => import("./pages/resetpassword/ResetPasswordPage.vue")
+        },
+        {
             path: "/:notFound(.*)",
             component: () => import("./pages/error/NotFoundPage.vue"),
         },
