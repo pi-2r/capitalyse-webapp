@@ -28,7 +28,7 @@
     --box-shadow: 0px 2px 10px 0px rgba(41, 63, 100, 0.13);
     --box-shadow-medium: 0px 0px 10px 0px rgba(0, 0, 0, 0.07);
     --box-shadow-big: rgba(0, 0, 0, 0.025) 2px 2px 4px 0px;
-    --card-border-radius: 0.65rem;
+    --card-border-radius: 1rem;
 
     --header-height: 4rem;
     --clr-footer-background: var(--clr-white);
