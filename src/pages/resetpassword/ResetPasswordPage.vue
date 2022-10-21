@@ -12,20 +12,33 @@
       </p>
       <section v-if="!hasEmailBeenSent">
         <label for="inputEmail">E-mail address</label>
-        <input type="email" class="input" v-model="email" />
+        <input
+          type="email"
+          class="input"
+          v-model="email"
+          @keyup.enter="sendEmail"
+        />
         <p class="errorMessage" v-if="errorMessage !== null">
           <Icon icon="akar-icons:circle-alert-fill" />
           {{ errorMessage }}
         </p>
-        <Button @click="sendEmail">Continue</Button>
+        <Button @click="sendEmail">
+          <Spinner v-if="isLoading" :btnSpinner="true" />
+          <span v-else>Continue</span>
+        </Button>
       </section>
 
-      <section v-if="hasEmailBeenSent" class="resetPassword__emailSentCard">
-        <Icon icon="akar-icons:circle-check-fill" />
-        A reset password e-mail has been sent to your account, be sure to check
-        your spam.
-        <Button @click="backToLogin">Return to login</Button>
-      </section>
+      <transition mode="out-in" name="slide-fade">
+        <section v-if="hasEmailBeenSent" class="resetPassword__emailSentCard">
+          <Icon
+            icon="akar-icons:check-box-fill"
+            class="resetPassword__emailSentIcon"
+          />
+          A reset password e-mail has been sent to your inbox, be sure to also
+          check your spam.
+          <Button type="submit" @click="backToLogin">Return to login</Button>
+        </section>
+      </transition>
     </Card>
   </section>
 </template>
@@ -46,15 +59,18 @@ export default {
       email: "",
       errorMessage: null,
       hasEmailBeenSent: false,
+      isLoading: false,
     };
   },
   methods: {
     sendEmail() {
+      this.isLoading = true;
       this.errorMessage = null;
       sendPasswordResetEmail(this.auth, this.email)
         .then(() => {
           console.log("sent");
           this.hasEmailBeenSent = true;
+          this.isLoading = false;
         })
         .catch((e) => {
           const error = JSON.parse(JSON.stringify(e)).code;
@@ -67,6 +83,7 @@ export default {
           } else if (error === "auth/user-not-found") {
             this.errorMessage = "Account does not exist.";
           }
+          this.isLoading = false;
         });
     },
     backToLogin() {
@@ -77,10 +94,21 @@ export default {
 </script>
 
 <style scoped>
+.resetPassword__emailSentIcon {
+  background-color: var(--clr-very-light-blue);
+  border-radius: 0.25rem;
+  padding: 0;
+  position: absolute;
+  top: -0.55rem;
+  right: 52%;
+  transform: scale(1.75);
+}
+
 .resetPassword__emailSentCard {
-  border: 1px solid var(--clr-green);
-  background-color: rgba(0, 128, 0, 0.072);
-  color: var(--clr-green);
+  position: relative;
+  border: 1px solid var(--clr-blue);
+  background-color: rgba(0, 102, 255, 0.05);
+  color: var(--clr-blue);
   padding: 1rem;
   border-radius: var(--btn-radius);
   margin-top: 1rem;
@@ -151,6 +179,19 @@ label {
   margin: 0 auto;
   margin-bottom: 4rem;
   margin-top: 3rem;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.75s ease;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.75s ease;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0;
 }
 
 @media screen and (min-width: 400px) {
