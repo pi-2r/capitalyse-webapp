@@ -68,7 +68,6 @@ export default {
       this.errorMessage = null;
       sendPasswordResetEmail(this.auth, this.email)
         .then(() => {
-          console.log("sent");
           this.hasEmailBeenSent = true;
           this.isLoading = false;
         })

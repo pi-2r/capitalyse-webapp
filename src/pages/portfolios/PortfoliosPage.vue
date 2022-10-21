@@ -1,31 +1,4 @@
 <template>
-  <transition name="slide-fade" mode="out-in">
-    <ConfirmModal
-      class="deletePopup"
-      @click-outside-popup="isDeletePopupOpen = false"
-      v-if="isDeletePopupOpen"
-    >
-      <h1>Are you sure?</h1>
-      <p>
-        Are you sure you want to permanently delete this portfolio? This action
-        can not be reversed.
-      </p>
-      <section class="deletePopup__btns">
-        <Button class="deletePopup__btn deleteBtn" @click="deletePortfolio">
-          <Icon
-            icon="bxs:trash"
-            color="var(--clr-white)"
-            height="22"
-            class="deleteBtnIcon"
-          />
-          Delete
-        </Button>
-        <Button class="deletePopup__btn noBtn" @click="toggleDeletePopup"
-          >Cancel</Button
-        >
-      </section>
-    </ConfirmModal>
-  </transition>
 
   <Header></Header>
 
@@ -64,7 +37,6 @@
             <TransitionGroup name="portfolioList">
             <tr :key="portfolio.id" v-for="portfolio in portfolios">
               <PortfolioListItem
-                @toggleDeletePopup="toggleDeletePopup"
                 :portfolio="portfolio"
               />
             </tr>
@@ -104,7 +76,6 @@
 import { Icon } from "@iconify/vue";
 
 import Header from "@/components/layout/Header.vue";
-import ConfirmModal from "@/components/ui/ConfirmModal.vue";
 import Card from "@/components/ui/Card.vue";
 
 import PortfolioListItem from "@/pages/portfolios/components/PortfolioListItem.vue";
@@ -115,14 +86,11 @@ export default {
     PortfolioListItem,
     Icon,
     Card,
-    ConfirmModal,
   },
   data() {
     return {
       isLoading: false,
       portfolios: [],
-      isDeletePopupOpen: false,
-      deletePortfolioId: null,
     };
   },
   computed: {
@@ -186,20 +154,6 @@ export default {
       this.portfolios.sort((a, b) => {
         return new Date(b.addedAt) - new Date(a.addedAt);
       });
-    },
-    // send request to store to delete portfolio
-    deletePortfolio() {
-      const id = this.deletePortfolioId;
-      this.$store.dispatch("files/deletePortfolio", id);
-      this.portfolios = this.portfolios.filter(
-        (portfolio) => portfolio.id !== id
-      );
-      this.toggleDeletePopup();
-    },
-    // toggle popup to delete portfolio
-    toggleDeletePopup(id) {
-      this.isDeletePopupOpen = !this.isDeletePopupOpen;
-      this.deletePortfolioId = id;
     },
   },
   created() {
@@ -273,7 +227,6 @@ export default {
 
 .tablecontainer {
   margin-top: 1.5rem;
-  min-width: 20rem;
 }
 
 .tableBorder {
@@ -333,57 +286,7 @@ tr:nth-last-child(1) {
   text-align: right;
 }
 
-/* delete popup */
-.deletePopup h1 {
-  margin-bottom: 1rem;
-  color: var(--clr-red);
-}
 
-.deletePopup p {
-  margin-bottom: 1.4rem;
-  font-weight: 400;
-}
-
-.deletePopup__btns {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.deletePopup__btn {
-  height: 3rem;
-  border-radius: var(--btn-radius);
-  border: none;
-  background-color: var(--clr-blue);
-  color: var(--white-color);
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: 0.15s all;
-  width: 48%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.deletePopup__btn:hover {
-  box-shadow: var(--box-shadow);
-}
-
-.deleteBtn {
-  background-color: var(--clr-red);
-  color: var(--clr-white);
-}
-
-.deleteBtnIcon {
-  margin-right: 0.4rem;
-}
-
-.noBtn {
-  background-color: var(--clr-white);
-  color: var(--clr-grey);
-  border: 1px solid var(--clr-grey);
-  cursor: pointer;
-}
 
 @media screen and (min-width: 400px) {
   .container {
@@ -421,22 +324,6 @@ tr:nth-last-child(1) {
     margin-bottom: 1.5rem;
   }
 
-  .deletePopup__btns {
-    flex-direction: column;
-  }
-
-  .deletePopup__btn {
-    width: 100%;
-  }
-
-  .deleteBtn {
-    margin-bottom: 1rem;
-    order: 1;
-  }
-
-  .noBtn {
-    order: 2;
-  }
 
   .fileSize {
     display: none;

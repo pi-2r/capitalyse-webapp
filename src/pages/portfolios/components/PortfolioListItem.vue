@@ -14,18 +14,17 @@
     {{ dateToWords(portfolio.addedAt) }}
   </td>
   <td align='right' class="fileSize">{{ totalFileSize }} KB</td>
-  <td class="actionsTd">
+  <!-- <td class="actionsTd"> -->
     <!-- update and edit -->
     <!-- <Icon icon="fluent:new-16-filled" color="var(--clr-blue)" height="22" class="actionBtn"/> -->
     <!-- <Icon icon="ci:edit"  height="22" color="orange" class="actionBtn"/> -->
-
+<!-- 
     <Icon
       icon="bxs:trash"
       height="20"
       class="actionBtn"
-      @click="$emit('toggleDeletePopup', portfolio.id)"
-    />
-  </td>
+    /> -->
+  <!-- </td> -->
 </template>
 
 <script>
@@ -38,7 +37,6 @@ export default {
   components: {
     Icon,
   },
-  emits: ["toggleDeletePopup"],
   props: {
     portfolio: {
       type: Object,
@@ -96,6 +94,13 @@ export default {
   border-radius: 1000rem;
 }
 
+.dateAdded {
+  padding-left: 0;
+}
+.portfolioNameTd {
+  padding-right: 0;
+}
+
 .actionBtn:hover {
   cursor: pointer;
   color: var(--clr-red);
@@ -124,7 +129,7 @@ export default {
 }
 
 td {
-  padding: 1.1rem 1.5rem;
+  padding: 1rem 1.5rem;
   background-color: transparent;
   color: var(--clr-grey);
   font-size: 0.9rem;

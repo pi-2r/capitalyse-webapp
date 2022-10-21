@@ -30,8 +30,11 @@
             {{ portfolioInfo.addedAt ? portfolioInfo.addedAt : "--/--/--" }}
           </p>
         </section>
-        <section class="head__rightSection-icon">
-          <ThreeDotsPopup v-if="!isPublic && !isDemo" :isPublic="portfolioInfo.isPublic"/>
+        <section v-if="!isPublic && !isDemo">
+          <router-link :to="'/dashboard/' + this.$route.params.id + '/settings'">
+          <Icon icon="ci:settings" height="25" class="head__rightSection-icon"/>
+          </router-link>
+
         </section>
       </section>
     </section>
@@ -88,6 +91,7 @@
 </template>
 
 <script>
+import {Icon} from '@iconify/vue'
 
 import Header from "@/components/layout/Header.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
@@ -100,7 +104,6 @@ import TradeCountCard from "./components/TradeCountCard.vue";
 import PortfolioCards from "./components/PortfolioCards.vue";
 import HoldingsPieChartCards from "./components/HoldingsPieChartCards.vue";
 import HoldingsList from "./components/HoldingsList.vue";
-import ThreeDotsPopup from './components/ThreeDotsPopup.vue'
 
 export default {
   name: "Dashboard",
@@ -112,8 +115,8 @@ export default {
     Header,
     Breadcrumbs,
     // BackButton,
+    Icon,
     PortfolioCards,
-    ThreeDotsPopup,
     // Icon,
     HoldingsPieChartCards,
     HoldingsList,
@@ -379,6 +382,7 @@ export default {
   align-items: center;
   border-radius: 2rem;
   color: var(--clr-grey);
+  transition: 0.2s all;
 }
 
 .head__rightSection-icon:hover {

@@ -17,6 +17,11 @@ export default {
       isOnData: this.isOn,
     };
   },
+  watch: {
+    isOn() {
+      this.isOnData = this.isOn;
+    }
+  },
   props: {
     isOn: {
       type: Boolean,

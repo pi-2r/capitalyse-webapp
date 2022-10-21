@@ -59,6 +59,11 @@ const router = createRouter({
             meta: { requiresAuth: true },
         },
         {
+            path: "/dashboard/:id/settings",
+            component: () => import("./pages/portfoliosettings/PortfolioSettings.vue"),
+            meta: { requiresAuth: true },
+        },
+        {
             path: "/dashboard/:id/deposits",
             component: () => import("./pages/deposits/DepositsPage.vue"),
             meta: { requiresAuth: true },

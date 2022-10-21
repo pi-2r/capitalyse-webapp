@@ -3,7 +3,7 @@
   <article class="container">
     <section class="titleAndBackButtonContainer">
       <BackButton />
-      <h1>Settings</h1>
+      <h1>Account</h1>
     </section>
     <section class="settingsCard__container">
       <Card class="settingsCard">

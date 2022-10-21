@@ -1,14 +1,11 @@
 import '../../../firebase'
 import {
     // writeBatch,
-    getFirestore,
     // collection,
     // getDocs,
     // deleteDoc,
-    doc,
     // getDoc,
     // setDoc,
-    updateDoc,
 } from 'firebase/firestore'
 
 import {
@@ -19,9 +16,6 @@ import {
     // ref,
     // deleteObject,
 } from 'firebase/storage';
-
-
-const db = getFirestore();
 
 // const API_BASE = 'https://capitalyse.herokuapp.com'
 const API_BASE = process.env.VUE_APP_API_BASE || 'https://capitalyse.herokuapp.com'
@@ -193,21 +187,37 @@ export default {
                 })
         }
     },
-    editPortfolioName(context, payload) {
-        const userId = context.rootGetters.userId;
-        const portfolioId = payload.id;
+    async setPortfolioName(context, payload) {
+        if (payload.portfolioName != null && payload.portfolioName !== '' && payload.portfolioName.length > 0) {
+            const portfolioId = payload.portfolioId;
 
-        const updateFireStorePortfolioRef = doc(db, `users/${userId}/portfolios/${portfolioId}`);
-        updateDoc(updateFireStorePortfolioRef, {
-            portfolioName: payload.portfolioName,
-        }).then(() => {
-            context.commit('files/setUpdatedPortfolioName', {
-                portfolioId: portfolioId,
-                portfolioName: payload.portfolioName,
-            });
-        }).catch((error) => {
-            console.log(error);
-        });
+            const API_URL = `/api/portfolios/${portfolioId}/portfolioname`
+
+            const token = context.rootGetters.token
+            await fetch(API_BASE + API_URL, {
+                method: 'PUT',
+                headers: new Headers({
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }),
+                body: JSON.stringify({
+                    portfolioName: payload.portfolioName,
+                })
+            }).then((response) => {
+                // log out if invalid token
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        this.dispatch('logout')
+                    }
+                }
+                if (response.ok) {
+                    context.commit("setPortfolioName", { portfolioId: portfolioId, portfolioName: payload.portfolioName });
+                }
+                return response.json()
+            }).catch((e) => {
+                console.log(e);
+            })
+        }
     },
     async deletePortfolio(context, payload) {
         const portfolioId = payload;

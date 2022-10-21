@@ -118,7 +118,7 @@
               <Icon
                 class="settingsIcon"
                 tabindex="0"
-                icon="ci:settings"
+                icon="gg:profile"
                 height="23"
               />
             </router-link>
