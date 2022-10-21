@@ -364,11 +364,11 @@ select:-webkit-autofill:focus {
   color: var(--clr-black);
 }
 
-input[type="password"]:-webkit-autofill,
-input[type="password"]:-webkit-autofill:hover,
-input[type="password"]:-webkit-autofill:focus {
+/* input[type="password"]:-webkit-autofill, */
+/* input[type="password"]:-webkit-autofill:hover, */
+/* input[type="password"]:-webkit-autofill:focus { */
   /* letter-spacing: 0.25rem; */
-}
+/* } */
 
 .contentWrapper {
   display: flex;

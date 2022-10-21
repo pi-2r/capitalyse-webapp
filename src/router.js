@@ -60,7 +60,7 @@ const router = createRouter({
         },
         {
             path: "/dashboard/:id/settings",
-            component: () => import("./pages/portfoliosettings/PortfolioSettings.vue"),
+            component: () => import("./pages/portfoliosettings/PortfolioSettingsPage.vue"),
             meta: { requiresAuth: true },
         },
         {

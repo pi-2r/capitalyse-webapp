@@ -186,14 +186,12 @@ export default {
       this.getPortfolioInfo();
     },
     $route() {
-      console.log("route");
       this.getPortfolioInfo();
     },
   },
   methods: {
     submitNewPortfolioName() {
       this.isNewPortfolioNameLoading = true;
-      console.log(this.newPortfolioName);
       const isValid = this.isPortfolioNameValid(this.newPortfolioName);
 
       if (isValid) {
