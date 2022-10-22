@@ -1,5 +1,5 @@
 <template>
-  <Card>
+  <Card class="card">
     <section class="tablecontainerHeading">
       <h2 class="tableTitle">
         Trades
@@ -196,6 +196,10 @@ export default {
 
 
 <style scoped>
+.card {
+  margin-bottom: 3rem;
+}
+
 h2 {
   color: var(--clr-grey);
 }

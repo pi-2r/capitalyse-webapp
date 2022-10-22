@@ -29,6 +29,8 @@
       :holdingProfitLoss="holdingAnalytics.holdingProfitLoss"
       :holdingTransactionFees="holdingAnalytics.holdingTransactionFees"
     />
+
+    <TradesList :tradesList="holdingAnalytics.holdingTradesList"/>
     
     <p class="isinText">ISIN: {{ $route.params.holdingId }}</p>
     <!-- <DividendChart :hideTimeFrameBtns="false" class="dividendChartDashboard" /> -->
@@ -43,11 +45,13 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 import BackButton from "@/components/ui/BackButton.vue";
 import HoldingInfoCards from "./components/HoldingInfoCards.vue";
+import TradesList from "@/components/ui/TradesList.vue";
 // import DividendChart from "@/components/ui/DividendChart.vue";
 
 export default {
   components: {
     Breadcrumbs,
+    TradesList,
     Header,
     // DividendChart,
     HoldingInfoCards,
@@ -72,6 +76,7 @@ export default {
           fees: 0,
           percentage: 0,
         },
+        holdingTradesList: [],
       },
       portfolioInfo: {
         portfolioName: null,

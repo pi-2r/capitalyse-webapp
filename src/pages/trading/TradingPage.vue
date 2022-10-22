@@ -51,7 +51,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 import BackButton from "@/components/ui/BackButton.vue";
 
-import TradesList from "./components/TradesList.vue";
+import TradesList from "@/components/ui/TradesList.vue";
 import MostFreqTradedCard from "./components/MostFreqTradedCard.vue";
 import TradeCountCard from "@/pages/dashboard/components/TradeCountCard.vue";
 import MostFreqBuyOrSell from "./components/MostFreqBuyOrSell.vue";
