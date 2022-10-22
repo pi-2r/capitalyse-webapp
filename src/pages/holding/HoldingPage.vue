@@ -30,7 +30,7 @@
       :holdingTransactionFees="holdingAnalytics.holdingTransactionFees"
     />
 
-    <TradesList :tradesList="holdingAnalytics.holdingTradesList"/>
+    <TradesList :notAvailableInDemo="true" :tradesList="holdingAnalytics.holdingTradesList"/>
     
     <p class="isinText">ISIN: {{ $route.params.holdingId }}</p>
     <!-- <DividendChart :hideTimeFrameBtns="false" class="dividendChartDashboard" /> -->

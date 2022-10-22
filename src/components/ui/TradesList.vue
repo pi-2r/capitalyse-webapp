@@ -47,7 +47,7 @@
           </tr>
           <tr v-if="trades.length < 1 && !isLoading">
             <td class="noTrades" colspan="3">
-              <p>No results</p>
+              <p>{{ notAvailableInDemo ? 'Not available in demo. Upload your own portfolio to view.' : 'No results' }}</p>
             </td>
           </tr>
 
@@ -73,6 +73,9 @@ export default {
     Card,
   },
   props: {
+    notAvailableInDemo: {
+      default: false,
+    },
     tradesList: {
       required: true,
       default: [],
@@ -175,7 +178,6 @@ export default {
         return;
       }
       this.scrolling = true;
-      console.log(this.scrolling, this.$refs["wrapper1"].scrollLeft);
       this.$refs["wrapper2"].scrollLeft = this.$refs["wrapper1"].scrollLeft;
     },
     handleScroll2() {
@@ -184,7 +186,6 @@ export default {
         return;
       }
       this.scrolling = true;
-      console.log(this.scrolling, this.$refs["wrapper2"].scrollLeft);
       this.$refs["wrapper1"].scrollLeft = this.$refs["wrapper2"].scrollLeft;
     },
   },
