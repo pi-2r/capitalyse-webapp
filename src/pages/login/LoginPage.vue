@@ -74,8 +74,8 @@
       </section>
     </section>
 
-    <AuthImageSection underlinedText="making progress" imgName="login-bg.webp">
-      Welcome back, we hope <br> you're  
+    <AuthImageSection underlinedText="freedom" imgName="riviera.jpeg">
+      Less finance, more
     </AuthImageSection>
   </section>
 </template>

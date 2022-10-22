@@ -104,7 +104,7 @@ export default {
     },
     getDeposits() {
       if(this.depositsList != false) {
-        this.deposits = this.depositsList
+        this.deposits = JSON.parse(JSON.stringify(this.depositsList));
 
         this.sortItems();
       }
@@ -112,9 +112,7 @@ export default {
     sortItems() {
       const sortType = this.selectedSortType;
 
-      if (sortType === "dateNewToOld") {
-        this.deposits = this.sortByDateNewToOld(this.deposits);
-      } else if (sortType === "dateOldToNew") {
+     if (sortType === "dateOldToNew") {
         this.deposits = this.sortByDateOldToNew(this.deposits);
       } else if (sortType === "amountHighToLow") {
         this.deposits = this.sortByAmountHighToLow(this.deposits);

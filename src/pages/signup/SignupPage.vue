@@ -83,8 +83,8 @@
         </section>
       </section>
     </section>
-    <AuthImageSection underlinedText="Capitalyse" imgName="buildings.webp">
-      Financial insight <br />starts with
+    <AuthImageSection underlinedText="freedom" imgName="login-bg.webp">
+      Less finance, more 
     </AuthImageSection>
   </section>
 </template>

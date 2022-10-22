@@ -37,6 +37,9 @@
         :mostFrequentlyTradedList="tradingAnalytics.mostFrequentlyTradedList"
       />
     </section>
+    <section>
+      <TradesList :tradesList="tradingAnalytics.tradesList" />
+    </section>
   </section>
   <section v-else>
     <LoadingOverlay />
@@ -48,6 +51,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 import BackButton from "@/components/ui/BackButton.vue";
 
+import TradesList from "./components/TradesList.vue";
 import MostFreqTradedCard from "./components/MostFreqTradedCard.vue";
 import TradeCountCard from "@/pages/dashboard/components/TradeCountCard.vue";
 import MostFreqBuyOrSell from "./components/MostFreqBuyOrSell.vue";
@@ -59,6 +63,7 @@ export default {
     MostFreqTradedCard,
     MostFreqBuyOrSell,
     BackButton,
+    TradesList,
     TradeCountCard,
   },
   props: {
@@ -79,6 +84,7 @@ export default {
         mostFrequentBuysList: null,
         mostFrequentSellsList: null,
         mostFrequentlyTradedList: null,
+        tradesList: null,
       },
       portfolioInfo: {
         portfolioName: null,
