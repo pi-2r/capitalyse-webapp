@@ -28,6 +28,14 @@
   <td class="number">
     {{ trade.count }}
   </td>
+  <td class="number">
+    {{
+        Intl.NumberFormat("nl-nl", {
+          style: "currency",
+          currency: trade.ogCurrency,
+        }).format(trade.price)
+      }}
+  </td>
 
    <td class="number">
        <span :class="{ sellRedNumber: fee < 0 }">

@@ -37,6 +37,7 @@
             <th>Date</th>
             <th>Product</th>
             <th class="number">Qty</th>
+            <th class="number">Stock price</th>
             <th class="number">Fee</th>
             <th class="number">Total</th>
           </tr>
@@ -306,7 +307,7 @@ tr:nth-last-child(1) {
   border-bottom: none;
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 1000px) {
   .wrapper1,
   .wrapper2 {
     width: 100%;
@@ -320,11 +321,11 @@ tr:nth-last-child(1) {
     height: 200px;
   }
   .div1 {
-    width: 50rem;
+    width: 60rem;
     height: 20px;
   }
   .div2 {
-    width: 50rem;
+    width: 60rem;
     height: 200px;
     overflow: auto;
   }
