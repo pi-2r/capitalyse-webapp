@@ -95,6 +95,7 @@ label {
 .container {
   margin: 0 auto;
   margin-bottom: 4rem;
+  min-height: 85vh;
   margin-top: 3rem;
   width: 30rem;
 }
