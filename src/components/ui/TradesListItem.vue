@@ -6,8 +6,7 @@
   </td>
   <td>
     <span>
-
-    {{ date }}
+      {{ date }}
     </span>
     <br />
     <span class="secondary">
@@ -30,22 +29,22 @@
   </td>
   <td class="number">
     {{
-        Intl.NumberFormat("nl-nl", {
-          style: "currency",
-          currency: trade.ogCurrency,
-        }).format(trade.price)
-      }}
+      Intl.NumberFormat("nl-nl", {
+        style: "currency",
+        currency: trade.ogCurrency,
+      }).format(trade.price)
+    }}
   </td>
 
-   <td class="number">
-       <span :class="{ sellRedNumber: fee < 0 }">
+  <td class="number">
+    <span :class="{ sellRedNumber: fee < 0 }">
       {{
         Intl.NumberFormat("nl-nl", {
           style: "currency",
-          currency: "EUR",
+          currency: trade.currency,
         }).format(fee)
       }}
-       </span>
+    </span>
   </td>
 
   <td class="number">
@@ -53,16 +52,13 @@
       {{
         Intl.NumberFormat("nl-nl", {
           style: "currency",
-          currency: "EUR",
+          currency: trade.currency,
         }).format(total)
       }}
     </span>
   </td>
-
- 
 </template>
 <script>
-
 export default {
   props: {
     trade: {
@@ -72,10 +68,10 @@ export default {
   },
   computed: {
     total() {
-      if(this.trade.total < 0) {
+      if (this.trade.total < 0) {
         return this.trade.total * -1;
       }
-      return this.trade.total
+      return this.trade.total;
     },
     date() {
       // make month words and remove zero in front of days
@@ -108,12 +104,12 @@ export default {
       return this.trade.total < 0;
     },
     fee() {
-      if(this.trade.transactionFee != null) {
-        return this.trade.transactionFee
+      if (this.trade.transactionFee != null) {
+        return this.trade.transactionFee;
       } else {
-        return null
+        return null;
       }
-    }
+    },
   },
 };
 </script>
@@ -169,13 +165,12 @@ td {
 }
 td:nth-of-type(1) {
   padding-left: 1.75rem;
-  padding-top:  .75rem;
-  padding-bottom: .75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 td:nth-last-child(1) {
   padding-right: 1.75rem;
-  padding-top:  .75rem;
-  padding-bottom: .75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
-
 </style>

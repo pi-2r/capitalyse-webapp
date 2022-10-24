@@ -29,6 +29,13 @@
         :withBtn="false"
         :totalTransactionFees="feesAnalytics.totalTransactionFees"
       />
+
+      <ResultCard
+        title="Avg transaction fee per trade"
+        :resultValue="feesAnalytics.avgTransactionFeePerTrade"
+        :withBtn="false"
+      />
+
       <ExchangeFeesCard :totalExchangeFees="feesAnalytics.totalExchangeFees" />
     </section>
     <!-- <FeesChart/> -->
@@ -39,6 +46,7 @@
 </template>
 
 <script>
+import ResultCard from "@/components/dashboard/ResultCard.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
@@ -50,6 +58,7 @@ import ExchangeFeesCard from "./components/ExchangeFeesCard.vue";
 export default {
   components: {
     Breadcrumbs,
+    ResultCard,
     Header,
     BackButton,
     TransFeesCard,
@@ -246,6 +255,19 @@ export default {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+@media screen and (min-width: 650px) {
+  .cardsContainer {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (min-width: 1150px) {
+  .cardsContainer {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }
 
 @media screen and (min-width: 400px) {
@@ -255,10 +277,6 @@ export default {
 }
 
 @media screen and (min-width: 650px) {
-  .cardsContainer {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .container {
     max-width: 90%;
   }
