@@ -29,6 +29,7 @@
   </transition>
 
   <Header />
+  <transition name="rtlIn" mode="out-in" appear>
   <article class="container" v-if="!isLoading">
     <section class="titleAndBackButtonContainer">
       <BackButton />
@@ -126,6 +127,7 @@
     </section>
   </article>
   <LoadingOverlay v-else />
+  </transition>
 </template>
 
 <script>
@@ -499,6 +501,18 @@ h2 {
 .settingsCard {
   padding: 1.25rem;
   margin-bottom: 1rem;
+}
+
+/* anims */
+.rtlIn-enter-active,
+.rtlIn-leave-active {
+  transform: translate(0px);
+  transition: 0.2s ease;
+}
+.rtlIn-leave-to,
+.rtlIn-enter-from {
+  transform: translate(20px);
+  opacity: 0.2;
 }
 
 .settingsSection {

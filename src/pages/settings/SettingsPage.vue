@@ -1,5 +1,6 @@
 <template>
   <Header />
+   <transition name="bttIn" mode="out-in" appear>
   <article class="container">
     <section class="titleAndBackButtonContainer">
       <BackButton />
@@ -27,6 +28,7 @@
       </Card>
     </section>
   </article>
+  </transition>
 </template>
 
 <script>
@@ -84,6 +86,21 @@ export default {
 </script>
 
 <style scoped>
+.bttIn-enter-active,
+.bttIn-leave-active {
+  transform: translateY(0px);
+  transition: 0.2s ease;
+}
+
+.bttIn-enter-from {
+  transform: translateY(20px);
+  opacity: 0.2;
+}
+.bttIn-leave-to {
+  display: none;
+}
+
+
 .titleAndBackButtonContainer {
   margin-bottom: 2rem;
 }

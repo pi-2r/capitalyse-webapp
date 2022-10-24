@@ -208,6 +208,19 @@ export default {
         "#4affb1",
         "#4aff89",
         "#77ff4a",
+        "#4ac6ff",
+        "#4ad5ff",
+        "#4adbff",
+        "#4af6ff",
+        "#4afff0",
+        "#4affe1",
+        "#4a4dff",
+        "#4a7aff",
+        "#4a89ff",
+        "#4a95ff",
+        "#4a5fff",
+        "#4aa4ff",
+        "#4ab7ff",
       ];
       let holdingsList = [];
       for (let i = 0; i < holdingsData.datasets.length; i++) {
