@@ -9,9 +9,9 @@
       <section class="nav-container">
         <section class="leftSide">
           <ul>
-            <a href="https://www.capitalyse.app/" class="routerLinkLogo">
+            <router-link to="/portfolios" style="text-decoration: none;">
               <Logo />
-            </a>
+            </router-link>
          
             <li class="dropDownLi">
               <button
