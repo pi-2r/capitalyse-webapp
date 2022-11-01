@@ -1,26 +1,43 @@
 <template>
   <Header :isDemo="isDemo"></Header>
   <section class="container" v-if="!isLoading">
+    <section class="head">
+      <section>
+        <Breadcrumbs
+          v-if="!isPublic"
+          baseLink="/portfolios"
+          baseLinkName="Portfolios"
+          :secondLink="
+            this.isDemo
+              ? '/dashboard/demo'
+              : '/dashboard/' + this.$route.params.id
+          "
+          :secondLinkName="portfolioInfo.portfolioName"
+          thirdLink="#"
+          :thirdLinkName="holdingAnalytics.holdingName"
+        />
+        <p v-else class="sharedPortfolioOwnerText">
+          {{
+            holdingAnalytics.sharedPortfolioOwner.displayName ||
+            holdingAnalytics.sharedPortfolioOwner.email
+          }}'s portfolio
+        </p>
 
-    <Breadcrumbs
-      v-if="!isPublic"
-      baseLink="/portfolios"
-      baseLinkName="Portfolios"
-      :secondLink="this.isDemo ? '/dashboard/demo' : '/dashboard/' + this.$route.params.id"
-      :secondLinkName="portfolioInfo.portfolioName"
-      thirdLink="#"
-      :thirdLinkName="holdingAnalytics.holdingName"
-    />
-    <p v-else class="sharedPortfolioOwnerText">
-      {{
-        holdingAnalytics.sharedPortfolioOwner.displayName ||
-        holdingAnalytics.sharedPortfolioOwner.email
-      }}'s portfolio
-    </p>
+        <section class="titleAndBackButtonContainer">
+          <BackButton />
+          <h1>{{ holdingAnalytics.holdingName }}</h1>
+        </section>
+      </section>
 
-    <section class="titleAndBackButtonContainer">
-      <BackButton/>
-      <h1>{{ holdingAnalytics.holdingName }}</h1>
+      <section class="holdingInfoSection">
+        <p v-if="holdingAnalytics.holdingSector != null">
+          {{ holdingAnalytics.holdingSector }}
+
+        </p>
+        <p v-if="holdingAnalytics.holdingIndustry != null">
+          {{ holdingAnalytics.holdingIndustry }}
+        </p>
+      </section>
     </section>
 
     <HoldingInfoCards
@@ -30,17 +47,22 @@
       :holdingTransactionFees="holdingAnalytics.holdingTransactionFees"
     />
 
-    <TradesList :notAvailableInDemo="true" :tradesList="holdingAnalytics.holdingTradesList"/>
-    
+    <TradesList
+      :notAvailableInDemo="true"
+      :tradesList="holdingAnalytics.holdingTradesList"
+    />
+
     <p class="isinText">ISIN: {{ $route.params.holdingId }}</p>
     <!-- <DividendChart :hideTimeFrameBtns="false" class="dividendChartDashboard" /> -->
   </section>
   <section v-else>
-    <LoadingOverlay/>
+    <LoadingOverlay />
   </section>
 </template>
 
 <script>
+// import { Icon } from '@iconify/vue';
+
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 import BackButton from "@/components/ui/BackButton.vue";
@@ -51,6 +73,7 @@ import TradesList from "@/components/ui/TradesList.vue";
 export default {
   components: {
     Breadcrumbs,
+    // Icon,
     TradesList,
     Header,
     // DividendChart,
@@ -179,7 +202,7 @@ export default {
       return this.$store.getters["files/hasPortfolios"];
     },
     getDemo() {
-      return this.$store.getters['files/getDemo'];
+      return this.$store.getters["files/getDemo"];
     },
   },
   watch: {
@@ -197,7 +220,7 @@ export default {
       }
     },
     $route() {
-      if(this.isin != null) {
+      if (this.isin != null) {
         this.loadData();
       }
     },
@@ -229,13 +252,14 @@ export default {
           }
         }
       } else if (this.isDemo) {
-        this.holdingAnalytics = this.getDemo.holdingAnalytics[this.isin].holdingAnalytics;
+        this.holdingAnalytics =
+          this.getDemo.holdingAnalytics[this.isin].holdingAnalytics;
         this.getDemoPortfolioInfo();
         this.isLoading = false;
       } else if (this.isPublic) {
         if (this.hasSharedHoldingAnalytics === true) {
           this.holdingAnalytics =
-              this.getSharedHoldingAnalytics["holdingAnalytics"];
+            this.getSharedHoldingAnalytics["holdingAnalytics"];
           this.isLoading = false;
         } else {
           this.$store
@@ -262,7 +286,7 @@ export default {
       }
     },
     getDemoPortfolioInfo() {
-      this.portfolioInfo = this.$store.getters['files/getDemoPortfolioInfo']
+      this.portfolioInfo = this.$store.getters["files/getDemoPortfolioInfo"];
     },
   },
   created() {
@@ -282,9 +306,32 @@ export default {
   color: var(--clr-medium-light-grey);
 }
 
+.head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+}
+
+.holdingInfoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: right;
+  justify-content: center;
+}
+.holdingInfoSection p {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  color: var(--clr-medium-light-grey-2);
+  font-size: 0.9rem;
+}
+
 .titleAndBackButtonContainer {
   display: flex;
   align-items: center;
+  margin-bottom: 0;
 }
 
 /* .titleAndBackButtonContainer {
@@ -292,10 +339,6 @@ export default {
   flex-direction: column;
   align-items: flex-start;
 } */
-
-.backButton {
-  margin-bottom: 1rem;
-}
 
 .container {
   margin: 0 auto;
