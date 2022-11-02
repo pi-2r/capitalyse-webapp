@@ -64,7 +64,7 @@ export default {
         labels: [],
         datasets: [
           {
-            borderWidth: 4,
+            borderWidth: 2,
             borderColor: "white",
             backgroundColor: [],
             data: [],
@@ -75,7 +75,7 @@ export default {
         labels: [],
         datasets: [
           {
-            borderWidth: 4,
+            borderWidth: 2,
             borderColor: "white",
             backgroundColor: [],
             data: [],
