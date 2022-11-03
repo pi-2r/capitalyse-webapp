@@ -10,6 +10,8 @@
     />
 
     <DetailedResultCard
+      :showTooltip="true"
+      tooltipText="Value of the holding. Small number shows the percentage it takes up in your portfolio."
       title="Position"
       :resultValue="holdingPositionValue.value"
       :subResultValue="holdingPositionValue.percentage"
@@ -18,6 +20,8 @@
     />
 
     <DetailedResultCard
+       :showTooltip="true"
+      tooltipText="Transaction fees for this product. Small number shows fees as a percentage of total holding value."
       title="Transaction fees"
       :resultValue="holdingTransactionFees.fees"
       :subResultValue="holdingTransactionFees.percentage"

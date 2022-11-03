@@ -1,6 +1,6 @@
 <template>
   <td>
-    <span class="buyOrSell" :class="{ buyGreen: isBuy, sellRed: !isBuy }">
+    <span class="buyOrSell" :class="{ buyGreen: !isBuy, sellRed: isBuy }">
       {{ trade.total > 0 ? "Sell" : "Buy" }}
     </span>
   </td>
@@ -53,7 +53,7 @@
         Intl.NumberFormat("nl-nl", {
           style: "currency",
           currency: trade.currency,
-        }).format(total)
+        }).format(trade.total)
       }}
     </span>
   </td>
@@ -67,12 +67,6 @@ export default {
     },
   },
   computed: {
-    total() {
-      if (this.trade.total < 0) {
-        return this.trade.total * -1;
-      }
-      return this.trade.total;
-    },
     date() {
       // make month words and remove zero in front of days
       const monthNames = [
@@ -101,7 +95,7 @@ export default {
       return `${day} ${month} ${year}`;
     },
     isBuy() {
-      return this.trade.total < 0;
+      return this.trade.total > 0;
     },
     fee() {
       if (this.trade.transactionFee != null) {

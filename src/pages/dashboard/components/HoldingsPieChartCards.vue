@@ -9,6 +9,8 @@
     :isLoading="isLoadingHoldings"
   />
   <HoldingsPieChartCard
+  :showTooltip="true"
+  tooltipText="This shows the currencies your holdings trade in. Hover over the chart to see more details."
     title="Currencies"
     btnText="My Holdings"
     :showBtn="false"

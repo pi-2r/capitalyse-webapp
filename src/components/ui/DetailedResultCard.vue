@@ -1,7 +1,7 @@
 <template>
   <Card class="cardContainer">
     <section :class="{ cardContentNoBtn: !withBtn, cardContent: withBtn }">
-      <h2>{{ title }}</h2>
+      <h2>{{ title }} <Tooltip v-if="showTooltip">{{tooltipText}}</Tooltip></h2>
       <transition name="slide-fade" mode="out-in">
         <p class="cardText" :key="resultValue">
           <span
@@ -61,10 +61,12 @@
 <script>
 import { Icon } from "@iconify/vue";
 import Card from "@/components/ui/Card.vue";
+import Tooltip from "@/components/ui/Tooltip.vue";
 
 export default {
   components: {
     Icon,
+    Tooltip,
     Card,
   },
   props: {
@@ -81,6 +83,14 @@ export default {
     },
     subResultValue: {
       default: 0,
+    },
+    showTooltip: {
+      default: false,
+      type: Boolean,
+    },
+    tooltipText: {
+      type: String,
+      default: 'No explanation yet',
     },
     subResultValuePrefix: {
       default: "",
@@ -127,6 +137,7 @@ export default {
 </script>
 
 <style scoped>
+
 h2 {
   text-align: center;
   color: var(--clr-grey);

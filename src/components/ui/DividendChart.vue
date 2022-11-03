@@ -51,12 +51,27 @@
 
     <Card class="dividendChartWrapper">
       <section class="dividendChartHeading">
-        <h2>Dividends</h2>
+        <h2>
+          Dividends <Tooltip v-if="showTooltip">{{ tooltipText }}</Tooltip>
+        </h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
-            <span class="chartResultValue">{{ Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(totalDividends) }} </span>
+            <span class="chartResultValue"
+              >{{
+                Intl.NumberFormat("nl-nl", {
+                  style: "currency",
+                  currency: "EUR",
+                }).format(totalDividends)
+              }}
+            </span>
             <span class="chartAverageResultValue"
-              >avg. {{ Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(averageDividendsPerMonth) }}/mo</span
+              >avg.
+              {{
+                Intl.NumberFormat("nl-nl", {
+                  style: "currency",
+                  currency: "EUR",
+                }).format(averageDividendsPerMonth)
+              }}/mo</span
             >
           </p>
         </transition>
@@ -71,35 +86,50 @@
           <spinner />
         </section>
       </section>
+      <section class="cardBtnSection" v-if="withBtn">
+        <CardButtonArrow class="cardBtnArrow__dividendChart" :to="toLink">
+          View Dividends
+        </CardButtonArrow>
+      </section>
     </Card>
-
-    <!-- <section class="dividendChartBtns" v-if="!chartErrorMsg && !isLoading">
-      <CardButtonArrow class="goToDividendsPageBtn">
-        View Dividends
-      </CardButtonArrow>
-    </section> -->
   </section>
 </template>
 
 <script>
 import BarChart from "@/components/ui/BarChart.vue";
 import Card from "@/components/ui/Card.vue";
-// import CardButtonArrow from "@/components/ui/CardButtonArrow.vue";
+import CardButtonArrow from "@/components/ui/CardButtonArrow.vue";
 
 export default {
   components: {
     BarChart,
     Card,
-    // CardButtonArrow,
+    CardButtonArrow,
   },
   props: {
     chartDividendsProps: {
       required: true,
     },
+    showTooltip: {
+      default: false,
+      type: Boolean,
+    },
+    tooltipText: {
+      default: "No explanation yet.",
+      type: String,
+    },
+    withBtn: {
+      default: false,
+      type: Boolean,
+    },
     hideTimeFrameBtns: {
       type: Boolean,
       default: false,
     },
+    isPublic: {
+      default: false,
+      type: Boolean,
+    }
   },
   data() {
     return {
@@ -122,6 +152,13 @@ export default {
     };
   },
   computed: {
+    toLink() {
+      if(this.isPublic === true) {
+        return `/shared/${this.$route.params.uid}/${this.$route.params.pid}/dividends`
+      } else {
+        return `/dashboard/${this.$route.params.id}/dividends`;
+      }
+    },
     totalDividends() {
       let total = 0;
       for (let i = 0; i < this.dividendsArray.length; i++) {
@@ -147,7 +184,7 @@ export default {
         let average = (total / this.dividendsArray[0].datesList.length).toFixed(
           2
         );
-       
+
         return average;
       } else {
         return 0;
@@ -267,7 +304,7 @@ export default {
       this.chartData.datasets = [];
 
       // haal dividends op van de Mixin
-      let chartDividends = JSON.parse(JSON.stringify(this.chartDividendsProps))
+      let chartDividends = JSON.parse(JSON.stringify(this.chartDividendsProps));
       // const chartDividends = this.getChartDividends(
       //   this.currentPortfolio.accountFile
       // );
@@ -330,7 +367,9 @@ export default {
 
       for (let i = 0; i < this.dividendsArray.length; i++) {
         for (let j = 0; j < this.dividendsArray[i].dividend.length; j++) {
-          let dividendYear = parseFloat(this.dividendsArray[i].dividend[j].date.split("-")[1]);
+          let dividendYear = parseFloat(
+            this.dividendsArray[i].dividend[j].date.split("-")[1]
+          );
 
           if (dividendYear < currentYear) {
             this.dividendsArray[i].dividend.splice(j, 1);
@@ -338,7 +377,6 @@ export default {
             this.dividendsArray[i].dividendsList.splice(j, 1);
             j--;
           }
-
         }
       }
     },
@@ -364,12 +402,12 @@ export default {
           }
         }
       }
-    }
+    },
   },
   created() {
     // laad data als deze al is gefetcht
     // zet het thema op de chart
-    if(this.isThereData) {
+    if (this.isThereData) {
       this.loadData();
     }
   },
@@ -377,6 +415,34 @@ export default {
 </script>
 
 <style scoped>
+.cardBtnArrow__dividendChart {
+  margin-top: 0;
+  width: 18rem;
+}
+
+.cardBtnSection {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  padding-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.cardBtnSection__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.cardBtnSection__btnIcon {
+  transition: 0.15s all;
+}
+
+.cardBtnSection__btn:hover .cardBtnSection__btnIcon {
+  transform: scale(1.02) translateX(0.2rem);
+}
+
 .dividendChartHeadingContent {
   display: flex;
   justify-content: space-between;
@@ -391,10 +457,6 @@ export default {
 .dividendChartBtns {
   display: flex;
   width: 100%;
-}
-.goToDividendsPageBtn {
-  margin-top: 0.5rem;
-  width: 15rem;
 }
 
 .chartAverageResultValue {
@@ -507,6 +569,12 @@ h2 {
 .slide-fade-leave-to {
   transform: translateY(15px);
   opacity: 0;
+}
+
+@media screen and (max-width: 650px) {
+  .cardBtnArrow__dividendChart {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 550px) {

@@ -1,5 +1,7 @@
 <template>
   <ResultCard
+    :showTooltip="true"
+    tooltipText="Total amount paid in transaction fees. Does not include AutoFX fees."
     title="Transaction fees"
     :resultValue="totalTransactionFees"
     :to="toLink"

@@ -59,7 +59,7 @@
               >{{
                 Intl.NumberFormat("nl-nl", {
                   style: "currency",
-                  currency: "EUR",
+                  currency: currency,
                 }).format(totalDeposits)
               }}
             </span>
@@ -68,7 +68,7 @@
               {{
                 Intl.NumberFormat("nl-nl", {
                   style: "currency",
-                  currency: "EUR",
+                  currency: currency,
                 }).format(averageDepositsPerMonth)
               }}/mo</span
             >
@@ -80,7 +80,7 @@
         {{ chartErrorMsg }}
       </p>
       <section class="depositChart" v-else>
-        <LineChart v-if="!isLoading" :chart-data="chartData" />
+        <LineChart v-if="!isLoading" :chart-data="chartData" :currency="currency" />
         <section class="spinnerContainer" v-else>
           <spinner />
         </section>
@@ -103,6 +103,10 @@ export default {
       default: null,
       required: true,
     },
+    currency: {
+      default: 'EUR',
+      required: false,
+    }
   },
   components: {
     LineChart,

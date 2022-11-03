@@ -36,6 +36,32 @@ ChartJS.register(
 export default {
   name: "LineChart",
   components: { Line },
+   props: {
+    chartData: {
+      required: true,
+      type: Object,
+      default: () => {
+        return {
+          labels: [],
+          datasets: [],
+        };
+      },
+    },
+    currency: {
+      default: 'EUR',
+      required: false,
+    },
+    height: {
+      required: false,
+      type: Number,
+      default: 300,
+    },
+    width: {
+      required: false,
+      type: Number,
+      default: 400,
+    },
+  },
   data() {
     return {
       chartOptions: {
@@ -127,7 +153,11 @@ export default {
                 }
               },
               label: function (value) {
-                return "€" + value.formattedValue;
+                const numberFormatValue = Intl.NumberFormat("nl-nl", {
+                  style: "currency",
+                  currency: "eur",
+                }).format(value.raw)
+                return numberFormatValue;
               },
             },
           },
@@ -140,30 +170,10 @@ export default {
         responsive: true,
         maintainAspectRatio: false,
       },
+      currencyProps: this.currency,
     };
   },
-  props: {
-    chartData: {
-      required: true,
-      type: Object,
-      default: () => {
-        return {
-          labels: [],
-          datasets: [],
-        };
-      },
-    },
-    height: {
-      required: false,
-      type: Number,
-      default: 300,
-    },
-    width: {
-      required: false,
-      type: Number,
-      default: 400,
-    },
-  },
+ 
   methods: {
     setTheme() {
       // pak de theme van localstorage en zet geef de juiste theme aan de chart
@@ -180,6 +190,9 @@ export default {
         this.chartOptions.scales.xAxes.ticks.color = "rgba(0, 0, 0, 0.5)";
       }
     },
+  },
+  beforeUpdate() {
+    this.currencyProps = this.currency;
   },
   created() {
     this.setTheme();

@@ -29,31 +29,6 @@ const router = createRouter({
             meta: { requiresAuth: true },
         },
         {
-            path: "/dashboard/demo",
-            component: () => import("./pages/demo/DemoDashboardPage.vue"),
-            meta: { requiresAuth: false },
-        },
-        {
-            path: "/dashboard/demo/deposits",
-            component: () => import("./pages/demo/DemoDepositsPage.vue"),
-            meta: { requiresAuth: false },
-        },
-        {
-            path: "/dashboard/demo/fees",
-            component: () => import("./pages/demo/DemoFeesPage.vue"),
-            meta: { requiresAuth: false },
-        },
-        {
-            path: "/dashboard/demo/trading",
-            component: () => import("./pages/demo/DemoTradingPage.vue"),
-            meta: { requiresAuth: false },
-        },
-        {
-            path: "/dashboard/demo/holdings/:holdingId",
-            component: () => import("./pages/demo/DemoHoldingPage.vue"),
-            meta: { requiresAuth: false },
-        },
-        {
             path: "/dashboard/:id",
             component: () => import("./pages/dashboard/DashboardPage.vue"),
             meta: { requiresAuth: true },
@@ -66,6 +41,11 @@ const router = createRouter({
         {
             path: "/dashboard/:id/deposits",
             component: () => import("./pages/deposits/DepositsPage.vue"),
+            meta: { requiresAuth: true },
+        },
+        {
+            path: "/dashboard/:id/dividends",
+            component: () => import("./pages/dividends/DividendsPage.vue"),
             meta: { requiresAuth: true },
         },
         {
@@ -103,6 +83,10 @@ const router = createRouter({
         {
             path: "/shared/:uid/:pid/trading",
             component: () => import("./pages/share/ShareTradingPage.vue")
+        },
+        {
+            path: "/shared/:uid/:pid/dividends",
+            component: () => import("./pages/share/ShareDividendsPage.vue")
         },
         {
             path: "/shared/:uid/:pid/holdings/:holdingId",

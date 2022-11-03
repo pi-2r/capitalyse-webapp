@@ -54,7 +54,6 @@
                       </section>
                     </router-link>
                     <section
-                      v-if="!isDemo"
                       class="leftSide__myPortfoliosPopupList"
                     >
                       <router-link
@@ -75,22 +74,7 @@
 
                       </router-link>
                     </section>
-                    <section v-if="isDemo">
-                      <router-link
-                        style="text-decoration: none"
-                        @click="toggleMyPortfoliosPopup()"
-                        :to="'/dashboard/demo'"
-                        class="leftSide__myPortfoliosPopupLink"
-                      >
-                        Demo Portfolio
-                        <Icon
-                          class="leftSide__myPortfoliosPopupLinkIcon"
-                          icon="charm:arrow-right"
-                          color="var(--clr-blue)"
-                          height="15"
-                        />
-                      </router-link>
-                    </section>
+                   
                     <section class="popupNoPortfolios" v-if="headerPortfoliosFromStore.length === 0">
                       You currently have no portfolios, add one
                       <router-link @click="toggleMyPortfoliosPopup" to="/portfolios/new">here</router-link>
@@ -189,12 +173,6 @@ export default {
   components: {
     Icon,
     Logo,
-  },
-  props: {
-    isDemo: {
-      type: Boolean,
-      default: false,
-    },
   },
   data() {
     return {

@@ -32,12 +32,6 @@ export default {
     getAnalytics(state) {
         return state.analytics;
     },
-    getDemo(state) {
-        return state.demoAnalytics;
-    },
-    getDemoPortfolioInfo(state) {
-        return state.demoPortfolio[0]
-    },
     getSharedAnalytics(state) {
         return state.sharedAnalytics
     }

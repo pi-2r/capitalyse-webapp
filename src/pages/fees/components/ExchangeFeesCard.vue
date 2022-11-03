@@ -1,5 +1,7 @@
 <template>
   <ResultCard
+    :showTooltip="true"
+    tooltipText="Total amount paid in DEGIRO exchange connection fees."
     title="Exchange fees"
     :resultValue="totalExchangeFees"
     :withBtn="false"

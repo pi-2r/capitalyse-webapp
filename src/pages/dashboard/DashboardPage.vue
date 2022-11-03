@@ -1,26 +1,47 @@
 <template>
-  <Header :isDemo="isDemo"></Header>
+  <Header />
 
   <section class="container" v-if="!isLoading">
+     <SharedPortfolioIcon
+          :displayName="homeAnalytics.sharedPortfolioOwner.displayName"
+          :email="homeAnalytics.sharedPortfolioOwner.email"
+          v-if="isPublic"
+        />
     <!-- <BackButton to="/" class="backButton" color="var(--clr-grey)" /> -->
     <section class="head">
       <section>
+       
         <Breadcrumbs
-          v-if="!isPublic"
           baseLink="/portfolios"
           baseLinkName="Portfolios"
-          secondLink="#"
-          :secondLinkName="portfolioInfo.portfolioName"
+          :secondLink="
+            this.isPublic
+              ? `/shared/${this.$route.params.uid}/${this.$route.params.pid}`
+              : '/dashboard/' + this.$route.params.id
+          "
+          :secondLinkName="
+            this.isPublic
+              ? homeAnalytics.portfolioMetadata.portfolioName
+              : portfolioInfo.portfolioName
+          "
         />
-        <p v-else class="sharedPortfolioOwnerText">{{homeAnalytics.sharedPortfolioOwner.displayName || homeAnalytics.sharedPortfolioOwner.email}}'s portfolio</p>
         <section>
           <section class="titleAndBackButtonContainer">
-            <h1>{{ portfolioInfo.portfolioName || homeAnalytics.portfolioMetadata.portfolioName }}</h1>
+            <h1>
+              {{
+                portfolioInfo.portfolioName ||
+                homeAnalytics.portfolioMetadata.portfolioName
+              }}
+            </h1>
+            
           </section>
         </section>
       </section>
+
       <section class="head__rightSection">
-        <section class="header__rightSection-dates" v-if="!isDemo">
+        
+        <section class="header__rightSection-dates">
+          
           <p class="startDate">
             Investing for
             {{ homeAnalytics.startDate ? homeAnalytics.startDate : "--/--/--" }}
@@ -29,12 +50,19 @@
             Uploaded on
             {{ portfolioInfo.addedAt ? portfolioInfo.addedAt : "--/--/--" }}
           </p>
+          
         </section>
-        <section v-if="!isPublic && !isDemo">
-          <router-link :to="'/dashboard/' + this.$route.params.id + '/settings'">
-          <Icon icon="ci:settings" height="25" class="head__rightSection-icon"/>
-          </router-link>
 
+        <section v-if="!isPublic">
+          <router-link
+            :to="'/dashboard/' + this.$route.params.id + '/settings'"
+          >
+            <Icon
+              icon="ci:settings"
+              height="25"
+              class="head__rightSection-icon"
+            />
+          </router-link>
         </section>
       </section>
     </section>
@@ -58,30 +86,30 @@
 
       <section class="cardsContainer">
         <DepositsCard
-          :isDemo="isDemo"
+          :showTooltip="true"
+          tooltipText="Net amount deposited and withdrawn into and from your DEGIRO account."
           :isPublic="isPublic"
           :totalDeposits="homeAnalytics.totalDeposits"
         />
         <TransFeesCard
-          :isDemo="isDemo"
           :isPublic="isPublic"
           :totalTransactionFees="homeAnalytics.totalTransactionFees"
         />
         <TradeCountCard
-          :isDemo="isDemo"
           :isPublic="isPublic"
           :totalTradeCount="homeAnalytics.totalTradeCount"
         />
       </section>
 
       <DividendChart
+        :withBtn="true"
         :hideTimeFrameBtns="false"
         :chartDividendsProps="homeAnalytics.chartDividends"
         class="dividendChartDashboard"
+        :isPublic="isPublic"
       />
 
       <HoldingsList
-        :isDemo="isDemo"
         :isPublic="isPublic"
         :holdingsList="homeAnalytics.holdingsList"
       />
@@ -91,8 +119,9 @@
 </template>
 
 <script>
-import {Icon} from '@iconify/vue'
+import { Icon } from "@iconify/vue";
 
+import SharedPortfolioIcon from "@/components/ui/SharedPortfolioIcon.vue";
 import Header from "@/components/layout/Header.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
@@ -115,6 +144,7 @@ export default {
     Header,
     Breadcrumbs,
     // BackButton,
+    SharedPortfolioIcon,
     Icon,
     PortfolioCards,
     // Icon,
@@ -122,10 +152,6 @@ export default {
     HoldingsList,
   },
   props: {
-    isDemo: {
-      type: Boolean,
-      default: false,
-    },
     isPublic: {
       type: Boolean,
       default: false,
@@ -185,9 +211,12 @@ export default {
       let sharedAnalytics = this.$store.getters["files/getSharedAnalytics"];
       if (sharedAnalytics.length > 0) {
         for (let i = 0; i < sharedAnalytics.length; i++) {
-          if (Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)) {
+          if (
+            Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)
+          ) {
             if (
-              sharedAnalytics[i][this.$route.params.pid].homeAnalytics !== undefined
+              sharedAnalytics[i][this.$route.params.pid].homeAnalytics !==
+              undefined
             ) {
               return true;
             }
@@ -200,7 +229,9 @@ export default {
       if (this.isPublic === true) {
         const sharedAnalytics = this.$store.getters["files/getSharedAnalytics"];
         for (let i = 0; i < sharedAnalytics.length; i++) {
-          if (Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)) {
+          if (
+            Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)
+          ) {
             return sharedAnalytics[i][this.$route.params.pid].homeAnalytics;
           }
         }
@@ -216,16 +247,13 @@ export default {
     hasPortfolios() {
       return this.$store.getters["files/hasPortfolios"];
     },
-    getDemo() {
-      return this.$store.getters["files/getDemo"];
-    },
   },
   watch: {
     hasPortfolios() {
       this.getPortfolioInfo();
     },
     hasSharedHomeAnalytics() {
-      if(this.hasSharedHomeAnalytics === true) {
+      if (this.hasSharedHomeAnalytics === true) {
         this.loadData();
       }
     },
@@ -255,9 +283,6 @@ export default {
         }
       }
     },
-    getDemoPortfolioInfo() {
-      this.portfolioInfo = this.$store.getters["files/getDemoPortfolioInfo"];
-    },
     openThreeDots() {
       window.alert("Coming soon!");
     },
@@ -286,7 +311,7 @@ export default {
       }
     },
     loadData() {
-      if (!this.isDemo && !this.isPublic) {
+      if (!this.isPublic) {
         if (this.hasHomeAnalytics === true) {
           this.homeAnalytics = this.getHomeAnalytics;
           this.getPortfolioInfo();
@@ -301,24 +326,20 @@ export default {
               this.isLoading = false;
             });
         }
-      } else if (this.isDemo) {
-        this.homeAnalytics = this.getDemo.homeAnalytics;
-        this.getDemoPortfolioInfo();
-        this.isLoading = false;
       } else if (this.isPublic) {
-        if(this.hasSharedHomeAnalytics === true) {
+        if (this.hasSharedHomeAnalytics === true) {
           this.homeAnalytics = this.getSharedHomeAnalytics;
-          this.isLoading = false
+          this.isLoading = false;
         } else {
-        this.$store
-          .dispatch("files/fetchSharedPortfolioAnalytics", {
-            type: "home",
-            userId: this.$route.params.uid,
-            portfolioId: this.$route.params.pid,
-          })
-          .then(() => {
-            this.isLoading = false;
-          });
+          this.$store
+            .dispatch("files/fetchSharedPortfolioAnalytics", {
+              type: "home",
+              userId: this.$route.params.uid,
+              portfolioId: this.$route.params.pid,
+            })
+            .then(() => {
+              this.isLoading = false;
+            });
         }
       }
     },

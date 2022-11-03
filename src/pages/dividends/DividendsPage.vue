@@ -1,12 +1,12 @@
 <template>
-  <Header />
+  <Header/>
   <section class="container" v-if="!isLoading">
-     <SharedPortfolioIcon
-      :displayName="feesAnalytics.sharedPortfolioOwner.displayName"
-      :email="feesAnalytics.sharedPortfolioOwner.email"
+    <SharedPortfolioIcon
+      :displayName="dividendsAnalytics.sharedPortfolioOwner.displayName"
+      :email="dividendsAnalytics.sharedPortfolioOwner.email"
       v-if="isPublic"
     />
-    <Breadcrumbs
+     <Breadcrumbs
       baseLink="/portfolios"
       baseLinkName="Portfolios"
       :secondLink="
@@ -16,39 +16,51 @@
       "
       :secondLinkName="
         this.isPublic
-          ? feesAnalytics.portfolioMetadata.portfolioName
+          ? dividendsAnalytics.portfolioMetadata.portfolioName
           : portfolioInfo.portfolioName
       "
       thirdLink="#"
-      thirdLinkName="Fees & Costs"
+      thirdLinkName="Dividends"
     />
 
     <section class="titleAndBackButtonContainer">
       <BackButton />
-      <h1>Fees & Costs</h1>
-      
+      <h1>Dividends</h1>
     </section>
 
     <section class="cardsContainer">
-      <TransFeesCard
+      <ResultCard
+        title="Total dividends"
+        :resultValue="dividendsAnalytics.totalDividends"
         :withBtn="false"
-        :totalTransactionFees="feesAnalytics.totalTransactionFees"
       />
 
+       <ResultCard
+        :showTooltip="true"
+        tooltipText="This shows the average dividends received per month in the past."
+        title="Avg received per month"
+        :resultValue="dividendsAnalytics.averageDividendsPerMonth"
+        :withBtn="false"
+      />
+      
       <ResultCard
         :showTooltip="true"
-        tooltipText="Takes all your transactions and calculates the average transaction fee per trade."
-        title="Avg transaction fee per trade"
-        :resultValue="feesAnalytics.avgTransactionFeePerTrade"
+        tooltipText="Yield to date is the total of received dividends as a percentage of your total investments. (total dividends ÷ total invested × 100)"
+        title="Yield to date"
+        :isPercentage="true"
+        :resultValue="dividendsAnalytics.dividendYieldToDate"
         :withBtn="false"
       />
 
-      <ExchangeFeesCard :totalExchangeFees="feesAnalytics.totalExchangeFees" />
     </section>
+
+     <DividendChart
+        :hideTimeFrameBtns="false"
+        :chartDividendsProps="dividendsAnalytics.chartDividends"
+        class="dividendChartDashboard"
+      />
     <!-- <FeesChart/> -->
-   
   </section>
-  
   <section v-else>
     <LoadingOverlay />
   </section>
@@ -56,24 +68,22 @@
 
 <script>
 import SharedPortfolioIcon from "@/components/ui/SharedPortfolioIcon.vue";
+import DividendChart from '@/components/ui/DividendChart.vue'
 import ResultCard from "@/components/dashboard/ResultCard.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
-import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
 import BackButton from "@/components/ui/BackButton.vue";
 
-import ExchangeFeesCard from "./components/ExchangeFeesCard.vue";
 // import FeesChart from './components/FeesChart.vue';
 
 export default {
   components: {
     Breadcrumbs,
     ResultCard,
+    SharedPortfolioIcon,
+    DividendChart,
     Header,
     BackButton,
-    TransFeesCard,
-    SharedPortfolioIcon,
-    ExchangeFeesCard,
     // FeesChart
   },
   props: {
@@ -85,9 +95,11 @@ export default {
   data() {
     return {
       isLoading: false,
-      feesAnalytics: {
-        totalExchangeFees: 0,
-        totalTransactionFees: 0,
+      dividendsAnalytics: {
+        totalDividends: 0,
+        dividendYieldToDate: 0,
+        chartDividends: null,
+        averageDividendsPerMonth: 0,
       },
       portfolioInfo: {
         portfolioName: null,
@@ -98,39 +110,13 @@ export default {
     portfolioName() {
       return this.$store.getters["files/getCurrentPortfolioName"];
     },
-    hasFeesAnalytics() {
+    hasDividendsAnalytics() {
       let analytics = this.$store.getters["files/getAnalytics"];
       if (analytics.length > 0) {
         for (let i = 0; i < analytics.length; i++) {
           if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
             if (
-              analytics[i][this.$route.params.id].feesAnalytics !== undefined
-            ) {
-              return true;
-            }
-          }
-        }
-      }
-      return false;
-    },
-    getFeesAnalytics() {
-      const analytics = this.$store.getters["files/getAnalytics"];
-      for (let i = 0; i < analytics.length; i++) {
-        if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
-          return analytics[i][this.$route.params.id].feesAnalytics;
-        }
-      }
-      return null;
-    },
-    hasSharedFeesAnalytics() {
-      let sharedAnalytics = this.$store.getters["files/getSharedAnalytics"];
-      if (sharedAnalytics.length > 0) {
-        for (let i = 0; i < sharedAnalytics.length; i++) {
-          if (
-            Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)
-          ) {
-            if (
-              sharedAnalytics[i][this.$route.params.pid].feesAnalytics !==
+              analytics[i][this.$route.params.id].dividendsAnalytics !==
               undefined
             ) {
               return true;
@@ -140,14 +126,42 @@ export default {
       }
       return false;
     },
-    getSharedFeesAnalytics() {
+    getDividendsAnalytics() {
+      const analytics = this.$store.getters["files/getAnalytics"];
+      for (let i = 0; i < analytics.length; i++) {
+        if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
+          return analytics[i][this.$route.params.id].dividendsAnalytics;
+        }
+      }
+      return null;
+    },
+    hasSharedDividendsAnalytics() {
+      let sharedAnalytics = this.$store.getters["files/getSharedAnalytics"];
+      if (sharedAnalytics.length > 0) {
+        for (let i = 0; i < sharedAnalytics.length; i++) {
+          if (
+            Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)
+          ) {
+            if (
+              sharedAnalytics[i][this.$route.params.pid].dividendsAnalytics !==
+              undefined
+            ) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    },
+    getSharedDividendsAnalytics() {
       if (this.isPublic === true) {
         const sharedAnalytics = this.$store.getters["files/getSharedAnalytics"];
         for (let i = 0; i < sharedAnalytics.length; i++) {
           if (
             Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)
           ) {
-            return sharedAnalytics[i][this.$route.params.pid].feesAnalytics;
+            return sharedAnalytics[i][this.$route.params.pid]
+              .dividendsAnalytics;
           }
         }
       }
@@ -161,13 +175,13 @@ export default {
     hasPortfolios() {
       this.getPortfolioInfo();
     },
-    hasFeesAnalytics() {
-      if (this.hasFeesAnalytics === true) {
+    hasDividendsAnalytics() {
+      if (this.hasDividendsAnalytics === true) {
         this.loadData();
       }
     },
-    hasSharedFeesAnalytics() {
-      if (this.hasSharedFeesAnalytics === true) {
+    hasSharedDividendsAnalytics() {
+      if (this.hasSharedDividendsAnalytics === true) {
         this.loadData();
       }
     },
@@ -188,14 +202,15 @@ export default {
     },
     loadData() {
       if (!this.isPublic) {
-        if (this.hasFeesAnalytics === true) {
-          this.feesAnalytics = this.getFeesAnalytics;
+        if (this.hasDividendsAnalytics === true) {
+          this.dividendsAnalytics = this.getDividendsAnalytics;
           this.getPortfolioInfo();
+          console.log(this.dividendsAnalytics.dividendYieldToDate);
           this.isLoading = false;
         } else {
           this.$store
             .dispatch("files/fetchPortfolioAnalytics", {
-              type: "fees",
+              type: "dividends",
               portfolioId: this.$route.params.id,
             })
             .then(() => {
@@ -203,13 +218,13 @@ export default {
             });
         }
       } else {
-        if (this.hasSharedFeesAnalytics === true) {
-          this.feesAnalytics = this.getSharedFeesAnalytics;
+        if (this.hasSharedDividendsAnalytics === true) {
+          this.dividendsAnalytics = this.getSharedDividendsAnalytics;
           this.isLoading = false;
         } else {
           this.$store
             .dispatch("files/fetchSharedPortfolioAnalytics", {
-              type: "fees",
+              type: "dividends",
               userId: this.$route.params.uid,
               portfolioId: this.$route.params.pid,
             })
@@ -228,6 +243,10 @@ export default {
 </script>
 
 <style scoped>
+.dividendChartDashboard {
+  margin-bottom: 3rem;
+}
+
 .titleAndBackButtonContainer {
   display: flex;
   align-items: center;

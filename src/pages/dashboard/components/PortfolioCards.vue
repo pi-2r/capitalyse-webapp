@@ -9,6 +9,8 @@
       colorType="greenRed"
     />
     <DetailedResultCard
+      :showTooltip="true"
+      tooltipText="Total amount you have invested. The percentage shows how much of the total account balance is invested."
       title="Invested"
       :resultValue="totalInvested"
       :subResultValue="totalInvestedPercentage"
@@ -16,6 +18,8 @@
       subResultValuePostfix="%"
     />
     <DetailedResultCard
+      :showTooltip="true"
+      tooltipText="The total value of your DEGIRO account."
       title="Total balance"
       :resultValue="totalBalance"
       :subResultValue="totalCash"
@@ -30,7 +34,14 @@ export default {
   components: {
     DetailedResultCard,
   },
-  props: ['totalInvested', 'totalInvestedPercentage', 'totalBalance', 'totalCash', 'totalProfitLoss', 'totalProfitLossPercentage'],
+  props: [
+    "totalInvested",
+    "totalInvestedPercentage",
+    "totalBalance",
+    "totalCash",
+    "totalProfitLoss",
+    "totalProfitLossPercentage",
+  ],
   data() {
     return {
       isThereNoPortfolioFile: false,

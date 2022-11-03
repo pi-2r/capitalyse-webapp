@@ -10,7 +10,7 @@
     class="number"
     :class="{ depositGreen: isDeposit, withdrawalRed: !isDeposit }"
   >
-    {{ Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(this.deposit.amount) }}
+    {{ Intl.NumberFormat('nl-nl', {style: 'currency', currency: deposit.currency}).format(this.deposit.amount) }}
   </td>
 </template>
 <script>

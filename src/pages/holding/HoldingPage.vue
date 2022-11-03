@@ -1,27 +1,29 @@
 <template>
-  <Header :isDemo="isDemo"></Header>
+  <Header />
   <section class="container" v-if="!isLoading">
+    <SharedPortfolioIcon
+      :displayName="holdingAnalytics.sharedPortfolioOwner.displayName"
+      :email="holdingAnalytics.sharedPortfolioOwner.email"
+      v-if="isPublic"
+    />
     <section class="head">
       <section>
         <Breadcrumbs
-          v-if="!isPublic"
           baseLink="/portfolios"
           baseLinkName="Portfolios"
           :secondLink="
-            this.isDemo
-              ? '/dashboard/demo'
+            this.isPublic
+              ? `/shared/${this.$route.params.uid}/${this.$route.params.pid}`
               : '/dashboard/' + this.$route.params.id
           "
-          :secondLinkName="portfolioInfo.portfolioName"
+          :secondLinkName="
+            this.isPublic
+              ? holdingAnalytics.portfolioMetadata.portfolioName
+              : portfolioInfo.portfolioName
+          "
           thirdLink="#"
           :thirdLinkName="holdingAnalytics.holdingName"
         />
-        <p v-else class="sharedPortfolioOwnerText">
-          {{
-            holdingAnalytics.sharedPortfolioOwner.displayName ||
-            holdingAnalytics.sharedPortfolioOwner.email
-          }}'s portfolio
-        </p>
 
         <section class="titleAndBackButtonContainer">
           <BackButton />
@@ -32,7 +34,6 @@
       <section class="holdingInfoSection">
         <p v-if="holdingAnalytics.holdingSector != null">
           {{ holdingAnalytics.holdingSector }}
-
         </p>
         <p v-if="holdingAnalytics.holdingIndustry != null">
           {{ holdingAnalytics.holdingIndustry }}
@@ -47,10 +48,7 @@
       :holdingTransactionFees="holdingAnalytics.holdingTransactionFees"
     />
 
-    <TradesList
-      :notAvailableInDemo="true"
-      :tradesList="holdingAnalytics.holdingTradesList"
-    />
+    <TradesList :tradesList="holdingAnalytics.holdingTradesList" />
 
     <p class="isinText">ISIN: {{ $route.params.holdingId }}</p>
     <!-- <DividendChart :hideTimeFrameBtns="false" class="dividendChartDashboard" /> -->
@@ -62,7 +60,7 @@
 
 <script>
 // import { Icon } from '@iconify/vue';
-
+import SharedPortfolioIcon from "@/components/ui/SharedPortfolioIcon.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 import BackButton from "@/components/ui/BackButton.vue";
@@ -73,6 +71,7 @@ import TradesList from "@/components/ui/TradesList.vue";
 export default {
   components: {
     Breadcrumbs,
+    SharedPortfolioIcon,
     // Icon,
     TradesList,
     Header,
@@ -107,10 +106,6 @@ export default {
     };
   },
   props: {
-    isDemo: {
-      type: Boolean,
-      default: false,
-    },
     isPublic: {
       type: Boolean,
       default: false,
@@ -201,9 +196,6 @@ export default {
     hasPortfolios() {
       return this.$store.getters["files/hasPortfolios"];
     },
-    getDemo() {
-      return this.$store.getters["files/getDemo"];
-    },
   },
   watch: {
     hasPortfolios() {
@@ -227,7 +219,7 @@ export default {
   },
   methods: {
     loadData() {
-      if (!this.isDemo && !this.isPublic) {
+      if (!this.isPublic) {
         if (!this.getHoldingAnalytics?.message) {
           if (this.hasHoldingAnalytics === true) {
             this.holdingAnalytics =
@@ -251,12 +243,7 @@ export default {
             this.$router.back();
           }
         }
-      } else if (this.isDemo) {
-        this.holdingAnalytics =
-          this.getDemo.holdingAnalytics[this.isin].holdingAnalytics;
-        this.getDemoPortfolioInfo();
-        this.isLoading = false;
-      } else if (this.isPublic) {
+      } else {
         if (this.hasSharedHoldingAnalytics === true) {
           this.holdingAnalytics =
             this.getSharedHoldingAnalytics["holdingAnalytics"];
@@ -285,9 +272,6 @@ export default {
         }
       }
     },
-    getDemoPortfolioInfo() {
-      this.portfolioInfo = this.$store.getters["files/getDemoPortfolioInfo"];
-    },
   },
   created() {
     this.isLoading = true;
@@ -297,11 +281,6 @@ export default {
 </script>
 
 <style scoped>
-.sharedPortfolioOwnerText {
-  color: var(--clr-grey);
-  font-weight: 300;
-}
-
 .isinText {
   color: var(--clr-medium-light-grey);
 }

@@ -10,9 +10,6 @@ export default {
             }
         }
     },
-    setDemoAsCurrentPortfolio(state) {
-        state.currentPortfolio = state.demoCurrentPortfolio;
-    },
     resetCurrentPortfolio(state) {
         state.currentPortfolio = null;
     },
@@ -46,7 +43,6 @@ export default {
     resetPortfolios(state) {
         state.portfolios = [];
     },
-   
     deletePortfolio(state, id) {
         state.portfolios = state.portfolios.filter(p => p.id !== id);
     },

@@ -1,14 +1,32 @@
 <template>
   <Card>
     <section :class="{ cardContentNoBtn: !withBtn, cardContent: withBtn }">
-      <h2>{{ title }}</h2>
+      <h2>
+        {{ title }}
+        <Tooltip v-if="showTooltip">{{tooltipText}}</Tooltip>
+      </h2>
       <transition name="slide-fade" mode="out-in">
         <p class="cardText" :key="resultValue">
           <span class="resultValue" :class="{ redNumber: isNegative }">
-            <span v-if="numberResult">{{Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(resultValue)}}</span>
-            <span v-else :class="{ textResult: !numberResult, blueTextResult: largeBlueText }">{{
-              resultValue
-            }}</span>
+            <span v-if="numberResult">
+              <span v-if="isPercentage"> {{ Intl.NumberFormat("nl-nl").format(resultValue) }}% </span>
+              <span v-else>
+                {{
+                  Intl.NumberFormat("nl-nl", {
+                    style: "currency",
+                    currency: "EUR",
+                  }).format(resultValue)
+                }}
+              </span>
+            </span>
+            <span
+              v-else
+              :class="{
+                textResult: !numberResult,
+                blueTextResult: largeBlueText,
+              }"
+              >{{ resultValue }}</span
+            >
           </span>
         </p>
       </transition>
@@ -24,11 +42,13 @@
 <script>
 import CardButtonArrow from "../ui/CardButtonArrow.vue";
 import Card from "@/components/ui/Card.vue";
+import Tooltip from "@/components/ui/Tooltip.vue";
 
 export default {
   components: {
     CardButtonArrow,
     Card,
+    Tooltip,
   },
   props: {
     withBtn: {
@@ -50,6 +70,18 @@ export default {
       type: String,
       default: "View Details",
     },
+    isPercentage: {
+      default: false,
+      type: Boolean,
+    },
+    showTooltip: {
+      default: false,
+      type: Boolean,
+    },
+    tooltipText: {
+      type: String,
+      default: 'No explanation yet',
+    },
     numberResult: {
       type: Boolean,
       default: true,
@@ -57,7 +89,7 @@ export default {
     largeBlueText: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   computed: {
     // laat weten of het resultaat negatief is met true of false
@@ -75,7 +107,6 @@ export default {
 <style scoped>
 h2 {
   text-align: center;
-  color: var(--clr-grey);
 }
 
 .textResult {

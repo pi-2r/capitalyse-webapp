@@ -2,7 +2,7 @@
   <Card>
     <section class="holdingsPieChartWrapper">
       <section class="holdingsPieChartTitle">
-        <h2>{{ title }}</h2>
+        <h2>{{ title }} <Tooltip v-if="showTooltip">{{tooltipText}}</Tooltip></h2>
         <p class="holdingsPieChartTitle__dataLength">{{ dataLength }}</p>
       </section>
       <section class="holdingsPieChart" v-if="!isLoading">
@@ -53,6 +53,14 @@ export default {
     btnText: {
       type: String,
       default: "View Details",
+    },
+    showTooltip: {
+      default: false,
+      type: Boolean,
+    },
+    tooltipText: {
+      default: 'No explanation yet.',
+      type: String,
     },
     chartOptions: {
       type: Object,

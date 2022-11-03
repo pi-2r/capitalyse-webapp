@@ -1,17 +1,27 @@
 <template>
-  <Header :isDemo="isDemo"></Header>
+  <Header />
   <section class="container" v-if="!isLoading">
-    
+    <SharedPortfolioIcon
+      :displayName="depositsAnalytics.sharedPortfolioOwner.displayName"
+      :email="depositsAnalytics.sharedPortfolioOwner.email"
+      v-if="isPublic"
+    />
     <Breadcrumbs
-      v-if="!isPublic"
       baseLink="/portfolios"
       baseLinkName="Portfolios"
-      :secondLink="this.isDemo ? '/dashboard/demo' : '/dashboard/' + this.$route.params.id"
-      :secondLinkName="portfolioInfo.portfolioName"
+      :secondLink="
+        this.isPublic
+          ? `/shared/${this.$route.params.uid}/${this.$route.params.pid}`
+          : '/dashboard/' + this.$route.params.id
+      "
+      :secondLinkName="
+        this.isPublic
+          ? depositsAnalytics.portfolioMetadata.portfolioName
+          : portfolioInfo.portfolioName
+      "
       thirdLink="#"
-      thirdLinkName="Deposits & Withdrawals"
+      thirdLinkName="Deposits"
     />
-    <p v-else class="sharedPortfolioOwnerText">{{depositsAnalytics.sharedPortfolioOwner.displayName || depositsAnalytics.sharedPortfolioOwner.email}}'s portfolio</p>
 
     <section class="titleAndBackButtonContainer">
       <BackButton />
@@ -19,16 +29,20 @@
     </section>
 
     <section class="cardsContainer">
-      <DepositsChart :chartDepositsProps="depositsAnalytics.chartDeposits" />
+      <DepositsChart
+        :chartDepositsProps="depositsAnalytics.chartDeposits"
+        :currency="depositsAnalytics.depositsList[0].currency"
+      />
       <DepositsList :depositsList="depositsAnalytics.depositsList" />
     </section>
   </section>
   <section v-else>
-    <LoadingOverlay/>
+    <LoadingOverlay />
   </section>
 </template>
 
 <script>
+import SharedPortfolioIcon from "@/components/ui/SharedPortfolioIcon.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 import BackButton from "@/components/ui/BackButton.vue";
@@ -40,15 +54,12 @@ export default {
   components: {
     Breadcrumbs,
     Header,
+    SharedPortfolioIcon,
     BackButton,
     DepositsChart,
     DepositsList,
   },
   props: {
-    isDemo: {
-      type: Boolean,
-      default: false,
-    },
     isPublic: {
       type: Boolean,
       default: false,
@@ -99,9 +110,12 @@ export default {
       let sharedAnalytics = this.$store.getters["files/getSharedAnalytics"];
       if (sharedAnalytics.length > 0) {
         for (let i = 0; i < sharedAnalytics.length; i++) {
-          if (Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)) {
+          if (
+            Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)
+          ) {
             if (
-              sharedAnalytics[i][this.$route.params.pid].depositsAnalytics !== undefined
+              sharedAnalytics[i][this.$route.params.pid].depositsAnalytics !==
+              undefined
             ) {
               return true;
             }
@@ -114,15 +128,14 @@ export default {
       if (this.isPublic === true) {
         const sharedAnalytics = this.$store.getters["files/getSharedAnalytics"];
         for (let i = 0; i < sharedAnalytics.length; i++) {
-          if (Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)) {
+          if (
+            Object.keys(sharedAnalytics[i]).includes(this.$route.params.pid)
+          ) {
             return sharedAnalytics[i][this.$route.params.pid].depositsAnalytics;
           }
         }
       }
       return null;
-    },
-    getDemo() {
-      return this.$store.getters['files/getDemo'];
     },
     hasPortfolios() {
       return this.$store.getters["files/hasPortfolios"];
@@ -138,7 +151,7 @@ export default {
       }
     },
     hasSharedDepositsAnalytics() {
-      if(this.hasSharedDepositsAnalytics === true) {
+      if (this.hasSharedDepositsAnalytics === true) {
         this.loadData();
       }
     },
@@ -148,37 +161,35 @@ export default {
   },
   methods: {
     loadData() {
-      if (!this.isDemo && !this.isPublic) {
+      if (!this.isPublic) {
         if (this.hasDepositsAnalytics === true) {
           this.depositsAnalytics = this.getDepositsAnalytics;
           this.getPortfolioInfo();
-          this.isLoading = false
+          this.isLoading = false;
         } else {
-          this.$store.dispatch("files/fetchPortfolioAnalytics", {
-            type: "deposits",
-            portfolioId: this.$route.params.id,
-          }).then(() => {
-            this.isLoading = false
-          });
+          this.$store
+            .dispatch("files/fetchPortfolioAnalytics", {
+              type: "deposits",
+              portfolioId: this.$route.params.id,
+            })
+            .then(() => {
+              this.isLoading = false;
+            });
         }
-      } else if (this.isDemo) {
-        this.depositsAnalytics = this.getDemo.depositsAnalytics;
-        this.getDemoPortfolioInfo();
-        this.isLoading = false;
       } else if (this.isPublic) {
-        if(this.hasSharedDepositsAnalytics === true) {
+        if (this.hasSharedDepositsAnalytics === true) {
           this.depositsAnalytics = this.getSharedDepositsAnalytics;
-          this.isLoading = false
+          this.isLoading = false;
         } else {
-        this.$store
-          .dispatch("files/fetchSharedPortfolioAnalytics", {
-            type: "deposits",
-            userId: this.$route.params.uid,
-            portfolioId: this.$route.params.pid,
-          })
-          .then(() => {
-            this.isLoading = false;
-          });
+          this.$store
+            .dispatch("files/fetchSharedPortfolioAnalytics", {
+              type: "deposits",
+              userId: this.$route.params.uid,
+              portfolioId: this.$route.params.pid,
+            })
+            .then(() => {
+              this.isLoading = false;
+            });
         }
       }
     },
@@ -192,23 +203,15 @@ export default {
         }
       }
     },
-    getDemoPortfolioInfo() {
-      this.portfolioInfo = this.$store.getters['files/getDemoPortfolioInfo']
-    },
   },
   created() {
-    this.isLoading = true
+    this.isLoading = true;
     this.loadData();
   },
 };
 </script>
 
 <style scoped>
-.sharedPortfolioOwnerText {
-  color: var(--clr-grey);
-  font-weight: 300;
-}
-
 .titleAndBackButtonContainer {
   display: flex;
   align-items: center;

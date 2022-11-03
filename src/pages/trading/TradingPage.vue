@@ -1,23 +1,27 @@
 <template>
-  <Header :isDemo="isDemo"></Header>
+  <Header />
   <section class="container" v-if="!isLoading">
+    <SharedPortfolioIcon
+      :displayName="tradingAnalytics.sharedPortfolioOwner.displayName"
+      :email="tradingAnalytics.sharedPortfolioOwner.email"
+      v-if="isPublic"
+    />
     <Breadcrumbs
-      v-if="!isPublic"
       baseLink="/portfolios"
       baseLinkName="Portfolios"
       :secondLink="
-        this.isDemo ? '/dashboard/demo' : '/dashboard/' + this.$route.params.id
+        this.isPublic
+          ? `/shared/${this.$route.params.uid}/${this.$route.params.pid}`
+          : '/dashboard/' + this.$route.params.id
       "
-      :secondLinkName="portfolioInfo.portfolioName"
+      :secondLinkName="
+        this.isPublic
+          ? tradingAnalytics.portfolioMetadata.portfolioName
+          : portfolioInfo.portfolioName
+      "
       thirdLink="#"
       thirdLinkName="Trading"
     />
-    <p v-else class="sharedPortfolioOwnerText">
-      {{
-        tradingAnalytics.sharedPortfolioOwner.displayName ||
-        tradingAnalytics.sharedPortfolioOwner.email
-      }}'s portfolio
-    </p>
 
     <section class="titleAndBackButtonContainer">
       <BackButton />
@@ -47,6 +51,7 @@
 </template>
 
 <script>
+import SharedPortfolioIcon from "@/components/ui/SharedPortfolioIcon.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 import BackButton from "@/components/ui/BackButton.vue";
@@ -59,6 +64,7 @@ import MostFreqBuyOrSell from "./components/MostFreqBuyOrSell.vue";
 export default {
   components: {
     Breadcrumbs,
+    SharedPortfolioIcon,
     Header,
     MostFreqTradedCard,
     MostFreqBuyOrSell,
@@ -67,10 +73,6 @@ export default {
     TradeCountCard,
   },
   props: {
-    isDemo: {
-      type: Boolean,
-      default: false,
-    },
     isPublic: {
       type: Boolean,
       default: false,
@@ -153,9 +155,6 @@ export default {
     hasPortfolios() {
       return this.$store.getters["files/hasPortfolios"];
     },
-    getDemo() {
-      return this.$store.getters["files/getDemo"];
-    },
   },
   watch: {
     hasPortfolios() {
@@ -177,7 +176,7 @@ export default {
   },
   methods: {
     loadData() {
-      if (!this.isDemo && !this.isPublic) {
+      if (!this.isPublic) {
         if (this.hasTradingAnalytics === true) {
           this.tradingAnalytics = this.getTradingAnalytics;
           this.getPortfolioInfo();
@@ -192,11 +191,7 @@ export default {
               this.isLoading = false;
             });
         }
-      } else if (this.isDemo) {
-        this.tradingAnalytics = this.getDemo.tradingAnalytics;
-        this.getDemoPortfolioInfo();
-        this.isLoading = false;
-      } else if (this.isPublic) {
+      } else {
         if (this.hasSharedTradingAnalytics === true) {
           this.tradingAnalytics = this.getSharedTradingAnalytics;
           this.isLoading = false;
@@ -223,9 +218,6 @@ export default {
         }
       }
     },
-    getDemoPortfolioInfo() {
-      this.portfolioInfo = this.$store.getters["files/getDemoPortfolioInfo"];
-    },
     setCurrentPortfolio(id) {
       this.$store.dispatch("files/setCurrentPortfolio", id);
     },
@@ -241,11 +233,6 @@ export default {
 </script>
 
 <style scoped>
-.sharedPortfolioOwnerText {
-  color: var(--clr-grey);
-  font-weight: 300;
-}
-
 .titleAndBackButtonContainer {
   display: flex;
   align-items: center;

@@ -27,9 +27,6 @@ export default {
     resetCurrentPortfolio(context) {
         context.commit('resetCurrentPortfolio');
     },
-    setDemoAsCurrentPortfolio(context) {
-        context.commit('setDemoAsCurrentPortfolio');
-    },
     setUploadingState(context, uploadingState) {
         context.commit('setUploadingState', uploadingState);
     },

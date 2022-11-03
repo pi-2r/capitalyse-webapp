@@ -48,7 +48,7 @@
           </tr>
           <tr v-if="trades.length < 1 && !isLoading">
             <td class="noTrades" colspan="3">
-              <p>{{ notAvailableInDemo ? 'Not available in demo. Upload your own portfolio to view.' : 'No results' }}</p>
+              <p>No results</p>
             </td>
           </tr>
 
@@ -74,9 +74,6 @@ export default {
     Card,
   },
   props: {
-    notAvailableInDemo: {
-      default: false,
-    },
     tradesList: {
       required: true,
       default: [],
