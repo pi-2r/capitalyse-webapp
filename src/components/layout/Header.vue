@@ -110,9 +110,9 @@
         </section>
       </section>
       <section class="nav-container-mobile">
-        <a href="https://www.capitalyse.app/" class="routerLinkLogo">
-          <Logo />
-        </a>
+         <router-link to="/portfolios" style="text-decoration: none;" class="routerLinkLogo">
+              <Logo />
+            </router-link>
 
         <section class="rightSide">
           <router-link to="/signup">
