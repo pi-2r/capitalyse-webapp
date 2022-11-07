@@ -31,7 +31,7 @@
     <section class="cardsContainer">
       <DepositsChart
         :chartDepositsProps="depositsAnalytics.chartDeposits"
-        :currency="depositsAnalytics.depositsList[0].currency"
+        :currency="depositsAnalytics.depositsList[0]?.currency"
       />
       <DepositsList :depositsList="depositsAnalytics.depositsList" />
     </section>
