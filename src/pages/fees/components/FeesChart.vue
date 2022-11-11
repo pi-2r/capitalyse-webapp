@@ -1,7 +1,7 @@
 <template>
-  <section class="dividendChartContainer">
+  <section class="feesChartContainer">
     <!-- time frame -->
-    <section class="timeFrame">
+    <section class="timeFrame" v-if="!hideTimeFrameBtns">
       <!-- radios -->
       <section class="timeFrame__buttons">
         <button
@@ -45,19 +45,33 @@
         >
           {{ timeFrameOptions.fiveYears }}
         </button>
-        <!-- <button class="timeFrame__btn" id="js--timeFrame__btn--pastThreeYears">3 Years</button>
-                <button class="timeFrame__btn" id="js--timeFrame__btn--pastFiveYears">5 Years</button> -->
       </section>
     </section>
 
-    <section class="dividendChartWrapper">
-      <section class="dividendChartHeading">
-        <h2>Fees</h2>
+    <Card class="feesChartWrapper">
+      <section class="feesChartHeading">
+        <h2>
+          Fees <Tooltip v-if="showTooltip">{{ tooltipText }}</Tooltip>
+        </h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
-            <span class="chartResultValue redNumber">
-              -€{{ (totalExchangeFees + totalTransactionFees).toFixed(2) }}
+            <span class="chartResultValue"
+              >{{
+                Intl.NumberFormat("nl-nl", {
+                  style: "currency",
+                  currency: "EUR",
+                }).format(totalFees)
+              }}
             </span>
+            <span class="chartAverageResultValue"
+              >avg.
+              {{
+                Intl.NumberFormat("nl-nl", {
+                  style: "currency",
+                  currency: "EUR",
+                }).format(averageFeesPerMonth)
+              }}/mo</span
+            >
           </p>
         </transition>
       </section>
@@ -65,41 +79,65 @@
       <p class="chartErrorMsg" v-if="chartErrorMsg">
         {{ chartErrorMsg }}
       </p>
-      <section class="dividendChart" v-else>
-        <StackedBarChart v-if="!isLoading" :chart-data="chartData" />
+      <section class="feesChart" v-else>
+        <BarChart v-if="!isLoading" :chart-data="chartData" />
         <section class="spinnerContainer" v-else>
           <spinner />
         </section>
       </section>
-    </section>
+      <section class="cardBtnSection" v-if="withBtn">
+        <CardButtonArrow class="cardBtnArrow__feesChart" :to="toLink">
+          View Fees
+        </CardButtonArrow>
+      </section>
+    </Card>
   </section>
 </template>
 
 <script>
-import StackedBarChart from "@/components/ui/StackedBarChart.vue";
+import BarChart from "@/components/ui/BarChart.vue";
+import Card from "@/components/ui/Card.vue";
+import CardButtonArrow from "@/components/ui/CardButtonArrow.vue";
 
-import cleanNumberMixin from "@/mixins/helpers/cleanNumber";
-import includesFromArrayMixin from "@/mixins/helpers/includesFromArray";
-import splitDateMixin from "@/mixins/helpers/splitDate";
 
 export default {
-  mixins: [cleanNumberMixin, includesFromArrayMixin, splitDateMixin],
   components: {
-    StackedBarChart,
+    BarChart,
+    Card,
+    CardButtonArrow,
+  },
+  props: {
+    chartFeesProps: {
+      required: true,
+    },
+    showTooltip: {
+      default: false,
+      type: Boolean,
+    },
+    tooltipText: {
+      default: "No explanation yet.",
+      type: String,
+    },
+    withBtn: {
+      default: false,
+      type: Boolean,
+    },
+    hideTimeFrameBtns: {
+      type: Boolean,
+      default: false,
+    },
+    isPublic: {
+      default: false,
+      type: Boolean,
+    }
   },
   data() {
     return {
+      test: null,
       isLoading: true,
       selectedTimeFrame: "All Time",
-      exFeesArray: [],
-      transFeesArray: [],
-      totalExchangeFees: 0,
-      totalTransactionFees: 0,
+      feesArray: [],
       chartErrorMsg: null,
-      dataHolder: [],
-      dataHolderTransFees: [],
-      labelsHolder: [],
-      labelsHolderTransLabels: [],
       timeFrameOptions: {
         allTime: "All Time",
         yearToDate: "YTD",
@@ -109,50 +147,61 @@ export default {
       },
       chartData: {
         labels: [],
-        datasets: [
-          {
-            label: "Fees",
-            backgroundColor: "#e1f1fb",
-            borderWidth: 0,
-            borderRadius: 5,
-            borderSkipped: "bottom",
-            borderColor: "#0091ff",
-            hoverBorderWidth: 1,
-            hoverBorderColor: "#0091ff",
-            data: [],
-          },
-          {
-            data: [],
-          },
-        ],
+        datasets: [],
       },
     };
   },
   computed: {
-    exchangeFeesIndexes() {
-      return this.$store.getters["indexes/exchangeFees"];
+    toLink() {
+      if(this.isPublic === true) {
+        return `/shared/${this.$route.params.uid}/${this.$route.params.pid}/fees`
+      } else {
+        return `/dashboard/${this.$route.params.id}/fees`;
+      }
     },
-    exchangeFeesNames() {
-      return this.$store.getters["dictionary/exchangeFees"];
+    totalFees() {
+      let total = 0;
+      for (let i = 0; i < this.feesArray.length; i++) {
+        let feesList = this.feesArray[i].fees;
+        // add all the fees together
+        for (let j = 0; j < feesList.length; j++) {
+          total += feesList[j].amount;
+        }
+      }
+      return total;
     },
-    transactionsFeesIndexes() {
-      return this.$store.getters["indexes/transactions"];
-    },
-    transactionsFeesNames() {
-      return this.$store.getters["dictionary/transactions"];
-    },
-    dividendNamesEUR() {
-      return this.$store.getters["dictionary/dividendEUR"];
-    },
-    currencyNames() {
-      return this.$store.getters["dictionary/currency"];
-    },
-    currentPortfolio() {
-      return this.$store.getters["files/getCurrentPortfolio"];
+    averageFeesPerMonth() {
+      // if theres fees
+      if (this.feesArray.length > 0) {
+        let total = 0;
+        for (let i = 0; i < this.feesArray.length; i++) {
+          let feesList = this.feesArray[i].fees;
+          // add all the feess together
+          for (let j = 0; j < feesList.length; j++) {
+            total += feesList[j].amount;
+          }
+        }
+        let average = (total / this.feesArray[0].datesList.length).toFixed(
+          2
+        );
+
+        return average;
+      } else {
+        return 0;
+      }
     },
     isThereData() {
-      return !!this.currentPortfolio.accountFile;
+      return this.chartFeesProps !== [];
     },
+    // getFeesAnalytics() {
+    //   const analytics = this.$store.getters["files/getAnalytics"];
+    //   for (let i = 0; i < analytics.length; i++) {
+    //     if (Object.keys(analytics[i]).includes(this.$route.params.id)) {
+    //       return analytics[i][this.$route.params.id].feesAnalytics;
+    //     }
+    //   }
+    //   return null;
+    // },
   },
   watch: {
     isThereData() {
@@ -164,382 +213,26 @@ export default {
   },
   methods: {
     setTheme() {
+      // vraag thema op en verander de chart kleuren
       const theme = localStorage.getItem("theme");
       if (theme === "dark") {
-        this.chartData.datasets[0].backgroundColor = "#223443";
-        this.chartData.datasets[0].borderColor = "#0084ff";
+        this.chartData.datasets[0].backgroundColor = "#007cda";
+        this.chartData.datasets[0].borderColor = "#007cda";
       } else {
-        this.chartData.datasets[0].backgroundColor = "#0091ff30";
-        this.chartData.datasets[0].borderColor = "#0091ff";
-        this.chartData.datasets[0].hoverBorderColor = "#0091ff";
+        this.chartData.datasets[0].backgroundColor = "#007cda";
+        this.chartData.datasets[0].borderColor = "#007cda";
+        this.chartData.datasets[0].hoverBorderColor = "#007cda";
       }
-    },
-    loadData() {
-      if (this.isThereData) {
-        this.getDividends();
-        this.isLoading = false;
-      } else {
-        this.isLoading = true;
-      }
-    },
-    timeFrameChange(e) {
-      this.selectedTimeFrame = e.target.innerText;
-      this.isThereData ? this.getDividends() : null;
-      this.timeFrameDataUpdate();
-    },
-    getDividends() {
-      const accountData = this.currentPortfolio.accountFile;
-      const transactionsData = this.currentPortfolio.transactionsFile;
-
-      const exFeesSearchIndex = this.exchangeFeesIndexes.searchIndex;
-      const exFeesFeeIndex = this.exchangeFeesIndexes.feeIndex;
-      const exFeesDateIndex = this.exchangeFeesIndexes.dateIndex;
-      const exFeesNames = this.exchangeFeesNames;
-
-      const transFeesDateIndex = this.transactionsFeesIndexes.dateIndex;
-      const transFeesFeeIndex = this.transactionsFeesIndexes.searchIndex;
-
-      // let totalTransactionFees = 0;
-
-      this.exFeesArray = [];
-      this.transFeesArray = [];
-      this.labelsHolder = [];
-      this.dataHolder = [];
-      this.totalExchangeFees = 0;
-      this.totalTransactionFees = 0;
-
-      // get the exchange fees from account file
-      for (let i = 0; i < accountData.length - 1; i++) {
-        if (
-          this.includesFromArray(exFeesNames, accountData[i][exFeesSearchIndex])
-        ) {
-          let alreadyExists = false;
-
-          let feeDate = accountData[i][exFeesDateIndex].slice(3, 10);
-          let feeAmount = this.cleanNumber(accountData[i][exFeesFeeIndex]) * -1;
-          this.totalExchangeFees += feeAmount;
-
-          if (this.exFeesArray.length === 0) {
-            this.exFeesArray.push({
-              date: feeDate,
-              feeAmt: feeAmount,
-            });
-          } else {
-            for (let j = 0; j < this.exFeesArray.length; j++) {
-              if (this.exFeesArray[j].date === feeDate) {
-                this.exFeesArray[j].feeAmt += feeAmount;
-                alreadyExists = true;
-                break;
-              }
-            }
-            if (!alreadyExists) {
-              this.exFeesArray.push({
-                date: feeDate,
-                feeAmt: feeAmount,
-              });
-            }
-          }
-        }
-      }
-      // get transaction fees from transactions file
-      for (let i = 0; i < transactionsData.length - 1; i++) {
-        if (transactionsData[i][transFeesFeeIndex] !== "") {
-          let alreadyExists = false;
-
-          let feeDate = transactionsData[i][transFeesDateIndex].slice(3, 10);
-          let feeAmount =
-            parseFloat(transactionsData[i][transFeesFeeIndex]) * -1;
-          this.totalTransactionFees += feeAmount;
-
-          if (this.transFeesArray.length === 0) {
-            this.transFeesArray.push({
-              date: feeDate,
-              feeAmt: feeAmount,
-            });
-          } else {
-            for (let j = 0; j < this.transFeesArray.length; j++) {
-              if (this.transFeesArray[j].date === feeDate) {
-                this.transFeesArray[j].feeAmt += feeAmount;
-                alreadyExists = true;
-                break;
-              }
-            }
-            if (!alreadyExists) {
-              this.transFeesArray.push({
-                date: feeDate,
-                feeAmt: feeAmount,
-              });
-            }
-          }
-        }
-      }
-      console.log(this.transFeesArray);
-
-      if (this.exFeesArray.length > 0) {
-        this.exFeesArray.sort((a, b) => {
-          return new Date(a.date) - new Date(b.date);
-        });
-
-        let firstDate = this.exFeesArray[0].date.split("-");
-        let lastDate =
-          this.exFeesArray[this.exFeesArray.length - 1].date.split("-");
-        let newFirstDate = new Date(lastDate[1], lastDate[0] - 1);
-        let newLastDate = new Date(firstDate[1], firstDate[0]);
-
-        let dateArray = [];
-        while (newFirstDate < newLastDate) {
-          dateArray.push(newFirstDate.toLocaleDateString());
-          newFirstDate.setMonth(newFirstDate.getMonth() + 1);
-        }
-
-        this.exFeesArray.reverse();
-
-        for (let i = 0; i < dateArray.length; i++) {
-          let date = dateArray[i];
-          let found = false;
-
-          // find date in dividendsArray, if found add to chart
-          for (let x = 0; x < this.exFeesArray.length; x++) {
-            let dateFromArray = this.splitDate(this.exFeesArray[x].date);
-            let newDateFromArray = new Date(
-              dateFromArray[1],
-              dateFromArray[0] - 1
-            ).toLocaleDateString();
-
-            if (date === newDateFromArray) {
-              found = true;
-              let fee = this.exFeesArray[x].feeAmt;
-              this.dataHolder.push(fee);
-            }
-          }
-
-          if (!found) {
-            this.dataHolder.push(null);
-          }
-
-          date = this.splitDate(date);
-
-          // if american notation
-          if (
-            this.splitDate(dateArray[1])[0] !== this.splitDate(dateArray[0])[0]
-          ) {
-            date = date[0] + "-" + date[2];
-          } else {
-            // if normal notation
-            date = date[1] + "-" + date[2];
-          }
-
-          this.labelsHolder.push(date);
-        }
-
-        this.addMissingMonthsToChart();
-
-        console.log(this.dataHolder);
-
-        this.chartData.labels = this.labelsHolder;
-        this.chartData.datasets[0].data = this.dataHolder;
-      }
-
-      if (this.transFeesArray.length > 0) {
-        this.transFeesArray.sort((a, b) => {
-          return new Date(a.date) - new Date(b.date);
-        });
-
-        let firstDate = this.transFeesArray[0].date.split("-");
-        let lastDate =
-          this.transFeesArray[this.transFeesArray.length - 1].date.split("-");
-        let newFirstDate = new Date(lastDate[1], lastDate[0] - 1);
-        let newLastDate = new Date(firstDate[1], firstDate[0]);
-
-        let dateArray = [];
-        while (newFirstDate < newLastDate) {
-          dateArray.push(newFirstDate.toLocaleDateString());
-          newFirstDate.setMonth(newFirstDate.getMonth() + 1);
-        }
-
-        this.transFeesArray.reverse();
-
-        for (let i = 0; i < dateArray.length; i++) {
-          let date = dateArray[i];
-          let found = false;
-
-          // find date in dividendsArray, if found add to chart
-          for (let x = 0; x < this.transFeesArray.length; x++) {
-            let dateFromArray = this.splitDate(this.transFeesArray[x].date);
-            let newDateFromArray = new Date(
-              dateFromArray[1],
-              dateFromArray[0] - 1
-            ).toLocaleDateString();
-
-            if (date === newDateFromArray) {
-              found = true;
-              let fee = this.transFeesArray[x].feeAmt;
-              this.dataHolderTransFees.push(fee);
-            }
-          }
-
-          if (!found) {
-            this.dataHolderTransFees.push(null);
-          }
-
-          date = this.splitDate(date);
-
-          // if american notation
-          if (
-            this.splitDate(dateArray[1])[0] !== this.splitDate(dateArray[0])[0]
-          ) {
-            date = date[0] + "-" + date[2];
-          } else {
-            // if normal notation
-            date = date[1] + "-" + date[2];
-          }
-
-          this.labelsHolderTransLabels.push(date);
-        }
-
-        this.addMissingMonthsToChart();
-
-        this.chartData.labels = this.labelsHolderTransLabels;
-        this.chartData.datasets[1].data = this.dataHolderTransFees;
-
-        this.setColors(this.chartData);
-
-      }
-    },
-    addMissingMonthsToChart() {
-      // add potentially missing months untill current month
-
-      let currentMonth =
-        new Date().getMonth() + 1 + "-" + new Date().getFullYear();
-      if (!this.includesFromArray(this.labelsHolder, currentMonth)) {
-        let lastMonthInChart = this.labelsHolder[this.labelsHolder.length - 1];
-        let lastMonth = this.splitDate(lastMonthInChart);
-        let newLastMonth = new Date(lastMonth[1], lastMonth[0]);
-        let newCurrentMonth = new Date(
-          currentMonth.split("-")[1],
-          currentMonth.split("-")[0] - 1
-        );
-        let firstiteration = true;
-
-        while (newLastMonth <= newCurrentMonth) {
-          firstiteration
-            ? (newLastMonth = new Date(
-                newLastMonth.getFullYear(),
-                newLastMonth.getMonth() + 1
-              ))
-            : null;
-          firstiteration = false;
-
-          let pushedMonth = newLastMonth.getMonth();
-          let pushedYear = newLastMonth.getFullYear();
-
-          if (pushedMonth === 0) {
-            pushedMonth = 12;
-            pushedYear = pushedYear - 1;
-          }
-
-          let pushedDate = pushedMonth + "-" + pushedYear;
-          this.labelsHolder.push(pushedDate);
-          newLastMonth.setMonth(newLastMonth.getMonth() + 1);
-        }
-        this.labelsHolder.push(currentMonth);
-      }
-
-      // remove duplicate last and second last bug
-      if (
-        this.labelsHolder[this.labelsHolder.length - 1] ===
-        this.labelsHolder[this.labelsHolder.length - 2]
-      ) {
-        this.labelsHolder.pop();
-      }
-    },
-    timeFrameDataUpdate() {
-      // timeframes other than All-time
-      if (this.selectedTimeFrame === this.timeFrameOptions.yearToDate) {
-        this.setYearToDateData();
-      } else if (this.selectedTimeFrame === this.timeFrameOptions.oneYear) {
-        this.setYearDate(1);
-      } else if (this.selectedTimeFrame === this.timeFrameOptions.threeYear) {
-        this.setYearDate(3);
-      } else if (this.selectedTimeFrame === this.timeFrameOptions.fiveYear) {
-        this.setYearDate(5);
-      }
-
-      this.updateChart();
-    },
-    setYearToDateData() {
-      // delete all months before this year
-      let currentYear = new Date().getFullYear();
-      for (let i = 0; i < this.labelsHolder.length; i++) {
-        let label = this.labelsHolder[i];
-        let labelYear = label.split("-")[1];
-        if (labelYear < currentYear) {
-          this.labelsHolder.splice(i, 1);
-          this.dataHolder.splice(i, 1);
-          i--;
-        }
-      }
-      // delete all dividends before this year
-      for (let i = 0; i < this.exFeesArray.length; i++) {
-        let dividendYear = this.exFeesArray[i].date.split("-")[1];
-        if (dividendYear < currentYear) {
-          this.exFeesArray.splice(i, 1);
-          i--;
-        }
-      }
-    },
-    setYearDate(years) {
-      // get one year ago in MM-YYYY
-      let currentYear = new Date().getFullYear();
-      let currentMonth = new Date().getMonth() + 1;
-      let yearAgo = new Date(currentYear - years, currentMonth);
-
-      // delete all months before yearAgo
-      for (let i = 0; i < this.labelsHolder.length; i++) {
-        let label = this.labelsHolder[i];
-        let labelYear = label.split("-")[1];
-        let labelMonth = label.split("-")[0];
-        let labelDate = new Date(labelYear, labelMonth - 1);
-
-        if (labelDate < yearAgo || labelDate < yearAgo + 1) {
-          this.labelsHolder.splice(i, 1);
-          this.dataHolder.splice(i, 1);
-          i--;
-        }
-      }
-
-      // delete all dividends of more than one year ago
-      for (let i = 0; i < this.exFeesArray.length; i++) {
-        let dividendYear = this.exFeesArray[i].date.split("-")[1];
-        let dividendMonth = this.exFeesArray[i].date.split("-")[0];
-        let dividendDate = new Date(dividendYear, dividendMonth - 1);
-
-        if (dividendDate < yearAgo || dividendDate < yearAgo + 1) {
-          this.exFeesArray.splice(i, 1);
-          i--;
-        }
-      }
-    },
-    updateChart() {
-      this.chartData.labels = this.labelsHolder;
-      this.chartData.datasets[0].data = this.dataHolder;
     },
     setColors(holdingsData) {
       // sets as many colors as there are holdings
       const colors = [
-        "#4a7aff",
-        "#4ac6ff",
-        "#4ad5ff",
-        "#4adbff",
-        "#4af6ff",
-        "#4afff0",
-        "#4affe1",
-        "#4a4dff",
-        "#5c4aff",
-        "#4affcc",
-        "#4affb1",
-        "#4aff89",
-        "#77ff4a",
+        "#D03533",
+        "#832120",
+        "#631918",
+        "#820A20",
+        "#5D0D0C",
+        "#6C0510",
       ];
       let holdingsList = [];
       for (let i = 0; i < holdingsData.datasets.length; i++) {
@@ -561,21 +254,195 @@ export default {
           colors[i];
       }
     },
+    loadData() {
+      if (this.isThereData) {
+        this.getFees();
+        this.isLoading = false;
+      } else {
+        this.isLoading = true;
+      }
+    },
+    timeFrameChange(e) {
+      // als er op een timeframe button wordt geklikt, geeft
+      // die butten de event mee. van deze event wordt de text
+      // vd button gelezen opgeslagen als huidige timeframe
+      this.isLoading = true;
+      setTimeout(() => {
+        this.selectedTimeFrame = e.target.innerText;
+        this.isThereData ? this.getFees() : null;
+        this.timeFrameDataUpdate();
+        this.isLoading = false;
+      }, 1);
+    },
+    getFees() {
+      this.feesArray = [];
+      this.chartData.datasets = [];
+
+      // haal fees op van de Mixin
+      let chartFees = JSON.parse(JSON.stringify(this.chartFeesProps));
+      // const chartFees = this.getChartFees(
+      //   this.currentPortfolio.accountFile
+      // );
+
+      // als er geen fees zijn, geef een error message
+      // als er wel fees zijn, maak een array aan met de labels en data
+      if (chartFees === false) {
+        this.chartData.labels = [];
+        this.chartData.datasets.push({
+          label: "",
+          data: [],
+          backgroundColor: "#007cda",
+          borderColor: "#007cda",
+          hoverBorderColor: "#007cda",
+        });
+
+        this.chartErrorMsg = "No fees found";
+      } else {
+        this.chartErrorMsg = null;
+        this.feesArray = chartFees;
+        this.chartData.labels = this.feesArray[0].datesList;
+
+        // fill stacked chart
+        for (let i = 0; i < this.feesArray.length; i++) {
+          this.chartData.datasets.push({
+            label: this.feesArray[i].name,
+            isin: this.feesArray[i].isin,
+            backgroundColor: "#007cda",
+            borderRadius: 4,
+            borderWidth: 0,
+            borderSkipped: "bottom",
+            borderColor: "transparent",
+            borderDash: [10, 5],
+            barPercentage: "1",
+            hoverBorderColor: "transparent",
+            data: this.feesArray[i].feesList,
+          });
+        }
+      }
+
+      // voeg voor elke holding een kleur toe
+      this.setColors(this.chartData);
+    },
+    timeFrameDataUpdate() {
+      // timeframes anders dan All-time
+      // als geselecteerd wordt, verander de data in de chart
+      if (this.selectedTimeFrame === this.timeFrameOptions.yearToDate) {
+        this.setYearToDate();
+      } else if (this.selectedTimeFrame === this.timeFrameOptions.oneYear) {
+        this.setYears(1);
+      } else if (this.selectedTimeFrame === this.timeFrameOptions.threeYears) {
+        this.setYears(3);
+      } else if (this.selectedTimeFrame === this.timeFrameOptions.fiveYears) {
+        this.setYears(5);
+      }
+    },
+    setYearToDate() {
+      // delete all months before this year
+      let currentYear = new Date().getFullYear();
+
+      for (let i = 0; i < this.feesArray.length; i++) {
+        for (let j = 0; j < this.feesArray[i].fees.length; j++) {
+          let feeYear = parseFloat(
+            this.feesArray[i].fees[j].date.split("-")[1]
+          );
+
+          if (feeYear < currentYear) {
+            this.feesArray[i].fees.splice(j, 1);
+            this.feesArray[i].datesList.splice(j, 1);
+            this.feesArray[i].feesList.splice(j, 1);
+            j--;
+          }
+        }
+      }
+    },
+    setYears(years) {
+      // get one year ago in MM-YYYY
+      let currentYear = new Date().getFullYear();
+      let currentMonth = new Date().getMonth() + 1;
+      let yearAgo = new Date(currentYear - years, currentMonth);
+
+      // delete all months before yearAgo
+      for (let i = 0; i < this.feesArray.length; i++) {
+        for (let j = 0; j < this.feesArray[i].fees.length; j++) {
+          let feeYear = this.feesArray[i].fees[j].date;
+          let labelYear = parseFloat(feeYear.split("-")[1]);
+          let labelMonth = parseFloat(feeYear.split("-")[0]);
+          let labelDate = new Date(labelYear, labelMonth - 1);
+
+          if (labelDate < yearAgo || labelDate < yearAgo + 1) {
+            this.feesArray[i].fees.splice(j, 1);
+            this.feesArray[i].datesList.splice(j, 1);
+            this.feesArray[i].feesList.splice(j, 1);
+            j--;
+          }
+        }
+      }
+    },
   },
   created() {
-    this.loadData();
-    this.setTheme();
+    // laad data als deze al is gefetcht
+    // zet het thema op de chart
+    if (this.isThereData) {
+      this.loadData();
+    }
   },
 };
 </script>
 
 <style scoped>
-.dividendChartContainer {
-  margin-top: 3rem;
+.cardBtnArrow__feesChart {
+  margin-top: 0;
+  width: 18rem;
+}
+
+.cardBtnSection {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  padding-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.cardBtnSection__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.cardBtnSection__btnIcon {
+  transition: 0.15s all;
+}
+
+.cardBtnSection__btn:hover .cardBtnSection__btnIcon {
+  transform: scale(1.02) translateX(0.2rem);
+}
+
+.feesChartHeadingContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+.timeFrame {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.feesChartBtns {
+  display: flex;
+  width: 100%;
+}
+
+.chartAverageResultValue {
+  font-size: 0.8rem;
+  display: block;
+  font-weight: 500;
+  color: var(--clr-red);
 }
 
 h2 {
-  color: var(--clr-dark-grey);
+  color: var(--clr-grey);
 }
 
 .chartErrorMsg {
@@ -592,36 +459,30 @@ h2 {
   height: 100%;
 }
 
-.dividendChartWrapper {
-  padding: 2rem;
-  padding-bottom: 0.1rem;
+.feesChartWrapper {
+  padding: 1.75rem;
+  padding-bottom: 0rem;
   background-color: var(--clr-very-light-blue);
   border-radius: var(--card-border-radius);
   box-shadow: var(--box-shadow-big);
-  border: 1px solid var(--clr-very-light-grey);
 }
 
-.dividendChartHeading {
-  margin-bottom: 2rem;
+.feesChartHeading {
+  margin-bottom: 1.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.redNumber {
-  color: var(--clr-red);
-}
-
-.dividendChartHeading p {
+.feesChartHeading p {
   text-align: right;
 }
 
-.dividendChart {
+.feesChart {
   width: 100%;
   height: 20rem;
   background-color: var(--clr-very-light-blue);
   border-radius: 0rem;
-  margin-bottom: 1.5rem;
 }
 
 .noDataMsg {
@@ -634,6 +495,7 @@ h2 {
 .chartResultValue {
   font-size: 1.5rem;
   font-weight: 600;
+  color: var(--clr-red);
 }
 
 .timeFrame__buttons {
@@ -642,14 +504,14 @@ h2 {
 }
 
 .timeFrame__btn {
-  padding: 0.6rem 0.85rem;
+  padding: 0.4rem 0.6rem;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   margin-right: 0.5rem;
   background-color: var(--clr-very-light-blue);
   color: var(--clr-grey);
   transform: translateY(0px);
-  border: 1px solid var(--clr-medium-light-grey);
+  border: 1px solid var(--clr-light-grey);
   border-radius: var(--btn-radius);
   user-select: none;
   box-shadow: var(--btn-shadow);
@@ -682,6 +544,12 @@ h2 {
 .slide-fade-leave-to {
   transform: translateY(15px);
   opacity: 0;
+}
+
+@media screen and (max-width: 650px) {
+  .cardBtnArrow__feesChart {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 550px) {

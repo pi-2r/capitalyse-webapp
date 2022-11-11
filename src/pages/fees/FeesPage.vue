@@ -45,7 +45,7 @@
 
       <ExchangeFeesCard :totalExchangeFees="feesAnalytics.totalExchangeFees" />
     </section>
-    <!-- <FeesChart/> -->
+    <FeesChart :chartFeesProps="feesAnalytics.chartFees"/>
    
   </section>
   
@@ -63,7 +63,7 @@ import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
 import BackButton from "@/components/ui/BackButton.vue";
 
 import ExchangeFeesCard from "./components/ExchangeFeesCard.vue";
-// import FeesChart from './components/FeesChart.vue';
+import FeesChart from './components/FeesChart.vue';
 
 export default {
   components: {
@@ -74,7 +74,7 @@ export default {
     TransFeesCard,
     SharedPortfolioIcon,
     ExchangeFeesCard,
-    // FeesChart
+    FeesChart
   },
   props: {
     isPublic: {
@@ -88,6 +88,7 @@ export default {
       feesAnalytics: {
         totalExchangeFees: 0,
         totalTransactionFees: 0,
+        chartFees: [],
       },
       portfolioInfo: {
         portfolioName: null,
