@@ -390,6 +390,10 @@ export default {
 </script>
 
 <style scoped>
+.feesChartContainer {
+  margin-bottom: 3rem;
+}
+
 .cardBtnArrow__feesChart {
   margin-top: 0;
   width: 18rem;

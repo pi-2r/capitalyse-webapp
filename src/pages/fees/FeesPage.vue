@@ -1,7 +1,7 @@
 <template>
   <Header />
   <section class="container" v-if="!isLoading">
-     <SharedPortfolioIcon
+    <SharedPortfolioIcon
       :displayName="feesAnalytics.sharedPortfolioOwner.displayName"
       :email="feesAnalytics.sharedPortfolioOwner.email"
       v-if="isPublic"
@@ -26,7 +26,6 @@
     <section class="titleAndBackButtonContainer">
       <BackButton />
       <h1>Fees & Costs</h1>
-      
     </section>
 
     <section class="cardsContainer">
@@ -34,7 +33,6 @@
         :withBtn="false"
         :totalTransactionFees="feesAnalytics.totalTransactionFees"
       />
-
       <ResultCard
         :showTooltip="true"
         tooltipText="Takes all your transactions and calculates the average transaction fee per trade."
@@ -42,13 +40,37 @@
         :resultValue="feesAnalytics.avgTransactionFeePerTrade"
         :withBtn="false"
       />
-
       <ExchangeFeesCard :totalExchangeFees="feesAnalytics.totalExchangeFees" />
     </section>
-    <FeesChart :chartFeesProps="feesAnalytics.chartFees"/>
-   
+
+    <FeesChart :chartFeesProps="feesAnalytics.chartFees" />
+
+    <section class="cardsContainer">
+      <ResultCard
+        :showTooltip="true"
+        tooltipText="Taxes on transactions in financial instruments in IR, HK & GB. Look up 'Stamp duty fees DEGIRO' for more information."
+        title="Stamp duty fees"
+        :resultValue="feesAnalytics.totalStampDutyFees"
+        :withBtn="false"
+      />
+      <ResultCard
+        :showTooltip="true"
+        tooltipText="Taxes on transactions in financial instruments in BE, FR, GR, IT, ES, IR & UK. 
+          Look up 'Financial Transaction Tax DEGIRO' for more information."
+        title="Financial transaction tax"
+        :resultValue="feesAnalytics.totalFTTFees"
+        :withBtn="false"
+      />
+      <ResultCard
+        :showTooltip="true"
+        tooltipText="Portfolios maintaining positions in American Depository Receipts (ADRs) should note that such securities are subject to periodic fees intended to compensate the agent bank providing custodial services on behalf of the ADR.  These services typically, include inventorying the foreign stocks underlying the ADR and managing all registration, compliance and record-keeping services."
+        title="ADR Pass-Through fees"
+        :resultValue="feesAnalytics.totalADRPassThroughFees"
+        :withBtn="false"
+      />
+    </section>
   </section>
-  
+
   <section v-else>
     <LoadingOverlay />
   </section>
@@ -63,7 +85,7 @@ import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
 import BackButton from "@/components/ui/BackButton.vue";
 
 import ExchangeFeesCard from "./components/ExchangeFeesCard.vue";
-import FeesChart from './components/FeesChart.vue';
+import FeesChart from "./components/FeesChart.vue";
 
 export default {
   components: {
@@ -74,7 +96,7 @@ export default {
     TransFeesCard,
     SharedPortfolioIcon,
     ExchangeFeesCard,
-    FeesChart
+    FeesChart,
   },
   props: {
     isPublic: {
@@ -229,6 +251,10 @@ export default {
 </script>
 
 <style scoped>
+.feesChart {
+  margin-bottom: 3rem;
+}
+
 .titleAndBackButtonContainer {
   display: flex;
   align-items: center;
