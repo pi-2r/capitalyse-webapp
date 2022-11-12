@@ -63,7 +63,7 @@
       />
       <ResultCard
         :showTooltip="true"
-        tooltipText="Portfolios maintaining positions in American Depository Receipts (ADRs) should note that such securities are subject to periodic fees intended to compensate the agent bank providing custodial services on behalf of the ADR.  These services typically, include inventorying the foreign stocks underlying the ADR and managing all registration, compliance and record-keeping services."
+        tooltipText="Portfolios maintaining positions in American Depository Receipts (ADRs) are subject to periodic fees intended to compensate the agent bank providing custodial services on behalf of the ADR. These services typically, include inventorying the foreign stocks underlying the ADR and managing all registration, compliance and record-keeping services."
         title="ADR Pass-Through fees"
         :resultValue="feesAnalytics.totalADRPassThroughFees"
         :withBtn="false"
