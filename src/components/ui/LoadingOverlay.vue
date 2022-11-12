@@ -37,6 +37,9 @@
         </div> -->
 
         <Spinner/>
+        <p class="text">
+        {{text}}
+        </p>
         <!-- <span class="loading-text-words">A</span>
         <span class="loading-text-words">N</span>
         <span class="loading-text-words">A</span>
@@ -58,11 +61,19 @@ export default {
       type: Boolean,
       default: false,
     },
+    text: {
+      type: String,
+      default: ''
+    }
   },
 };
 </script>
 
 <style scoped>
+.text {
+  margin-top: 1rem;
+  text-align: center;
+}
 
 @media screen and (max-width: 800px) {
   .loading-text-words {
@@ -386,7 +397,7 @@ export default {
   z-index: 9999;
 }
 
-.loading-text {
+/* .loading-text {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -400,7 +411,25 @@ export default {
   width: 100%;
   height: 100px;
   line-height: 75px;
+} */
+.loading-text {
+  color: var(--clr-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  flex-direction: column;
+  top: -5rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+  width: 100%;
+  height: 100px;
+  line-height: 75px;
 }
+
 .loading-text span {
   display: inline-block;
   margin: 0 4px;

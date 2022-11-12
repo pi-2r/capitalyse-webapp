@@ -10,28 +10,28 @@
   />
   <HoldingsPieChartCard
   :showTooltip="true"
-  tooltipText="This shows the currencies your holdings trade in. Hover over the chart to see more details."
-    title="Currencies"
+  tooltipText="This is the diversification of your portfolio in sectors. Hover over the chart to see more details."
+    title="Sectors"
     btnText="My Holdings"
     :showBtn="false"
-    chartErrorMsg="No currencies found."
+    chartErrorMsg="No sectors found."
     :chartOptions="chartOptions"
-    :chartData="currenciesChartData"
-    :isLoading="isLoadingCurrencies"
+    :chartData="sectorsChartData"
+    :isLoading="isLoadingSectors"
   />
 </template>
 <script>
 import HoldingsPieChartCard from "./HoldingsPieChartCard";
 
 export default {
-  props: ['pieChartCurrencies', 'pieChartHoldings'],
+  props: ['pieChartSectors', 'pieChartHoldings'],
   components: {
     HoldingsPieChartCard,
   },
   data() {
     return {
       isLoadingHoldings: true,
-      isLoadingCurrencies: true,
+      isLoadingSectors: true,
       chartHoldings: null,
       chartOptions: {
         onClick: this.pieChartClickEvent,
@@ -73,7 +73,7 @@ export default {
           },
         ],
       },
-      currenciesChartData: {
+      sectorsChartData: {
         labels: [],
         datasets: [
           {
@@ -88,7 +88,7 @@ export default {
   },
   computed: {
     isThereAnalyticsData() {
-      return this.pieChartCurrencies != null && this.pieChartHoldings != null
+      return this.pieChartSectors != null && this.pieChartHoldings != null
     },
   },
   watch: {
@@ -119,40 +119,40 @@ export default {
     setTheme() {
       const theme = localStorage.getItem("theme");
       if (theme === "dark") {
-        this.currenciesChartData.datasets[0].borderColor = "rgb(45, 45, 45)";
+        this.sectorsChartData.datasets[0].borderColor = "rgb(45, 45, 45)";
         this.holdingsChartData.datasets[0].borderColor = "rgb(45, 45, 45)";
         this.chartOptions.plugins.tooltip.backgroundColor = 'rgb(52, 52, 52)';
       } else {
-        this.currenciesChartData.datasets[0].borderColor = "white";
+        this.sectorsChartData.datasets[0].borderColor = "white";
         this.holdingsChartData.datasets[0].borderColor = "white";
       }
     },
     loadData() {
       if (this.isThereAnalyticsData) {
-        // bereken data voor de holdings pie chart en de currencies pie chart
-        this.setCurrenciesData();
-        this.isLoadingCurrencies = false
+        // bereken data voor de holdings pie chart en de sectors pie chart
+        this.setSectorsData();
+        this.isLoadingSectors = false
         this.setHoldingsData();
         this.isLoadingHoldings = false
       }
     },
-    setCurrenciesData() {
-      // currencies
-      let chartCurrencies = this.pieChartCurrencies
+    setSectorsData() {
+      // sectors
+      let chartSectors = this.pieChartSectors
 
-      // voeg voor elke currency een kleur toe
-      this.setColors(chartCurrencies, this.currenciesChartData);
+      // voeg voor elke sector een kleur toe
+      this.setColors(chartSectors, this.sectorsChartData);
 
       // set data
-      if (chartCurrencies === false) {
-        this.currenciesChartData.labels = [];
-        this.currenciesChartData.datasets[0].data = [];
+      if (chartSectors === false) {
+        this.sectorsChartData.labels = [];
+        this.sectorsChartData.datasets[0].data = [];
 
-        this.chartErrorMsg = "No currencies found";
+        this.chartErrorMsg = "No sectors found";
       } else {
         this.chartErrorMsg = null;
-        this.currenciesChartData.labels = chartCurrencies.labels;
-        this.currenciesChartData.datasets[0].data = chartCurrencies.data;
+        this.sectorsChartData.labels = chartSectors.labels;
+        this.sectorsChartData.datasets[0].data = chartSectors.data;
       }
     },
     setHoldingsData() {
@@ -176,10 +176,43 @@ export default {
     },
     setColors(holdings, holdingsData) {
       // sets as many colors as there are holdings
-      const colors = [];
+      const colors = [
+        "#4a7aff",
+        "#4a89ff",
+        "#4a95ff",
+        // "#4a5fff",
+        "#4aa4ff",
+        "#4ab7ff",
+        "#4ac6ff",
+        "#4ad5ff",
+        "#4adbff",
+        "#4af6ff",
+        "#4afff0",
+        "#4affe1",
+        // "#4a4dff",
+        // "#5c4aff",
+        "#4affcc",
+        "#4affb1",
+        "#4aff89",
+        "#77ff4a",
+        "#4ac6ff",
+        "#4ad5ff",
+        "#4adbff",
+        "#4af6ff",
+        "#4afff0",
+        "#4affe1",
+        "#4a4dff",
+        "#4a7aff",
+        "#4a89ff",
+        "#4a95ff",
+        "#4a5fff",
+        "#4aa4ff",
+        "#4ab7ff",
+      ];
+      const amtofColors = colors.length
 
       for (let i = 0; i < holdings.data.length; i++) {
-        let color = "#4a89ff";
+        let color = colors[Math.floor(Math.random() * amtofColors)];
         colors.push(color);
       }
       holdingsData.datasets[0].backgroundColor = colors;

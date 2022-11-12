@@ -79,7 +79,7 @@
 
       <section class="holdingsContainer">
         <HoldingsPieChartCards
-          :pieChartCurrencies="homeAnalytics.pieChartCurrencies"
+          :pieChartSectors="homeAnalytics.pieChartSectors"
           :pieChartHoldings="homeAnalytics.pieChartHoldings"
         />
       </section>
@@ -115,7 +115,7 @@
       />
     </section>
   </section>
-  <LoadingOverlay v-else />
+  <LoadingOverlay text="Loading analytics.. This might take a few seconds." v-else />
 </template>
 
 <script>

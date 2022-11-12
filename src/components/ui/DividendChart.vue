@@ -275,8 +275,9 @@ export default {
       holdingsList.sort((a, b) => b.sum - a.sum);
 
       for (let i = 0; i < holdingsList.length; i++) {
+        
         holdingsData.datasets[holdingsList[i].index].backgroundColor =
-          colors[i];
+          colors[Math.floor(Math.random() * colors.length)];
       }
     },
     loadData() {

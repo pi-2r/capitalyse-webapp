@@ -205,7 +205,6 @@ export default {
         if (this.hasDividendsAnalytics === true) {
           this.dividendsAnalytics = this.getDividendsAnalytics;
           this.getPortfolioInfo();
-          console.log(this.dividendsAnalytics.dividendYieldToDate);
           this.isLoading = false;
         } else {
           this.$store
