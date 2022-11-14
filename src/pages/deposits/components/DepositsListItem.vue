@@ -10,7 +10,7 @@
     class="number"
     :class="{ depositGreen: isDeposit, withdrawalRed: !isDeposit }"
   >
-    {{ Intl.NumberFormat('nl-nl', {style: 'currency', currency: deposit.currency}).format(this.deposit.amount) }}
+    {{ depositAmount }}
   </td>
 </template>
 <script>
@@ -52,6 +52,16 @@ export default {
     isDeposit() {
       return this.deposit.amount > 0;
     },
+    depositAmount() {
+      let amount
+      try {
+        amount = Intl.NumberFormat('nl-nl', {style: 'currency', currency: this.deposit.currency}).format(this.deposit.amount) || ' '
+      } catch(e) {
+        amount = this.deposit.currency + ' ' + Intl.NumberFormat('nl-nl').format(this.deposit.amount)
+      }
+
+      return amount
+    }
   },
 };
 </script>
