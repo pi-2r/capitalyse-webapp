@@ -129,8 +129,9 @@ export default {
               title: function (value) {
                 if (value[0]) {
                   const date = value[0].label;
-                  const year = date.split("-")[1];
-                  const month = date.split("-")[0];
+                  const year = date.split("-")[2];
+                  const month = date.split("-")[1];
+                  const day = date.split('-')[0]
                   const arrayOfMonths = [
                     "January",
                     "February",
@@ -146,7 +147,7 @@ export default {
                     "December",
                   ];
                   return [
-                    `${arrayOfMonths[month - 1]} ${year}`,
+                    `${day} ${arrayOfMonths[month - 1]} ${year}`,
                   ];
                 } else {
                   return null;

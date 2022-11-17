@@ -59,7 +59,7 @@
               >{{
                 Intl.NumberFormat("nl-nl", {
                   style: "currency",
-                  currency: currency,
+                  currency: 'EUR',
                 }).format(totalDeposits)
               }}
             </span>
@@ -68,7 +68,7 @@
               {{
                 Intl.NumberFormat("nl-nl", {
                   style: "currency",
-                  currency: currency,
+                  currency: 'EUR',
                 }).format(averageDepositsPerMonth)
               }}/mo</span
             >
@@ -80,7 +80,11 @@
         {{ chartErrorMsg }}
       </p>
       <section class="depositChart" v-else>
-        <LineChart v-if="!isLoading" :chart-data="chartData" :currency="currency" />
+        <LineChart
+          v-if="!isLoading"
+          :chart-data="chartData"
+          :currency="currency"
+        />
         <section class="spinnerContainer" v-else>
           <spinner />
         </section>
@@ -104,9 +108,9 @@ export default {
       required: true,
     },
     currency: {
-      default: 'EUR',
+      default: "EUR",
       required: false,
-    }
+    },
   },
   components: {
     LineChart,
@@ -218,17 +222,22 @@ export default {
       }
     },
     timeFrameChange(e) {
-      this.selectedTimeFrame = e.target.innerText;
-      this.isThereData ? this.getDeposits() : null;
-      this.timeFrameDataUpdate();
+      this.isLoading = true;
+
+      setTimeout(() => {
+        this.selectedTimeFrame = e.target.innerText;
+        this.isThereData ? this.getDeposits() : null;
+        this.timeFrameDataUpdate();
+        this.isLoading = false;
+        this.loadingProgress = 0;
+      }, 1);
     },
     getDeposits() {
       if (this.chartDepositsProps === false) {
         this.chartData.labels = [];
         this.chartData.datasets[0].data = [];
 
-        this.chartErrorMsg =
-          "No results";
+        this.chartErrorMsg = "No results";
       } else {
         this.chartData.labels = JSON.parse(
           JSON.stringify(this.chartDepositsProps.labels)
@@ -255,33 +264,48 @@ export default {
     setYearToDate() {
       // delete all months before this year
       let currentYear = new Date().getFullYear();
-      for (let i = 0; i < this.chartData.labels.length; i++) {
-        let label = this.chartData.labels[i];
-        let labelYear = label.split("-")[1];
-        if (labelYear < currentYear) {
-          this.chartData.labels.splice(i, 1);
-          this.chartData.datasets[0].data.splice(i, 1);
-          i--;
+
+      // big-O: 1n
+      loop1: for (let i = 0; i < this.chartData.labels.length; i++) {
+        const label = this.chartData.labels[i];
+        const labelYear = label.split("-")[2];
+        if (labelYear == currentYear) {
+          this.chartData.labels = this.chartData.labels.slice(i);
+          this.chartData.datasets[0].data =
+            this.chartData.datasets[0].data.slice(i);
+          break loop1;
         }
       }
     },
     setYears(years) {
       // get one year ago in MM-YYYY
-      let currentYear = new Date().getFullYear();
-      let currentMonth = new Date().getMonth() + 1;
-      let yearAgo = new Date(currentYear - years, currentMonth);
+      let yearAgo = new Date();
+      yearAgo.setFullYear(yearAgo.getFullYear() - years);
+      yearAgo = yearAgo
+        .toISOString()
+        .replace(/T.*/, "")
+        .split("-")
+        .reverse()
+        .join("-");
 
-      // delete all months before yearAgo
-      for (let i = 0; i < this.chartData.labels.length; i++) {
+      // big-O: 1n
+      loop1: for (let i = 0; i < this.chartData.labels.length; i++) {
         let label = this.chartData.labels[i];
-        let labelYear = label.split("-")[1];
-        let labelMonth = label.split("-")[0];
-        let labelDate = new Date(labelYear, labelMonth - 1);
+        let labelYear = label.split("-")[2];
+        let labelMonth = label.split("-")[1];
+        let labelDay = label.split("-")[0];
+        let labelDate = new Date(labelYear, +labelMonth - 1, labelDay)
+          .toISOString()
+          .replace(/T.*/, "")
+          .split("-")
+          .reverse()
+          .join("-");
 
-        if (labelDate < yearAgo || labelDate < yearAgo + 1) {
-          this.chartData.labels.splice(i, 1);
-          this.chartData.datasets[0].data.splice(i, 1);
-          i--;
+        if (labelDate == yearAgo) {
+          this.chartData.labels = this.chartData.labels.slice(i);
+          this.chartData.datasets[0].data =
+            this.chartData.datasets[0].data.slice(i);
+          break loop1;
         }
       }
     },

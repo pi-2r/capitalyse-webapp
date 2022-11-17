@@ -1,14 +1,37 @@
 <template>
   <td>
-    {{ date }}
+    <span
+      class="depOrWith"
+      :class="{ depositGreen: !isDeposit, withdrawalRed: isDeposit }"
+    >
+      {{ deposit.amount > 0 ? "Deposit" : "Withdrawal" }}
+    </span>
   </td>
   <td>
-    {{ deposit.amount > 0 ? "Deposit" : "Withdrawal" }}
+    <span>
+      {{ date }}
+    </span>
+    <br />
+    <span class="secondary">
+      {{ deposit.time }}
+    </span>
   </td>
+  <td>
+     <span>
+        {{ deposit.description }}
+    </span>
+    <br />
+    <span class="secondary">
+     {{ deposit.currency }}
+    </span>
+ 
+  </td>
+  <td>
 
+  </td>
   <td
     class="number"
-    :class="{ depositGreen: isDeposit, withdrawalRed: !isDeposit }"
+    :class="{ depositGreenNumber: !isDeposit, withdrawalRedNumber: isDeposit }"
   >
     {{ depositAmount }}
   </td>
@@ -24,19 +47,19 @@ export default {
   computed: {
     date() {
       // make month words and remove zero in front of days
-      const monthNames = [
-        "January",
-        "February",
-        "March",
-        "April",
+       const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
         "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
       ];
       let day = this.deposit.date.split("-")[0];
       // remove 0 in front of day
@@ -50,49 +73,75 @@ export default {
       return `${day} ${month} ${year}`;
     },
     isDeposit() {
-      return this.deposit.amount > 0;
+      return this.deposit.amount < 0;
     },
     depositAmount() {
-      let amount
+      let amount;
       try {
-        amount = Intl.NumberFormat('nl-nl', {style: 'currency', currency: this.deposit.currency}).format(this.deposit.amount) || ' '
-      } catch(e) {
-        amount = this.deposit.currency + ' ' + Intl.NumberFormat('nl-nl').format(this.deposit.amount)
+        amount =
+          Intl.NumberFormat("nl-nl", {
+            style: "currency",
+            currency: this.deposit.currency,
+          }).format(this.deposit.amount) || " ";
+      } catch (e) {
+        amount =
+          this.deposit.currency +
+          " " +
+          Intl.NumberFormat("nl-nl").format(this.deposit.amount);
       }
 
-      return amount
-    }
+      return amount;
+    },
   },
 };
 </script>
 <style scoped>
+.secondary {
+  color: var(--clr-medium-light-grey-2);
+}
+
 .number {
   text-align: right;
 }
 
 .depositGreen {
   color: var(--clr-green);
+  background-color: rgba(0, 128, 0, 0.1);
+}
+
+.depositGreenNumber {
+  color: var(--clr-green);
+}
+.withdrawalRedNumber {
+  color: var(--clr-red);
 }
 
 .withdrawalRed {
   color: var(--clr-red);
+  background-color: rgba(128, 0, 0, 0.1);
+}
+.depOrWith {
+  font-weight: 500;
+  border-radius: var(--btn-radius);
+  padding: 0.35rem 0.5rem;
+  text-align: center;
 }
 
 td {
-  padding: 1rem 1.75rem;
+  padding: 0.65rem 0.65rem;
   background-color: transparent;
-  color: var(--clr-grey);
+  color: var(--clr-dark-grey);
   font-weight: 400;
   font-size: 0.9rem;
 }
-
-@media screen and (max-width: 650px) {
-  td {
-    padding: 0.9rem 1.5rem;
-  }
-
-  td:nth-child(2) {
-    display: none;
-  }
+td:nth-of-type(1) {
+  padding-left: 1.75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+td:nth-last-child(1) {
+  padding-right: 1.75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 </style>

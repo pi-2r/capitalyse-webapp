@@ -16,17 +16,24 @@
           <option value="dateOldToNew">Date (old-new)</option>
           <option value="amountHighToLow">Amount (high-low)</option>
           <option value="amountLowToHigh">Amount (low-high)</option>
-          <option value="typeDeposit">Deposits only</option>
-          <option value="typeWithdrawal">Withdrawals only</option>
+          <option value="typeDeposit">Only deposits</option>
+          <option value="typeWithdrawal">Only withdrawals</option>
         </select>
       </section>
     </section>
-    <section class="depositsTableWrapper">
-      <table class="depositsTable">
+     <section class="wrapper1" @scroll.passive="handleScroll1" ref="wrapper1">
+      <section class="div1"></section>
+    </section>
+    <section class="depositsTableWrapper"
+      @scroll.passive="handleScroll2"
+      ref="wrapper2">
+      <table class="depositsTable div2">
         <thead>
           <tr>
-            <th>Date</th>
             <th>Type</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th></th>
             <th class="number">Amount</th>
           </tr>
         </thead>
@@ -152,6 +159,22 @@ export default {
         return deposit.amount < 0;
       });
     },
+    handleScroll1() {
+      if (this.scrolling) {
+        this.scrolling = false;
+        return;
+      }
+      this.scrolling = true;
+      this.$refs["wrapper2"].scrollLeft = this.$refs["wrapper1"].scrollLeft;
+    },
+    handleScroll2() {
+      if (this.scrolling) {
+        this.scrolling = false;
+        return;
+      }
+      this.scrolling = true;
+      this.$refs["wrapper1"].scrollLeft = this.$refs["wrapper2"].scrollLeft;
+    },
   },
   created() {
     this.loadData();
@@ -173,6 +196,14 @@ h2 {
   color: var(--clr-grey);
   font-size: 1rem;
 }
+
+.tablecontainerHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.75rem;
+}
+
 
 select {
   padding: 0.5rem;
@@ -206,6 +237,10 @@ select:hover {
   width: 6px;
 }
 
+.depositsTableWrapper {
+  overflow: scroll;
+}
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: var(--clr-light-grey);
@@ -214,7 +249,6 @@ select:hover {
 }
 
 .depositsTable {
-  width: 100%;
   border-radius: var(--card-border-radius);
   border-collapse: collapse;
 }
@@ -239,12 +273,21 @@ thead {
 }
 
 th {
-  padding: 1.2rem 1.75rem;
+  padding: 0.65rem 0.65rem;
   text-align: left;
   font-weight: 500;
   color: var(--clr-dark-grey);
 }
-
+th:nth-of-type(1) {
+  padding-left: 1.75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+th:nth-last-child(1) {
+  padding-right: 1.75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
 tr {
   border-bottom: 1px solid var(--clr-very-light-grey);
   transition: 0.1s all;
@@ -254,15 +297,32 @@ tr:nth-last-child(1) {
   border-bottom: none;
 }
 
+@media screen and (max-width: 825px) {
+  .wrapper1,
+  .wrapper2 {
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+  .wrapper1 {
+    height: 20px;
+  }
+  .wrapper2 {
+    height: 200px;
+  }
+  .div1 {
+    width: 50rem;
+    height: 20px;
+  }
+  .div2 {
+    width: 50rem;
+    height: 200px;
+    overflow: auto;
+  }
+}
+
+
 @media screen and (max-width: 650px) {
-  th {
-    padding: 1.5rem;
-  }
-
-  th:nth-child(2) {
-    display: none;
-  }
-
   .tablecontainerHeading {
     align-items: baseline;
     flex-direction: column;
