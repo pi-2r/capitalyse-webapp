@@ -259,26 +259,16 @@ export default {
         "#4aa4ff",
         "#4ab7ff",
       ];
-      let holdingsList = [];
+
+      const amtofColors = colors.length
+      
       for (let i = 0; i < holdingsData.datasets.length; i++) {
-        // sum object
-        const sum = holdingsData.datasets[i].data.reduce((a, b) => a + b, 0);
-        const isin = holdingsData.datasets[i].isin;
-        holdingsList.push({
-          index: i,
-          sum: sum,
-          isin: isin,
-        });
+        let color = colors[Math.floor(Math.random() * amtofColors)];
+        colors.push(color);
+        holdingsData.datasets[i].backgroundColor = colors[i]
       }
 
-      // sort holdingsList by sum
-      holdingsList.sort((a, b) => b.sum - a.sum);
-
-      for (let i = 0; i < holdingsList.length; i++) {
-        
-        holdingsData.datasets[holdingsList[i].index].backgroundColor =
-          colors[Math.floor(Math.random() * colors.length)];
-      }
+    
     },
     loadData() {
       if (this.isThereData) {

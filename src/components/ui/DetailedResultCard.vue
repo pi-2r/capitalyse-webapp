@@ -30,7 +30,7 @@
                 {{' ' + Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(subResultValue) }}
               </span>
               <span v-else>
-                {{subResultValue}}
+                {{Intl.NumberFormat('nl-nl').format(subResultValue) }}
               </span>
             </span>
             <span
