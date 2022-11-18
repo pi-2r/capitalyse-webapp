@@ -17,23 +17,31 @@
     </span>
   </td>
   <td>
-     <span>
-        {{ deposit.description }}
+    <span>
+      {{ deposit.description }}
     </span>
     <br />
     <span class="secondary">
-     {{ deposit.currency }}
+      {{ deposit.currency }}
     </span>
- 
   </td>
-  <td>
-
-  </td>
+  <td></td>
   <td
     class="number"
     :class="{ depositGreenNumber: !isDeposit, withdrawalRedNumber: isDeposit }"
   >
-    {{ depositAmount }}
+      <span >
+        {{
+          Intl.NumberFormat("nl-nl", {
+            style: "currency",
+            currency: "EUR",
+          }).format(deposit.convertedAmount)
+        }}
+      </span>
+      <br v-if="deposit.currency !== 'EUR'"/>
+      <span class="secondary" :class="{ depositGreenNumberSec: !isDeposit, withdrawalRedNumberSec: isDeposit }" v-if="deposit.currency !== 'EUR'">
+        {{ depositAmount }}
+      </span>
   </td>
 </template>
 <script>
@@ -47,7 +55,7 @@ export default {
   computed: {
     date() {
       // make month words and remove zero in front of days
-       const monthNames = [
+      const monthNames = [
         "Jan",
         "Feb",
         "Mar",
@@ -114,6 +122,14 @@ export default {
 }
 .withdrawalRedNumber {
   color: var(--clr-red);
+}
+.depositGreenNumberSec {
+  font-size: 0.8rem;
+  color: rgba(0, 128, 0, 0.5);
+}
+.withdrawalRedNumberSec {
+  font-size: 0.8rem;
+  color: rgba(218, 106, 104, 0.5);
 }
 
 .withdrawalRed {

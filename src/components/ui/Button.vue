@@ -88,7 +88,7 @@ button:hover {
     box-shadow: none;
     border: 1px solid var(--clr-medium-light-grey);
     box-shadow: var(--btn-shadow);
-    background-color: var(--clr-very-light-blue);
+    background-color: var(--clr-white);
 }
 
 .secondary {

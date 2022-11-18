@@ -89,7 +89,7 @@
           :showTooltip="true"
           tooltipText="Net amount deposited and withdrawn into and from your DEGIRO account."
           :isPublic="isPublic"
-          :totalDeposits="homeAnalytics.totalDeposits"
+          :totalDeposits="homeAnalytics.totalDepositsV2"
         />
         <TransFeesCard
           :isPublic="isPublic"
