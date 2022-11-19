@@ -1,29 +1,28 @@
 <template>
-  <Card>
-    <section class="holdingsPieChartWrapper">
-      <section class="holdingsPieChartTitle">
-        <h2>{{ title }} <Tooltip v-if="showTooltip">{{tooltipText}}</Tooltip></h2>
-        <p class="holdingsPieChartTitle__dataLength">{{ dataLength }}</p>
-      </section>
-      <section class="holdingsPieChart" v-if="!isLoading">
-        <p v-if="chartErrorMsg">{{ chartErrorMsg }}</p>
-        <Doughnut
-          v-else
-          class="pieChart"
-          :chartData="chartData"
-          :chartOptions="chartOptions"
-        />
-      </section>
-      <section v-else>
-        <Spinner class="spinner"/>
-      </section>
-      <section class="holdingsPieChart__btnSection">
-        <CardButtonArrow class="holdingsPieChart__btn" v-if="showBtn">{{
-          btnText
-        }}</CardButtonArrow>
-      </section>
+  <section class="holdingsPieChartWrapper">
+    <section class="holdingsPieChartTitle">
+      <h2>
+        {{ dataLength }} {{ title }} <Tooltip v-if="showTooltip">{{ tooltipText }}</Tooltip>
+      </h2>
     </section>
-  </Card>
+    <section class="holdingsPieChart" v-if="!isLoading">
+      <p v-if="chartErrorMsg" class="chartErrorMsg">{{ chartErrorMsg }}</p>
+      <Doughnut
+        v-else
+        class="pieChart"
+        :chartData="chartData"
+        :chartOptions="chartOptions"
+      />
+    </section>
+    <section v-else>
+      <Spinner class="spinner" />
+    </section>
+    <section class="holdingsPieChart__btnSection">
+      <CardButtonArrow class="holdingsPieChart__btn" v-if="showBtn">{{
+        btnText
+      }}</CardButtonArrow>
+    </section>
+  </section>
 </template>
 
 <script>
@@ -31,7 +30,6 @@ import { Doughnut } from "vue-chartjs";
 import { Chart, ArcElement } from "chart.js";
 
 import CardButtonArrow from "@/components/ui/CardButtonArrow.vue";
-import Card from "@/components/ui/Card.vue";
 
 Chart.register(ArcElement);
 
@@ -39,7 +37,6 @@ export default {
   components: {
     Doughnut,
     CardButtonArrow,
-    Card,
   },
   props: {
     title: {
@@ -59,7 +56,7 @@ export default {
       type: Boolean,
     },
     tooltipText: {
-      default: 'No explanation yet.',
+      default: "No explanation yet.",
       type: String,
     },
     chartOptions: {
@@ -72,11 +69,18 @@ export default {
     },
     isLoading: {
       type: Boolean,
-    }
+    },
+    width: {
+      type: Number,
+      default: 200,
+    },
+    height: {
+      type: Number,
+      default: 200,
+    },
   },
   data() {
     return {
-      chartErrorMsg: null,
       dataHolder: [],
       labelsHolder: [],
     };
@@ -85,6 +89,13 @@ export default {
     dataLength() {
       return this.chartData.datasets[0].data.length;
     },
+    chartErrorMsg() {
+      if(this.dataLength === 0 && !this.isLoading) {
+        return 'No data'
+      } else {
+        return null
+      }
+    }
   },
 };
 </script>
@@ -94,30 +105,32 @@ export default {
   height: 15rem;
 }
 
+.pieChart {
+  width: 90%;
+}
+
 .holdingsPieChartTitle {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
   align-items: center;
 }
 
 .holdingsPieChartTitle__dataLength {
-  color: var(--clr-blue);
-  font-size: 1.2rem;
+  color: var(--clr-grey);
+  font-size: 1rem;
   font-weight: 600;
 }
 
-.pieChart {
-  width: 55%;
-  margin-top: 1rem;
-}
 
 h2 {
   color: var(--clr-grey);
 }
 
 .chartErrorMsg {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
   color: var(--clr-grey);
 }
 
@@ -133,35 +146,15 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
 }
 
 .holdingsPieChartWrapper {
-  padding: 1.75rem;
+  width: 100%;
+  min-width: 18rem;
 }
 
 .holdingsPieChart__btn {
   padding-top: 1rem;
-}
-
-.dividendChartHeading {
-  margin-bottom: 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.dividendChartHeading p {
-  text-align: right;
-}
-
-.dividendChart {
-  width: 100%;
-  height: 20rem;
-  background-color: var(--clr-very-light-blue);
-  border-radius: 0rem;
-  margin-bottom: 1.5rem;
 }
 
 .noDataMsg {

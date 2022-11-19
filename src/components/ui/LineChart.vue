@@ -36,7 +36,7 @@ ChartJS.register(
 export default {
   name: "LineChart",
   components: { Line },
-   props: {
+  props: {
     chartData: {
       required: true,
       type: Object,
@@ -48,7 +48,7 @@ export default {
       },
     },
     currency: {
-      default: 'EUR',
+      default: "EUR",
       required: false,
     },
     height: {
@@ -69,9 +69,9 @@ export default {
           yAxes: {
             beginAtZero: true,
             grid: {
-              color: "rgba(0, 0, 0, 0.125)",
+              color: "rgba(0, 0, 0, 0.5)",
               drawBorder: false,
-              borderDash: [4, 5],
+              borderDash: [1, 7],
               display: true,
             },
             ticks: {
@@ -81,11 +81,11 @@ export default {
                 value = parseFloat(value);
                 // if more than 1000 change to k
                 if (value >= 1000) {
-                  value = value / 1000 + "K";
+                  value = value / 1000 + "k";
                 } else if (value >= 1000000) {
                   value = value / 1000000 + "M";
                 }
-                return "€" + value.toString().replace(".", ",");
+                return "€ " + value.toString().replace(".", ",");
               },
             },
             stacked: true,
@@ -98,7 +98,34 @@ export default {
               display: false,
             },
             ticks: {
+              align: "center",
               color: "#fff",
+              // minTicksLimit: 12,
+              maxRotation: 30,
+              callback: function (val, index) {
+                // Hide every 2nd tick label
+                const date = this.getLabelForValue(val);
+                const year = date.split("-")[2];
+                const month = date.split("-")[1];
+                const day = date.split("-")[0];
+                const arrayOfMonths = [
+                  "Jan",
+                  "Feb",
+                  "Mar",
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec",
+                ];
+
+                return index % 2 === 0 ? [`${day} ${arrayOfMonths[month - 1]}`, `${year}`] : '       ';
+                // return [`${day} ${arrayOfMonths[month - 1]}`, `${year}`]
+              },
             },
           },
         },
@@ -113,17 +140,18 @@ export default {
             position: "nearest",
             mode: "index",
             intersect: false,
-            caretPadding: 5,
+            caretPadding: 6,
             usePointStyle: true,
-            cornerRadius: 5,
+            cornerRadius: 10,
             displayColors: false,
-            titleFont: { weight: "bold", size: 14},
-            titleColor: "grey",
+            titleFont: { size: 13 },
+            titleColor: "#bdbdbd",
+            bodyFont: { weight: "bold", size: 15, color: "#0084ff" },
             bodyColor: "grey",
             backgroundColor: "rgb(260, 260, 260)",
-            borderColor: "grey",
+            borderColor: "rgb(220, 220, 220)",
             borderWidth: 1,
-            padding: 10,
+            padding: 12,
             enabled: true,
             callbacks: {
               title: function (value) {
@@ -131,24 +159,22 @@ export default {
                   const date = value[0].label;
                   const year = date.split("-")[2];
                   const month = date.split("-")[1];
-                  const day = date.split('-')[0]
+                  const day = date.split("-")[0];
                   const arrayOfMonths = [
-                    "January",
-                    "February",
-                    "March",
-                    "April",
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
                     "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
                   ];
-                  return [
-                    `${day} ${arrayOfMonths[month - 1]} ${year}`,
-                  ];
+                  return [`Deposits ${day} ${arrayOfMonths[month - 1]} ${year}`];
                 } else {
                   return null;
                 }
@@ -156,8 +182,8 @@ export default {
               label: function (value) {
                 const numberFormatValue = Intl.NumberFormat("nl-nl", {
                   style: "currency",
-                  currency: "eur",
-                }).format(value.raw)
+                  currency: "EUR",
+                }).format(value.raw);
                 return numberFormatValue;
               },
             },
@@ -167,6 +193,8 @@ export default {
           point: {
             radius: 0,
           },
+        borderWidth: 5,
+
         },
         responsive: true,
         maintainAspectRatio: false,
@@ -174,7 +202,7 @@ export default {
       currencyProps: this.currency,
     };
   },
- 
+
   methods: {
     setTheme() {
       // pak de theme van localstorage en zet geef de juiste theme aan de chart

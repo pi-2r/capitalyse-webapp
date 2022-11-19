@@ -264,7 +264,7 @@ select:hover {
 
 table {
   width: 100%;
-  background-color: var(--clr-very-light-blue);
+  /* background-color: var(--clr-very-light-blue); */
 }
 
 thead {
@@ -291,6 +291,7 @@ th:nth-last-child(1) {
 tr {
   border-bottom: 1px solid var(--clr-very-light-grey);
   transition: 0.1s all;
+  background-color: var(--clr-very-light-blue);
 }
 
 tr:nth-last-child(1) {

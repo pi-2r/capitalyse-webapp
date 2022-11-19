@@ -45,16 +45,19 @@ export default {
             stacked: true,
             beginAtZero: true,
             grid: {
-              color: "rgba(0, 0, 0, 0.125)",
+              color: "rgba(0, 0, 0, 0.5)",
               drawBorder: false,
-              borderDash: [4, 5],
+              borderDash: [1, 7],
               display: true,
             },
             ticks: {
               color: "#fff",
               callback: function (value) {
                 // replace dot with comma
-                return Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(value);
+                return Intl.NumberFormat("nl-nl", {
+                  style: "currency",
+                  currency: "EUR",
+                }).format(value);
               },
             },
           },
@@ -67,6 +70,28 @@ export default {
             },
             ticks: {
               color: "#fff",
+              maxRotation: 30,
+              callback: function (value, index) {
+                const date = this.getLabelForValue(value);
+                  const year = date.split("-")[1];
+                const month = date.split("-")[0];
+                const arrayOfMonths = [
+                  "Jan",
+                  "Feb",
+                  "Mar",
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec",
+                ];
+                // replace dot with comma
+                return index % 2 === 0 ? [`${arrayOfMonths[month - 1]} ${year}`] : '       ';
+              },
             },
           },
         },
@@ -80,19 +105,21 @@ export default {
           tooltip: {
             filter: (tooltipItem) =>
               tooltipItem.dataset.data[tooltipItem.dataIndex] > 0,
-            position: "average",
+            position: "nearest",
+            mode: "index",
             intersect: false,
-            yAlign: "bottom",
-            cornerRadius: 8,
+            caretPadding: 6,
             usePointStyle: true,
+            cornerRadius: 10,
             displayColors: false,
-            titleFont: { weight: "bold", size: 14},
-            titleColor: "grey",
+            titleFont: { size: 13 },
+            titleColor: "#bdbdbd",
+            bodyFont: { size: 12, color: "#0084ff" },
             bodyColor: "grey",
             backgroundColor: "rgb(260, 260, 260)",
-            borderColor: "grey",
+            borderColor: "rgb(220, 220, 220)",
             borderWidth: 1,
-            padding: 10,
+            padding: 12,
             enabled: true,
             callbacks: {
               title: function (value) {
@@ -122,7 +149,10 @@ export default {
               label: function (value) {
                 if (value) {
                   return [
-                    `${Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(value.raw)}  |  ${value.dataset.label}`,
+                    `${Intl.NumberFormat("nl-nl", {
+                      style: "currency",
+                      currency: "EUR",
+                    }).format(value.raw)}  ⇢  ${value.dataset.label}`,
                   ];
                 } else {
                   return null;

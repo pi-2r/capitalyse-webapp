@@ -5,13 +5,7 @@
     <section class="timeFrame" v-if="!hideTimeFrameBtns">
       <!-- radios -->
       <section class="timeFrame__buttons">
-        <button
-          @click="timeFrameChange"
-          :class="{ btnActive: selectedTimeFrame == timeFrameOptions.allTime }"
-          class="timeFrame__btn"
-        >
-          {{ timeFrameOptions.allTime }}
-        </button>
+       
         <button
           @click="timeFrameChange"
           :class="{
@@ -45,6 +39,13 @@
           class="timeFrame__btn"
         >
           {{ timeFrameOptions.fiveYears }}
+        </button>
+         <button
+          @click="timeFrameChange"
+          :class="{ btnActive: selectedTimeFrame == timeFrameOptions.allTime }"
+          class="timeFrame__btn"
+        >
+          {{ timeFrameOptions.allTime }}
         </button>
       </section>
     </section>
@@ -129,21 +130,22 @@ export default {
     isPublic: {
       default: false,
       type: Boolean,
-    }
+    },
+  
   },
   data() {
     return {
       test: null,
       isLoading: true,
-      selectedTimeFrame: "All Time",
+      selectedTimeFrame: "Max",
       dividendsArray: [],
       chartErrorMsg: null,
       timeFrameOptions: {
-        allTime: "All Time",
+        allTime: "Max",
         yearToDate: "YTD",
-        oneYear: "1 Year",
-        threeYears: "3 Years",
-        fiveYears: "5 Years",
+        oneYear: "1Y",
+        threeYears: "3Y",
+        fiveYears: "5Y",
       },
       chartData: {
         labels: [],
@@ -408,7 +410,7 @@ export default {
 <style scoped>
 .cardBtnArrow__dividendChart {
   margin-top: 0;
-  width: 18rem;
+  width: 20rem;
 }
 
 .cardBtnSection {
@@ -454,7 +456,7 @@ export default {
   font-size: 0.8rem;
   display: block;
   font-weight: 500;
-  color: var(--clr-blue);
+  color: var(--clr-green);
 }
 
 h2 {
@@ -511,7 +513,7 @@ h2 {
 .chartResultValue {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--clr-blue);
+  color: var(--clr-green);
 }
 
 .timeFrame__buttons {
@@ -520,9 +522,9 @@ h2 {
 }
 
 .timeFrame__btn {
-  padding: 0.4rem 0.6rem;
+  padding: 0.3rem 0.6rem;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   margin-right: 0.5rem;
   background-color: var(--clr-very-light-blue);
   color: var(--clr-grey);
@@ -530,7 +532,7 @@ h2 {
   border: 1px solid var(--clr-light-grey);
   border-radius: var(--btn-radius);
   user-select: none;
-  box-shadow: var(--btn-shadow);
+  box-shadow: var(--box-shadow-big);
 }
 
 .timeFrame__btn:hover {

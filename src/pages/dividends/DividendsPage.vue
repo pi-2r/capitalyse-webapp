@@ -33,6 +33,7 @@
         title="Total dividends"
         :resultValue="dividendsAnalytics.totalDividends"
         :withBtn="false"
+        colorType="greenRed"
       />
 
        <ResultCard
@@ -41,6 +42,7 @@
         title="Avg received per month"
         :resultValue="dividendsAnalytics.averageDividendsPerMonth"
         :withBtn="false"
+          colorType="greenRed"
       />
       
       <ResultCard

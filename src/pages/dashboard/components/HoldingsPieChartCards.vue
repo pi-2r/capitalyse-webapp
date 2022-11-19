@@ -1,40 +1,72 @@
 <template>
-  <HoldingsPieChartCard
-    title="Holdings"
-    btnText="My Holdings"
-    :showBtn="false"
-    chartErrorMsg="You currently have no holdings."
-    :chartOptions="chartOptions"
-    :chartData="holdingsChartData"
-    :isLoading="isLoadingHoldings"
-  />
-  <HoldingsPieChartCard
-  :showTooltip="true"
-  tooltipText="This is the diversification of your portfolio in sectors. Hover over the chart to see more details."
-    title="Sectors"
-    btnText="My Holdings"
-    :showBtn="false"
-    chartErrorMsg="No sectors found."
-    :chartOptions="chartOptions"
-    :chartData="sectorsChartData"
-    :isLoading="isLoadingSectors"
-  />
+  <Card class="pieChartsContainer">
+    <section class="pieCharts">
+      <HoldingsPieChartCard
+        :title="holdingsName"
+        btnText="My Holdings"
+        :showBtn="false"
+        chartErrorMsg="You currently have no holdings."
+        :chartOptions="chartOptions"
+        :chartData="holdingsChartData"
+        :isLoading="isLoadingHoldings"
+      />
+
+      <HoldingsPieChartCard
+        :showTooltip="true"
+        tooltipText="This is the diversification of your portfolio in sectors."
+        :title="sectorsName"
+        btnText="My Holdings"
+        :showBtn="false"
+        chartErrorMsg="No sectors found."
+        :chartOptions="chartOptions"
+        :chartData="sectorsChartData"
+        :isLoading="isLoadingSectors"
+      />
+      <HoldingsPieChartCard
+        :showTooltip="true"
+        tooltipText="This is the diversification of your portfolio in industries."
+        :title="industriesName"
+        btnText="My Holdings"
+        :showBtn="false"
+        chartErrorMsg="No industries found."
+        :chartOptions="chartOptions"
+        :chartData="industriesChartData"
+        :isLoading="isLoadingIndustries"
+      />
+    </section>
+
+    <section class="holdingsPieChart__btnSection">
+      <CardButtonArrow class="holdingsPieChart__btn" :to="toLink" v-if="false"
+        >My holdings</CardButtonArrow
+      >
+    </section>
+  </Card>
 </template>
 <script>
 import HoldingsPieChartCard from "./HoldingsPieChartCard";
+import CardButtonArrow from "@/components/ui/CardButtonArrow.vue";
 
 export default {
-  props: ['pieChartSectors', 'pieChartHoldings'],
+  props: ["pieChartSectors", "pieChartHoldings", "pieChartIndustries"],
   components: {
     HoldingsPieChartCard,
+    CardButtonArrow,
   },
   data() {
     return {
       isLoadingHoldings: true,
+      isLoadingIndustries: true,
       isLoadingSectors: true,
       chartHoldings: null,
       chartOptions: {
-        onClick: this.pieChartClickEvent,
+        maintainAspectRatio: true,
+        layout: {
+          padding: 35,
+        },
+        cutout: 70,
+        hoverOffset: 5,
+        hoverBorderColor: "transparent",
+        // onClick: this.pieChartClickEvent,
         plugins: {
           legend: {
             display: false,
@@ -43,23 +75,26 @@ export default {
             cornerRadius: 5,
             usePointStyle: true,
             displayColors: false,
-            titleFont: {weight: 'normal'},
-            titleColor: 'grey',
-            bodyColor: 'grey',
-            backgroundColor: 'rgb(260, 260, 260)',
-            borderColor: 'grey',
+            titleFont: { weight: "normal" },
+            titleColor: "grey",
+            bodyColor: "grey",
+            backgroundColor: "rgb(260, 260, 260)",
+            borderColor: "grey",
             borderWidth: 1,
             padding: 7,
             enabled: true,
             callbacks: {
-              title: function(value) {
+              title: function (value) {
                 return `${value[0].label}`;
               },
-              label: function(value) {
-                return Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(value.parsed);
+              label: function (value) {
+                return Intl.NumberFormat("nl-nl", {
+                  style: "currency",
+                  currency: "EUR",
+                }).format(value.parsed);
               },
-            }
-          }
+            },
+          },
         },
       },
       holdingsChartData: {
@@ -84,11 +119,50 @@ export default {
           },
         ],
       },
+      industriesChartData: {
+        labels: [],
+        datasets: [
+          {
+            borderWidth: 2,
+            borderColor: "white",
+            backgroundColor: [],
+            data: [],
+          },
+        ],
+      },
     };
   },
   computed: {
     isThereAnalyticsData() {
-      return this.pieChartSectors != null && this.pieChartHoldings != null
+      return this.pieChartSectors != null && this.pieChartHoldings != null;
+    },
+    toLink() {
+      if (this.isPublic === true) {
+        return `/shared/${this.$route.params.uid}/${this.$route.params.pid}/holdings`;
+      } else {
+        return `/dashboard/${this.$route.params.id}/holdings`;
+      }
+    },
+    sectorsName() {
+      if(this.sectorsChartData.datasets[0].data.length === 1) {
+        return 'Sector'
+      } else {
+        return 'Sectors'
+      }
+    },
+    holdingsName() {
+      if(this.holdingsChartData.datasets[0].data.length === 1) {
+        return 'Holding'
+      } else {
+        return 'Holdings'
+      }
+    },
+    industriesName() {
+      if(this.industriesChartData.datasets[0].data.length === 1) {
+        return 'Industry'
+      } else {
+        return 'Industries'
+      }
     },
   },
   watch: {
@@ -97,23 +171,42 @@ export default {
     },
     $route() {
       this.loadData();
-    }
+    },
   },
   methods: {
     pieChartClickEvent(event, data) {
       // check of niet buiten de chart klikt
-      if(data.length > 0){
-        if(event.chart.tooltip.title[0].length !== 3) {
-          if(this.$route.params.id != null) {
+      if (data.length > 0) {
+        console.log(event, data);
+        if (event.chart.tooltip.title[0].length !== 3) {
+          if (this.$route.params.id != null) {
             // default behaviour
-            this.$router.push('/dashboard/' + this.$route.params.id + '/holdings/' + this.chartHoldings.isin[data[0].index]);
-          } else if(this.$route.params.uid != null && this.$route.params.pid != null) {
-            this.$router.push('/dashboard/shared/' + this.$route.params.uid + '/' + this.$route.params.pid + '/holdings/' + this.chartHoldings.isin[data[0].index])
+            this.$router.push(
+              "/dashboard/" +
+                this.$route.params.id +
+                "/holdings/" +
+                this.chartHoldings.isin[data[0].index]
+            );
+          } else if (
+            this.$route.params.uid != null &&
+            this.$route.params.pid != null
+          ) {
+            this.$router.push(
+              "/dashboard/shared/" +
+                this.$route.params.uid +
+                "/" +
+                this.$route.params.pid +
+                "/holdings/" +
+                this.chartHoldings.isin[data[0].index]
+            );
           } else {
-             // if is demo, because theres no id param on the demo route
-            this.$router.push('/dashboard/demo/holdings/' + this.chartHoldings.isin[data[0].index]);
+            // if is demo, because theres no id param on the demo route
+            this.$router.push(
+              "/dashboard/demo/holdings/" +
+                this.chartHoldings.isin[data[0].index]
+            );
           }
-        } 
+        }
       }
     },
     setTheme() {
@@ -121,9 +214,11 @@ export default {
       if (theme === "dark") {
         this.sectorsChartData.datasets[0].borderColor = "rgb(45, 45, 45)";
         this.holdingsChartData.datasets[0].borderColor = "rgb(45, 45, 45)";
-        this.chartOptions.plugins.tooltip.backgroundColor = 'rgb(52, 52, 52)';
+        this.industriesChartData.datasets[0].borderColor = "rgb(45, 45, 45)";
+        this.chartOptions.plugins.tooltip.backgroundColor = "rgb(52, 52, 52)";
       } else {
         this.sectorsChartData.datasets[0].borderColor = "white";
+        this.industriesChartData.datasets[0].borderColor = "white";
         this.holdingsChartData.datasets[0].borderColor = "white";
       }
     },
@@ -131,14 +226,16 @@ export default {
       if (this.isThereAnalyticsData) {
         // bereken data voor de holdings pie chart en de sectors pie chart
         this.setSectorsData();
-        this.isLoadingSectors = false
+        this.isLoadingSectors = false;
         this.setHoldingsData();
-        this.isLoadingHoldings = false
+        this.isLoadingHoldings = false;
+        this.setIndustriesData();
+        this.isLoadingIndustries = false;
       }
     },
     setSectorsData() {
       // sectors
-      let chartSectors = this.pieChartSectors
+      let chartSectors = this.pieChartSectors;
 
       // voeg voor elke sector een kleur toe
       this.setColors(chartSectors, this.sectorsChartData);
@@ -157,7 +254,7 @@ export default {
     },
     setHoldingsData() {
       // holdings
-      this.chartHoldings = this.pieChartHoldings
+      this.chartHoldings = this.pieChartHoldings;
 
       // voeg voor elke holding een kleur toe
       this.setColors(this.chartHoldings, this.holdingsChartData);
@@ -172,6 +269,25 @@ export default {
         this.chartErrorMsg = null;
         this.holdingsChartData.labels = this.chartHoldings.labels;
         this.holdingsChartData.datasets[0].data = this.chartHoldings.data;
+      }
+    },
+    setIndustriesData() {
+      // sectors
+      let chartIndustries = this.pieChartIndustries;
+
+      // voeg voor elke sector een kleur toe
+      this.setColors(chartIndustries, this.industriesChartData);
+
+      // set data
+      if (chartIndustries === false) {
+        this.industriesChartData.labels = [];
+        this.industriesChartData.datasets[0].data = [];
+
+        this.chartErrorMsg = "No sectors found";
+      } else {
+        this.chartErrorMsg = null;
+        this.industriesChartData.labels = chartIndustries.labels;
+        this.industriesChartData.datasets[0].data = chartIndustries.data;
       }
     },
     setColors(holdings, holdingsData) {
@@ -209,7 +325,7 @@ export default {
         "#4aa4ff",
         "#4ab7ff",
       ];
-      const amtofColors = colors.length
+      const amtofColors = colors.length;
 
       for (let i = 0; i < holdings.data.length; i++) {
         let color = colors[Math.floor(Math.random() * amtofColors)];
@@ -219,10 +335,39 @@ export default {
     },
   },
   created() {
-    if(this.isThereAnalyticsData) {
+    if (this.isThereAnalyticsData) {
       this.loadData();
       this.setTheme();
     }
   },
 };
 </script>
+
+<style scoped>
+.pieChartsContainer {
+  padding: 1rem;
+  max-width: 100%;
+
+  padding-bottom: 1rem;
+}
+.holdingsPieChart__btnSection {
+  display: flex;
+  justify-content: center;
+}
+.holdingsPieChart__btn {
+  margin-top: 1rem;
+  width: 20rem;
+}
+
+.pieCharts {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media screen and (max-width: 1100px) {
+  .pieChartsContainer {
+    overflow: scroll;
+  }
+}
+</style>

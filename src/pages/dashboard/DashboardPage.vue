@@ -81,6 +81,7 @@
         <HoldingsPieChartCards
           :pieChartSectors="homeAnalytics.pieChartSectors"
           :pieChartHoldings="homeAnalytics.pieChartHoldings"
+          :pieChartIndustries="homeAnalytics.pieChartIndustries"
         />
       </section>
 
@@ -363,7 +364,7 @@ export default {
 
 .holdingsContainer {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 1rem;
   margin-bottom: 3rem;
 }

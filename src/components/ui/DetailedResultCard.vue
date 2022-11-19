@@ -1,7 +1,9 @@
 <template>
   <Card class="cardContainer">
     <section :class="{ cardContentNoBtn: !withBtn, cardContent: withBtn }">
-      <h2>{{ title }} <Tooltip v-if="showTooltip">{{tooltipText}}</Tooltip></h2>
+      <h2>
+        {{ title }} <Tooltip v-if="showTooltip">{{ tooltipText }}</Tooltip>
+      </h2>
       <transition name="slide-fade" mode="out-in">
         <p class="cardText" :key="resultValue">
           <span
@@ -11,7 +13,12 @@
               { greenNumber: !isNegative && colorType == 'greenRed' },
             ]"
           >
-            <span>{{ Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(resultValue) }}</span>
+            <span>{{
+              Intl.NumberFormat("nl-nl", {
+                style: "currency",
+                currency: "EUR",
+              }).format(resultValue)
+            }}</span>
           </span>
         </p>
       </transition>
@@ -25,12 +32,18 @@
                 redNumber: isNegative,
                 greenNumber: !isNegative && colorType == 'greenRed',
               }"
-              >
+            >
               <span v-if="isSubResultACurrency">
-                {{' ' + Intl.NumberFormat('nl-nl', {style: 'currency', currency: 'EUR'}).format(subResultValue) }}
+                {{
+                  " " +
+                  Intl.NumberFormat("nl-nl", {
+                    style: "currency",
+                    currency: "EUR",
+                  }).format(subResultValue)
+                }}
               </span>
               <span v-else>
-                {{Intl.NumberFormat('nl-nl').format(subResultValue) }}
+                {{ Intl.NumberFormat("nl-nl").format(subResultValue) }}
               </span>
             </span>
             <span
@@ -90,7 +103,7 @@ export default {
     },
     tooltipText: {
       type: String,
-      default: 'No explanation yet',
+      default: "No explanation yet",
     },
     subResultValuePrefix: {
       default: "",
@@ -137,7 +150,6 @@ export default {
 </script>
 
 <style scoped>
-
 h2 {
   text-align: center;
   color: var(--clr-grey);
@@ -161,13 +173,13 @@ h2 {
 .resultValue {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--clr-blue);
+  color: var(--clr-dark-grey);
 }
 
 .subResultValue {
   font-size: 0.9rem;
   font-weight: 400;
-  color: var(--clr-blue);
+  color: var(--clr-dark-grey);
 }
 
 .cardContent {

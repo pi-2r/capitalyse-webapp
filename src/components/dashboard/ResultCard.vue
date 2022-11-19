@@ -3,14 +3,28 @@
     <section :class="{ cardContentNoBtn: !withBtn, cardContent: withBtn }">
       <h2>
         {{ title }}
-        <Tooltip v-if="showTooltip">{{tooltipText}}</Tooltip>
+        <Tooltip v-if="showTooltip">{{ tooltipText }}</Tooltip>
       </h2>
       <transition name="slide-fade" mode="out-in">
         <p class="cardText" :key="resultValue">
-          <span class="resultValue" :class="{ redNumber: isNegative }">
+          <span class="resultValue">
             <span v-if="numberResult">
-              <span v-if="isPercentage"> {{ Intl.NumberFormat("nl-nl").format(resultValue) }}% </span>
-              <span v-else>
+              <span
+                v-if="isPercentage"
+                :class="[
+                  { redNumber: isNegative },
+                  { greenNumber: !isNegative && colorType == 'greenRed' },
+                ]"
+              >
+                {{ Intl.NumberFormat("nl-nl").format(resultValue) }}%
+              </span>
+              <span
+                v-else
+                :class="[
+                  { redNumber: isNegative },
+                  { greenNumber: !isNegative && colorType == 'greenRed' },
+                ]"
+              >
                 {{
                   Intl.NumberFormat("nl-nl", {
                     style: "currency",
@@ -62,6 +76,10 @@ export default {
     resultValue: {
       default: 0,
     },
+    colorType: {
+      default: false,
+      type: Boolean,
+    },
     to: {
       type: String,
       default: "/",
@@ -80,7 +98,7 @@ export default {
     },
     tooltipText: {
       type: String,
-      default: 'No explanation yet',
+      default: "No explanation yet",
     },
     numberResult: {
       type: Boolean,
@@ -113,14 +131,17 @@ h2 {
   font-size: 1rem;
   color: var(--clr-black);
 }
+.greenNumber {
+  color: var(--clr-green);
+}
 .blueTextResult {
   font-size: 1.5rem;
-  color: var(--clr-blue);
+  color: var(--clr-dark-grey);
 }
 .resultValue {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--clr-blue);
+  color: var(--clr-dark-grey);
 }
 
 .cardContent {

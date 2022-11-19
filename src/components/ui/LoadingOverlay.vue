@@ -2,6 +2,15 @@
   <section class="loading-wrapper">
     <div class="loading">
       <div class="loading-text">
+
+
+
+    
+  <div class="row">
+    <div class="spinner spinner-bounce-bottom"></div>
+  </div>
+  
+
         <!-- <span class="loading-text-words">L</span>
         <span class="loading-text-words">O</span>
         <span class="loading-text-words">A</span>
@@ -9,7 +18,7 @@
         <span class="loading-text-words">I</span>
         <span class="loading-text-words">N</span>
         <span class="loading-text-words">G</span> -->
-        <!-- <span class="loading-text-words"><Logo :onlyIcon="true" color="var(--clr-blue)" class="logoIcon"/></span> -->
+        <!-- <span class="loading-text-words"><Logo :onlyIcon="true" color="var(--clr-grey)" class="logoIcon"/></span> -->
         <!-- <span class="loading-text-words">C</span>
         <span class="loading-text-words">A</span>
         <span class="loading-text-words">P</span>
@@ -36,10 +45,10 @@
           </div>
         </div> -->
 
-        <Spinner/>
-        <p class="text">
-        {{text}}
-        </p>
+        <!-- <Spinner/> -->
+        <!-- <p class="text">
+        loading
+        </p> -->
         <!-- <span class="loading-text-words">A</span>
         <span class="loading-text-words">N</span>
         <span class="loading-text-words">A</span>
@@ -134,7 +143,7 @@ export default {
   top: 0%;
   width: 10%;
   height: 10%;
-  background-color: var(--clr-blue);
+  background-color: var(--clr-grey);
   transform: translateX(-50%);
   border-radius: 50%;
 }
@@ -433,7 +442,7 @@ export default {
 .loading-text span {
   display: inline-block;
   margin: 0 4px;
-  color: var(--clr-blue);
+  color: var(--clr-grey);
   font-weight: 600;
   font-size: 1.25rem;
   font-family: "Poppins", sans-serif;
@@ -505,5 +514,256 @@ export default {
   100% {
     filter: blur(2px);
   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+body {
+  background-color: white;
+  font-family: "Lato", Arial, sans-serif;
+  text-align: center;
+  padding-top: 50px;
+}
+
+h1 {
+  font-size: 1.5em;
+  color: #666;
+}
+
+h2, a {
+  font-size: 0.8em;
+  color: var(--clr-grey);
+}
+
+.spinners {
+  margin: 60px auto;
+}
+.spinners .row {
+  height: 50px;
+  padding: 10px 0;
+}
+
+/* ============================ */
+/* VARIABLES                    */
+/* ============================ */
+/* ============================ */
+/* SPINNER GENERAL              */
+/* ============================ */
+.spinner:before, .spinner:after, .spinner {
+  width: 4px;
+  height: 20px;
+  background-color: var(--clr-grey);
+  border-radius: 2px;
+}
+
+.spinner {
+  display: inline-block;
+  position: relative;
+}
+.spinner:before, .spinner:after {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 0px;
+}
+.spinner:before {
+  left: -6px;
+}
+.spinner:after {
+  left: 6px;
+}
+
+/* ============================ */
+/* SPINNER BOUNCE BOTTOM        */
+/* ============================ */
+@-webkit-keyframes bounce-bottom {
+  0% {
+    height: 5px;
+    margin-top: 15px;
+  }
+  50% {
+    height: 20px;
+    margin-top: 0px;
+  }
+  100% {
+    height: 5px;
+    margin-top: 15px;
+  }
+}
+@keyframes bounce-bottom {
+  0% {
+    height: 5px;
+    margin-top: 15px;
+  }
+  50% {
+    height: 20px;
+    margin-top: 0px;
+  }
+  100% {
+    height: 5px;
+    margin-top: 15px;
+  }
+}
+.spinner-bounce-bottom {
+  -webkit-animation: bounce-bottom 0.6s ease 0.1s infinite;
+          animation: bounce-bottom 0.6s ease 0.1s infinite;
+}
+.spinner-bounce-bottom:before, .spinner-bounce-bottom:after {
+  top: auto;
+  bottom: 0px;
+}
+.spinner-bounce-bottom:before {
+  -webkit-animation: bounce-bottom 0.6s ease 0s infinite;
+          animation: bounce-bottom 0.6s ease 0s infinite;
+}
+.spinner-bounce-bottom:after {
+  -webkit-animation: bounce-bottom 0.6s ease 0.2s infinite;
+          animation: bounce-bottom 0.6s ease 0.2s infinite;
+}
+
+/* ============================ */
+/* SPINNER BOUNCE TOP        */
+/* ============================ */
+@-webkit-keyframes bounce-top {
+  0% {
+    height: 5px;
+    margin-bottom: 15px;
+  }
+  50% {
+    height: 20px;
+    margin-bottom: 0px;
+  }
+  100% {
+    height: 5px;
+    margin-bottom: 15px;
+  }
+}
+@keyframes bounce-top {
+  0% {
+    height: 5px;
+    margin-bottom: 15px;
+  }
+  50% {
+    height: 20px;
+    margin-bottom: 0px;
+  }
+  100% {
+    height: 5px;
+    margin-bottom: 15px;
+  }
+}
+.spinner-bounce-top {
+  -webkit-animation: bounce-top 0.6s ease 0.1s infinite;
+          animation: bounce-top 0.6s ease 0.1s infinite;
+}
+.spinner-bounce-top:before {
+  -webkit-animation: bounce-top 0.6s ease 0s infinite;
+          animation: bounce-top 0.6s ease 0s infinite;
+}
+.spinner-bounce-top:after {
+  -webkit-animation: bounce-top 0.6s ease 0.2s infinite;
+          animation: bounce-top 0.6s ease 0.2s infinite;
+}
+
+/* ============================ */
+/* SPINNER BOUNCE MIDDLE        */
+/* ============================ */
+@-webkit-keyframes bounce-middle {
+  0% {
+    height: 4px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  50% {
+    height: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  100% {
+    height: 4px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+}
+@keyframes bounce-middle {
+  0% {
+    height: 4px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  50% {
+    height: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  100% {
+    height: 4px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+}
+.spinner-bounce-middle {
+  -webkit-animation: bounce-middle 0.6s ease 0.1s infinite;
+          animation: bounce-middle 0.6s ease 0.1s infinite;
+}
+.spinner-bounce-middle:before, .spinner-bounce-middle:after {
+  top: 50%;
+  transform: translateY(-10px) translateZ(0);
+}
+.spinner-bounce-middle:before {
+  -webkit-animation: bounce-middle 0.6s ease 0s infinite;
+          animation: bounce-middle 0.6s ease 0s infinite;
+}
+.spinner-bounce-middle:after {
+  -webkit-animation: bounce-middle 0.6s ease 0.2s infinite;
+          animation: bounce-middle 0.6s ease 0.2s infinite;
+}
+
+/* ============================ */
+/* SPINNER BLINK                */
+/* ============================ */
+@-webkit-keyframes glow {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: var(--clr-grey);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+@keyframes glow {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: var(--clr-grey);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+.spinner-blink {
+  -webkit-animation: glow 0.6s 0.1s infinite;
+          animation: glow 0.6s 0.1s infinite;
+}
+.spinner-blink:before {
+  -webkit-animation: glow 0.6s 0s infinite;
+          animation: glow 0.6s 0s infinite;
+}
+.spinner-blink:after {
+  -webkit-animation: glow 0.6s 0.2s infinite;
+          animation: glow 0.6s 0.2s infinite;
 }
 </style>
