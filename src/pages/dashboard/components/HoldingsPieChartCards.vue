@@ -72,16 +72,18 @@ export default {
             display: false,
           },
           tooltip: {
-            cornerRadius: 5,
+            caretPadding: 6,
             usePointStyle: true,
+            cornerRadius: 10,
             displayColors: false,
-            titleFont: { weight: "normal" },
-            titleColor: "grey",
+            titleFont: { size: 13 },
+            titleColor: "#bdbdbd",
+            bodyFont: { size: 12, color: "#0084ff" },
             bodyColor: "grey",
             backgroundColor: "rgb(260, 260, 260)",
-            borderColor: "grey",
+            borderColor: "rgb(220, 220, 220)",
             borderWidth: 1,
-            padding: 7,
+            padding: 12,
             enabled: true,
             callbacks: {
               title: function (value) {
