@@ -4,7 +4,6 @@
     <section class="timeFrame" v-if="!hideTimeFrameBtns">
       <!-- radios -->
       <section class="timeFrame__buttons">
-        
         <button
           @click="timeFrameChange"
           :class="{
@@ -46,6 +45,97 @@
         >
           {{ timeFrameOptions.allTime }}
         </button>
+      </section>
+      <section class="chartFilter">
+        <button
+          @click="toggleFilterButtonOpen"
+          class="chartFilter__btn timeFrame__btn"
+          :class="{ btnActive: isFilterPopupOpen }"
+        >
+          Filter 
+          <span class="filterAmountSelected" v-if="amountOfFiltersSelected > 0">
+            {{amountOfFiltersSelected}}
+            </span>
+          <Icon
+            icon="material-symbols:keyboard-arrow-down-rounded"
+            height="18px"
+            :class="{ filterPopupOpen__icon: isFilterPopupOpen }"
+          />
+        </button>
+        <Dropdown
+          :isOpen="isFilterPopupOpen"
+          @click-outside-dropdown="toggleFilterButtonOpen"
+        >
+          <section class="filterPopup__heading">
+            <p class="filterPopup__title">Show</p>
+            <p class="filterPopup__reset" v-if="isAnyFilterSelected" @click="resetFilters">Reset</p>
+          </section>
+          <section class="filters">
+            <section class="filterGroup">
+              <input
+                class="filterCheckbox"
+                type="checkbox"
+                name="filter-transaction-fees"
+                id="filter-transaction-fees"
+                v-model="isShowingTransactionFees"
+                @change="filterCheckboxClicked()"
+              />
+              <label class="filterLabel" for="filter-transaction-fees"
+                >Transaction fees</label
+              >
+            </section>
+            <section class="filterGroup">
+              <input
+                class="filterCheckbox"
+                type="checkbox"
+                name="filter-exchange-fees"
+                id="filter-exchange-fees"
+                v-model="isShowingExchangeFees"
+                @change="filterCheckboxClicked()"
+              />
+              <label class="filterLabel" for="filter-exchange-fees"
+                >Exchange fees</label
+              >
+            </section>
+            <section class="filterGroup">
+              <input
+                class="filterCheckbox"
+                type="checkbox"
+                name="filter-ftt-fees"
+                id="filter-ftt-fees"
+                v-model="isShowingFTTFees"
+                @change="filterCheckboxClicked()"
+              />
+              <label class="filterLabel" for="filter-ftt-fees">FTT fees</label>
+            </section>
+            <section class="filterGroup">
+              <input
+                class="filterCheckbox"
+                type="checkbox"
+                name="filter-sd-fees"
+                id="filter-sd-fees"
+                v-model="isShowingStampDutyFees"
+                @change="filterCheckboxClicked()"
+              />
+              <label class="filterLabel" for="filter-sd-fees"
+                >Stamp duty fees</label
+              >
+            </section>
+            <section class="filterGroup">
+              <input
+                class="filterCheckbox"
+                type="checkbox"
+                name="filter-adr-fees"
+                id="filter-adr-fees"
+                v-model="isShowingADRFees"
+                @change="filterCheckboxClicked()"
+              />
+              <label class="filterLabel" for="filter-adr-fees"
+                >ADR/GDR fees</label
+              >
+            </section>
+          </section>
+        </Dropdown>
       </section>
     </section>
 
@@ -99,11 +189,14 @@
 import BarChart from "@/components/ui/BarChart.vue";
 import Card from "@/components/ui/Card.vue";
 import CardButtonArrow from "@/components/ui/CardButtonArrow.vue";
-
+import { Icon } from "@iconify/vue";
+import Dropdown from "@/components/ui/Dropdown.vue";
 
 export default {
   components: {
     BarChart,
+    Icon,
+    Dropdown,
     Card,
     CardButtonArrow,
   },
@@ -130,12 +223,21 @@ export default {
     isPublic: {
       default: false,
       type: Boolean,
-    }
+    },
   },
   data() {
     return {
       test: null,
       isLoading: true,
+
+      // filters
+      isShowingTransactionFees: false,
+      isShowingExchangeFees: false,
+      isShowingFTTFees: false,
+      isShowingStampDutyFees: false,
+      isShowingADRFees: false,
+
+      isFilterPopupOpen: false,
       selectedTimeFrame: "Max",
       feesArray: [],
       chartErrorMsg: null,
@@ -153,38 +255,48 @@ export default {
     };
   },
   computed: {
+    amountOfFiltersSelected() {
+      let amtSelected = 0
+      this.isShowingTransactionFees ? amtSelected+=1 : null;
+      this.isShowingExchangeFees ? amtSelected+=1 : null;
+      this.isShowingFTTFees ? amtSelected+=1 : null;
+      this.isShowingStampDutyFees ? amtSelected+=1 : null;
+      this.isShowingADRFees ? amtSelected+=1 : null;
+      return amtSelected
+    },
+    isAnyFilterSelected() {
+      return this.isShowingTransactionFees || this.isShowingExchangeFees || this.isShowingFTTFees || this.isShowingStampDutyFees || this.isShowingADRFees
+    },
     toLink() {
-      if(this.isPublic === true) {
-        return `/shared/${this.$route.params.uid}/${this.$route.params.pid}/fees`
+      if (this.isPublic === true) {
+        return `/shared/${this.$route.params.uid}/${this.$route.params.pid}/fees`;
       } else {
         return `/dashboard/${this.$route.params.id}/fees`;
       }
     },
     totalFees() {
       let total = 0;
-      for (let i = 0; i < this.feesArray.length; i++) {
-        let feesList = this.feesArray[i].fees;
+      for (let i = 0; i < this.chartData.datasets.length; i++) {
+        let dataList = this.chartData.datasets[i].data;
         // add all the fees together
-        for (let j = 0; j < feesList.length; j++) {
-          total += feesList[j].amount;
+        for (let j = 0; j < dataList.length; j++) {
+          total += dataList[j];
         }
       }
       return total;
     },
     averageFeesPerMonth() {
       // if theres fees
-      if (this.feesArray.length > 0) {
+      if (this.chartData.datasets.length > 0) {
         let total = 0;
-        for (let i = 0; i < this.feesArray.length; i++) {
-          let feesList = this.feesArray[i].fees;
+        for (let i = 0; i < this.chartData.datasets.length; i++) {
+          let dataList = this.chartData.datasets[i].data;
           // add all the feess together
-          for (let j = 0; j < feesList.length; j++) {
-            total += feesList[j].amount;
+          for (let j = 0; j < dataList.length; j++) {
+            total += dataList[j];
           }
         }
-        let average = (total / this.feesArray[0].datesList.length).toFixed(
-          2
-        );
+        let average = (total / this.chartData.labels.length).toFixed(2);
 
         return average;
       } else {
@@ -213,6 +325,58 @@ export default {
     },
   },
   methods: {
+    resetFilters() {
+      this.isShowingTransactionFees = false
+      this.isShowingExchangeFees = false
+      this.isShowingFTTFees = false
+      this.isShowingStampDutyFees = false
+      this.isShowingADRFees = false
+      this.isFilterPopupOpen = false
+
+      this.getFees()
+      this.timeFrameDataUpdate();
+    },
+    filterCheckboxClicked() {
+      this.getFees();
+      this.timeFrameDataUpdate();
+
+      const showTrans = this.isShowingTransactionFees;
+      const showExchange = this.isShowingExchangeFees;
+      const showFTT = this.isShowingFTTFees;
+      const showStampDuty = this.isShowingStampDutyFees;
+      const showADR = this.isShowingADRFees;
+
+      console.log(showTrans, showExchange, showFTT, showStampDuty, showADR);
+
+      if (showTrans || showExchange || showFTT || showStampDuty || showADR) {
+        for (let i = 0; i < this.chartData.datasets.length; i++) {
+          const feeType = this.chartData.datasets[i];
+          if (!showTrans && feeType.label == "Transaction Fees") {
+            this.chartData.datasets[i].data = [];
+          }
+          if (!showExchange && feeType.label == "Exchange Connection Fees") {
+            this.chartData.datasets[i].data = [];
+          }
+          if (!showFTT && feeType.label == "Financial Transaction Tax") {
+            this.chartData.datasets[i].data = [];
+          }
+          if (!showStampDuty && feeType.label == "Stamp Duty") {
+            this.chartData.datasets[i].data = [];
+          }
+          if (!showADR && feeType.label == "ADR/GDR Pass-Through Fees") {
+            this.chartData.datasets[i].data = [];
+          }
+        }
+      }
+    },
+    toggleFilterButtonOpen() {
+      console.log("toggle filter");
+      if (this.isFilterPopupOpen === false) {
+        this.isFilterPopupOpen = true;
+      } else {
+        this.isFilterPopupOpen = false;
+      }
+    },
     setTheme() {
       // vraag thema op en verander de chart kleuren
       const theme = localStorage.getItem("theme");
@@ -269,8 +433,9 @@ export default {
       // vd button gelezen opgeslagen als huidige timeframe
       this.isLoading = true;
       setTimeout(() => {
-        this.selectedTimeFrame = e.target.innerText;
+        this.selectedTimeFrame = e?.target?.innerText || e;
         this.isThereData ? this.getFees() : null;
+        this.isThereData ? this.filterCheckboxClicked() : null;
         this.timeFrameDataUpdate();
         this.isLoading = false;
       }, 1);
@@ -391,6 +556,85 @@ export default {
 </script>
 
 <style scoped>
+.filterAmountSelected {
+  min-width: 18px;
+  line-height: 18px;
+  margin-left: 0.1rem;
+  margin-right: 0.1rem;
+  font-size: 0.7rem;
+  background-color: var(--clr-blue);
+  color: var(--clr-white);
+  border-radius: 100%;
+}
+.filterPopup__reset {
+  font-size: 0.85rem;
+  color: var(--clr-blue)
+}
+.filterPopup__reset:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.filterPopup__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+ margin-bottom: 0.5rem;
+  padding: 0.1rem;
+  padding-bottom: 0.25rem;
+  color: var(--clr-grey);
+  border-bottom: 1px solid var(--clr-light-grey);
+}
+.filterPopup__title {
+  font-weight: 500;
+ 
+}
+.filterGroup {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+.filterCheckbox {
+  appearance: auto;
+}
+
+.filterCheckbox:hover,
+.filterLabel:hover {
+  cursor: pointer;
+}
+.filters {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.chartFilter {
+  position: relative;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 2rem;
+}
+
+.chartFilter__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-right: 0 !important;
+}
+.chartFilter__btnIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.filterPopupOpen__icon {
+  transform: rotate(180deg);
+}
+
 .feesChartContainer {
   margin-bottom: 3rem;
 }
@@ -557,13 +801,9 @@ h2 {
   }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 400px) {
   .timeFrame__buttons {
     overflow-x: scroll;
-  }
-
-  .timeFrame__btn {
-    min-width: 6rem;
   }
 }
 </style>
