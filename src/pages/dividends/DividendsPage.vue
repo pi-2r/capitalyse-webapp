@@ -28,6 +28,12 @@
       <h1>Dividends</h1>
     </section>
 
+     <DividendChart
+        :hideTimeFrameBtns="false"
+        :chartDividendsProps="dividendsAnalytics.chartDividends"
+        class="dividendChartDashboard"
+      />
+
     <section class="cardsContainer">
       <ResultCard
         title="Total dividends"
@@ -56,11 +62,7 @@
 
     </section>
 
-     <DividendChart
-        :hideTimeFrameBtns="false"
-        :chartDividendsProps="dividendsAnalytics.chartDividends"
-        class="dividendChartDashboard"
-      />
+    
     <!-- <FeesChart/> -->
   </section>
   <section v-else>

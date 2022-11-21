@@ -83,6 +83,7 @@ export default {
         "Nov",
         "Dec",
       ];
+
       let day = this.trade.date.split("-")[0];
       // remove 0 in front of day
       if (day.charAt(0) === "0") {

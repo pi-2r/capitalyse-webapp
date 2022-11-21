@@ -111,12 +111,9 @@ export default {
       this.$router.push("/portfolios/new");
     },
     loadData() {
-      console.log(this.areTherePortfolios);
       if (this.areTherePortfolios) {
-        console.log("there are portfolios");
         this.loadPortfoliosIntoArray();
       } else {
-        console.log("no portfolios");
         this.$store.dispatch("files/fetchAllPortfolios").then(() => {
           this.isLoading = false;
            this.loadPortfoliosIntoArray();
@@ -160,7 +157,6 @@ export default {
     },
   },
   created() {
-    console.log("start");
     this.isLoading = true;
     this.loadData();
   },

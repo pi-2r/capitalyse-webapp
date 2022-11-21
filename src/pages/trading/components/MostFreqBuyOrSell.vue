@@ -82,7 +82,7 @@ export default {
     mostFreqTraded() {
       if (this.isThereData && this.mostFreqBuyOrSellList[0]) {
         return this.mostFreqBuyOrSellList
-          ? this.mostFreqBuyOrSellList[0][0]
+          ? this.mostFreqBuyOrSellList[0].name
           : "No result";
       }
       return "No result";
@@ -90,7 +90,7 @@ export default {
     timesTraded() {
       if (this.isThereData && this.mostFreqBuyOrSellList[0]) {
         return this.mostFreqBuyOrSellList
-          ? this.mostFreqBuyOrSellList[0][1]
+          ? this.mostFreqBuyOrSellList[0].count
           : 0;
       }
       return 0;

@@ -40,12 +40,12 @@ export default {
     },
     mostFreqTraded() {
       return this.isThereAnalyticsData
-        ? this.mostFrequentlyTradedList[0][0]
+        ? this.mostFrequentlyTradedList[0].name
         : "No result";
     },
     timesTraded() {
       return this.isThereAnalyticsData
-        ? this.mostFrequentlyTradedList[0][1]
+        ? this.mostFrequentlyTradedList[0].count
         : 0;
     },
   },

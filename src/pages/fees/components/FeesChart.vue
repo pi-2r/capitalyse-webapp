@@ -346,8 +346,6 @@ export default {
       const showStampDuty = this.isShowingStampDutyFees;
       const showADR = this.isShowingADRFees;
 
-      console.log(showTrans, showExchange, showFTT, showStampDuty, showADR);
-
       if (showTrans || showExchange || showFTT || showStampDuty || showADR) {
         for (let i = 0; i < this.chartData.datasets.length; i++) {
           const feeType = this.chartData.datasets[i];
@@ -370,7 +368,6 @@ export default {
       }
     },
     toggleFilterButtonOpen() {
-      console.log("toggle filter");
       if (this.isFilterPopupOpen === false) {
         this.isFilterPopupOpen = true;
       } else {

@@ -30,10 +30,10 @@
 
     <section class="cardsContainer">
       <DepositsChart
-        :chartDepositsProps="depositsAnalytics.chartDepositsV2"
+        :chartDepositsProps="depositsAnalytics.chartDeposits"
         :currency="depositsAnalytics.depositsList[0]?.currency"
       />
-      <DepositsList :depositsList="depositsAnalytics.depositsListV2" />
+      <DepositsList :depositsList="depositsAnalytics.depositsList" />
     </section>
   </section>
   <section v-else>

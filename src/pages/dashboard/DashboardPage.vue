@@ -43,7 +43,7 @@
         <section class="header__rightSection-dates">
           
           <p class="startDate">
-            Investing for
+            Investing since
             {{ homeAnalytics.startDate ? homeAnalytics.startDate : "--/--/--" }}
           </p>
           <p class="startDate">
@@ -90,7 +90,7 @@
           :showTooltip="true"
           tooltipText="Net amount deposited and withdrawn into and from your DEGIRO account."
           :isPublic="isPublic"
-          :totalDeposits="homeAnalytics.totalDepositsV2"
+          :totalDeposits="homeAnalytics.totalDeposits"
         />
         <TransFeesCard
           :isPublic="isPublic"

@@ -28,32 +28,17 @@
       <h1>Fees & Costs</h1>
     </section>
 
+      <FeesChart :chartFeesProps="feesAnalytics.chartFees" />
+
     <section class="cardsContainer">
       <TransFeesCard
         :withBtn="false"
         :totalTransactionFees="feesAnalytics.totalTransactionFees"
       />
-      <ResultCard
-        :showTooltip="true"
-        tooltipText="Takes all your transactions and calculates the average transaction fee per trade."
-        title="Avg transaction fee per trade"
-        :resultValue="feesAnalytics.avgTransactionFeePerTrade"
-        :withBtn="false"
-      />
+    
       <ExchangeFeesCard :totalExchangeFees="feesAnalytics.totalExchangeFees" />
-    </section>
 
-    <FeesChart :chartFeesProps="feesAnalytics.chartFees" />
-
-    <section class="cardsContainer">
-      <ResultCard
-        :showTooltip="true"
-        tooltipText="Taxes on transactions in financial instruments in IR, HK & GB. Look up 'Stamp duty fees DEGIRO' for more information."
-        title="Stamp duty fees"
-        :resultValue="feesAnalytics.totalStampDutyFees"
-        :withBtn="false"
-      />
-      <ResultCard
+       <ResultCard
         :showTooltip="true"
         tooltipText="Taxes on transactions in financial instruments in BE, FR, GR, IT, ES, IR & UK. 
           Look up 'Financial Transaction Tax DEGIRO' for more information."
@@ -61,11 +46,28 @@
         :resultValue="feesAnalytics.totalFTTFees"
         :withBtn="false"
       />
+
+      <ResultCard
+        :showTooltip="true"
+        tooltipText="Taxes on transactions in financial instruments in IR, HK & GB. Look up 'Stamp duty fees DEGIRO' for more information."
+        title="Stamp duty fees"
+        :resultValue="feesAnalytics.totalStampDutyFees"
+        :withBtn="false"
+      />
+     
       <ResultCard
         :showTooltip="true"
         tooltipText="Portfolios maintaining positions in American Depository Receipts (ADRs) are subject to periodic fees intended to compensate the agent bank providing custodial services on behalf of the ADR. These services typically, include inventorying the foreign stocks underlying the ADR and managing all registration, compliance and record-keeping services."
         title="ADR/GDR Pass-through fees"
         :resultValue="feesAnalytics.totalADRPassThroughFees"
+        :withBtn="false"
+      />
+
+        <ResultCard
+        :showTooltip="true"
+        tooltipText="Takes all your transactions and calculates the average transaction fee per trade."
+        title="Avg transaction fee per trade"
+        :resultValue="feesAnalytics.avgTransactionFeePerTrade"
         :withBtn="false"
       />
     </section>
