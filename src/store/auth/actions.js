@@ -60,7 +60,7 @@ export default {
                         });
                     })
                     .catch((error) => {
-                        console.log(error);
+                        context.commit("setAuthError", error);
                     });
             })
             .catch((error) => {

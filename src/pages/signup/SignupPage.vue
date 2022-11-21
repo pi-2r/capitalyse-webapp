@@ -217,7 +217,9 @@ export default {
       this.repeatPasswordErrorMessage = "";
     },
     setErrorMessage(error) {
-      if (error.includes("auth/email-already-in-use")) {
+      if (error.includes("auth/email-already-in-use") 
+      || error.includes("auth/email-already-exists")
+      || error.includes('internal-error')) {
         this.emailErrorMsg = "E-mail already in use";
         this.emailFormControl = "invalid";
       } else if (error.includes("auth/weak-password")) {
