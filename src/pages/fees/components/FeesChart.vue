@@ -106,7 +106,7 @@
                 v-model="isShowingFTTFees"
                 @change="filterCheckboxClicked()"
               />
-              <label class="filterLabel" for="filter-ftt-fees">FTT fees</label>
+              <label class="filterLabel" for="filter-ftt-fees">Financial transaction tax</label>
             </section>
             <section class="filterGroup">
               <input
@@ -597,18 +597,32 @@ export default {
 }
 .filterCheckbox {
   appearance: auto;
+
 }
 
 .filterCheckbox:hover,
 .filterLabel:hover {
   cursor: pointer;
 }
+.filterLabel {
+   gap: 0.5rem;
+   overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.8rem;
+}
+
 .filters {
   flex-direction: column;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+ 
+}
+.cutText {
+  width: 18rem;
+ 
 }
 
 .chartFilter {

@@ -56,7 +56,7 @@ export default {
   border: 1px solid var(--clr-light-grey);
   padding: 0.75rem;
   box-shadow: var(--btn-shadow);
-  width: 12rem;
+  width: 15rem;
 }
 
 /* animation */
