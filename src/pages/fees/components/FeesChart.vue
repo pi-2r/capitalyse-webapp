@@ -393,11 +393,11 @@ export default {
       // sets as many colors as there are holdings
       const colors = [
         "#D03533",
-        "#832120",
-        "#631918",
-        "#820A20",
-        "#5D0D0C",
-        "#6C0510",
+        "#B72C2A",
+        "#962422",
+        "#741C1A",
+        "#531413",
+        "#320C0B",
       ];
       let holdingsList = [];
       for (let i = 0; i < holdingsData.datasets.length; i++) {
