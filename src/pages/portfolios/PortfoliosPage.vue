@@ -1,5 +1,4 @@
 <template>
-
   <Header></Header>
 
   <section class="container">
@@ -23,26 +22,24 @@
       </Button>
     </section>
 
-      <Card class="tablecontainer">
-        <table class="portfoliosTable">
-          <thead>
-            <tr>
-              <th>Portfolio</th>
-              <th class="alignRight">Date added</th>
-              <th class="fileSize alignRight">Portfolio size</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <TransitionGroup name="portfolioList">
+    <Card class="tablecontainer">
+      <table class="portfoliosTable">
+        <thead>
+          <tr>
+            <th>Portfolio</th>
+            <th class="alignRight">Date added</th>
+            <th class="fileSize alignRight">Portfolio size</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <TransitionGroup name="portfolioList">
             <tr :key="portfolio.id" v-for="portfolio in portfolios">
-              <PortfolioListItem
-                :portfolio="portfolio"
-              />
+              <PortfolioListItem :portfolio="portfolio" />
             </tr>
-            </TransitionGroup>
-            <!-- if no portfolios -->
-            <transition name="portfolioList">
+          </TransitionGroup>
+          <!-- if no portfolios -->
+          <transition name="portfolioList">
             <tr v-if="portfolios.length < 1 && !isLoading">
               <td class="noPortfolios" colspan="3">
                 <h2>No Portfolios</h2>
@@ -60,16 +57,16 @@
                 >
               </td>
             </tr>
-            </transition>
-            <tr v-if="isLoading && !areTherePortfolios">
-              <td colspan="4" class="loading">
-                <Spinner />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </Card>
-    </section>
+          </transition>
+          <tr v-if="isLoading && !areTherePortfolios">
+            <td colspan="4" class="loading">
+              <Spinner />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </Card>
+  </section>
 </template>
 
 <script>
@@ -95,7 +92,7 @@ export default {
   },
   computed: {
     areTherePortfolios() {
-      return this.$store.getters["files/hasPortfolios"];
+      return !!this.$store.getters["files/hasPortfolios"];
     },
     amountOfPortfolios() {
       return this.$store.getters["files/amountOfPortfolios"];
@@ -114,38 +111,44 @@ export default {
       this.$router.push("/portfolios/new");
     },
     loadData() {
+      console.log(this.areTherePortfolios);
       if (this.areTherePortfolios) {
+        console.log("there are portfolios");
         this.loadPortfoliosIntoArray();
       } else {
+        console.log("no portfolios");
         this.$store.dispatch("files/fetchAllPortfolios").then(() => {
           this.isLoading = false;
+           this.loadPortfoliosIntoArray();
         });
       }
     },
     loadPortfoliosIntoArray() {
       this.portfolios = [];
-      for (let i = 0; i < this.portfoliosFromStore.length; i++) {
-        this.portfolios.push(this.portfoliosFromStore[i]);
-        // only do this if addedAt hasnt been converted yet
-        if (
-          this.portfoliosFromStore[i].addedAt._seconds &&
-          this.portfoliosFromStore[i].addedAt._nanoseconds
-        ) {
-          const firebaseDateTime = new Date(
-            this.portfoliosFromStore[i].addedAt._seconds * 1000 +
-              this.portfoliosFromStore[i].addedAt._nanoseconds / 1000000
-          );
-          const firebaseDate = firebaseDateTime.toLocaleDateString("en-US", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-          });
-          const firebaseTime = firebaseDateTime.toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "numeric",
-            hour12: true,
-          });
-          this.portfolios[i].addedAt = firebaseDate + " " + firebaseTime;
+      if (this.portfoliosFromStore.length > 0) {
+        for (let i = 0; i < this.portfoliosFromStore.length; i++) {
+          this.portfolios.push(this.portfoliosFromStore[i]);
+          // only do this if addedAt hasnt been converted yet
+          if (
+            this.portfoliosFromStore[i].addedAt._seconds &&
+            this.portfoliosFromStore[i].addedAt._nanoseconds
+          ) {
+            const firebaseDateTime = new Date(
+              this.portfoliosFromStore[i].addedAt._seconds * 1000 +
+                this.portfoliosFromStore[i].addedAt._nanoseconds / 1000000
+            );
+            const firebaseDate = firebaseDateTime.toLocaleDateString("en-US", {
+              day: "numeric",
+              month: "short",
+              year: "numeric",
+            });
+            const firebaseTime = firebaseDateTime.toLocaleTimeString("en-US", {
+              hour: "numeric",
+              minute: "numeric",
+              hour12: true,
+            });
+            this.portfolios[i].addedAt = firebaseDate + " " + firebaseTime;
+          }
         }
       }
       this.sortByDateAdded();
@@ -157,6 +160,7 @@ export default {
     },
   },
   created() {
+    console.log("start");
     this.isLoading = true;
     this.loadData();
   },
@@ -286,23 +290,17 @@ tr:nth-last-child(1) {
   text-align: right;
 }
 
-
-
 @media screen and (min-width: 400px) {
   .container {
     max-width: 90%;
   }
 }
 
-
-
 @media screen and (min-width: 1150px) {
-
   .container {
     max-width: 1100px;
   }
 }
-
 
 /* max width */
 @media screen and (max-width: 768px) {
@@ -323,7 +321,6 @@ tr:nth-last-child(1) {
   .heading {
     margin-bottom: 1.5rem;
   }
-
 
   .fileSize {
     display: none;

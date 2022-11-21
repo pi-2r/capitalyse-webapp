@@ -8,7 +8,8 @@
     >
       <h1>Are you sure?</h1>
       <p>
-        Are you sure you want to permanently delete this portfolio? This action
+        Are you sure you want to permanently delete
+        '<span class="deletePopup__portfolioName">{{portfolioInfo.portfolioName}}</span>'? This action
         can not be reversed.
       </p>
       <section class="deletePopup__btns">
@@ -330,6 +331,10 @@ export default {
 .deleteBtn {
   background-color: var(--clr-red);
   color: var(--clr-white);
+}
+
+.deletePopup__portfolioName {
+  font-weight: 600;
 }
 
 .deleteBtnIcon {
