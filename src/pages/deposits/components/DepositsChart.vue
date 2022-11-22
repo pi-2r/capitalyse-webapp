@@ -395,7 +395,7 @@ h2 {
 }
 
 .timeFrame__btn {
-  padding: 0.3rem 0.6rem;
+  padding: 0.4rem 0.7rem;
   font-weight: 600;
   font-size: 0.85rem;
   margin-right: 0.5rem;
@@ -437,13 +437,9 @@ h2 {
   opacity: 0;
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 400px) {
   .timeFrame__buttons {
     overflow-x: scroll;
-  }
-
-  .timeFrame__btn {
-    min-width: 6rem;
   }
 }
 </style>
