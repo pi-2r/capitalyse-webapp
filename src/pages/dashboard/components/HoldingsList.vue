@@ -1,22 +1,31 @@
 <template>
   <Card class="holdingsCard">
     <section class="tablecontainerHeading">
-      <h2 class="tableTitle">
-        Holdings
-      </h2>
+      <h2 class="tableTitle">Holdings</h2>
     </section>
-    <section class="depositsTableWrapper">
-      <table class="depositsTable">
+    <section class="wrapper1" @scroll.passive="handleScroll1" ref="wrapper1">
+      <section class="div1"></section>
+    </section>
+    <section
+      class="holdingsTableWrapper"
+      @scroll.passive="handleScroll2"
+      ref="wrapper2"
+    >
+      <table class="holdingsTable div2">
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Product</th>
             <th class="number">Amount</th>
-            <th class="number">Total value</th>
+            <th class="number">Value</th>
+            <th class="number">Bought for</th>
+            <th class="number">Gain/Loss</th>
+            <th class="number">Dividends</th>
+            <th class="number">Size</th>
           </tr>
         </thead>
         <tbody>
           <tr :key="holding.id" v-for="holding in holdingsList">
-            <HoldingsListItem :isDemo="isDemo" :isPublic="isPublic" :holding="holding" />
+            <HoldingsListItem :holding="holding" />
           </tr>
           <section v-if="holdingsList !== null">
             <tr v-if="holdingsList.length < 1 && !isLoading">
@@ -25,7 +34,6 @@
               </td>
             </tr>
           </section>
-         
 
           <tr v-if="isLoading">
             <td colspan="3" class="loading">
@@ -39,23 +47,19 @@
 </template>
 
 <script>
-import HoldingsListItem from './HoldingsListItem.vue';
+import HoldingsListItem from "./HoldingsListItem.vue";
 
 export default {
   components: {
-    HoldingsListItem
+    HoldingsListItem,
   },
-   props: {
-    isDemo: {
-      type: Boolean,
-      default: false,
-    },
+  props: {
     isPublic: {
       type: Boolean,
       default: false,
     },
     holdingsList: {
-      default : null,
+      default: null,
       required: true,
     },
   },
@@ -64,7 +68,26 @@ export default {
       holdingsPages: [],
       holdingsPage: 0,
       isLoading: false,
-    }
+      scrolling: false,
+    };
+  },
+  methods: {
+    handleScroll1() {
+      if (this.scrolling) {
+        this.scrolling = false;
+        return;
+      }
+      this.scrolling = true;
+      this.$refs["wrapper2"].scrollLeft = this.$refs["wrapper1"].scrollLeft;
+    },
+    handleScroll2() {
+      if (this.scrolling) {
+        this.scrolling = false;
+        return;
+      }
+      this.scrolling = true;
+      this.$refs["wrapper1"].scrollLeft = this.$refs["wrapper2"].scrollLeft;
+    },
   },
 };
 </script>
@@ -153,12 +176,22 @@ thead {
 }
 
 th {
-  padding: 1.2rem 1.75rem;
+  padding: 0.65rem 0.65rem;
+  font-size: 0.85rem;
   text-align: left;
   font-weight: 500;
   color: var(--clr-dark-grey);
 }
-
+th:nth-of-type(1) {
+  padding-left: 1.75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+th:nth-last-child(1) {
+  padding-right: 1.75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
 tr {
   border-bottom: 1px solid var(--clr-very-light-grey);
   transition: 0.1s all;
@@ -168,15 +201,34 @@ tr:nth-last-child(1) {
   border-bottom: none;
 }
 
+.holdingsTableWrapper {
+  overflow: scroll;
+}
+
+@media screen and (max-width: 1100px) {
+  .wrapper1,
+  .wrapper2 {
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+  .wrapper1 {
+    height: 20px;
+  }
+  .wrapper2 {
+    height: 200px;
+  }
+  .div1 {
+    width: 60rem;
+    height: 20px;
+  }
+  .div2 {
+    width: 60rem;
+    height: 200px;
+    overflow: auto;
+  }
+}
 @media screen and (max-width: 650px) {
-  th {
-    padding: 1.5rem;
-  }
-
-  th:nth-child(2) {
-    display: none;
-  }
-
   .tablecontainerHeading {
     align-items: baseline;
     flex-direction: column;

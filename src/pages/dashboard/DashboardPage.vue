@@ -112,7 +112,7 @@
 
       <HoldingsList
         :isPublic="isPublic"
-        :holdingsList="homeAnalytics.holdingsList"
+        :holdingsList="homeAnalytics.holdingsList.holdings"
       />
     </section>
   </section>
@@ -176,7 +176,10 @@ export default {
         totalTradeCount: 0,
         totalTransactionFees: 0,
         chartDividends: null,
-        holdingsList: null,
+        holdingsList: {
+          holdings: [],
+          sold: [],
+        },
         pieChartCurrencies: null,
         pieChartHoldings: null,
         startDate: null,

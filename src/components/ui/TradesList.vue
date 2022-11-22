@@ -280,7 +280,8 @@ thead {
 }
 
 th {
-  padding: 0.65rem 0.65rem;
+   padding: 0.65rem 0.65rem;
+  font-size: 0.85rem;
   text-align: left;
   font-weight: 500;
   color: var(--clr-dark-grey);
