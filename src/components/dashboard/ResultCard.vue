@@ -12,8 +12,8 @@
               <span
                 v-if="isPercentage"
                 :class="[
-                  { redNumber: isNegative },
-                  { greenNumber: !isNegative && colorType == 'greenRed' },
+                  { redNumber: isNegative && !isZero },
+                  { greenNumber: !isNegative && colorType == 'greenRed' && !isZero },
                 ]"
               >
                 {{ Intl.NumberFormat("nl-nl").format(resultValue) }}%
@@ -21,8 +21,8 @@
               <span
                 v-else
                 :class="[
-                  { redNumber: isNegative },
-                  { greenNumber: !isNegative && colorType == 'greenRed' },
+                  { redNumber: isNegative && !isZero },
+                  { greenNumber: !isNegative && colorType == 'greenRed' && !isZero },
                 ]"
               >
                 {{
@@ -77,8 +77,7 @@ export default {
       default: 0,
     },
     colorType: {
-      default: false,
-      type: Boolean,
+      type: String,
     },
     to: {
       type: String,
@@ -118,6 +117,9 @@ export default {
         this.resultValue.toLocaleString("de-DE").includes("-")
       );
     },
+    isZero() {
+      return this.resultValue === 0
+    }
   },
 };
 </script>

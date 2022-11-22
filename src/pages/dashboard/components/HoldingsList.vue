@@ -1,7 +1,7 @@
 <template>
   <Card class="holdingsCard">
     <section class="tablecontainerHeading">
-      <h2 class="tableTitle">Holdings</h2>
+      <h2 class="tableTitle">Holdings - {{holdingsList.length}}</h2>
     </section>
     <section class="wrapper1" @scroll.passive="handleScroll1" ref="wrapper1">
       <section class="div1"></section>
@@ -168,6 +168,7 @@ select:hover {
 table {
   width: 100%;
   background-color: var(--clr-very-light-blue);
+  border-collapse: collapse;
 }
 
 thead {
@@ -197,7 +198,7 @@ tr {
   transition: 0.1s all;
 }
 
-tr:nth-last-child(1) {
+tr:nth-last-of-type(1) {
   border-bottom: none;
 }
 
