@@ -87,10 +87,6 @@ export default {
       } else {
         this.isRealisedHoldingsListShown = true;
       }
-      console.log(
-        "toggled realised holdings list",
-        this.isRealisedHoldingsListShown
-      );
     },
        handleScroll1() {
       if (this.scrolling) {
