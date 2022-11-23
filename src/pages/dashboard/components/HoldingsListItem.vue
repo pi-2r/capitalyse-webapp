@@ -129,6 +129,7 @@ export default {
   },
   computed: {
     date() {
+
       // make month words and remove zero in front of days
       const monthNames = [
         "Jan",

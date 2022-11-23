@@ -59,6 +59,10 @@ export default {
       default: null,
       required: true,
     },
+    isPublic: {
+      default: false,
+      type: Boolean,
+    }
   },
   data() {
     return {
