@@ -25,7 +25,7 @@
         </thead>
         <tbody>
           <tr :key="holding.id" v-for="holding in holdingsList">
-            <HoldingsListItem :holding="holding" />
+            <HoldingsListItem :holding="holding" :isPublic="isPublic" />
           </tr>
           <section v-if="holdingsList !== null">
             <tr v-if="holdingsList.length < 1 && !isLoading">
@@ -44,6 +44,7 @@
       </table>
     </section>
   </Card>
+
 </template>
 
 <script>
@@ -54,10 +55,6 @@ export default {
     HoldingsListItem,
   },
   props: {
-    isPublic: {
-      type: Boolean,
-      default: false,
-    },
     holdingsList: {
       default: null,
       required: true,
@@ -94,7 +91,7 @@ export default {
 
 <style scoped>
 .holdingsCard {
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
 }
 
 h2 {

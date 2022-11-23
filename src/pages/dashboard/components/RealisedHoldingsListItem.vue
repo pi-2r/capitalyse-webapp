@@ -1,61 +1,20 @@
 <template>
   <td>
-    <span class="cutText">
-      <router-link class="holdingName" :to="toLink">
+    <!-- <span class="cutText"> -->
+    <span>
+      <!-- <router-link class="holdingName" :to="toLink"> -->
         {{ holding.name }}
-        <Icon
+        <!-- <Icon
           class="holdingName__icon"
           icon="fa6-solid:arrow-right"
           color="var(--clr-blue)"
           height="13"
-        />
-      </router-link>
+        /> -->
+      <!-- </router-link> -->
     </span>
     <br />
     <span class="secondary">
-      {{ holding.isin }} &#183; {{ holding.localCurrency }}
-    </span>
-  </td>
-  <td class="number">
-    {{ holding.count }}
-  </td>
-  <td class="number">
-    <span>
-      {{
-        Intl.NumberFormat("nl-nl", {
-          style: "currency",
-          currency: "EUR",
-        }).format(holding.value)
-      }}
-    </span>
-    <br />
-    <span class="secondary" v-if="holding.localCurrency !== 'EUR'">
-      {{
-        Intl.NumberFormat("nl-nl", {
-          style: "currency",
-          currency: holding.localCurrency,
-        }).format(holding.localValue)
-      }}
-    </span>
-  </td>
-  <td class="number">
-    <span v-if="holding.costBasis > 0">
-      {{
-        Intl.NumberFormat("nl-nl", {
-          style: "currency",
-          currency: "EUR",
-        }).format(holding.costBasis)
-      }}
-    </span>
-    <span v-else> No data </span>
-    <br />
-    <span class="secondary" v-if="holding.costBasis > 0">
-      {{
-        Intl.NumberFormat("nl-nl", {
-          style: "currency",
-          currency: "EUR",
-        }).format(holding.avgBuyPrice)
-      }}
+      {{ holding.isin }}
     </span>
   </td>
   <td
@@ -71,10 +30,9 @@
       }}
     </span>
     <br />
-    <span
+    <!-- <span
       class="secondary"
       :class="{ sellRedNumber: !isGain, buyGreenNumber: isGain }"
-      v-if="holding.costBasis > 0"
     >
       {{
         Intl.NumberFormat("nl-nl", {
@@ -83,8 +41,7 @@
           maximumFractionDigits: 2,
         }).format(holding.gainPercentage)
       }}
-    </span>
-    <span class="secondary" v-else> No data </span>
+    </span> -->
   </td>
 
   <td class="number">
@@ -97,25 +54,13 @@
       }}
     </span>
   </td>
-
-  <td class="number">
-    <span>
-      {{
-        Intl.NumberFormat("nl-nl", {
-          style: "percent",
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        }).format(holding.weight)
-      }}
-    </span>
-  </td>
 </template>
 <script>
-import { Icon } from "@iconify/vue";
+// import { Icon } from "@iconify/vue";
 
 export default {
   components: {
-    Icon,
+    // Icon,
   },
   props: {
     holding: {
@@ -249,7 +194,6 @@ td {
   font-weight: 400;
   font-size: 0.9rem;
 }
-
 td:nth-of-type(1) {
   padding-left: 1.75rem;
   padding-top: 0.75rem;

@@ -114,6 +114,12 @@
         :isPublic="isPublic"
         :holdingsList="homeAnalytics.holdingsList.holdings"
       />
+
+      <RealisedHoldingsList
+        :isPublic="isPublic"
+        :realisedHoldingsList="homeAnalytics.holdingsList.sold"
+      />
+      
     </section>
   </section>
   <LoadingOverlay text="Loading analytics.. This might take a few seconds." v-else />
@@ -134,11 +140,13 @@ import TradeCountCard from "./components/TradeCountCard.vue";
 import PortfolioCards from "./components/PortfolioCards.vue";
 import HoldingsPieChartCards from "./components/HoldingsPieChartCards.vue";
 import HoldingsList from "./components/HoldingsList.vue";
+import RealisedHoldingsList from './components/RealisedHoldingsList.vue'
 
 export default {
   name: "Dashboard",
   components: {
     DividendChart,
+    RealisedHoldingsList,
     DepositsCard,
     TradeCountCard,
     TransFeesCard,
