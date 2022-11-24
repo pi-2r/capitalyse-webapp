@@ -11,7 +11,7 @@
 
     <DetailedResultCard
       :showTooltip="true"
-      tooltipText="Value of the holding. Small number shows the percentage it takes up in your portfolio."
+      tooltipText="Value of the holding in Euro. The percentage shows the amount it takes up in your portfolio."
       title="Position"
       :resultValue="holdingPositionValue.value"
       :subResultValue="holdingPositionValue.percentage"
@@ -21,7 +21,7 @@
 
     <DetailedResultCard
        :showTooltip="true"
-      tooltipText="Transaction fees for this product. Small number shows fees as a percentage of total holding value."
+      tooltipText="Transaction fees for this product. The percentage shows your total fees divided by total trading volume for this holding. Try to keep it below 0.5%."
       title="Transaction fees"
       :resultValue="holdingTransactionFees.fees"
       :subResultValue="holdingTransactionFees.percentage"
