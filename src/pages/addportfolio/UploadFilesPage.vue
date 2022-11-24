@@ -481,7 +481,7 @@ export default {
         const accountValid =
           fileAsArray[0].length === 12 && fileAsArray.length !== 0;
         const portfolioValid =
-          fileAsArray[0].length === 6 && fileAsArray.length !== 0;
+          (fileAsArray[0].length === 6 && fileAsArray.length !== 0) || (fileAsArray[0].length === 1);
 
         if (transactionsValid) {
           this.whichFileWasUploaded = "transactions";
@@ -506,11 +506,14 @@ export default {
       // checkt of de bestandsgrootte niet nul is
       // checkt of de bestandsgrootte niet groter is dan de maximale bestandsgrootte
       // checkt of de bestandsnaam .csv is
+      // kan ook een lege portfolio file zijn als gebruiker geen holdings heeft
       for (let i = 0; i < file.length; i++) {
         const valid =
-          file[i].size > 0 &&
+          (file[i].size > 0 &&
           file[i].size < maxFileSizeKB * 1024 &&
-          file[i].type.includes("csv");
+          file[i].type.includes("csv")) || (
+            file[i].size === 0 && file[i].name.includes('ortfolio')
+          );
 
         // als valide is voeg de file toe aan de juiste data() waarde
         // als niet valide, geef een error melding op de plek van de file soort
