@@ -114,7 +114,7 @@
               v-if="userPhotoURL !== null && userPhotoURL !== 'null'"
                 :src="userPhotoURL"
                 class="userProfilePicture"
-                alt="User profile picture"
+                alt="Account"
               />
               <section v-else class="defaultProfilePic">
                   <Icon
@@ -163,7 +163,7 @@
               v-if="userPhotoURL !== null && userPhotoURL != 'null'"
                 :src="userPhotoURL"
                 class="userProfilePicture"
-                alt="Profile"
+                alt="Account"
               />
               <section v-else class="defaultProfilePic">
                   <Icon
