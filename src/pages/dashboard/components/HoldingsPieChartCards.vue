@@ -139,7 +139,6 @@ export default {
       return this.pieChartSectors != null && this.pieChartHoldings != null;
     },
     toLink() {
-      console.log(this.$route.params, this.isPublic);
       if (this.isPublic === true) {
         return `/shared/${this.$route.params.uid}/${this.$route.params.pid}/diversification`;
       } else {
@@ -180,7 +179,6 @@ export default {
     pieChartClickEvent(event, data) {
       // check of niet buiten de chart klikt
       if (data.length > 0) {
-        console.log(event, data);
         if (event.chart.tooltip.title[0].length !== 3) {
           if (this.$route.params.id != null) {
             // default behaviour

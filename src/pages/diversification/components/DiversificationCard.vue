@@ -144,7 +144,6 @@ export default {
   methods: {
     setDynamicWidth() {},
     setDiversificationData() {
-      console.log("do");
       // sectors
       let chartDiversification = this.pieChartData;
 
@@ -165,7 +164,6 @@ export default {
       }
     },
     loadData() {
-      console.log(this.isThereAnalyticsData);
       if (this.isThereAnalyticsData) {
         // bereken data voor de holdings pie chart en de sectors pie chart
         this.setDiversificationData();
