@@ -18,6 +18,10 @@ export default {
         state.token = null;
         state.hasPremium = false;
         state.error = null;
+        state.photoURL = null;
+        state.displayName = null;
+        state.emailVerified = null;
+        state.email = null;
     },
     setProfileData(state, payload) {
         state.profileData = payload;
