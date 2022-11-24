@@ -5,7 +5,7 @@
     title="Transaction fees"
     :resultValue="totalTransactionFees"
     :to="toLink"
-    btnText="My Fees"
+    btnText="View Fees"
     :withBtn="true"
   />
 </template>

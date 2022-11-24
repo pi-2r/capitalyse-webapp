@@ -300,7 +300,7 @@ export default {
 .userProfilePicture {
   height: 2.2rem;
   border-radius: 100%;
-  border: 2px solid var(--clr-white);
+  border: 2px solid transparent;
   transition: 0.2s all;
 }
 .userProfilePicture:hover {
@@ -612,7 +612,7 @@ a:hover {
   height: var(--header-height);
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--clr-light-grey);
+  /* border-bottom: 1px solid var(--clr-light-grey); */
   justify-content: space-between;
 }
 

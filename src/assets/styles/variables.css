@@ -1,6 +1,7 @@
 :root {
     --clr-blue: #0084ff;
-    --clr-light-blue: #e5f2f8;
+    --clr-light-blue: #e8f4fa;
+     --clr-medium-light-blue: #f5fcff;
     --clr-very-light-blue: rgb(255, 255, 255);
     --clr-white: rgb(249, 249, 249);
     --clr-black: #474747;   
@@ -37,7 +38,8 @@
 
 [data-theme="light"] {
     --clr-blue: #0084ff;
-    --clr-light-blue: #e5f2f8;
+   --clr-light-blue: #e8f4fa;
+   --clr-medium-light-blue: #f5fcff;
     --clr-very-light-blue: rgb(255, 255, 255);
     --clr-white: rgb(249, 249, 249);
     --clr-black: #474747;
@@ -55,7 +57,8 @@
 
 [data-theme="dark"] {
     --clr-blue: #0084ff;
-    --clr-light-blue: #242424;
+    --clr-light-blue: #222222;
+     --clr-medium-light-blue: #262626;
     --clr-very-light-blue: rgb(45, 45, 45);
     --clr-white: rgb(33, 33, 33);
     --clr-dark-grey: rgb(237, 237, 237);

@@ -7,10 +7,13 @@
       <h2>Realised holdings - {{ realisedHoldingsList.length }}</h2>
       <Icon
         class="showRealisedHoldingsButton__icon"
+        :class="{ realisedHoldingsOpen__icon: isRealisedHoldingsListShown }"
         icon="material-symbols:keyboard-arrow-down-rounded"
-        height="24px"
+        height="26px"
       />
     </button>
+    <transition name="open-realised">
+    
     <section v-if="isRealisedHoldingsListShown">
       <section class="wrapper1" @scroll.passive="handleScroll1" ref="wrapper1">
         <section class="div1"></section>
@@ -51,7 +54,9 @@
           </tbody>
         </table>
       </section>
+
     </section>
+    </transition>
   </Card>
 </template>
 <script>
@@ -108,7 +113,13 @@ export default {
 };
 </script>
 <style scoped>
+.realisedHoldingsOpen__icon {
+  transition: 0.2s all;
+  transform: rotate(180deg);
+}
+
 .showRealisedHoldingsButton__icon {
+   transition: 0.2s all;
   color: var(--clr-grey);
 }
 h2 {
@@ -246,6 +257,23 @@ tr:nth-last-of-type(1) {
 .holdingsTableWrapper {
   overflow: scroll;
 }
+
+
+.open-realised-enter-active {
+  transition: all 0.2s ease;
+}
+
+.open-realised-leave-active {
+  transform: translateY(-20px);
+  transition: all 0.2s ease;
+}
+
+.open-realised-enter-from,
+.open-realised-leave-to {
+  opacity: 0;
+}
+
+
 
 @media screen and (max-width: 850px) {
   .wrapper1,

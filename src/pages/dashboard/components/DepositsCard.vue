@@ -3,7 +3,7 @@
     title="Total deposits"
     :resultValue="totalDeposits"
     :to="toLink"
-    btnText="My Deposits"
+    btnText="View Deposits"
     :withBtn="true"
   />
 </template>

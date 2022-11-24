@@ -36,8 +36,8 @@
     </section>
 
     <section class="holdingsPieChart__btnSection">
-      <CardButtonArrow class="holdingsPieChart__btn" :to="toLink" v-if="false"
-        >My holdings</CardButtonArrow
+      <CardButtonArrow class="holdingsPieChart__btn" :to="toLink"
+        >View diversification</CardButtonArrow
       >
     </section>
   </Card>

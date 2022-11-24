@@ -89,7 +89,7 @@
       </section>
       <section class="cardBtnSection" v-if="withBtn">
         <CardButtonArrow class="cardBtnArrow__dividendChart" :to="toLink">
-          My Dividends
+          View Dividends
         </CardButtonArrow>
       </section>
     </Card>
