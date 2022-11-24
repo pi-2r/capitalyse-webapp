@@ -7,6 +7,10 @@ export default {
         return {
             userId: null,
             token: null,
+            photoURL: null,
+            emailVerified: null,
+            displayName: null,
+            email: null,
             error: null,
             profileData: {
                 theme: null,

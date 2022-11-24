@@ -23,10 +23,19 @@ export default {
         signInWithEmailAndPassword(auth, payload.email, payload.password)
             .then((userCredential) => {
                 localStorage.setItem("token", userCredential.user.accessToken);
+                localStorage.setItem("email", userCredential.user.email);
+                localStorage.setItem("displayName", userCredential.user.displayName);
+                localStorage.setItem("photoURL", userCredential.user.photoURL);
                 localStorage.setItem("userId", userCredential.user.uid);
+                localStorage.setItem("emailVerified", userCredential.user.emailVerified);
+
                 context.commit("setUser", {
                     token: userCredential.user.accessToken,
                     userId: userCredential.user.uid,
+                    email: userCredential.user.email,
+                    displayName: userCredential.user.displayName,
+                    photoURL: userCredential.user.photoURL,
+                    emailVerified: userCredential.user.emailVerified,
                 });
             })
             .catch((error) => {
@@ -52,11 +61,21 @@ export default {
             .then((data) => {
                 signInWithCustomToken(auth, data.token)
                     .then((userCredential) => {
+                        localStorage.setItem("token", userCredential.user.accessToken);
+                        localStorage.setItem("email", userCredential.user.email);
+                        localStorage.setItem("displayName", userCredential.user.displayName);
+                        localStorage.setItem("photoURL", userCredential.user.photoURL);
+                        localStorage.setItem("userId", userCredential.user.uid);
+                        localStorage.setItem("emailVerified", userCredential.user.emailVerified);
+                        
                         // Signed in
-                        const user = userCredential.user;
-                         context.commit("setUser", {
-                            token: user.accessToken,
-                            userId: user.uid,
+                        context.commit("setUser", {
+                            token: userCredential.user.accessToken,
+                            userId: userCredential.user.uid,
+                            email: userCredential.user.email,
+                            displayName: userCredential.user.displayName,
+                            photoURL: userCredential.user.photoURL,
+                            emailVerified: userCredential.user.emailVerified,
                         });
                     })
                     .catch((error) => {
@@ -73,20 +92,31 @@ export default {
         // The signed-in user info.
         const token = credential.idToken;
         const user = payload.result.user.uid;
-
         context.commit('setAuthError', null);
 
-        context.commit('setUser', {
+        context.commit("setUser", {
             token: token,
             userId: user,
+            email: payload.result.user.email,
+            displayName: payload.result.user.displayName,
+            photoURL: payload.result.user.photoURL,
+            emailVerified: payload.result.user.emailVerified,
         });
 
-        localStorage.setItem("token", token);
-        localStorage.setItem("userId", user);
+        localStorage.setItem("token", payload.result.user.accessToken);
+        localStorage.setItem("email", payload.result.user.email);
+        localStorage.setItem("displayName", payload.result.user.displayName);
+        localStorage.setItem("photoURL", payload.result.user.photoURL);
+        localStorage.setItem("userId", payload.result.user.uid);
+        localStorage.setItem("emailVerified", payload.result.user.emailVerified);
     },
     logout(context) {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
+        localStorage.removeItem("email");
+        localStorage.removeItem("displayName");
+        localStorage.removeItem("photoURL");
+        localStorage.removeItem("emailVerified");
 
         context.commit('files/resetDataState');
         context.commit("resetAuthState");
@@ -94,11 +124,19 @@ export default {
     tryLogin(context) {
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("userId");
+        const email = localStorage.getItem("email");
+        const dispayName = localStorage.getItem("displayName");
+        const photoURL = localStorage.getItem("photoURL");
+        const emailVerified = localStorage.getItem("emailVerified");
 
         if (token && userId) {
             context.commit("setUser", {
-                token,
-                userId,
+                token: token,
+                userId: userId,
+                email: email,
+                displayName: dispayName,
+                photoURL: photoURL,
+                emailVerified: emailVerified,
             });
         }
     },

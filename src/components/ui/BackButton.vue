@@ -3,7 +3,7 @@
     icon="charm:arrow-left"
     @click="goBack"
     color="var(--clr-black)"
-    height="27"
+    height="25"
     class="backBtn"
   />
 </template>

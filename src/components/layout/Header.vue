@@ -9,10 +9,10 @@
       <section class="nav-container">
         <section class="leftSide">
           <ul>
-            <router-link to="/portfolios" style="text-decoration: none;">
+            <router-link to="/portfolios" style="text-decoration: none">
               <Logo />
             </router-link>
-         
+
             <li class="dropDownLi">
               <button
                 class="dropDownLiText"
@@ -53,9 +53,7 @@
                         </button>
                       </section>
                     </router-link>
-                    <section
-                      class="leftSide__myPortfoliosPopupList"
-                    >
+                    <section class="leftSide__myPortfoliosPopupList">
                       <router-link
                         style="text-decoration: none"
                         @click="toggleMyPortfoliosPopup()"
@@ -71,13 +69,19 @@
                           color="var(--clr-blue)"
                           height="15"
                         />
-
                       </router-link>
                     </section>
-                   
-                    <section class="popupNoPortfolios" v-if="headerPortfoliosFromStore.length === 0">
+
+                    <section
+                      class="popupNoPortfolios"
+                      v-if="headerPortfoliosFromStore.length === 0"
+                    >
                       You currently have no portfolios, add one
-                      <router-link @click="toggleMyPortfoliosPopup" to="/portfolios/new">here</router-link>
+                      <router-link
+                        @click="toggleMyPortfoliosPopup"
+                        to="/portfolios/new"
+                        >here</router-link
+                      >
                       to get started.
                     </section>
                   </section>
@@ -99,20 +103,40 @@
           </router-link>
           <section class="u-displayflex">
             <router-link to="/settings" class="u-displayflex settingsSection">
-              <Icon
+              <!-- <Icon
                 class="settingsIcon"
                 tabindex="0"
                 icon="gg:profile"
                 height="23"
+              /> -->
+            
+              <img
+              v-if="userPhotoURL !== null"
+                :src="userPhotoURL"
+                class="userProfilePicture"
+                alt="User profile picture"
               />
+              <section v-else class="defaultProfilePic">
+                  <Icon
+                class="defaultProfilePicIcon"
+                tabindex="0"
+                icon="mingcute:user-3-fill"
+                height="23"
+              />
+              </section>
+              
             </router-link>
           </section>
         </section>
       </section>
       <section class="nav-container-mobile">
-         <router-link to="/portfolios" style="text-decoration: none;" class="routerLinkLogo">
-              <Logo />
-            </router-link>
+        <router-link
+          to="/portfolios"
+          style="text-decoration: none"
+          class="routerLinkLogo"
+        >
+          <Logo />
+        </router-link>
 
         <section class="rightSide">
           <router-link to="/signup">
@@ -126,6 +150,31 @@
             color="var(--clr-grey)"
             height="30"
           />
+
+           <router-link to="/settings" class="u-displayflex settingsSection">
+              <!-- <Icon
+                class="settingsIcon"
+                tabindex="0"
+                icon="gg:profile"
+                height="23"
+              /> -->
+            
+              <img
+              v-if="userPhotoURL !== null"
+                :src="userPhotoURL"
+                class="userProfilePicture"
+                alt="User profile picture"
+              />
+              <section v-else class="defaultProfilePic">
+                  <Icon
+                class="defaultProfilePicIcon"
+                tabindex="0"
+                icon="mingcute:user-3-fill"
+                height="23"
+              />
+              </section>
+              
+            </router-link>
         </section>
         <transition name="slide-fade" mode="out-in">
           <section class="nav-menu-mobile" :class="{ open: isMobileNavOpen }">
@@ -151,11 +200,7 @@
                                         Premium
                                     </router-link>
                                 </li>  -->
-                <li>
-                  <router-link class="routerLink" to="/settings"
-                    >Settings</router-link
-                  >
-                </li>
+               
               </ul>
             </section>
           </section>
@@ -190,6 +235,9 @@ export default {
     headerPortfoliosFromStore() {
       return this.$store.getters["files/getPortfolios"];
     },
+    userPhotoURL() {
+      return this.$store.getters["getPhotoURL"];
+    },
   },
   watch: {
     $route() {
@@ -199,7 +247,7 @@ export default {
     headerPortfoliosFromStore() {
       // sorteert de portfolio op datum zodra deze aanwezig zijn
       this.sortHeaderPortfoliosByDate();
-    }
+    },
   },
   methods: {
     sortHeaderPortfoliosByDate() {
@@ -233,6 +281,33 @@ export default {
 </script>
 
 <style scoped>
+.defaultProfilePicIcon {
+  color: var(--clr-white);
+  height: 16px;
+}
+.defaultProfilePic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  width: 2rem;
+ background: rgb(2,0,36);
+    background-image: linear-gradient(to right,rgb(102, 102, 102),rgb(114, 114, 114) 100%);
+  border-radius: 100%;
+  transition: 0.2s all;
+}
+
+.userProfilePicture {
+  height: 2.2rem;
+  border-radius: 100%;
+  border: 2px solid var(--clr-white);
+  transition: 0.2s all;
+}
+.userProfilePicture:hover {
+  box-shadow: var(--btn-shadow);
+  border: 2px solid var(--clr-blue);
+}
+
 .popupNoPortfolios {
   width: 15rem;
   font-size: 0.8rem;
@@ -478,7 +553,7 @@ li {
   list-style-type: none;
   color: var(--clr-grey);
   display: flex;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   justify-content: center;
   align-items: center;
   grid-gap: 0.5rem;
@@ -538,7 +613,6 @@ a:hover {
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--clr-light-grey);
-  box-shadow: var(--box-shadow-small);
   justify-content: space-between;
 }
 
@@ -568,8 +642,13 @@ a:hover {
   color: var(--clr-blue);
   font-weight: 500;
 }
-.router-link-active > * {
+.router-link-active > img {
   color: var(--clr-blue);
+  border: 2px solid var(--clr-blue);
+}
+.router-link-active > .defaultProfilePic {
+   background: rgb(2,0,36);
+    background-image: linear-gradient(to right,rgb(89, 149, 210),rgb(11, 95, 222) 100%);
 }
 
 /* media queries */

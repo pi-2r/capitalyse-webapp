@@ -2,6 +2,10 @@ export default {
     setUser(state, payload) {
         state.userId = payload.userId;
         state.token = payload.token;
+        state.photoURL = payload.photoURL;
+        state.displayName = payload.displayName;
+        state.emailVerified = payload.emailVerified;
+        state.email = payload.email;
     },
     setPremium(state, payload) {
         state.hasPremium = payload;

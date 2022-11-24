@@ -2,6 +2,12 @@ export default {
     userId(state) {
         return state.userId;
     },
+    getPhotoURL(state) {
+        return state.photoURL;
+    },
+    getDisplayName(state) {
+        return state.photoURL;
+    },
     token(state) {
         return state.token;
     },
