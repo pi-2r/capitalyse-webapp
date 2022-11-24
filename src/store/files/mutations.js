@@ -60,6 +60,7 @@ export default {
                 let typeAnalytics;
                 analyticsType === 'home' ? typeAnalytics = state.analytics[i][portfolioId].homeAnalytics : null;
                 analyticsType === 'trading' ? typeAnalytics = state.analytics[i][portfolioId].tradingAnalytics : null;
+                analyticsType === 'diversification' ? typeAnalytics = state.analytics[i][portfolioId].diversificationAnalytics : null;
                 analyticsType === 'deposits' ? typeAnalytics = state.analytics[i][portfolioId].depositsAnalytics : null;
                 analyticsType === 'fees' ? typeAnalytics = state.analytics[i][portfolioId].feesAnalytics : null;
                 analyticsType === 'holdings' && isin !== undefined ? typeAnalytics = state.analytics[i][portfolioId].holdingAnalytics : null;
@@ -97,6 +98,7 @@ export default {
                 let typeAnalytics;
                 analyticsType === 'home' ? typeAnalytics = state.sharedAnalytics[i][portfolioId].homeAnalytics : null;
                 analyticsType === 'trading' ? typeAnalytics = state.sharedAnalytics[i][portfolioId].tradingAnalytics : null;
+                analyticsType === 'diversification' ? typeAnalytics = state.sharedAnalytics[i][portfolioId].diversificationAnalytics : null;
                 analyticsType === 'deposits' ? typeAnalytics = state.sharedAnalytics[i][portfolioId].depositsAnalytics : null;
                 analyticsType === 'fees' ? typeAnalytics = state.sharedAnalytics[i][portfolioId].feesAnalytics : null;
                 analyticsType === 'holdings' && isin !== undefined ? typeAnalytics = state.sharedAnalytics[i][portfolioId].holdingAnalytics : null;

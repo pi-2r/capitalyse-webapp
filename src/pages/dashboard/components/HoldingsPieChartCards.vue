@@ -47,7 +47,7 @@ import HoldingsPieChartCard from "./HoldingsPieChartCard";
 import CardButtonArrow from "@/components/ui/CardButtonArrow.vue";
 
 export default {
-  props: ["pieChartSectors", "pieChartHoldings", "pieChartIndustries"],
+  props: ["pieChartSectors", "pieChartHoldings", "pieChartIndustries", "isPublic"],
   components: {
     HoldingsPieChartCard,
     CardButtonArrow,
@@ -139,10 +139,11 @@ export default {
       return this.pieChartSectors != null && this.pieChartHoldings != null;
     },
     toLink() {
+      console.log(this.$route.params, this.isPublic);
       if (this.isPublic === true) {
-        return `/shared/${this.$route.params.uid}/${this.$route.params.pid}/holdings`;
+        return `/shared/${this.$route.params.uid}/${this.$route.params.pid}/diversification`;
       } else {
-        return `/dashboard/${this.$route.params.id}/holdings`;
+        return `/dashboard/${this.$route.params.id}/diversification`;
       }
     },
     sectorsName() {

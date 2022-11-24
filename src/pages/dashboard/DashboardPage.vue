@@ -79,6 +79,7 @@
 
       <section class="holdingsContainer">
         <HoldingsPieChartCards
+          :isPublic="isPublic"
           :pieChartSectors="homeAnalytics.pieChartSectors"
           :pieChartHoldings="homeAnalytics.pieChartHoldings"
           :pieChartIndustries="homeAnalytics.pieChartIndustries"

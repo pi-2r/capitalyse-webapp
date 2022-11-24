@@ -160,10 +160,10 @@
               /> -->
             
               <img
-              v-if="userPhotoURL !== null"
+              v-if="userPhotoURL !== null && userPhotoURL != 'null'"
                 :src="userPhotoURL"
                 class="userProfilePicture"
-                alt="User profile picture"
+                alt="Profile"
               />
               <section v-else class="defaultProfilePic">
                   <Icon
@@ -292,7 +292,7 @@ export default {
   height: 2rem;
   width: 2rem;
  background: rgb(2,0,36);
-    background-image: linear-gradient(to right,rgb(102, 102, 102),rgb(114, 114, 114) 100%);
+    background-image: linear-gradient(to right,rgb(132, 132, 132),rgb(91, 91, 91) 100%);
   border-radius: 100%;
   transition: 0.2s all;
 }

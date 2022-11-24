@@ -64,6 +64,11 @@ const router = createRouter({
             meta: { requiresAuth: false },
         },
         {
+            path: "/dashboard/:id/diversification",
+            component: () => import("./pages/diversification/DiversificationPage.vue"),
+            meta: { requiresAuth: true },
+        },
+        {
             path: "/settings",
             component: () => import("./pages/settings/SettingsPage.vue"),
             meta: { requiresAuth: false },
@@ -91,6 +96,10 @@ const router = createRouter({
         {
             path: "/shared/:uid/:pid/holdings/:holdingId",
             component: () => import("./pages/share/ShareHoldingPage.vue")
+        },
+        {
+            path: "/shared/:uid/:pid/diversification",
+            component: () => import("./pages/share/ShareDiversificationPage.vue")
         },
         {
             path: "/resetpassword",
