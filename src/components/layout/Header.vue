@@ -111,7 +111,7 @@
               /> -->
             
               <img
-              v-if="userPhotoURL !== null"
+              v-if="userPhotoURL !== null && userPhotoURL !== 'null'"
                 :src="userPhotoURL"
                 class="userProfilePicture"
                 alt="User profile picture"
