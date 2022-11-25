@@ -44,10 +44,7 @@ export default {
         this.isLoading = true;
         getRedirectResult(auth)
             .then((result) => {
-                console.log('result');
-                console.log(result);
                 if(result !== null) {
-                    console.log('not null');
                     this.$store.dispatch("googleAuth", {
                         result: result
                     });

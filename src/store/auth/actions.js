@@ -90,11 +90,9 @@ export default {
         console.log(payload);
         // This gives you a Google Access Token. You can use it to access Google APIs.
         const credential = GoogleAuthProvider.credentialFromResult(payload.result);
-        console.log(credential);
         // The signed-in user info.
         const token = credential.idToken;
         const user = payload.result.user.uid;
-        console.log(user, token);
         context.commit('setAuthError', null);
 
         context.commit("setUser", {
