@@ -1,6 +1,6 @@
 <template>
   <section class="tooltip__wrapper">
-    <Icon icon="dashicons:info" class="tooltip__icon" color="var(--clr-medium-light-grey)" @mouseover="isOpen = true" @mouseleave="isOpen = false"/>
+    <Icon :icon="icon" class="tooltip__icon" :height="height" :color="color" @mouseover="isOpen = true" @mouseleave="isOpen = false"/>
     <transition name="slide-fade" mode="out-in">
       <section class="tooltip__text" v-if="isOpen">
         <slot/>
@@ -20,15 +20,26 @@ export default {
     return {
       isOpen: false,
     }
+  },
+  props: {
+    height: {
+      type: String,
+      default: '16px',
+    },
+    color: {
+      type: String,
+      default: 'var(--clr-medium-light-grey)',
+    },
+    icon: {
+      type: String,
+      default: 'dashicons:info',
+    }
   }
 }
 </script>
 
 <style scoped>
 
-.tooltip__icon {
-  height: 16px;
-}
 
 .tooltip__wrapper {
   position: relative;

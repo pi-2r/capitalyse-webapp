@@ -103,11 +103,11 @@ export default {
             emailVerified: payload.result.user.emailVerified,
         });
 
-        localStorage.setItem("token", payload.result.user.accessToken);
+        localStorage.setItem("token", token);
         localStorage.setItem("email", payload.result.user.email);
         localStorage.setItem("displayName", payload.result.user.displayName);
         localStorage.setItem("photoURL", payload.result.user.photoURL);
-        localStorage.setItem("userId", payload.result.user.uid);
+        localStorage.setItem("userId", user);
         localStorage.setItem("emailVerified", payload.result.user.emailVerified);
     },
     logout(context) {

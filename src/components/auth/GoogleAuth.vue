@@ -58,10 +58,12 @@ export default {
                 const email = error.customData.email;
                 const credential = GoogleAuthProvider.credentialFromError(error);
 
-                console.log(errorCode, errorMessage, email, credential);
                 this.isLoading = false;
 
                 alert("Something went wrong, please try authentication through e-mail and password.")
+                console.log(errorCode, errorMessage, email, credential);
+                alert('Error info: ', errorCode, errorMessage, email, credential);
+                
             });
     }
 }

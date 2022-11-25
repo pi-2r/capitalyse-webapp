@@ -2,15 +2,14 @@
   <Header />
 
   <section class="container" v-if="!isLoading">
-     <SharedPortfolioIcon
-          :displayName="homeAnalytics.sharedPortfolioOwner.displayName"
-          :email="homeAnalytics.sharedPortfolioOwner.email"
-          v-if="isPublic"
-        />
+    <SharedPortfolioIcon
+      :displayName="homeAnalytics.sharedPortfolioOwner.displayName"
+      :email="homeAnalytics.sharedPortfolioOwner.email"
+      v-if="isPublic"
+    />
     <!-- <BackButton to="/" class="backButton" color="var(--clr-grey)" /> -->
     <section class="head">
       <section>
-       
         <Breadcrumbs
           baseLink="/portfolios"
           baseLinkName="Portfolios"
@@ -33,24 +32,25 @@
                 homeAnalytics.portfolioMetadata.portfolioName
               }}
             </h1>
-            
           </section>
         </section>
       </section>
 
       <section class="head__rightSection">
-        
         <section class="header__rightSection-dates">
-          
-          <p class="startDate">
-            Investing since
+          <!-- <Icon
+            icon="ic:outline-info"
+            height="25"
+            class="head__rightSection-icon"
+            @mouseenter="toggleInfoDropDown"
+            @mouseleave="toggleInfoDropDown"
+          /> -->
+          <Tooltip height="25px" color="var(--clr-grey)" icon="ic:outline-info">
+            Investing since:
             {{ homeAnalytics.startDate ? homeAnalytics.startDate : "--/--/--" }}
-          </p>
-          <p class="startDate">
-            Uploaded on
+            Uploaded on:
             {{ portfolioInfo.addedAt ? portfolioInfo.addedAt : "--/--/--" }}
-          </p>
-          
+          </Tooltip>
         </section>
 
         <section v-if="!isPublic">
@@ -120,10 +120,12 @@
         :isPublic="isPublic"
         :realisedHoldingsList="homeAnalytics.holdingsList.sold"
       />
-      
     </section>
   </section>
-  <LoadingOverlay text="Loading analytics.. This might take a few seconds." v-else />
+  <LoadingOverlay
+    text="Loading analytics.. This might take a few seconds."
+    v-else
+  />
 </template>
 
 <script>
@@ -141,12 +143,14 @@ import TradeCountCard from "./components/TradeCountCard.vue";
 import PortfolioCards from "./components/PortfolioCards.vue";
 import HoldingsPieChartCards from "./components/HoldingsPieChartCards.vue";
 import HoldingsList from "./components/HoldingsList.vue";
-import RealisedHoldingsList from './components/RealisedHoldingsList.vue'
+import RealisedHoldingsList from "./components/RealisedHoldingsList.vue";
+import Tooltip from "@/components/ui/Tooltip.vue";
 
 export default {
   name: "Dashboard",
   components: {
     DividendChart,
+    Tooltip,
     RealisedHoldingsList,
     DepositsCard,
     TradeCountCard,
@@ -365,6 +369,11 @@ export default {
 </script>
 
 <style scoped>
+.header__rightSection-dates {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .sharedPortfolioOwnerText {
   color: var(--clr-grey);
   font-weight: 300;

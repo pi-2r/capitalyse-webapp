@@ -313,7 +313,6 @@ h2 {
     transform: scale(1);
   }
   .divCard__listSection {
-    margin-bottom: 0;
     padding-bottom: 0;
     margin-right: 0;
     padding-right: 0;
