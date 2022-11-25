@@ -44,11 +44,15 @@ export default {
         this.isLoading = true;
         getRedirectResult(auth)
             .then((result) => {
+                console.log('result');
+                console.log(result);
                 if(result !== null) {
+                    console.log('not null');
                     this.$store.dispatch("googleAuth", {
                         result: result
                     });
                 } else {
+                    console.log('null');
                     this.isLoading = false;
                 }
             }).catch((error) => {
@@ -60,12 +64,9 @@ export default {
 
                 this.isLoading = false;
 
-                alert("Something went wrong, please try authentication through e-mail and password.")
+                alert("Something went wrong with Google Authentication, please try authentication through e-mail and password. If you already have an account, sign up with the email used and enter a new password to link the account.")
                 console.log(errorCode, errorMessage, email, credential);
-                console.log('Error');
                 console.log(error);
-                alert('Error info: ', error);
-                
             });
     }
 }
