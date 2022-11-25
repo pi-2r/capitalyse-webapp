@@ -31,6 +31,8 @@
         </section>
       </section>
 
+
+
       <section class="holdingInfoSection">
         <p v-if="holdingAnalytics.holdingSector != null">
           {{ holdingAnalytics.holdingSector }}
@@ -40,6 +42,8 @@
         </p>
       </section>
     </section>
+
+     <HoldingProfitLossChart :chartGainProps="holdingAnalytics.holdingProfitLossChart" />
 
     <HoldingInfoCards
       :isin="isin"
@@ -67,6 +71,7 @@ import BackButton from "@/components/ui/BackButton.vue";
 import HoldingInfoCards from "./components/HoldingInfoCards.vue";
 import TradesList from "@/components/ui/TradesList.vue";
 // import DividendChart from "@/components/ui/DividendChart.vue";
+import HoldingProfitLossChart from './components/HoldingProfitLossChart.vue'
 
 export default {
   components: {
@@ -77,6 +82,7 @@ export default {
     Header,
     // DividendChart,
     HoldingInfoCards,
+    HoldingProfitLossChart,
     BackButton,
     // FeesChart
   },
@@ -99,6 +105,7 @@ export default {
           percentage: 0,
         },
         holdingTradesList: [],
+        holdingProfitLossChart:[],
       },
       portfolioInfo: {
         portfolioName: null,
