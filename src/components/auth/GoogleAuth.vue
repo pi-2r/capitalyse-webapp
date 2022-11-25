@@ -62,7 +62,8 @@ export default {
 
                 alert("Something went wrong, please try authentication through e-mail and password.")
                 console.log(errorCode, errorMessage, email, credential);
-                alert('Error info: ', errorCode, errorMessage, email, credential);
+                console.log(error);
+                alert('Error info: ', error);
                 
             });
     }
