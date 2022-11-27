@@ -27,7 +27,7 @@
   <td class="number">
     {{ trade.count }}
   </td>
-  <td class="number">
+  <td class="number" v-if="trade.price !== 0">
     {{
       Intl.NumberFormat("nl-nl", {
         style: "currency",
@@ -35,6 +35,7 @@
       }).format(trade.price)
     }}
   </td>
+  <td class="number" v-if="trade.price === 0">No data</td>
 
   <td class="number">
     <span :class="{ sellRedNumber: fee < 0 }">
@@ -46,8 +47,7 @@
       }}
     </span>
   </td>
-
-  <td class="number">
+  <td class="number" v-if="trade.total !== 0">
     <span :class="{ buyGreenNumber: isBuy, sellRedNumber: !isBuy }">
       {{
         Intl.NumberFormat("nl-nl", {
@@ -57,6 +57,7 @@
       }}
     </span>
   </td>
+  <td class="number" v-if="trade.total === 0">No data</td>
 </template>
 <script>
 export default {

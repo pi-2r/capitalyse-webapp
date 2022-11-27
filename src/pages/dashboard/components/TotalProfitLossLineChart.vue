@@ -78,9 +78,9 @@ export default {
                 value = value.toFixed(2);
                 value = parseFloat(value);
                 // if more than 1000 change to k
-                if (value >= 1000 || value <= -1000) {
+                if (value >= 1000) {
                   value = value / 1000 + "K";
-                } else if (value >= 1000000 || value <= -1000000) {
+                } else if (value >= 1000000) {
                   value = value / 1000000 + "M";
                 }
                 return "€" + value.toString().replace(".", ",");
@@ -97,30 +97,6 @@ export default {
             },
             ticks: {
               color: "#fff",
-               callback: function (val, index) {
-                // Hide every 2nd tick label
-                const date = this.getLabelForValue(val);
-                const year = date.split("-")[2];
-                const month = date.split("-")[1];
-                const day = date.split("-")[0];
-                const arrayOfMonths = [
-                  "Jan",
-                  "Feb",
-                  "Mar",
-                  "Apr",
-                  "May",
-                  "Jun",
-                  "Jul",
-                  "Aug",
-                  "Sep",
-                  "Oct",
-                  "Nov",
-                  "Dec",
-                ];
-
-                return index % 2 === 0 ? [`${day} ${arrayOfMonths[month - 1]}`, `${year}`] : '       ';
-                // return [`${day} ${arrayOfMonths[month - 1]}`, `${year}`]
-              },
             },
           },
         },
@@ -135,41 +111,41 @@ export default {
             position: "nearest",
             mode: "index",
             intersect: false,
-            caretPadding: 6,
+            caretPadding: 5,
             usePointStyle: true,
-            cornerRadius: 10,
+            cornerRadius: 5,
             displayColors: false,
-            titleFont: { size: 13 },
-            titleColor: "#bdbdbd",
-            bodyFont: { weight: "bold", size: 15, color: "#0084ff" },
+            titleFont: { weight: "bold", size: 14},
+            titleColor: "grey",
             bodyColor: "grey",
             backgroundColor: "rgb(260, 260, 260)",
-            borderColor: "rgb(220, 220, 220)",
+            borderColor: "grey",
             borderWidth: 1,
-            padding: 12,
+            padding: 10,
             enabled: true,
-           callbacks: {
+            callbacks: {
               title: function (value) {
                 if (value[0]) {
                   const date = value[0].label;
-                  const year = date.split("-")[2];
-                  const month = date.split("-")[1];
-                  const day = date.split("-")[0];
+                  const year = date.split("-")[1];
+                  const month = date.split("-")[0];
                   const arrayOfMonths = [
-                    "Jan",
-                    "Feb",
-                    "Mar",
-                    "Apr",
+                    "January",
+                    "February",
+                    "March",
+                    "April",
                     "May",
-                    "Jun",
-                    "Jul",
-                    "Aug",
-                    "Sep",
-                    "Oct",
-                    "Nov",
-                    "Dec",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December",
                   ];
-                  return [`Gain on ${day} ${arrayOfMonths[month - 1]} ${year}`];
+                  return [
+                    `${arrayOfMonths[month - 1]} ${year}`,
+                  ];
                 } else {
                   return null;
                 }
@@ -177,8 +153,8 @@ export default {
               label: function (value) {
                 const numberFormatValue = Intl.NumberFormat("nl-nl", {
                   style: "currency",
-                  currency: "EUR",
-                }).format(value.raw);
+                  currency: "eur",
+                }).format(value.raw)
                 return numberFormatValue;
               },
             },

@@ -68,6 +68,10 @@
     </section>
 
     <section>
+      <TotalProfitLossChart
+        :chartGainProps="homeAnalytics.totalProfitLossChart"
+      />
+
       <PortfolioCards
         :totalProfitLoss="homeAnalytics.totalProfitLoss"
         :totalProfitLossPercentage="homeAnalytics.totalProfitLossPercentage"
@@ -145,11 +149,13 @@ import HoldingsPieChartCards from "./components/HoldingsPieChartCards.vue";
 import HoldingsList from "./components/HoldingsList.vue";
 import RealisedHoldingsList from "./components/RealisedHoldingsList.vue";
 import Tooltip from "@/components/ui/Tooltip.vue";
+import TotalProfitLossChart from "./components/TotalProfitLossChart.vue";
 
 export default {
   name: "Dashboard",
   components: {
     DividendChart,
+    TotalProfitLossChart,
     Tooltip,
     RealisedHoldingsList,
     DepositsCard,
@@ -181,6 +187,7 @@ export default {
       },
       homeAnalytics: {
         totalProfitLoss: 0,
+        totalProfitLossChart: [],
         totalProfitLossPercentage: 0,
         totalInvested: 0,
         totalInvestedPercentage: 0,

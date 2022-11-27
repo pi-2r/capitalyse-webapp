@@ -56,6 +56,7 @@
 
     <p class="isinText">ISIN: {{ $route.params.holdingId }}</p>
     <!-- <DividendChart :hideTimeFrameBtns="false" class="dividendChartDashboard" /> -->
+  <NotificationBar :message="notifMessage" type="info" v-if="notifMessage !== ''"/>
   </section>
   <section v-else>
     <LoadingOverlay />
@@ -72,12 +73,14 @@ import HoldingInfoCards from "./components/HoldingInfoCards.vue";
 import TradesList from "@/components/ui/TradesList.vue";
 // import DividendChart from "@/components/ui/DividendChart.vue";
 import HoldingProfitLossChart from './components/HoldingProfitLossChart.vue'
+import NotificationBar from '@/components/ui/NotificationBar.vue'
 
 export default {
   components: {
     Breadcrumbs,
     SharedPortfolioIcon,
     // Icon,
+    NotificationBar,
     TradesList,
     Header,
     // DividendChart,
@@ -91,6 +94,7 @@ export default {
       isLoading: false,
       holdingName: "",
       holdingAnalytics: {
+        hasLiveData: true,
         holdingName: null,
         holdingPositionValue: {
           percentage: 0,
@@ -106,6 +110,7 @@ export default {
         },
         holdingTradesList: [],
         holdingProfitLossChart:[],
+    
       },
       portfolioInfo: {
         portfolioName: null,
@@ -119,6 +124,15 @@ export default {
     },
   },
   computed: {
+    notifMessage() {
+      if(this.holdingAnalytics.holdingProfitLossChart?.error === 'degiro-mistake') {
+        return 'Due to incomplete csv file data on DEGIRO\'s end, we could not provide accurate and reliable stock data for this security.'
+      } else if(this.holdingAnalytics.hasLiveData === false){
+        return 'We do not support live quotes for this security yet. We apologise for the inconvenience.'
+      } else {
+        return ''
+      }
+    },
     isin() {
       return this.$route.params.holdingId;
     },

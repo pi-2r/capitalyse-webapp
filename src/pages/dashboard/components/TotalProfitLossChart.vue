@@ -1,10 +1,16 @@
 <template>
-  <section class="holdingChartContainer">
+  <section class="depositChartContainer">
     <!-- time frame -->
     <section class="timeFrame">
       <!-- radios -->
       <section class="timeFrame__buttons">
-      
+        <button
+          @click="timeFrameChange"
+          :class="{ btnActive: selectedTimeFrame == timeFrameOptions.allTime }"
+          class="timeFrame__btn"
+        >
+          {{ timeFrameOptions.allTime }}
+        </button>
         <button
           @click="timeFrameChange"
           :class="{
@@ -39,20 +45,14 @@
         >
           {{ timeFrameOptions.fiveYears }}
         </button>
-          <button
-          @click="timeFrameChange"
-          :class="{ btnActive: selectedTimeFrame == timeFrameOptions.allTime }"
-          class="timeFrame__btn"
-        >
-          {{ timeFrameOptions.allTime }}
-        </button>
-     
+        <!-- <button class="timeFrame__btn" id="js--timeFrame__btn--pastThreeYears">3 Years</button>
+                <button class="timeFrame__btn" id="js--timeFrame__btn--pastFiveYears">5 Years</button> -->
       </section>
     </section>
 
-    <Card class="holdingChartWrapper">
-       <section class="holdingChartHeading">
-        <h2>Gain/loss <Tooltip>Visualises the gain over time for this holding. Any flat spots mean you didn't have it in your portfolio at that time.</Tooltip></h2>
+    <Card class="depositChartWrapper">
+      <section class="depositChartHeading">
+        <h2>Gain</h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
             <span class="chartResultValue"
@@ -74,17 +74,13 @@
             >
           </p>
         </transition>
-      </section> 
+      </section>
 
       <p class="chartErrorMsg" v-if="chartErrorMsg">
         {{ chartErrorMsg }}
       </p>
-      <section class="holdingChart" v-else>
-        <HoldingProfitLossLineChart
-          v-if="!isLoading"
-          :chart-data="chartData"
-          :currency="currency"
-        />
+      <section class="depositChart" v-else>
+        <TotalProfitLossLineChart v-if="!isLoading" :chart-data="chartData" :currency="currency" />
         <section class="spinnerContainer" v-else>
           <spinner />
         </section>
@@ -93,8 +89,7 @@
   </section>
 </template>
 <script>
-import Tooltip from '@/components/ui/Tooltip.vue'
-import HoldingProfitLossLineChart from "./HoldingProfitLossLineChart.vue";
+import TotalProfitLossLineChart from "./TotalProfitLossLineChart.vue";
 import Card from "@/components/ui/Card.vue";
 // import getChartGainMixin from "@/mixins/analytics/getChartGain";
 export default {
@@ -107,26 +102,25 @@ export default {
       required: true,
     },
     currency: {
-      default: "EUR",
+      default: 'EUR',
       required: false,
-    },
+    }
   },
   components: {
-    Tooltip,
-    HoldingProfitLossLineChart,
+    TotalProfitLossLineChart,
     Card,
   },
   data() {
     return {
       isLoading: true,
-      selectedTimeFrame: "Max",
+      selectedTimeFrame: "All Time",
       gainArray: [],
       chartGain: null,
       chartErrorMsg: null,
       dataHolder: [],
       labelsHolder: [],
       timeFrameOptions: {
-        allTime: "Max",
+        allTime: "All Time",
         yearToDate: "YTD",
         oneYear: "1 Year",
         threeYears: "3 Years",
@@ -150,11 +144,11 @@ export default {
     indexes() {
       return this.$store.getters["indexes/gain"];
     },
-    holdingNames() {
-      return this.$store.getters["dictionary/holding"];
+    depositNames() {
+      return this.$store.getters["dictionary/deposit"];
     },
-    failedHoldingNames() {
-      return this.$store.getters["dictionary/failedHolding"];
+    failedDepositNames() {
+      return this.$store.getters["dictionary/failedDeposit"];
     },
     withdrawalNames() {
       return this.$store.getters["dictionary/withdrawal"];
@@ -164,7 +158,6 @@ export default {
     },
     totalGain() {
       if (this.chartGainProps != false) {
-        try {
         const firstMonthIndex = this.chartGainProps.labels.indexOf(
           this.chartData.labels[0]
         );
@@ -178,9 +171,6 @@ export default {
           return this.chartData.datasets[0].data[
             this.chartData.datasets[0].data.length - 1
           ];
-        }
-        }catch(e) {
-          return 0
         }
       }
       return 0;
@@ -233,24 +223,20 @@ export default {
       if (this.chartGainProps === false) {
         this.chartData.labels = [];
         this.chartData.datasets[0].data = [];
-        this.chartErrorMsg = "No results";
+        this.chartErrorMsg =
+          "No results";
       } else {
-        console.log(this.chartGainProps.labels);
-        try {
-          this.chartData.labels = JSON.parse(
-            JSON.stringify(this.chartGainProps.labels)
-          );
-          this.chartData.datasets[0].data = JSON.parse(
-            JSON.stringify(this.chartGainProps.data)
-          );
-        } catch (e) {
-          this.chartData.labels = [];
-          this.chartData.datasets[0].data = [];
-        }
-
+        this.chartData.labels = JSON.parse(
+          JSON.stringify(this.chartGainProps.labels)
+        );
+        this.chartData.datasets[0].data = JSON.parse(
+          JSON.stringify(this.chartGainProps.data)
+        );
+        
         this.chartErrorMsg = null;
       }
     },
+    addMissingMonthsToChart() {},
     timeFrameDataUpdate() {
       // timeframes other than All-time
       if (this.selectedTimeFrame === this.timeFrameOptions.yearToDate) {
@@ -266,48 +252,31 @@ export default {
     setYearToDate() {
       // delete all months before this year
       let currentYear = new Date().getFullYear();
-
-      // big-O: 1n
-      loop1: for (let i = 0; i < this.chartData.labels.length; i++) {
-        const label = this.chartData.labels[i];
-        const labelYear = label.split("-")[2];
-        if (labelYear == currentYear) {
-          this.chartData.labels = this.chartData.labels.slice(i);
-          this.chartData.datasets[0].data =
-            this.chartData.datasets[0].data.slice(i);
-          break loop1;
+      for (let i = 0; i < this.chartData.labels.length; i++) {
+        let label = this.chartData.labels[i];
+        let labelYear = label.split("-")[1];
+        if (labelYear < currentYear) {
+          this.chartData.labels.splice(i, 1);
+          this.chartData.datasets[0].data.splice(i, 1);
+          i--;
         }
       }
     },
     setYears(years) {
       // get one year ago in MM-YYYY
-      let yearAgo = new Date();
-      yearAgo.setFullYear(yearAgo.getFullYear() - years);
-      yearAgo = yearAgo
-        .toISOString()
-        .replace(/T.*/, "")
-        .split("-")
-        .reverse()
-        .join("-");
-
-      // big-O: 1n
-      loop1: for (let i = 0; i < this.chartData.labels.length; i++) {
+      let currentYear = new Date().getFullYear();
+      let currentMonth = new Date().getMonth() + 1;
+      let yearAgo = new Date(currentYear - years, currentMonth);
+      // delete all months before yearAgo
+      for (let i = 0; i < this.chartData.labels.length; i++) {
         let label = this.chartData.labels[i];
-        let labelYear = label.split("-")[2];
-        let labelMonth = label.split("-")[1];
-        let labelDay = label.split("-")[0];
-        let labelDate = new Date(labelYear, +labelMonth - 1, labelDay)
-          .toISOString()
-          .replace(/T.*/, "")
-          .split("-")
-          .reverse()
-          .join("-");
-
-        if (labelDate == yearAgo) {
-          this.chartData.labels = this.chartData.labels.slice(i);
-          this.chartData.datasets[0].data =
-            this.chartData.datasets[0].data.slice(i);
-          break loop1;
+        let labelYear = label.split("-")[1];
+        let labelMonth = label.split("-")[0];
+        let labelDate = new Date(labelYear, labelMonth - 1);
+        if (labelDate < yearAgo || labelDate < yearAgo + 1) {
+          this.chartData.labels.splice(i, 1);
+          this.chartData.datasets[0].data.splice(i, 1);
+          i--;
         }
       }
     },
@@ -339,23 +308,23 @@ h2 {
   width: 100%;
   height: 100%;
 }
-.holdingChartWrapper {
+.depositChartWrapper {
   padding: 1.75rem;
   padding-bottom: 0rem;
 }
-.holdingChartContainer {
+.depositChartContainer {
   margin-bottom: 3rem;
 }
-.holdingChartHeading {
+.depositChartHeading {
   margin-bottom: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.holdingChartHeading p {
+.depositChartHeading p {
   text-align: right;
 }
-.holdingChart {
+.depositChart {
   width: 100%;
   height: 20rem;
   background-color: var(--clr-very-light-blue);
@@ -368,7 +337,7 @@ h2 {
   margin-bottom: 2rem;
 }
 .chartResultValue {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: var(--clr-blue);
 }
@@ -382,11 +351,10 @@ h2 {
   margin-bottom: 0.5rem;
   display: flex;
 }
-
 .timeFrame__btn {
-  padding: 0.4rem 0.7rem;
+  padding: 0.4rem 0.6rem;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   margin-right: 0.5rem;
   background-color: var(--clr-very-light-blue);
   color: var(--clr-grey);
@@ -394,9 +362,8 @@ h2 {
   border: 1px solid var(--clr-light-grey);
   border-radius: var(--btn-radius);
   user-select: none;
-  box-shadow: var(--box-shadow-big);
+  box-shadow: var(--btn-shadow);
 }
-
 .timeFrame__btn:hover {
   cursor: pointer;
 }
