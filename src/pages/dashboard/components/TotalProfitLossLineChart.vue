@@ -125,30 +125,31 @@ export default {
             enabled: true,
             callbacks: {
               title: function (value) {
-                if (value[0]) {
-                  const date = value[0].label;
-                  const year = date.split("-")[1];
-                  const month = date.split("-")[0];
-                  const arrayOfMonths = [
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December",
-                  ];
-                  return [
-                    `${arrayOfMonths[month - 1]} ${year}`,
-                  ];
-                } else {
-                  return null;
-                }
+                // if (value[0]) {
+                //   const date = value[0].label;
+                //   const year = date.split("-")[1];
+                //   const month = date.split("-")[0];
+                //   const arrayOfMonths = [
+                //     "January",
+                //     "February",
+                //     "March",
+                //     "April",
+                //     "May",
+                //     "June",
+                //     "July",
+                //     "August",
+                //     "September",
+                //     "October",
+                //     "November",
+                //     "December",
+                //   ];
+                //   return [
+                //     `${arrayOfMonths[month - 1]} ${year}`,
+                //   ];
+                // } else {
+                //   return null;
+                // }
+                return value[0].label
               },
               label: function (value) {
                 const numberFormatValue = Intl.NumberFormat("nl-nl", {

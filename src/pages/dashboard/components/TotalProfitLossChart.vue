@@ -52,7 +52,7 @@
 
     <Card class="depositChartWrapper">
       <section class="depositChartHeading">
-        <h2>Gain</h2>
+        <h2>Total P/L</h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
             <span class="chartResultValue"
@@ -252,31 +252,48 @@ export default {
     setYearToDate() {
       // delete all months before this year
       let currentYear = new Date().getFullYear();
-      for (let i = 0; i < this.chartData.labels.length; i++) {
-        let label = this.chartData.labels[i];
-        let labelYear = label.split("-")[1];
-        if (labelYear < currentYear) {
-          this.chartData.labels.splice(i, 1);
-          this.chartData.datasets[0].data.splice(i, 1);
-          i--;
+
+      // big-O: 1n
+      loop1: for (let i = 0; i < this.chartData.labels.length; i++) {
+        const label = this.chartData.labels[i];
+        const labelYear = label.split("-")[2];
+        if (labelYear == currentYear) {
+          this.chartData.labels = this.chartData.labels.slice(i);
+          this.chartData.datasets[0].data =
+            this.chartData.datasets[0].data.slice(i);
+          break loop1;
         }
       }
     },
     setYears(years) {
       // get one year ago in MM-YYYY
-      let currentYear = new Date().getFullYear();
-      let currentMonth = new Date().getMonth() + 1;
-      let yearAgo = new Date(currentYear - years, currentMonth);
-      // delete all months before yearAgo
-      for (let i = 0; i < this.chartData.labels.length; i++) {
+      let yearAgo = new Date();
+      yearAgo.setFullYear(yearAgo.getFullYear() - years);
+      yearAgo = yearAgo
+        .toISOString()
+        .replace(/T.*/, "")
+        .split("-")
+        .reverse()
+        .join("-");
+
+      // big-O: 1n
+      loop1: for (let i = 0; i < this.chartData.labels.length; i++) {
         let label = this.chartData.labels[i];
-        let labelYear = label.split("-")[1];
-        let labelMonth = label.split("-")[0];
-        let labelDate = new Date(labelYear, labelMonth - 1);
-        if (labelDate < yearAgo || labelDate < yearAgo + 1) {
-          this.chartData.labels.splice(i, 1);
-          this.chartData.datasets[0].data.splice(i, 1);
-          i--;
+        let labelYear = label.split("-")[2];
+        let labelMonth = label.split("-")[1];
+        let labelDay = label.split("-")[0];
+        let labelDate = new Date(labelYear, +labelMonth - 1, labelDay)
+          .toISOString()
+          .replace(/T.*/, "")
+          .split("-")
+          .reverse()
+          .join("-");
+
+        if (labelDate == yearAgo) {
+          this.chartData.labels = this.chartData.labels.slice(i);
+          this.chartData.datasets[0].data =
+            this.chartData.datasets[0].data.slice(i);
+          break loop1;
         }
       }
     },

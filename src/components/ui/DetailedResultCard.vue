@@ -134,16 +134,24 @@ export default {
   },
   computed: {
     isNegative() {
+      try {
       return (
         this.resultValue < 0 ||
         this.resultValue.toLocaleString("de-DE").includes("-")
       );
+      }catch(e) {
+        return false
+      }
     },
     isPositive() {
+        try {
       return (
         this.resultValue > 0 ||
         this.resultValue.toLocaleString("de-DE").includes("+")
       );
+       }catch(e) {
+        return false
+      }
     },
   },
 };
