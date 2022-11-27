@@ -111,51 +111,50 @@ export default {
             position: "nearest",
             mode: "index",
             intersect: false,
-            caretPadding: 5,
+            caretPadding: 6,
             usePointStyle: true,
-            cornerRadius: 5,
+            cornerRadius: 10,
             displayColors: false,
-            titleFont: { weight: "bold", size: 14},
-            titleColor: "grey",
+            titleFont: { size: 13 },
+            titleColor: "#bdbdbd",
+            bodyFont: { weight: "bold", size: 15, color: "#0084ff" },
             bodyColor: "grey",
             backgroundColor: "rgb(260, 260, 260)",
-            borderColor: "grey",
+            borderColor: "rgb(220, 220, 220)",
             borderWidth: 1,
-            padding: 10,
+            padding: 12,
             enabled: true,
             callbacks: {
               title: function (value) {
-                // if (value[0]) {
-                //   const date = value[0].label;
-                //   const year = date.split("-")[1];
-                //   const month = date.split("-")[0];
-                //   const arrayOfMonths = [
-                //     "January",
-                //     "February",
-                //     "March",
-                //     "April",
-                //     "May",
-                //     "June",
-                //     "July",
-                //     "August",
-                //     "September",
-                //     "October",
-                //     "November",
-                //     "December",
-                //   ];
-                //   return [
-                //     `${arrayOfMonths[month - 1]} ${year}`,
-                //   ];
-                // } else {
-                //   return null;
-                // }
-                return value[0].label
+                if (value[0]) {
+                  const date = value[0].label;
+                  const year = date.split("-")[2];
+                  const month = date.split("-")[1];
+                  const day = date.split("-")[0];
+                  const arrayOfMonths = [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                  ];
+                  return [`Week of ${day} ${arrayOfMonths[month - 1]} ${year}`];
+                } else {
+                  return null;
+                }
               },
               label: function (value) {
                 const numberFormatValue = Intl.NumberFormat("nl-nl", {
                   style: "currency",
-                  currency: "eur",
-                }).format(value.raw)
+                  currency: "EUR",
+                }).format(value.raw);
                 return numberFormatValue;
               },
             },

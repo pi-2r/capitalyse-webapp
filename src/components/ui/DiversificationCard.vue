@@ -1,5 +1,6 @@
 <template>
-  <Card class="divCard">
+  <Card class="wrapper">
+    <section class="divCard">
     <section class="divCard__chartSection">
       <section class="holdingsPieChartTitle">
         <h2>
@@ -38,9 +39,17 @@
     <section class="disclaimer">
       {{disclaimer}}
     </section>
+    </section>
+     <section class="holdingsPieChart__btnSection" v-if="showBtn">
+      <CardButtonArrow class="holdingsPieChart__btn" :to="toLink"
+        >View Diversification</CardButtonArrow
+      >
+    </section>
   </Card>
+  
 </template>
 <script>
+import CardButtonArrow from "@/components/ui/CardButtonArrow.vue";
 import DiversificationListItem from "./DiversificationListItem.vue";
 import { Doughnut } from "vue-chartjs";
 import { Chart, ArcElement } from "chart.js";
@@ -68,7 +77,7 @@ export default {
         layout: {
           padding: 35,
         },
-        cutout: 100,
+        cutout: 75,
         hoverOffset: 5,
         hoverBorderColor: "transparent",
         // onClick: this.pieChartClickEvent,
@@ -131,14 +140,28 @@ export default {
     pieChartData: {
       default: [],
     },
+    isPublic: {
+      default: false,
+    },
+    showBtn: {
+      default: false,
+    },
   },
   components: {
     Doughnut,
     DiversificationListItem,
+    CardButtonArrow,
   },
   computed: {
     isThereAnalyticsData() {
       return this.pieChartData != null;
+    },
+     toLink() {
+      if (this.isPublic === true) {
+        return `/shared/${this.$route.params.uid}/${this.$route.params.pid}/diversification`;
+      } else {
+        return `/dashboard/${this.$route.params.id}/diversification`;
+      }
     },
   },
   methods: {
@@ -253,6 +276,18 @@ export default {
 };
 </script>
 <style scoped>
+.wrapper {
+  margin-bottom: 3rem;
+}
+.holdingsPieChart__btnSection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.holdingsPieChart__btn {
+  margin-top: 0 !important;
+  width: 20rem;
+}
 .divCard__chartSection {
   min-width: 24rem;
 }
@@ -268,8 +303,9 @@ export default {
 }
 .divCard__listSection {
   overflow: scroll;
-  max-height: 26rem;
+  max-height: 22rem;
   margin: 2rem;
+  margin-bottom: 0;
   margin-left: 0;
 }
 .holdingsPieChart {
@@ -279,7 +315,6 @@ export default {
 }
 .divCard {
   position: relative;
-  margin-bottom: 3rem;
   max-height: 34rem;
   padding: 1rem;
   display: grid;
@@ -296,7 +331,7 @@ export default {
   font-size: 0.7rem;
 }
 .pieChart {
-  width: 80%;
+  width: 70%;
 }
 h2 {
   text-align: center;

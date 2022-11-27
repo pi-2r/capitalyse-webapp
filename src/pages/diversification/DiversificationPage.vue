@@ -62,7 +62,7 @@
 <script>
 import SharedPortfolioIcon from "@/components/ui/SharedPortfolioIcon.vue";
 import BackButton from "@/components/ui/BackButton.vue";
-import DiverisificationCard from "./components/DiversificationCard.vue";
+import DiverisificationCard from "@/components/ui/DiversificationCard.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 
 export default {

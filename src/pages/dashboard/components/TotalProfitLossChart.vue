@@ -4,13 +4,7 @@
     <section class="timeFrame">
       <!-- radios -->
       <section class="timeFrame__buttons">
-        <button
-          @click="timeFrameChange"
-          :class="{ btnActive: selectedTimeFrame == timeFrameOptions.allTime }"
-          class="timeFrame__btn"
-        >
-          {{ timeFrameOptions.allTime }}
-        </button>
+       
         <button
           @click="timeFrameChange"
           :class="{
@@ -45,8 +39,13 @@
         >
           {{ timeFrameOptions.fiveYears }}
         </button>
-        <!-- <button class="timeFrame__btn" id="js--timeFrame__btn--pastThreeYears">3 Years</button>
-                <button class="timeFrame__btn" id="js--timeFrame__btn--pastFiveYears">5 Years</button> -->
+         <button
+          @click="timeFrameChange"
+          :class="{ btnActive: selectedTimeFrame == timeFrameOptions.allTime }"
+          class="timeFrame__btn"
+        >
+          {{ timeFrameOptions.allTime }}
+        </button>
       </section>
     </section>
 
@@ -113,18 +112,18 @@ export default {
   data() {
     return {
       isLoading: true,
-      selectedTimeFrame: "All Time",
+      selectedTimeFrame: "Max",
       gainArray: [],
       chartGain: null,
       chartErrorMsg: null,
       dataHolder: [],
       labelsHolder: [],
       timeFrameOptions: {
-        allTime: "All Time",
+        allTime: "Max",
         yearToDate: "YTD",
-        oneYear: "1 Year",
-        threeYears: "3 Years",
-        fiveYears: "5 Years",
+        oneYear: "1Y",
+        threeYears: "3Y",
+        fiveYears: "5Y",
       },
       chartData: {
         labels: [],

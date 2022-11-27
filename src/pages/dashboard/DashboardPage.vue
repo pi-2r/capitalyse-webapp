@@ -80,7 +80,7 @@
         :totalInvestedPercentage="homeAnalytics.totalInvestedPercentage"
         :totalBalance="homeAnalytics.totalBalance"
       />
-
+<!-- 
       <section class="holdingsContainer">
         <HoldingsPieChartCards
           :isPublic="isPublic"
@@ -88,7 +88,14 @@
           :pieChartHoldings="homeAnalytics.pieChartHoldings"
           :pieChartIndustries="homeAnalytics.pieChartIndustries"
         />
-      </section>
+      </section> -->
+
+       <DiversificationCard
+        title="Holdings"
+        :pieChartData="homeAnalytics.pieChartHoldings"
+        :showBtn="true"
+        :isPublic="isPublic"
+      />
 
       <section class="cardsContainer">
         <DepositsCard
@@ -140,12 +147,12 @@ import Header from "@/components/layout/Header.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
 // import BackButton from "@/components/ui/BackButton.vue";
-
+import DiversificationCard from '@/components/ui/DiversificationCard.vue'
 import DividendChart from "@/components/ui/DividendChart.vue";
 import DepositsCard from "./components/DepositsCard.vue";
 import TradeCountCard from "./components/TradeCountCard.vue";
 import PortfolioCards from "./components/PortfolioCards.vue";
-import HoldingsPieChartCards from "./components/HoldingsPieChartCards.vue";
+// import HoldingsPieChartCards from "./components/HoldingsPieChartCards.vue";
 import HoldingsList from "./components/HoldingsList.vue";
 import RealisedHoldingsList from "./components/RealisedHoldingsList.vue";
 import Tooltip from "@/components/ui/Tooltip.vue";
@@ -156,6 +163,7 @@ export default {
   components: {
     DividendChart,
     TotalProfitLossChart,
+    DiversificationCard,
     Tooltip,
     RealisedHoldingsList,
     DepositsCard,
@@ -168,7 +176,7 @@ export default {
     Icon,
     PortfolioCards,
     // Icon,
-    HoldingsPieChartCards,
+    // HoldingsPieChartCards,
     HoldingsList,
   },
   props: {

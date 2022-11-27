@@ -11,7 +11,7 @@
         :isLoading="isLoadingHoldings"
       />
 
-      <HoldingsPieChartCard
+      <!-- <HoldingsPieChartCard
         :showTooltip="true"
         tooltipText="This is the diversification of your portfolio in sectors."
         :title="sectorsName"
@@ -32,7 +32,8 @@
         :chartOptions="chartOptions"
         :chartData="industriesChartData"
         :isLoading="isLoadingIndustries"
-      />
+      /> -->
+      
     </section>
 
     <section class="holdingsPieChart__btnSection">

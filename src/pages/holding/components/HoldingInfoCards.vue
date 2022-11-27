@@ -9,14 +9,11 @@
       colorType="greenRed"
     />
 
-    <DetailedResultCard
+    <ResultCard
       :showTooltip="true"
-      tooltipText="Value of the holding in Euro. The percentage shows the amount it takes up in your portfolio."
-      title="Position"
+      tooltipText="Value of the holding in Euro."
+      title="Total value"
       :resultValue="holdingPositionValue.value"
-      :subResultValue="holdingPositionValue.percentage"
-      :isSubResultACurrency="false"
-      subResultValuePostfix="%"
     />
 
     <DetailedResultCard
@@ -33,9 +30,11 @@
 
 <script>
 import DetailedResultCard from "@/components/ui/DetailedResultCard.vue";
+import ResultCard from "@/components/dashboard/ResultCard.vue";
 
 export default {
   components: {
+    ResultCard,
     DetailedResultCard,
   },
   props: {
