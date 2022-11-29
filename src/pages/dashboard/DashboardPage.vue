@@ -21,7 +21,7 @@
           :secondLinkName="
             this.isPublic
               ? homeAnalytics.portfolioMetadata.portfolioName
-              : portfolioInfo.portfolioName
+              : portfolioInfo.portfolioName || 'Portfolio'
           "
         />
         <section>
@@ -37,6 +37,7 @@
       </section>
 
       <section class="head__rightSection">
+        <LiveDot/>
         <section class="header__rightSection-dates">
           <!-- <Icon
             icon="ic:outline-info"
@@ -68,9 +69,9 @@
     </section>
 
     <section>
-      <TotalProfitLossChart
+      <!-- <TotalProfitLossChart
         :chartGainProps="homeAnalytics.totalProfitLossChart"
-      />
+      /> -->
 
       <PortfolioCards
         :totalProfitLoss="homeAnalytics.totalProfitLoss"
@@ -156,13 +157,15 @@ import PortfolioCards from "./components/PortfolioCards.vue";
 import HoldingsList from "./components/HoldingsList.vue";
 import RealisedHoldingsList from "./components/RealisedHoldingsList.vue";
 import Tooltip from "@/components/ui/Tooltip.vue";
-import TotalProfitLossChart from "./components/TotalProfitLossChart.vue";
+// import TotalProfitLossChart from "./components/TotalProfitLossChart.vue";
+import LiveDot from "@/components/ui/LiveDot.vue";
 
 export default {
   name: "Dashboard",
   components: {
     DividendChart,
-    TotalProfitLossChart,
+    LiveDot,
+    // TotalProfitLossChart,
     DiversificationCard,
     Tooltip,
     RealisedHoldingsList,

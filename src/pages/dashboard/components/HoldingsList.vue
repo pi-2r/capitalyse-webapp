@@ -1,7 +1,7 @@
 <template>
   <Card class="holdingsCard">
     <section class="tablecontainerHeading">
-      <h2 class="tableTitle">Holdings - {{holdingsList.length}}</h2>
+      <h2 class="tableTitle">Holdings - {{holdingsList.length}} </h2>
     </section>
     <section class="wrapper1" @scroll.passive="handleScroll1" ref="wrapper1">
       <section class="div1"></section>
@@ -94,6 +94,12 @@ export default {
 </script>
 
 <style scoped>
+.tableTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .holdingsCard {
   margin-bottom: 1rem;
 }

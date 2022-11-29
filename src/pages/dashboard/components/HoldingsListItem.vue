@@ -13,7 +13,7 @@
     </span>
     <br />
     <span class="secondary">
-      {{ holding.isin }} &#183; {{ holding.localCurrency }}
+    {{ holding.isin }}  &#183; {{ holding.exchange }} &#183; {{ holding.code}}  &#183; {{ holding.type }}
     </span>
   </td>
   <td class="number">
