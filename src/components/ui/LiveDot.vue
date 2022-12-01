@@ -1,6 +1,6 @@
 <template>
   <section class="live-dot__wrapper">
-    <Tooltip icon="carbon:dot-mark" color="orange" class="live-dot">{{liveDotText}}</Tooltip>
+    <Tooltip icon="carbon:dot-mark" color="orange" class="live-dot">{{text}}</Tooltip>
   </section>
 </template>
 <script>
@@ -11,7 +11,7 @@ export default {
     Tooltip,
   },
   props: {
-    liveDotText: {
+    text: {
       type: String,
       default: "Capitalyse uses EOD (End-of-day) data for stock quotes. Updates every day at 3AM.",
     },

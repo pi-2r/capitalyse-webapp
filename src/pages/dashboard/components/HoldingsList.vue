@@ -1,7 +1,7 @@
 <template>
   <Card class="holdingsCard">
     <section class="tablecontainerHeading">
-      <h2 class="tableTitle">Holdings - {{holdingsList.length}} </h2>
+      <h2 class="tableTitle">Holdings - {{ holdingsList.length }}</h2>
     </section>
     <section class="wrapper1" @scroll.passive="handleScroll1" ref="wrapper1">
       <section class="div1"></section>
@@ -14,18 +14,18 @@
       <table class="holdingsTable div2">
         <thead>
           <tr>
-            <th>Product</th>
-            <th class="number">Amount</th>
-            <th class="number">Value</th>
-            <th class="number">Bought for</th>
-            <th class="number">Gain/Loss</th>
-            <th class="number">Dividends</th>
-            <th class="number">Size</th>
+            <th>PRODUCT</th>
+            <th class="number">AMOUNT</th>
+            <th class="number">BOUGHT FOR</th>
+            <th class="number">VALUE</th>
+            <th class="number">GAIN/LOSS</th>
+            <th class="number">DIVIDENDS</th>
+            <th class="number">SIZE</th>
           </tr>
         </thead>
         <tbody>
-          <tr :key="holding.id" v-for="holding in holdingsList">
-            <HoldingsListItem :holding="holding" :isPublic="isPublic" />
+          <tr :key="holding.id" v-for="(holding, index) in holdingsList">
+            <HoldingsListItem v-if="index < currentExpandAmount" :holding="holding" :isPublic="isPublic" />
           </tr>
           <section v-if="holdingsList !== null">
             <tr v-if="holdingsList.length < 1 && !isLoading">
@@ -42,17 +42,30 @@
           </tr>
         </tbody>
       </table>
+      <section class="expandSection" v-if="holdingsList.length > 6">
+        <section class="expandSection__btns">
+          <span class="expandSection__showMoreBtn" @click="expandAtExpandRate" v-if="currentExpandAmount !== holdingsList.length">
+            {{showOrHideAtExpandRateBtnText}}
+            <Icon icon="material-symbols:keyboard-arrow-down-rounded" :class="{ expandRateBtnIcon__reverse: currentExpandAmount === holdingsList.length }"/>
+          </span>
+          <span class="expandSection__showMoreBtn" @click="showOrHideAll">
+            {{ showOrHideAllBtnText }}
+            <Icon icon="material-symbols:keyboard-double-arrow-down-rounded" :class="{ expandRateBtnIcon__reverse: currentExpandAmount === holdingsList.length }"/>
+          </span>
+        </section>
+      </section>
     </section>
   </Card>
-
 </template>
 
 <script>
 import HoldingsListItem from "./HoldingsListItem.vue";
+import { Icon } from "@iconify/vue";
 
 export default {
   components: {
     HoldingsListItem,
+    Icon,
   },
   props: {
     holdingsList: {
@@ -62,7 +75,7 @@ export default {
     isPublic: {
       default: false,
       type: Boolean,
-    }
+    },
   },
   data() {
     return {
@@ -70,6 +83,8 @@ export default {
       holdingsPage: 0,
       isLoading: false,
       scrolling: false,
+      currentExpandAmount: 6,
+      expandRate: 5,
     };
   },
   methods: {
@@ -89,11 +104,83 @@ export default {
       this.scrolling = true;
       this.$refs["wrapper1"].scrollLeft = this.$refs["wrapper2"].scrollLeft;
     },
+    expandAtExpandRate() {
+      // with max of this.holdingsList.length
+      this.currentExpandAmount = Math.min(
+        this.currentExpandAmount + this.expandRate,
+        this.holdingsList.length
+      );
+    },
+    showOrHideAll() {
+      if (this.currentExpandAmount === this.holdingsList.length) {
+        this.currentExpandAmount = 6;
+      } else {
+        this.currentExpandAmount = this.holdingsList.length;
+      }
+    },
+  },
+  computed: {
+    showOrHideAllBtnText() {
+      if (this.currentExpandAmount === this.holdingsList.length) {
+        return "Hide";
+      } else {
+        return `Show all ${this.holdingsList.length}`;
+      }
+    },
+    showOrHideAtExpandRateBtnText() {
+      if (this.currentExpandAmount === this.holdingsList.length) {
+        return `Hide ${this.expandRate} expanded`;
+      } else {
+        return `Show ${this.hiddenHoldingsAmount} more`;
+      }
+    },
+    hiddenHoldingsAmount() {
+      if(this.holdingsList.length - this.currentExpandAmount < 0) {
+        return 0;
+      } else if(this.holdingsList.length - this.currentExpandAmount < this.expandRate) {
+        return this.holdingsList.length - this.currentExpandAmount;
+      } else {
+        return this.expandRate;
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
+.expandRateBtnIcon__reverse {
+  transform: rotate(180deg);
+}
+.expandSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.expandSection__btns {
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  gap: 3rem;
+}
+
+.expandSection__showMoreBtn {
+  color: var(--clr-medium-light-grey-2);
+  cursor: pointer;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  gap: 0.25rem;
+}
+
+.expandSection__showMoreBtn:hover {
+  color: var(--clr-dark-grey);
+}
+
 .tableTitle {
   display: flex;
   align-items: center;
@@ -185,10 +272,10 @@ thead {
 
 th {
   padding: 0.65rem 0.65rem;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   text-align: left;
   font-weight: 500;
-  color: var(--clr-dark-grey);
+  color: var(--clr-medium-light-grey-2);
 }
 th:nth-of-type(1) {
   padding-left: 1.75rem;

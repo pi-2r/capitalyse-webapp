@@ -67,6 +67,8 @@
       </table>
     </Card>
   </section>
+    <Footer/>
+
 </template>
 
 <script>
@@ -263,8 +265,9 @@ th {
   padding: 1.1rem 1.5rem;
   text-align: left;
   font-weight: 500;
-  font-size: 1rem;
-  color: var(--clr-dark-grey);
+  font-size: 0.8rem;
+  color: var(--clr-medium-light-grey-2);
+  text-transform: uppercase;
 }
 
 th:last-of-type {

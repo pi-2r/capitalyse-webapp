@@ -1,7 +1,7 @@
 <template>
   <td>
-    <span class="cutText">
-      <router-link class="holdingName" :to="toLink">
+    <span>
+      <router-link class="cutText holdingName" :to="toLink">
         {{ holding.name }}
         <Icon
           class="holdingName__icon"
@@ -19,25 +19,7 @@
   <td class="number">
     {{ holding.count }}
   </td>
-  <td class="number">
-    <span>
-      {{
-        Intl.NumberFormat("nl-nl", {
-          style: "currency",
-          currency: "EUR",
-        }).format(holding.value)
-      }}
-    </span>
-    <br />
-    <span class="secondary" v-if="holding.localCurrency !== 'EUR'">
-      {{
-        Intl.NumberFormat("nl-nl", {
-          style: "currency",
-          currency: holding.localCurrency,
-        }).format(holding.localValue)
-      }}
-    </span>
-  </td>
+  
   <td class="number">
     <span v-if="holding.costBasis > 0">
       {{
@@ -55,6 +37,25 @@
           style: "currency",
           currency: "EUR",
         }).format(holding.avgBuyPrice)
+      }}
+    </span>
+  </td>
+  <td class="number">
+    <span>
+      {{
+        Intl.NumberFormat("nl-nl", {
+          style: "currency",
+          currency: "EUR",
+        }).format(holding.value)
+      }}
+    </span>
+    <br />
+    <span class="secondary" v-if="holding.localCurrency !== 'EUR'">
+      {{
+        Intl.NumberFormat("nl-nl", {
+          style: "currency",
+          currency: holding.localCurrency,
+        }).format(holding.localValue)
       }}
     </span>
   </td>
@@ -201,7 +202,7 @@ export default {
 }
 
 .cutText {
-  line-height: 0.1rem;
+  line-height: 1.075rem;
   width: 19rem;
   overflow: hidden;
   display: inline-block;

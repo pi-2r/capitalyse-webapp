@@ -232,7 +232,6 @@ export default {
         "#4a7aff",
         "#4a89ff",
         "#4a95ff",
-        "#4a5fff",
         "#4aa4ff",
         "#4ab7ff",
         "#4ac6ff",

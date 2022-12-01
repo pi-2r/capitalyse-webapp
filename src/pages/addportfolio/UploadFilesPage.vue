@@ -790,6 +790,7 @@ h1 {
   margin-top: 3rem;
   margin-bottom: 4rem;
   width: 30rem;
+  min-height: 100vh;
 }
 
 .formCardContainer {

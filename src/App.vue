@@ -27,6 +27,7 @@
 
       <router-view></router-view>
     </main>
+
   </article>
 </template>
 
@@ -121,12 +122,13 @@ export default {
 /* Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,600&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
 /* Variables */
 @import "./assets/styles/variables.css";
 
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -134,12 +136,12 @@ export default {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--clr-medium-light-grey);
+  background: var(--clr-medium-light-grey-2);
   border-radius: var(--btn-radius);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--clr-medium-light-grey-2);
+  background: var(--clr-grey);
 }
 
 .titleAndBackButtonContainer {
@@ -166,8 +168,8 @@ html {
 
 h1 {
   font-size: 2rem;
-  font-family: "Lexend", sans-serif;
-  font-weight: 500;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
   margin: 0;
   padding: 0;
   color: var(--clr-black);

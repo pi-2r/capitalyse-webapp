@@ -90,6 +90,7 @@
 <script>
 import TotalProfitLossLineChart from "./TotalProfitLossLineChart.vue";
 import Card from "@/components/ui/Card.vue";
+
 // import getChartGainMixin from "@/mixins/analytics/getChartGain";
 export default {
   // mixins: [
@@ -134,6 +135,7 @@ export default {
             borderColor: "#0084ff",
             borderWidth: 2,
             cubicInterpolationMode: "monotone",
+           
           },
         ],
       },

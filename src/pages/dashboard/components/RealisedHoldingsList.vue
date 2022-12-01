@@ -146,7 +146,7 @@ h2 {
 }
 
 .holdingsCard {
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
 }
 
 h2 {
@@ -229,11 +229,12 @@ thead {
 }
 
 th {
+  text-transform: uppercase;
   padding: 0.65rem 0.65rem;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   text-align: left;
   font-weight: 500;
-  color: var(--clr-dark-grey);
+  color: var(--clr-medium-light-grey-2);
 }
 th:nth-of-type(1) {
   padding-left: 1.75rem;

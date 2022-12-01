@@ -1,7 +1,7 @@
 <template>
   <section class="tooltip__wrapper">
     <Icon :icon="icon" class="tooltip__icon" :height="height" :color="color" @mouseover="isOpen = true" @mouseleave="isOpen = false"/>
-    <transition name="slide-fade" mode="out-in">
+    <transition name="slide-fade">
       <section class="tooltip__text" v-if="isOpen">
         <slot/>
       </section>

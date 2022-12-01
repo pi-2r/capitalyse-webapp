@@ -37,7 +37,7 @@
       </section>
 
       <section class="head__rightSection">
-        <LiveDot/>
+        <LiveDot text="Capitalyse uses EOD (End-of-day) data to automatically update holdings and dividends every day 2-3 hours after market close."/>
         <section class="header__rightSection-dates">
           <!-- <Icon
             icon="ic:outline-info"
@@ -90,15 +90,26 @@
           :pieChartIndustries="homeAnalytics.pieChartIndustries"
         />
       </section> -->
+ <HoldingsList
+        :isPublic="isPublic"
+        :holdingsList="homeAnalytics.holdingsList.holdings"
+      />
 
-       <DiversificationCard
-        title="Holdings"
-        :pieChartData="homeAnalytics.pieChartHoldings"
-        :showBtn="true"
+       <RealisedHoldingsList
+        :isPublic="isPublic"
+        :realisedHoldingsList="homeAnalytics.holdingsList.sold"
+      />
+    
+
+      <DividendChart
+        :withBtn="true"
+        :hideTimeFrameBtns="false"
+        :chartDividendsProps="homeAnalytics.chartDividends"
+        class="dividendChartDashboard"
         :isPublic="isPublic"
       />
 
-      <section class="cardsContainer">
+        <section class="cardsContainer">
         <DepositsCard
           :showTooltip="true"
           tooltipText="Net amount deposited and withdrawn into and from your DEGIRO account."
@@ -115,24 +126,19 @@
         />
       </section>
 
-      <DividendChart
-        :withBtn="true"
-        :hideTimeFrameBtns="false"
-        :chartDividendsProps="homeAnalytics.chartDividends"
-        class="dividendChartDashboard"
+
+       <DiversificationCard
+        title="Holdings"
+        :pieChartData="homeAnalytics.pieChartHoldings"
+        :showBtn="true"
         :isPublic="isPublic"
       />
 
-      <HoldingsList
-        :isPublic="isPublic"
-        :holdingsList="homeAnalytics.holdingsList.holdings"
-      />
 
-      <RealisedHoldingsList
-        :isPublic="isPublic"
-        :realisedHoldingsList="homeAnalytics.holdingsList.sold"
-      />
+     
     </section>
+
+    <Footer/>
   </section>
   <LoadingOverlay
     text="Loading analytics.. This might take a few seconds."

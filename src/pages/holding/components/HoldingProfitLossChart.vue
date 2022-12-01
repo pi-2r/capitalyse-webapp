@@ -128,9 +128,9 @@ export default {
       timeFrameOptions: {
         allTime: "Max",
         yearToDate: "YTD",
-        oneYear: "1 Year",
-        threeYears: "3 Years",
-        fiveYears: "5 Years",
+        oneYear: "1Y",
+        threeYears: "3Y",
+        fiveYears: "5Y",
       },
       chartData: {
         labels: [],
@@ -235,7 +235,6 @@ export default {
         this.chartData.datasets[0].data = [];
         this.chartErrorMsg = "No results";
       } else {
-        console.log(this.chartGainProps.labels);
         try {
           this.chartData.labels = JSON.parse(
             JSON.stringify(this.chartGainProps.labels)
