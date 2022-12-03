@@ -69,7 +69,7 @@
                 Intl.NumberFormat("nl-nl", {
                   style: "currency",
                   currency: currency,
-                }).format(averageGainPerMonth)
+                }).format(averageGainPerMonth * 30.44)
               }}/mo</span
             >
           </p>

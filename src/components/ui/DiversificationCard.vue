@@ -77,7 +77,7 @@ export default {
         layout: {
           padding: 35,
         },
-        cutout: 75,
+        cutout: 60,
         hoverOffset: 5,
         hoverBorderColor: "transparent",
         // onClick: this.pieChartClickEvent,

@@ -37,7 +37,7 @@
       </section>
 
       <section class="head__rightSection">
-        <LiveDot text="Capitalyse uses EOD (End-of-day) data to automatically update holdings and dividends every day 2-3 hours after market close."/>
+        <LiveDot text="We automatically update stock prices and recalibrate diversification daily 2-3 hours after market close."/>
         <section class="header__rightSection-dates">
           <!-- <Icon
             icon="ic:outline-info"
