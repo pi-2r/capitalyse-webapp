@@ -37,7 +37,7 @@
       </section>
 
       <section class="head__rightSection">
-        <LiveDot text="We automatically update stock prices and recalibrate diversification daily 2-3 hours after market close."/>
+        <LiveDot text="We automatically update stock prices, dividends & recalibrate diversification daily 2-3 hours after market close."/>
         <section class="header__rightSection-dates">
           <!-- <Icon
             icon="ic:outline-info"
@@ -107,6 +107,8 @@
         :chartDividendsProps="homeAnalytics.chartDividends"
         class="dividendChartDashboard"
         :isPublic="isPublic"
+        :showTooltip="true"
+        tooltipText="Dividend payments are automatically added the day of payout. If you think there's missing payments, please add a portfolio with new files."
       />
 
         <section class="cardsContainer">

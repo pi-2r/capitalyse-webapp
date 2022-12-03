@@ -2,14 +2,13 @@
   <section class="loading-wrapper">
     <div class="loading">
       <div class="loading-text">
-
-
-
-    
-  <div class="row">
-    <div class="spinner spinner-bounce-bottom"></div>
-  </div>
-  
+        <div class="row">
+          <div class="spinner spinner-bounce-bottom"></div>
+        </div>
+        <br>
+        <p> Getting stock market data...</p>
+       
+        <p>This might take a few seconds.</p>
 
         <!-- <span class="loading-text-words">L</span>
         <span class="loading-text-words">O</span>
@@ -72,13 +71,18 @@ export default {
     },
     text: {
       type: String,
-      default: ''
-    }
+      default: "",
+    },
   },
 };
 </script>
 
 <style scoped>
+p {
+  font-size: 0.85rem;
+  color: var(--clr-medium-light-grey-2)
+}
+
 .text {
   margin-top: 1rem;
   text-align: center;
@@ -97,8 +101,6 @@ export default {
   transform: scale(1.25);
   margin-right: 0.25rem;
 }
-
-
 
 .holder {
   position: absolute;
@@ -436,7 +438,7 @@ export default {
   text-align: center;
   width: 100%;
   height: 100px;
-  line-height: 75px;
+  /* line-height: 75px; */
 }
 
 .loading-text span {
@@ -516,18 +518,6 @@ export default {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 body {
   background-color: white;
   font-family: "Lato", Arial, sans-serif;
@@ -540,7 +530,8 @@ h1 {
   color: #666;
 }
 
-h2, a {
+h2,
+a {
   font-size: 0.8em;
   color: var(--clr-grey);
 }
@@ -559,7 +550,9 @@ h2, a {
 /* ============================ */
 /* SPINNER GENERAL              */
 /* ============================ */
-.spinner:before, .spinner:after, .spinner {
+.spinner:before,
+.spinner:after,
+.spinner {
   width: 4px;
   height: 20px;
   background-color: var(--clr-grey);
@@ -570,7 +563,8 @@ h2, a {
   display: inline-block;
   position: relative;
 }
-.spinner:before, .spinner:after {
+.spinner:before,
+.spinner:after {
   content: "";
   position: absolute;
   display: block;
@@ -615,20 +609,21 @@ h2, a {
   }
 }
 .spinner-bounce-bottom {
-  -webkit-animation: bounce-bottom 0.6s ease 0.1s infinite;
-          animation: bounce-bottom 0.6s ease 0.1s infinite;
+  -webkit-animation: bounce-bottom 0.8s ease 0.1s infinite;
+  animation: bounce-bottom 0.8s ease 0.1s infinite;
 }
-.spinner-bounce-bottom:before, .spinner-bounce-bottom:after {
+.spinner-bounce-bottom:before,
+.spinner-bounce-bottom:after {
   top: auto;
   bottom: 0px;
 }
 .spinner-bounce-bottom:before {
-  -webkit-animation: bounce-bottom 0.6s ease 0s infinite;
-          animation: bounce-bottom 0.6s ease 0s infinite;
+  -webkit-animation: bounce-bottom 0.8s ease 0s infinite;
+  animation: bounce-bottom 0.8s ease 0s infinite;
 }
 .spinner-bounce-bottom:after {
-  -webkit-animation: bounce-bottom 0.6s ease 0.2s infinite;
-          animation: bounce-bottom 0.6s ease 0.2s infinite;
+  -webkit-animation: bounce-bottom 0.8s ease 0.2s infinite;
+  animation: bounce-bottom 0.8s ease 0.2s infinite;
 }
 
 /* ============================ */
@@ -664,15 +659,15 @@ h2, a {
 }
 .spinner-bounce-top {
   -webkit-animation: bounce-top 0.6s ease 0.1s infinite;
-          animation: bounce-top 0.6s ease 0.1s infinite;
+  animation: bounce-top 0.6s ease 0.1s infinite;
 }
 .spinner-bounce-top:before {
   -webkit-animation: bounce-top 0.6s ease 0s infinite;
-          animation: bounce-top 0.6s ease 0s infinite;
+  animation: bounce-top 0.6s ease 0s infinite;
 }
 .spinner-bounce-top:after {
   -webkit-animation: bounce-top 0.6s ease 0.2s infinite;
-          animation: bounce-top 0.6s ease 0.2s infinite;
+  animation: bounce-top 0.6s ease 0.2s infinite;
 }
 
 /* ============================ */
@@ -714,19 +709,20 @@ h2, a {
 }
 .spinner-bounce-middle {
   -webkit-animation: bounce-middle 0.6s ease 0.1s infinite;
-          animation: bounce-middle 0.6s ease 0.1s infinite;
+  animation: bounce-middle 0.6s ease 0.1s infinite;
 }
-.spinner-bounce-middle:before, .spinner-bounce-middle:after {
+.spinner-bounce-middle:before,
+.spinner-bounce-middle:after {
   top: 50%;
   transform: translateY(-10px) translateZ(0);
 }
 .spinner-bounce-middle:before {
   -webkit-animation: bounce-middle 0.6s ease 0s infinite;
-          animation: bounce-middle 0.6s ease 0s infinite;
+  animation: bounce-middle 0.6s ease 0s infinite;
 }
 .spinner-bounce-middle:after {
   -webkit-animation: bounce-middle 0.6s ease 0.2s infinite;
-          animation: bounce-middle 0.6s ease 0.2s infinite;
+  animation: bounce-middle 0.6s ease 0.2s infinite;
 }
 
 /* ============================ */
@@ -756,14 +752,14 @@ h2, a {
 }
 .spinner-blink {
   -webkit-animation: glow 0.6s 0.1s infinite;
-          animation: glow 0.6s 0.1s infinite;
+  animation: glow 0.6s 0.1s infinite;
 }
 .spinner-blink:before {
   -webkit-animation: glow 0.6s 0s infinite;
-          animation: glow 0.6s 0s infinite;
+  animation: glow 0.6s 0s infinite;
 }
 .spinner-blink:after {
   -webkit-animation: glow 0.6s 0.2s infinite;
-          animation: glow 0.6s 0.2s infinite;
+  animation: glow 0.6s 0.2s infinite;
 }
 </style>
