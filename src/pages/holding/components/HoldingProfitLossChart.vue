@@ -58,6 +58,7 @@
           >
             <option value="profitLoss">Profit/Loss</option>
             <option value="stockPrices">Stock Price</option>
+            <option value="stockCount">Stock Quantity</option>
           </select>
         </section>
         <Tooltip v-if="selectedSortType === 'profitLoss'">
@@ -67,15 +68,23 @@
 
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
-            <span class="chartResultValue"
-              >{{
+            <span class="chartResultValue" v-if="selectedChartType !== 'stockCount'">
+              {{
                 Intl.NumberFormat("nl-nl", {
                   style: "currency",
                   currency: currency,
                 }).format(totalGain)
               }}
             </span>
-            <span class="chartAverageResultValue"
+            <span class="chartResultValue" v-else>
+              {{ chartResultValue }}
+              {{
+                Intl.NumberFormat("nl-nl").format(totalGain)
+              }} shares
+            </span>
+            <span
+              class="chartAverageResultValue"
+              v-if="selectedChartType === 'profitLoss'"
               >avg.
               {{
                 Intl.NumberFormat("nl-nl", {
@@ -96,6 +105,7 @@
           v-if="!isLoading"
           :chart-data="chartData"
           :currency="currency"
+          :selected-chart-type="selectedChartType"
         />
         <section class="spinnerContainer" v-else>
           <spinner />
@@ -119,6 +129,10 @@ export default {
       required: true,
     },
     chartStockPricesProps: {
+      default: null,
+      required: true,
+    },
+    chartStockCountProps: {
       default: null,
       required: true,
     },
@@ -182,16 +196,26 @@ export default {
     totalGain() {
       if (this.chartGainProps != false) {
         try {
-          const firstMonthIndex = this.chartGainProps.labels.indexOf(
-            this.chartData.labels[0]
-          );
-          if (firstMonthIndex > 0) {
-            return (
-              this.chartData.datasets[0].data[
-                this.chartData.datasets[0].data.length - 1
-              ] - this.chartGainProps.data[firstMonthIndex - 1]
+          if (this.selectedChartType === "profitLoss") {
+            const firstMonthIndex = this.chartGainProps.labels.indexOf(
+              this.chartData.labels[0]
             );
-          } else {
+            if (firstMonthIndex > 0) {
+              return (
+                this.chartData.datasets[0].data[
+                  this.chartData.datasets[0].data.length - 1
+                ] - this.chartGainProps.data[firstMonthIndex - 1]
+              );
+            } else {
+              return this.chartData.datasets[0].data[
+                this.chartData.datasets[0].data.length - 1
+              ];
+            }
+          } else if (this.selectedChartType === "stockPrices") {
+            return this.chartData.datasets[0].data[
+              this.chartData.datasets[0].data.length - 1
+            ];
+          } else if (this.selectedChartType === "stockCount") {
             return this.chartData.datasets[0].data[
               this.chartData.datasets[0].data.length - 1
             ];
@@ -211,7 +235,11 @@ export default {
       return 0;
     },
     isThereData() {
-      return this.chartGainProps !== null && this.chartStockPricesProps !== null;
+      return (
+        this.chartGainProps !== null &&
+        this.chartStockPricesProps !== null &&
+        this.chartStockCountProps !== null
+      );
     },
   },
   watch: {
@@ -222,7 +250,7 @@ export default {
       this.loadData();
     },
     selectedChartType() {
-      this.selectedTimeFrame = this.timeFrameOptions.allTime
+      this.selectedTimeFrame = this.timeFrameOptions.allTime;
       this.chooseChartType();
     },
   },
@@ -253,8 +281,10 @@ export default {
     chooseChartType() {
       if (this.selectedChartType === "profitLoss") {
         this.getGain();
-      } else {
+      } else if (this.selectedChartType === "stockPrices") {
         this.getStockPrices();
+      } else if (this.selectedChartType === "stockCount") {
+        this.getStockCount();
       }
     },
     getGain() {
@@ -290,6 +320,27 @@ export default {
           );
           this.chartData.datasets[0].data = JSON.parse(
             JSON.stringify(this.chartStockPricesProps.data)
+          );
+        } catch (e) {
+          this.chartData.labels = [];
+          this.chartData.datasets[0].data = [];
+        }
+
+        this.chartErrorMsg = null;
+      }
+    },
+    getStockCount() {
+      if (this.chartStockCountProps === false) {
+        this.chartData.labels = [];
+        this.chartData.datasets[0].data = [];
+        this.chartErrorMsg = "No results";
+      } else {
+        try {
+          this.chartData.labels = JSON.parse(
+            JSON.stringify(this.chartStockCountProps.labels)
+          );
+          this.chartData.datasets[0].data = JSON.parse(
+            JSON.stringify(this.chartStockCountProps.data)
           );
         } catch (e) {
           this.chartData.labels = [];

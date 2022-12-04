@@ -34,7 +34,7 @@ ChartJS.register(
 export default {
   name: "LineChart",
   components: { Line },
-   props: {
+  props: {
     chartData: {
       required: true,
       type: Object,
@@ -46,7 +46,7 @@ export default {
       },
     },
     currency: {
-      default: 'EUR',
+      default: "EUR",
       required: false,
     },
     height: {
@@ -58,6 +58,9 @@ export default {
       required: false,
       type: Number,
       default: 400,
+    },
+    selectedChartType: {
+      type: String,
     },
   },
   data() {
@@ -97,7 +100,7 @@ export default {
             },
             ticks: {
               color: "#fff",
-               callback: function (val, index) {
+              callback: function (val, index) {
                 // Hide every 2nd tick label
                 const date = this.getLabelForValue(val);
                 const year = date.split("-")[2];
@@ -118,7 +121,9 @@ export default {
                   "Dec",
                 ];
 
-                return index % 2 === 0 ? [`${day} ${arrayOfMonths[month - 1]}`, `${year}`] : '       ';
+                return index % 2 === 0
+                  ? [`${day} ${arrayOfMonths[month - 1]}`, `${year}`]
+                  : "       ";
                 // return [`${day} ${arrayOfMonths[month - 1]}`, `${year}`]
               },
             },
@@ -148,7 +153,7 @@ export default {
             borderWidth: 1,
             padding: 12,
             enabled: true,
-           callbacks: {
+            callbacks: {
               title: function (value) {
                 if (value[0]) {
                   const date = value[0].label;
@@ -169,7 +174,7 @@ export default {
                     "Nov",
                     "Dec",
                   ];
-                  return [`Gain on ${day} ${arrayOfMonths[month - 1]} ${year}`];
+                  return [`${day} ${arrayOfMonths[month - 1]} ${year}`];
                 } else {
                   return null;
                 }
@@ -195,8 +200,45 @@ export default {
       currencyProps: this.currency,
     };
   },
- 
+  watch: {
+    selectedChartType() {
+      // set ticks
+      this.setTicks()
+      this.setTooltip();
+    }
+  },
   methods: {
+    setTooltip() {
+      this.chartOptions.plugins.tooltip.callbacks.label = (value) => {
+        if(this.selectedChartType === 'stockCount') {
+          return value.raw + ' shares';
+        } else {
+          const numberFormatValue = Intl.NumberFormat("nl-nl", {
+            style: "currency",
+            currency: "EUR",
+          }).format(value.raw);
+          return numberFormatValue;
+        }
+      };
+    },
+    setTicks() {
+      const ticks = this.chartOptions.scales.yAxes.ticks;
+      ticks.callback = (value) => {
+        value = value.toFixed(2);
+        value = parseFloat(value);
+        // if more than 1000 change to k
+        if(this.selectedChartType === 'stockCount') {
+          return value.toString().replace(".", ",");
+        }
+
+        if (value >= 1000 || value <= -1000) {
+          value = value / 1000 + "K";
+        } else if (value >= 1000000 || value <= -1000000) {
+          value = value / 1000000 + "M";
+        }
+        return "€" + value.toString().replace(".", ",");
+      };
+    },
     setTheme() {
       // pak de theme van localstorage en zet geef de juiste theme aan de chart
       const theme = localStorage.getItem("theme");
@@ -217,6 +259,7 @@ export default {
   },
   created() {
     this.setTheme();
+    this.setTicks();
   },
 };
 </script>

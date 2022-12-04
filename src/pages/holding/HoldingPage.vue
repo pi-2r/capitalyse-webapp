@@ -44,6 +44,7 @@
     <HoldingProfitLossChart
       :chartGainProps="holdingAnalytics.holdingProfitLossChart"
       :chartStockPricesProps="holdingAnalytics.holdingStockPricesChart"
+      :chartStockCountProps="holdingAnalytics.holdingStockCountChart"
     />
 
     <HoldingInfoCards
@@ -134,7 +135,7 @@ export default {
       ) {
         return "Due to incomplete csv file data on DEGIRO's end, we could not provide accurate and reliable stock data for this security.";
       } else if (this.holdingAnalytics.hasLiveData === false) {
-        return "We do not have stock data for this security yet. We apologise for the inconvenience.";
+        return "We do not have stock data for this security yet.";
       } else {
         return "";
       }
