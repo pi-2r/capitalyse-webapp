@@ -4,7 +4,6 @@
     <section class="timeFrame">
       <!-- radios -->
       <section class="timeFrame__buttons">
-      
         <button
           @click="timeFrameChange"
           :class="{
@@ -39,20 +38,33 @@
         >
           {{ timeFrameOptions.fiveYears }}
         </button>
-          <button
+        <button
           @click="timeFrameChange"
           :class="{ btnActive: selectedTimeFrame == timeFrameOptions.allTime }"
           class="timeFrame__btn"
         >
           {{ timeFrameOptions.allTime }}
         </button>
-     
       </section>
     </section>
 
     <Card class="holdingChartWrapper">
-       <section class="holdingChartHeading">
-        <h2>Gain/loss <Tooltip>Visualises the gain over time for this holding. Any flat spots mean you didn't have it in your portfolio at that time.</Tooltip></h2>
+      <section class="holdingChartHeading">
+        <section>
+          <select
+            name="sortDeposits"
+            id="sortDeposits"
+            v-model="selectedChartType"
+          >
+            <option value="profitLoss">Profit/Loss</option>
+            <option value="stockPrices">Stock Price</option>
+          </select>
+        </section>
+        <Tooltip v-if="selectedSortType === 'profitLoss'">
+          Visualises the gain over time for this holding. Any flat spots mean
+          you didn't have it in your portfolio at that time.
+        </Tooltip>
+
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
             <span class="chartResultValue"
@@ -74,7 +86,7 @@
             >
           </p>
         </transition>
-      </section> 
+      </section>
 
       <p class="chartErrorMsg" v-if="chartErrorMsg">
         {{ chartErrorMsg }}
@@ -93,7 +105,7 @@
   </section>
 </template>
 <script>
-import Tooltip from '@/components/ui/Tooltip.vue'
+import Tooltip from "@/components/ui/Tooltip.vue";
 import HoldingProfitLossLineChart from "./HoldingProfitLossLineChart.vue";
 import Card from "@/components/ui/Card.vue";
 // import getChartGainMixin from "@/mixins/analytics/getChartGain";
@@ -103,6 +115,10 @@ export default {
   // ],
   props: {
     chartGainProps: {
+      default: null,
+      required: true,
+    },
+    chartStockPricesProps: {
       default: null,
       required: true,
     },
@@ -132,6 +148,7 @@ export default {
         threeYears: "3Y",
         fiveYears: "5Y",
       },
+      selectedChartType: "profitLoss",
       chartData: {
         labels: [],
         datasets: [
@@ -165,22 +182,22 @@ export default {
     totalGain() {
       if (this.chartGainProps != false) {
         try {
-        const firstMonthIndex = this.chartGainProps.labels.indexOf(
-          this.chartData.labels[0]
-        );
-        if (firstMonthIndex > 0) {
-          return (
-            this.chartData.datasets[0].data[
-              this.chartData.datasets[0].data.length - 1
-            ] - this.chartGainProps.data[firstMonthIndex - 1]
+          const firstMonthIndex = this.chartGainProps.labels.indexOf(
+            this.chartData.labels[0]
           );
-        } else {
-          return this.chartData.datasets[0].data[
-            this.chartData.datasets[0].data.length - 1
-          ];
-        }
-        }catch(e) {
-          return 0
+          if (firstMonthIndex > 0) {
+            return (
+              this.chartData.datasets[0].data[
+                this.chartData.datasets[0].data.length - 1
+              ] - this.chartGainProps.data[firstMonthIndex - 1]
+            );
+          } else {
+            return this.chartData.datasets[0].data[
+              this.chartData.datasets[0].data.length - 1
+            ];
+          }
+        } catch (e) {
+          return 0;
         }
       }
       return 0;
@@ -194,7 +211,7 @@ export default {
       return 0;
     },
     isThereData() {
-      return this.chartGainProps !== null;
+      return this.chartGainProps !== null && this.chartStockPricesProps !== null;
     },
   },
   watch: {
@@ -203,6 +220,10 @@ export default {
     },
     $route() {
       this.loadData();
+    },
+    selectedChartType() {
+      this.selectedTimeFrame = this.timeFrameOptions.allTime
+      this.chooseChartType();
     },
   },
   methods: {
@@ -218,7 +239,7 @@ export default {
     },
     loadData() {
       if (this.isThereData) {
-        this.getGain();
+        this.chooseChartType();
         this.isLoading = false;
       } else {
         this.isLoading = true;
@@ -226,8 +247,15 @@ export default {
     },
     timeFrameChange(e) {
       this.selectedTimeFrame = e.target.innerText;
-      this.isThereData ? this.getGain() : null;
+      this.isThereData ? this.chooseChartType() : null;
       this.timeFrameDataUpdate();
+    },
+    chooseChartType() {
+      if (this.selectedChartType === "profitLoss") {
+        this.getGain();
+      } else {
+        this.getStockPrices();
+      }
     },
     getGain() {
       if (this.chartGainProps === false) {
@@ -241,6 +269,27 @@ export default {
           );
           this.chartData.datasets[0].data = JSON.parse(
             JSON.stringify(this.chartGainProps.data)
+          );
+        } catch (e) {
+          this.chartData.labels = [];
+          this.chartData.datasets[0].data = [];
+        }
+
+        this.chartErrorMsg = null;
+      }
+    },
+    getStockPrices() {
+      if (this.chartStockPricesProps === false) {
+        this.chartData.labels = [];
+        this.chartData.datasets[0].data = [];
+        this.chartErrorMsg = "No results";
+      } else {
+        try {
+          this.chartData.labels = JSON.parse(
+            JSON.stringify(this.chartStockPricesProps.labels)
+          );
+          this.chartData.datasets[0].data = JSON.parse(
+            JSON.stringify(this.chartStockPricesProps.data)
           );
         } catch (e) {
           this.chartData.labels = [];
@@ -319,6 +368,23 @@ export default {
 </script>
 
 <style scoped>
+select {
+  padding: 0.5rem;
+  border-radius: var(--btn-radius);
+  background-color: var(--clr-very-light-blue);
+  color: var(--clr-grey);
+  font-weight: 600;
+  font-size: 1rem;
+  border: 1px solid var(--clr-medium-light-grey);
+  box-shadow: var(--btn-shadow);
+  transition: 0.15s all;
+}
+
+select:hover {
+  cursor: pointer;
+  border-color: var(--clr-medium-light-grey-2);
+}
+
 h2 {
   color: var(--clr-grey);
 }

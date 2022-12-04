@@ -31,8 +31,6 @@
         </section>
       </section>
 
-
-
       <section class="holdingInfoSection">
         <p v-if="holdingAnalytics.holdingSector != null">
           {{ holdingAnalytics.holdingSector }}
@@ -43,7 +41,10 @@
       </section>
     </section>
 
-     <HoldingProfitLossChart :chartGainProps="holdingAnalytics.holdingProfitLossChart" />
+    <HoldingProfitLossChart
+      :chartGainProps="holdingAnalytics.holdingProfitLossChart"
+      :chartStockPricesProps="holdingAnalytics.holdingStockPricesChart"
+    />
 
     <HoldingInfoCards
       :isin="isin"
@@ -56,7 +57,11 @@
 
     <p class="isinText">ISIN: {{ $route.params.holdingId }}</p>
     <!-- <DividendChart :hideTimeFrameBtns="false" class="dividendChartDashboard" /> -->
-  <NotificationBar :message="notifMessage" type="info" v-if="notifMessage !== ''"/>
+    <NotificationBar
+      :message="notifMessage"
+      type="info"
+      v-if="notifMessage !== ''"
+    />
   </section>
   <section v-else>
     <LoadingOverlay />
@@ -72,8 +77,8 @@ import BackButton from "@/components/ui/BackButton.vue";
 import HoldingInfoCards from "./components/HoldingInfoCards.vue";
 import TradesList from "@/components/ui/TradesList.vue";
 // import DividendChart from "@/components/ui/DividendChart.vue";
-import HoldingProfitLossChart from './components/HoldingProfitLossChart.vue'
-import NotificationBar from '@/components/ui/NotificationBar.vue'
+import HoldingProfitLossChart from "./components/HoldingProfitLossChart.vue";
+import NotificationBar from "@/components/ui/NotificationBar.vue";
 
 export default {
   components: {
@@ -109,8 +114,7 @@ export default {
           percentage: 0,
         },
         holdingTradesList: [],
-        holdingProfitLossChart:[],
-    
+        holdingProfitLossChart: [],
       },
       portfolioInfo: {
         portfolioName: null,
@@ -125,12 +129,14 @@ export default {
   },
   computed: {
     notifMessage() {
-      if(this.holdingAnalytics.holdingProfitLossChart?.error === 'degiro-mistake') {
-        return 'Due to incomplete csv file data on DEGIRO\'s end, we could not provide accurate and reliable stock data for this security.'
-      } else if(this.holdingAnalytics.hasLiveData === false){
-        return 'We do not have stock data for this security yet. We apologise for the inconvenience.'
+      if (
+        this.holdingAnalytics.holdingProfitLossChart?.error === "degiro-mistake"
+      ) {
+        return "Due to incomplete csv file data on DEGIRO's end, we could not provide accurate and reliable stock data for this security.";
+      } else if (this.holdingAnalytics.hasLiveData === false) {
+        return "We do not have stock data for this security yet. We apologise for the inconvenience.";
       } else {
-        return ''
+        return "";
       }
     },
     isin() {

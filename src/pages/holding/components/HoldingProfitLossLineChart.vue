@@ -65,7 +65,7 @@ export default {
       chartOptions: {
         scales: {
           yAxes: {
-            beginAtZero: true,
+            // beginAtZero: true,
             grid: {
               color: "rgba(0, 0, 0, 0.125)",
               drawBorder: false,
