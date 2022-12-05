@@ -1,7 +1,6 @@
 <template>
   <td>
-    <span>
-      <router-link class="cutText holdingName" :to="toLink">
+    <span class="holdingName cutText">
         {{ holding.name }}
         <Icon
           class="holdingName__icon"
@@ -9,7 +8,6 @@
           color="var(--clr-blue)"
           height="13"
         />
-      </router-link>
     </span>
     <br />
     <span class="secondary">
@@ -171,13 +169,7 @@ export default {
         return null;
       }
     },
-    toLink() {
-      if (!this.isPublic) {
-        return `/dashboard/${this.$route.params.id}/holdings/${this.holding.isin}`;
-      } else {
-        return `/shared/${this.$route.params.uid}/${this.$route.params.pid}/holdings/${this.holding.isin}`;
-      }
-    },
+   
   },
 };
 </script>

@@ -3,7 +3,7 @@
     title="Total times traded"
     :resultValue="totalTradeCount + ' trades'"
     :to="toLink"
-    btnText="View Trades"
+    btnText="Trading details"
     :withBtn="true"
     :numberResult="false"
     :largeBlueText="true"

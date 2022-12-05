@@ -53,7 +53,7 @@
     <Card class="dividendChartWrapper">
       <section class="dividendChartHeading">
         <h2>
-          Dividends <Tooltip v-if="showTooltip">{{ tooltipText }}</Tooltip>
+          {{title}} <Tooltip v-if="showTooltip">{{ tooltipText }}</Tooltip>
         </h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
@@ -89,7 +89,7 @@
       </section>
       <section class="cardBtnSection" v-if="withBtn">
         <CardButtonArrow class="cardBtnArrow__dividendChart" :to="toLink">
-          View Dividends
+          Dividend details
         </CardButtonArrow>
       </section>
     </Card>
@@ -110,6 +110,14 @@ export default {
   props: {
     chartDividendsProps: {
       required: true,
+    },
+    isHomePage: {
+      type: Boolean,
+      default: false,
+    },
+    title: {
+      type: String,
+      default: "Dividends",
     },
     showTooltip: {
       default: false,
@@ -274,6 +282,9 @@ export default {
     loadData() {
       if (this.isThereData) {
         this.getDividends();
+        if(this.isHomePage) {
+          this.timeFrameChange(this.timeFrameOptions.oneYear);
+        }
         this.isLoading = false;
       } else {
         this.isLoading = true;
@@ -285,7 +296,7 @@ export default {
       // vd button gelezen opgeslagen als huidige timeframe
       this.isLoading = true;
       setTimeout(() => {
-        this.selectedTimeFrame = e.target.innerText;
+        this.selectedTimeFrame = e?.target?.innerText || e;
         this.isThereData ? this.getDividends() : null;
         this.timeFrameDataUpdate();
         this.isLoading = false;

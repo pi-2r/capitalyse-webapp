@@ -24,8 +24,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr :key="holding.id" v-for="(holding, index) in holdingsList">
-            <HoldingsListItem v-if="index < currentExpandAmount" :holding="holding" :isPublic="isPublic" />
+          <tr :key="holding.id" v-for="(holding, index) in holdingsList" class="tableRow"  @click="goToHoldingPage(holding.isin)">
+            <HoldingsListItem v-if="index < currentExpandAmount" :holding="holding" :isPublic="isPublic"/>
           </tr>
           <section v-if="holdingsList !== null">
             <tr v-if="holdingsList.length < 1 && !isLoading">
@@ -88,6 +88,16 @@ export default {
     };
   },
   methods: {
+    goToHoldingPage(isin) {
+      let link
+      if (!this.isPublic) {
+        link = `/dashboard/${this.$route.params.id}/holdings/${isin}`;
+      } else {
+        link = `/shared/${this.$route.params.uid}/${this.$route.params.pid}/holdings/${isin}`;
+      }
+      
+      this.$router.push(link);
+    },
     handleScroll1() {
       if (this.scrolling) {
         this.scrolling = false;
@@ -148,6 +158,11 @@ export default {
 </script>
 
 <style scoped>
+.tableRow:hover {
+  background-color: var(--clr-medium-light-blue);
+  cursor: pointer;
+}
+
 .expandRateBtnIcon__reverse {
   transform: rotate(180deg);
 }

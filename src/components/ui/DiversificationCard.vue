@@ -42,7 +42,7 @@
     </section>
      <section class="holdingsPieChart__btnSection" v-if="showBtn">
       <CardButtonArrow class="holdingsPieChart__btn" :to="toLink"
-        >View Diversification</CardButtonArrow
+        >Diversification details</CardButtonArrow
       >
     </section>
   </Card>
