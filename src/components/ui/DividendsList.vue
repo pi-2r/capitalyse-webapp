@@ -2,7 +2,7 @@
   <Card class="card">
     <section class="tablecontainerHeading">
       <h2 class="tableTitle">
-        Dividend events
+        Dividends
         <span class="amountOfDividends">- {{ amountOfDividends }}</span>
       </h2>
       <section class="tableContainerHeading__dropdown">
@@ -41,7 +41,7 @@
         </thead>
         <tbody>
           <tr :key="dividend.id" v-for="dividend in dividends">
-            <DividendsListItem :dividend="dividend" />
+            <DividendsListItem :dividend="dividend" :name="name" />
           </tr>
           <tr v-if="dividends.length < 1 && !isLoading">
             <td class="noDividends" colspan="3">
@@ -74,6 +74,9 @@ export default {
     dividendsList: {
       required: true,
       default: [],
+    },
+    name: {
+      required: true,
     },
   },
   data() {

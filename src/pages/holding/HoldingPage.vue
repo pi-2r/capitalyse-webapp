@@ -54,6 +54,11 @@
       :holdingTransactionFees="holdingAnalytics.holdingTransactionFees"
     />
 
+    <DividendsList 
+      :dividendsList="holdingAnalytics.holdingDividendsList"
+      :name="holdingAnalytics.holdingName"
+    />
+
     <TradesList :tradesList="holdingAnalytics.holdingTradesList" />
 
     <p class="isinText">ISIN: {{ $route.params.holdingId }}</p>
@@ -71,6 +76,7 @@
 
 <script>
 // import { Icon } from '@iconify/vue';
+import DividendsList from '@/components/ui/DividendsList.vue';
 import SharedPortfolioIcon from "@/components/ui/SharedPortfolioIcon.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
@@ -84,6 +90,7 @@ import NotificationBar from "@/components/ui/NotificationBar.vue";
 export default {
   components: {
     Breadcrumbs,
+    DividendsList,
     SharedPortfolioIcon,
     // Icon,
     NotificationBar,
@@ -116,6 +123,7 @@ export default {
         },
         holdingTradesList: [],
         holdingProfitLossChart: [],
+        holdingDividendsList: [],
       },
       portfolioInfo: {
         portfolioName: null,

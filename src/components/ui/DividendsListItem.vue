@@ -12,7 +12,7 @@
   <td>
     <span class="cutText">
       <!-- <router-link :to="'/dashboard/' + this.$route.params.id + '/holdings/' + dividend.isin"> -->
-      {{ dividend.name }}
+      {{ name || dividend.name }}
       <!-- </router-link> -->
     </span>
     <br />
@@ -66,6 +66,9 @@ export default {
     dividend: {
       type: Object,
       required: true,
+    },
+    name: {
+      type: String,
     },
   },
   computed: {
@@ -122,7 +125,7 @@ export default {
 
 .cutText {
   line-height: 1.1rem;
-  width: 13rem;
+  width: 18rem;
   overflow: hidden;
   display: inline-block;
   text-overflow: ellipsis;
