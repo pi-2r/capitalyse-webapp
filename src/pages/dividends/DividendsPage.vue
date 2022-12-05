@@ -62,7 +62,10 @@
 
     </section>
 
-    
+    <DividendsList
+      :dividendsList="dividendsAnalytics.dividendsList"
+      :isLoading="isLoading"
+    />
     <!-- <FeesChart/> -->
   </section>
   <section v-else>
@@ -77,6 +80,7 @@ import ResultCard from "@/components/dashboard/ResultCard.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 import BackButton from "@/components/ui/BackButton.vue";
+import DividendsList from "./components/DividendsList.vue";
 
 // import FeesChart from './components/FeesChart.vue';
 
@@ -84,6 +88,7 @@ export default {
   components: {
     Breadcrumbs,
     ResultCard,
+    DividendsList,
     SharedPortfolioIcon,
     DividendChart,
     Header,
@@ -104,6 +109,7 @@ export default {
         dividendYieldToDate: 0,
         chartDividends: null,
         averageDividendsPerMonth: 0,
+        dividendsList: null,
       },
       portfolioInfo: {
         portfolioName: null,
