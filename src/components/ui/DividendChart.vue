@@ -66,7 +66,7 @@
               }}
             </span>
             <span class="chartAverageResultValue"
-              >avg.
+              >
               {{
                 Intl.NumberFormat("nl-nl", {
                   style: "currency",
@@ -280,6 +280,7 @@ export default {
     
     },
     loadData() {
+
       if (this.isThereData) {
         this.getDividends();
         if(this.isHomePage) {
@@ -462,12 +463,7 @@ export default {
   width: 100%;
 }
 
-.chartAverageResultValue {
-  font-size: 0.8rem;
-  display: block;
-  font-weight: 500;
-  color: var(--clr-green);
-}
+
 
 h2 {
   color: var(--clr-grey);
@@ -521,9 +517,15 @@ h2 {
 }
 
 .chartResultValue {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 600;
-  color: var(--clr-green);
+  color: var(--clr-dark-grey);
+}
+.chartAverageResultValue {
+  font-size: 0.8rem;
+  display: block;
+  font-weight: 500;
+  color: var(--clr-grey);
 }
 
 .timeFrame__buttons {

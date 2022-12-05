@@ -109,7 +109,7 @@
         class="dividendChartDashboard"
         :isPublic="isPublic"
         :showTooltip="true"
-        title="Dividends"
+        title="Past 12 mo. dividends"
         tooltipText="Dividend payments are automatically added the day of payout. If you think there's missing payments, please add a portfolio with new files."
       />
 
