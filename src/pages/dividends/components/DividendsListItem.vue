@@ -24,7 +24,7 @@
     {{
       Intl.NumberFormat("nl-nl", {
         style: "currency",
-        currency: dividend.dividendTaxCurrency || 'USD',
+        currency: dividend.dividendTaxCurrency || dividend.localCurrency,
       }).format(dividend.dividendTax)
     }}
   </td>
@@ -34,7 +34,7 @@
     {{
       Intl.NumberFormat("nl-nl", {
         style: "currency",
-        currency: dividend.localTotalCurrency || 'USD',
+        currency: dividend.localCurrency,
       }).format(dividend.localTotal - dividend.dividendTax)
     }}
   </td>
