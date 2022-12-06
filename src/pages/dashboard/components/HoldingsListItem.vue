@@ -19,7 +19,7 @@
   </td>
   
   <td class="number">
-    <span v-if="holding.costBasis > 0">
+    <span>
       {{
         Intl.NumberFormat("nl-nl", {
           style: "currency",
@@ -27,9 +27,8 @@
         }).format(holding.costBasis)
       }}
     </span>
-    <span v-else> No data </span>
     <br />
-    <span class="secondary" v-if="holding.costBasis > 0">
+    <span class="secondary" >
       {{
         Intl.NumberFormat("nl-nl", {
           style: "currency",
@@ -61,7 +60,7 @@
     class="number"
     :class="{ sellRedNumber: !isGain, buyGreenNumber: isGain }"
   >
-    <span v-if="holding.costBasis > 0">
+    <span>
       {{
         Intl.NumberFormat("nl-nl", {
           style: "currency",
@@ -69,7 +68,7 @@
         }).format(holding.gain)
       }}
     </span>
-    <br v-if="holding.costBasis > 0" />
+    <br/>
     <span
       class="secondary"
       :class="{ sellRedNumber: !isGain, buyGreenNumber: isGain }"
@@ -83,7 +82,6 @@
         }).format(holding.gainPercentage)
       }}
     </span>
-    <span v-else> No data </span>
   </td>
 
   <td class="number">
