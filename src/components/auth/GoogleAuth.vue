@@ -42,7 +42,7 @@ export default {
             signInWithRedirect(auth, provider);
         },
     },
-    created() {
+    mounted() {
         this.error = null;
         this.isLoading = true;
         getRedirectResult(auth)
@@ -53,7 +53,6 @@ export default {
                     });
                 } else {
                     console.log('null');
-                    this.error = `Error, no result: ${result}`;
                     this.isLoading = false;
                 }
             }).catch((error) => {
