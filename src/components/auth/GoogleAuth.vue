@@ -17,7 +17,6 @@ import {
   GoogleAuthProvider,
   signInWithRedirect,
   getRedirectResult,
-  onAuthStateChanged,
 } from "firebase/auth";
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
@@ -52,34 +51,32 @@ export default {
     this.error = null;
     this.isLoading = true;
 
-      onAuthStateChanged(auth, () => {
-        getRedirectResult(auth)
-          .then((result) => {
-            if (result !== null) {
-              this.$store.dispatch("googleAuth", {
-                result: result,
-              });
-            } else {
-              console.log("null");
-              this.isLoading = false;
-            }
-          })
-          .catch((error) => {
-            // Error
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            const email = error.customData.email;
-            const credential = GoogleAuthProvider.credentialFromError(error);
-
-            this.isLoading = false;
-            this.error = `${errorCode} ${errorMessage} ${email} ${credential}`;
-
-            alert(
-              "Something went wrong with Google Authentication, please try authentication through e-mail and password. If you already have an account, sign up with the email used and enter a new password to link the account."
-            );
-            console.log(errorCode, errorMessage, email, credential);
-            console.log(error);
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result !== null) {
+          this.$store.dispatch("googleAuth", {
+            result: result,
           });
+        } else {
+          console.log(result);
+          this.isLoading = false;
+        }
+      })
+      .catch((error) => {
+        // Error
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+
+        this.isLoading = false;
+        this.error = `${errorCode} ${errorMessage} ${email} ${credential}`;
+
+        alert(
+          "Something went wrong with Google Authentication, please try authentication through e-mail and password. If you already have an account, sign up with the email used and enter a new password to link the account."
+        );
+        console.log(errorCode, errorMessage, email, credential);
+        console.log(error);
       });
   },
 };
