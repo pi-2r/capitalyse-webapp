@@ -87,7 +87,6 @@ export default {
             });
     },
     googleAuth(context, payload) {
-        console.log(payload);
         // This gives you a Google Access Token. You can use it to access Google APIs.
         const credential = GoogleAuthProvider.credentialFromResult(payload.result);
         // The signed-in user info.

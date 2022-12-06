@@ -5,6 +5,7 @@
             <p class="signupText">{{ btnText }}</p>
         </section>
         <Spinner class="spinner" v-else/>
+        {{ error}}
     </button>
 </template>
 
@@ -30,6 +31,7 @@ export default {
         return {
             token: null,
             user: null,
+            error: null,
             isLoading: false,
         }
     },
@@ -41,6 +43,7 @@ export default {
         },
     },
     created() {
+        this.error = null;
         this.isLoading = true;
         getRedirectResult(auth)
             .then((result) => {
@@ -60,6 +63,7 @@ export default {
                 const credential = GoogleAuthProvider.credentialFromError(error);
 
                 this.isLoading = false;
+                this.error = `${errorCode} ${errorMessage} ${email} ${credential}`;
 
                 alert("Something went wrong with Google Authentication, please try authentication through e-mail and password. If you already have an account, sign up with the email used and enter a new password to link the account.")
                 console.log(errorCode, errorMessage, email, credential);
