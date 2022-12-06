@@ -52,8 +52,8 @@ export default {
     this.error = null;
     this.isLoading = true;
 
-    setTimeout(() => {
-      onAuthStateChanged(auth, () => {
+      onAuthStateChanged(auth, (user) => {
+        this.error = user?.email || 'no email';
         getRedirectResult(auth)
           .then((result) => {
             if (result !== null) {
@@ -82,7 +82,6 @@ export default {
             console.log(error);
           });
       });
-    }, 3000);
   },
 };
 </script>
