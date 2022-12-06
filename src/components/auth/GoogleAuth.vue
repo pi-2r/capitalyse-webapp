@@ -52,8 +52,7 @@ export default {
     this.error = null;
     this.isLoading = true;
 
-      onAuthStateChanged(auth, (user) => {
-        this.error = user?.email || 'no email';
+      onAuthStateChanged(auth, () => {
         getRedirectResult(auth)
           .then((result) => {
             if (result !== null) {
