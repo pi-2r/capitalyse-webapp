@@ -53,6 +53,7 @@ export default {
                     });
                 } else {
                     console.log('null');
+                    this.error = `Error, no result: ${result}`;
                     this.isLoading = false;
                 }
             }).catch((error) => {
