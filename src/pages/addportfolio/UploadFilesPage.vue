@@ -1,4 +1,11 @@
 <template>
+  <ConfirmModal
+    v-if="showModal"
+  >
+    <h1>Warning</h1>
+    Make sure you've selected all events in DEGRIO by adjusting the start date. The file you're trying to upload only has one month worth of data. 
+    <Button class="modalButton" @click="showModal = false">OK</Button>
+  </ConfirmModal>
   <Header />
   <section class="container">
     <section class="titleAndBackButtonContainer">
@@ -225,6 +232,8 @@ import Card from "@/components/ui/Card.vue";
 import BackButton from "@/components/ui/BackButton.vue";
 import ToggleButton from "@/components/ui/ToggleButton.vue";
 import ExportFilesStep from "./components/ExportFilesStep.vue";
+import ConfirmModal from "@/components/ui/ConfirmModal.vue";
+import Button from '../../components/ui/Button.vue';
 
 export default {
   mixins: [csvToArrayMixin, includesFromArrayMixin],
@@ -232,6 +241,7 @@ export default {
     CloseIcon,
     CheckMarkIcon,
     Header,
+    ConfirmModal,
     // Breadcrumbs,
     Card,
     ToggleButton,
@@ -239,9 +249,11 @@ export default {
     // UploadFilesHelp,
     BackButton,
     ExportFilesStep,
+    Button,
   },
   data() {
     return {
+      showModal: false,
       exportFilesStepDone: false,
       transactionsFile: null,
       accountFile: null,
@@ -484,16 +496,45 @@ export default {
           (fileAsArray[0].length === 6 && fileAsArray.length !== 0) || (fileAsArray[0].length === 1);
 
         if (transactionsValid) {
-          this.whichFileWasUploaded = "transactions";
+          this.checkPortfolioFilesAges("transactions", e);
         } else if (accountValid) {
-          this.whichFileWasUploaded = "account";
+          this.checkPortfolioFilesAges("account", e);
         } else if (portfolioValid) {
-          this.whichFileWasUploaded = "portfolio";
+          this.checkPortfolioFilesAges("portfolio", e);
         } else {
-          this.whichFileWasUploaded = "invalid";
+          this.checkPortfolioFilesAges("invalid", e);
         }
+        
       };
       reader.readAsText(e);
+    },
+    checkPortfolioFilesAges(whichFile, e) {
+      let text = e.target.result;
+      let fileAsArray = this.csvToArray(text);
+      let fileAge = fileAsArray[fileAsArray.length - 2][0];
+      fileAge = fileAge.split("-").reverse().join("-");
+
+      if(whichFile !== 'portfolio') {
+        console.log(fileAge);
+        fileAge = new Date(fileAge);
+        console.log('fileage', fileAge);
+        const today = new Date();
+
+        const diffTime = Math.abs(today - fileAge);
+
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays < 32) {
+          // file too young
+          this.whichFileWasUploaded = "invalid";
+          this.showModal = true;
+
+        } else {
+          this.whichFileWasUploaded = whichFile;
+        }
+      } else {
+        this.whichFileWasUploaded = whichFile;
+      }
     },
     uploadFile(event) {
       this.checkFileValidity(event.target.files);
@@ -594,6 +635,10 @@ export default {
 </script>
 
 <style scoped>
+.modalButton {
+  width: 100%;
+  margin-top: 2rem;
+}
 .fileUploadCurrentStep {
   display: inline-flex;
   align-items: center;
