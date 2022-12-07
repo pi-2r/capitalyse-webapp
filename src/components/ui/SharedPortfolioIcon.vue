@@ -1,11 +1,15 @@
 <template>
+<section class="sharedPortfolioWrapper">
+  
   <section class="sharedPortfolio">
     <Icon icon="bi:person-fill" />
     <p class="sharedPortfolioText">
       
-      {{ displayName || email }}'s shared portfolio
+      
+      Shared by {{ displayName }}
     </p>
   </section>
+</section>
 </template>
 
 <script>
@@ -27,23 +31,23 @@ export default {
 </script>
 
 <style scoped>
+.sharedPortfolioWrapper {
+  display: flex;
+  padding-top:0.5rem;
+  padding-bottom: 0.5rem;
+  justify-content: flex-start;
+}
+
 .sharedPortfolio {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  color: var(--clr-grey);
-  margin-bottom: 3rem;
-  margin-top: 3rem;
-  padding-bottom: 2rem;
-  font-size: 1rem;
-  border-bottom: 1px solid var(--clr-light-grey);
-
+  color: var(--clr-medium-light-grey-2);
+  font-size: 0.9rem;
 }
 
 .sharedPortfolioText {
-  color: var(--clr-grey);
-  font-weight: 500 !important;
-  font-size: 1rem;
+  color: var(--clr-medium-light-grey-2);
 }
 </style>

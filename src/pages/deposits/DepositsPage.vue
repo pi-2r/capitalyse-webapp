@@ -1,11 +1,6 @@
 <template>
   <Header />
   <section class="container" v-if="!isLoading">
-    <SharedPortfolioIcon
-      :displayName="depositsAnalytics.sharedPortfolioOwner.displayName"
-      :email="depositsAnalytics.sharedPortfolioOwner.email"
-      v-if="isPublic"
-    />
     <Breadcrumbs
       baseLink="/portfolios"
       baseLinkName="Portfolios"
@@ -42,7 +37,6 @@
 </template>
 
 <script>
-import SharedPortfolioIcon from "@/components/ui/SharedPortfolioIcon.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 import BackButton from "@/components/ui/BackButton.vue";
@@ -54,7 +48,6 @@ export default {
   components: {
     Breadcrumbs,
     Header,
-    SharedPortfolioIcon,
     BackButton,
     DepositsChart,
     DepositsList,

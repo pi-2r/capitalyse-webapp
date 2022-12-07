@@ -1,11 +1,6 @@
 <template>
   <Header />
   <section class="container" v-if="!isLoading">
-    <SharedPortfolioIcon
-      :displayName="holdingAnalytics.sharedPortfolioOwner.displayName"
-      :email="holdingAnalytics.sharedPortfolioOwner.email"
-      v-if="isPublic"
-    />
     <section class="head">
       <section>
         <Breadcrumbs
@@ -29,6 +24,7 @@
           <BackButton />
           <h1>{{ holdingAnalytics.holdingName }}</h1>
         </section>
+     
       </section>
 
       <section class="holdingInfoSection">
@@ -54,7 +50,7 @@
       :holdingTransactionFees="holdingAnalytics.holdingTransactionFees"
     />
 
-    <DividendsList 
+    <DividendsList
       :dividendsList="holdingAnalytics.holdingDividendsList"
       :name="holdingAnalytics.holdingName"
     />
@@ -76,8 +72,7 @@
 
 <script>
 // import { Icon } from '@iconify/vue';
-import DividendsList from '@/components/ui/DividendsList.vue';
-import SharedPortfolioIcon from "@/components/ui/SharedPortfolioIcon.vue";
+import DividendsList from "@/components/ui/DividendsList.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 import BackButton from "@/components/ui/BackButton.vue";
@@ -91,7 +86,6 @@ export default {
   components: {
     Breadcrumbs,
     DividendsList,
-    SharedPortfolioIcon,
     // Icon,
     NotificationBar,
     TradesList,

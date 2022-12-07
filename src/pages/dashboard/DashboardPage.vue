@@ -2,11 +2,6 @@
   <Header />
 
   <section class="container" v-if="!isLoading">
-    <SharedPortfolioIcon
-      :displayName="homeAnalytics.sharedPortfolioOwner.displayName"
-      :email="homeAnalytics.sharedPortfolioOwner.email"
-      v-if="isPublic"
-    />
     <!-- <BackButton to="/" class="backButton" color="var(--clr-grey)" /> -->
     <section class="head">
       <section>
@@ -37,7 +32,6 @@
       </section>
 
       <section class="head__rightSection">
-        <LiveDot text="We automatically update stock prices, dividends & recalibrate diversification daily 2-3 hours after market close."/>
         <section class="header__rightSection-dates">
           <!-- <Icon
             icon="ic:outline-info"
@@ -47,10 +41,10 @@
             @mouseleave="toggleInfoDropDown"
           /> -->
           <Tooltip height="25px" color="var(--clr-grey)" icon="ic:outline-info">
-            Investing since:
-            {{ homeAnalytics.startDate ? homeAnalytics.startDate : "--/--/--" }}
             Uploaded on:
             {{ portfolioInfo.addedAt ? portfolioInfo.addedAt : "--/--/--" }}
+            <br/><br/>
+            We automatically update stock prices, dividends & recalibrate diversification daily 2-3 hours after market close.
           </Tooltip>
         </section>
 
@@ -81,7 +75,7 @@
         :totalInvestedPercentage="homeAnalytics.totalInvestedPercentage"
         :totalBalance="homeAnalytics.totalBalance"
       />
-<!-- 
+      <!-- 
       <section class="holdingsContainer">
         <HoldingsPieChartCards
           :isPublic="isPublic"
@@ -90,16 +84,15 @@
           :pieChartIndustries="homeAnalytics.pieChartIndustries"
         />
       </section> -->
- <HoldingsList
+      <HoldingsList
         :isPublic="isPublic"
         :holdingsList="homeAnalytics.holdingsList.holdings"
       />
 
-       <RealisedHoldingsList
+      <RealisedHoldingsList
         :isPublic="isPublic"
         :realisedHoldingsList="homeAnalytics.holdingsList.sold"
       />
-    
 
       <DividendChart
         :withBtn="true"
@@ -113,7 +106,7 @@
         tooltipText="Dividend payments are automatically added the day of payout. If you think there's missing payments, please add a portfolio with new files."
       />
 
-        <section class="cardsContainer">
+      <section class="cardsContainer">
         <DepositsCard
           :showTooltip="true"
           tooltipText="Net amount deposited and withdrawn into and from your DEGIRO account."
@@ -130,19 +123,15 @@
         />
       </section>
 
-
-       <DiversificationCard
+      <DiversificationCard
         title="Holdings"
         :pieChartData="homeAnalytics.pieChartHoldings"
         :showBtn="true"
         :isPublic="isPublic"
       />
-
-
-     
     </section>
 
-    <Footer/>
+    <Footer />
   </section>
   <LoadingOverlay
     text="Loading analytics.. This might take a few seconds."
@@ -153,12 +142,11 @@
 <script>
 import { Icon } from "@iconify/vue";
 
-import SharedPortfolioIcon from "@/components/ui/SharedPortfolioIcon.vue";
 import Header from "@/components/layout/Header.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
 // import BackButton from "@/components/ui/BackButton.vue";
-import DiversificationCard from '@/components/ui/DiversificationCard.vue'
+import DiversificationCard from "@/components/ui/DiversificationCard.vue";
 import DividendChart from "@/components/ui/DividendChart.vue";
 import DepositsCard from "./components/DepositsCard.vue";
 import TradeCountCard from "./components/TradeCountCard.vue";
@@ -168,13 +156,11 @@ import HoldingsList from "./components/HoldingsList.vue";
 import RealisedHoldingsList from "./components/RealisedHoldingsList.vue";
 import Tooltip from "@/components/ui/Tooltip.vue";
 // import TotalProfitLossChart from "./components/TotalProfitLossChart.vue";
-import LiveDot from "@/components/ui/LiveDot.vue";
 
 export default {
   name: "Dashboard",
   components: {
     DividendChart,
-    LiveDot,
     // TotalProfitLossChart,
     DiversificationCard,
     Tooltip,
@@ -185,7 +171,6 @@ export default {
     Header,
     Breadcrumbs,
     // BackButton,
-    SharedPortfolioIcon,
     Icon,
     PortfolioCards,
     // Icon,

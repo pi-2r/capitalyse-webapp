@@ -1,11 +1,7 @@
 <template>
   <Header />
   <section class="container" v-if="!isLoading">
-    <SharedPortfolioIcon
-      :displayName="feesAnalytics.sharedPortfolioOwner.displayName"
-      :email="feesAnalytics.sharedPortfolioOwner.email"
-      v-if="isPublic"
-    />
+   
     <Breadcrumbs
       baseLink="/portfolios"
       baseLinkName="Portfolios"
@@ -79,7 +75,6 @@
 </template>
 
 <script>
-import SharedPortfolioIcon from "@/components/ui/SharedPortfolioIcon.vue";
 import ResultCard from "@/components/dashboard/ResultCard.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
@@ -96,7 +91,6 @@ export default {
     Header,
     BackButton,
     TransFeesCard,
-    SharedPortfolioIcon,
     ExchangeFeesCard,
     FeesChart,
   },

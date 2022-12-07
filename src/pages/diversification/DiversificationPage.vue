@@ -1,11 +1,6 @@
 <template>
   <Header />
   <section class="container" v-if="!isLoading">
-    <SharedPortfolioIcon
-      :displayName="diversificationAnalytics.sharedPortfolioOwner.displayName"
-      :email="diversificationAnalytics.sharedPortfolioOwner.email"
-      v-if="isPublic"
-    />
     <Breadcrumbs
       baseLink="/portfolios"
       baseLinkName="Portfolios"
@@ -60,7 +55,6 @@
   </section>
 </template>
 <script>
-import SharedPortfolioIcon from "@/components/ui/SharedPortfolioIcon.vue";
 import BackButton from "@/components/ui/BackButton.vue";
 import DiverisificationCard from "@/components/ui/DiversificationCard.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
@@ -80,7 +74,6 @@ export default {
     DiverisificationCard,
     BackButton,
     Breadcrumbs,
-    SharedPortfolioIcon,
   },
   data() {
     return {
