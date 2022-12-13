@@ -92,12 +92,20 @@
         </section>
 
         <section class="rightSide">
-          <section v-if="!hasPremium">
-                        <a href="https://capitalyse.app/plans" target="_blank" class="premiumBtn">
-                            <Icon icon="mdi:cards-heart" color="var(--clr-white)" height="15" />
-                            <span>Donate</span>
-                        </a>
-                    </section>
+          <section v-if="isAuth">
+            <a
+              href="https://capitalyse.app/plans"
+              target="_blank"
+              class="premiumBtn"
+            >
+              <Icon
+                icon="mdi:cards-heart"
+                color="var(--clr-white)"
+                height="15"
+              />
+              <span>Donate</span>
+            </a>
+          </section>
           <router-link to="/signup" class="u-remove-router-styling">
             <Button v-if="!isAuth" class="signupButton"> Sign up </Button>
           </router-link>
@@ -109,22 +117,21 @@
                 icon="gg:profile"
                 height="23"
               /> -->
-            
+
               <img
-              v-if="userPhotoURL !== null && userPhotoURL !== 'null'"
+                v-if="userPhotoURL !== null && userPhotoURL !== 'null'"
                 :src="userPhotoURL"
                 class="userProfilePicture"
                 alt="Account"
               />
               <section v-else class="defaultProfilePic">
-                  <Icon
-                class="defaultProfilePicIcon"
-                tabindex="0"
-                icon="mingcute:user-3-fill"
-                height="23"
-              />
+                <Icon
+                  class="defaultProfilePicIcon"
+                  tabindex="0"
+                  icon="mingcute:user-3-fill"
+                  height="23"
+                />
               </section>
-              
             </router-link>
           </section>
         </section>
@@ -151,30 +158,29 @@
             height="30"
           />
 
-           <router-link to="/settings" class="u-displayflex settingsSection">
-              <!-- <Icon
+          <router-link to="/settings" class="u-displayflex settingsSection">
+            <!-- <Icon
                 class="settingsIcon"
                 tabindex="0"
                 icon="gg:profile"
                 height="23"
               /> -->
-            
-              <img
+
+            <img
               v-if="userPhotoURL !== null && userPhotoURL != 'null'"
-                :src="userPhotoURL"
-                class="userProfilePicture"
-                alt="Account"
-              />
-              <section v-else class="defaultProfilePic">
-                  <Icon
+              :src="userPhotoURL"
+              class="userProfilePicture"
+              alt="Account"
+            />
+            <section v-else class="defaultProfilePic">
+              <Icon
                 class="defaultProfilePicIcon"
                 tabindex="0"
                 icon="mingcute:user-3-fill"
                 height="23"
               />
-              </section>
-              
-            </router-link>
+            </section>
+          </router-link>
         </section>
         <transition name="slide-fade" mode="out-in">
           <section class="nav-menu-mobile" :class="{ open: isMobileNavOpen }">
@@ -195,18 +201,20 @@
                     >My Portfolios</router-link
                   >
                 </li>
-                <li >
-                                    <a target="_blank" class="routerLink" href="https://capitalyse.app/plans">
-                                        Donate
-                                         <Icon
-              icon="uil:external-link-alt"
-              color="var(--clr-blue)"
-              height="15"
-            />
-                                      
-                                    </a>
-                                </li> 
-               
+                <li>
+                  <a
+                    target="_blank"
+                    class="routerLink"
+                    href="https://capitalyse.app/plans"
+                  >
+                    Donate
+                    <Icon
+                      icon="uil:external-link-alt"
+                      color="var(--clr-blue)"
+                      height="15"
+                    />
+                  </a>
+                </li>
               </ul>
             </section>
           </section>
@@ -306,7 +314,7 @@ export default {
 }
 .premiumBtn:hover {
   color: var(--clr-white);
- box-shadow: 1px 1px 8px rgba(0, 110, 255, 0.275);
+  box-shadow: 1px 1px 8px rgba(0, 110, 255, 0.275);
 }
 .defaultProfilePicIcon {
   color: var(--clr-white);
@@ -318,8 +326,12 @@ export default {
   justify-content: center;
   height: 2rem;
   width: 2rem;
- background: rgb(2,0,36);
-    background-image: linear-gradient(to right,rgb(132, 132, 132),rgb(91, 91, 91) 100%);
+  background: rgb(2, 0, 36);
+  background-image: linear-gradient(
+    to right,
+    rgb(132, 132, 132),
+    rgb(91, 91, 91) 100%
+  );
   border-radius: 100%;
   transition: 0.2s all;
 }
@@ -673,8 +685,12 @@ a:hover {
   border: 2px solid var(--clr-blue);
 }
 .router-link-active > .defaultProfilePic {
-   background: rgb(2,0,36);
-    background-image: linear-gradient(to right,rgb(89, 149, 210),rgb(11, 95, 222) 100%);
+  background: rgb(2, 0, 36);
+  background-image: linear-gradient(
+    to right,
+    rgb(89, 149, 210),
+    rgb(11, 95, 222) 100%
+  );
 }
 
 /* media queries */
