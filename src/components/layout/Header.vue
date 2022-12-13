@@ -92,12 +92,12 @@
         </section>
 
         <section class="rightSide">
-          <!-- <section v-if="!hasPremium">
-                        <Button class="premiumBtn">
-                            <Icon icon="fluent:premium-16-filled" color="var(--clr-white)" height="15" />
-                            Premium
-                        </Button>
-                    </section> -->
+          <section v-if="!hasPremium">
+                        <a href="https://capitalyse.app/plans" target="_blank" class="premiumBtn">
+                            <Icon icon="mdi:cards-heart" color="var(--clr-white)" height="15" />
+                            <span>Donate</span>
+                        </a>
+                    </section>
           <router-link to="/signup" class="u-remove-router-styling">
             <Button v-if="!isAuth" class="signupButton"> Sign up </Button>
           </router-link>
@@ -195,11 +195,17 @@
                     >My Portfolios</router-link
                   >
                 </li>
-                <!-- <li >
-                                    <router-link class="routerLink" to="/premium">
-                                        Premium
-                                    </router-link>
-                                </li>  -->
+                <li >
+                                    <a target="_blank" class="routerLink" href="https://capitalyse.app/plans">
+                                        Donate
+                                         <Icon
+              icon="uil:external-link-alt"
+              color="var(--clr-blue)"
+              height="15"
+            />
+                                      
+                                    </a>
+                                </li> 
                
               </ul>
             </section>
@@ -281,6 +287,27 @@ export default {
 </script>
 
 <style scoped>
+.premiumBtn {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--clr-blue);
+  color: var(--clr-white);
+  text-decoration: none;
+  border: none;
+  border-radius: var(--btn-radius);
+  padding: 0.4rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: 0.2s all;
+  cursor: pointer;
+  box-shadow: var(--btn-shadow);
+}
+.premiumBtn:hover {
+  color: var(--clr-white);
+ box-shadow: 1px 1px 8px rgba(0, 110, 255, 0.275);
+}
 .defaultProfilePicIcon {
   color: var(--clr-white);
   height: 16px;
@@ -597,7 +624,6 @@ a:hover {
 .rightSide section {
   display: flex;
   align-items: center;
-  margin-left: 1rem;
 }
 
 .nav-container {

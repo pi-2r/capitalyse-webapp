@@ -2,6 +2,7 @@
         <section class="bottomNotifBar__container" v-if="isVisible" :key="isVisible">
             <section class="bottomNotifBar" :class="type">
                 <section class="bottomNotifBar__text">
+                    <slot></slot>
                     {{ message }}
                 </section>
                 <section class="bottomNotifBar__close" >

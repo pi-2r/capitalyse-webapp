@@ -132,6 +132,13 @@
     </section>
 
     <Footer />
+<!-- 
+    <NotificationBar type="info" message="">
+
+      Please consider <a class="u-link" target="_blank" href="https://capitalyse.app/plans">donating</a> to keep Capitalyse up and running!
+      
+    </NotificationBar> -->
+
   </section>
   <LoadingOverlay
     text="Loading analytics.. This might take a few seconds."
@@ -155,11 +162,13 @@ import PortfolioCards from "./components/PortfolioCards.vue";
 import HoldingsList from "./components/HoldingsList.vue";
 import RealisedHoldingsList from "./components/RealisedHoldingsList.vue";
 import Tooltip from "@/components/ui/Tooltip.vue";
+// import NotificationBar from "@/components/ui/NotificationBar.vue";
 // import TotalProfitLossChart from "./components/TotalProfitLossChart.vue";
 
 export default {
   name: "Dashboard",
   components: {
+    // NotificationBar,
     DividendChart,
     // TotalProfitLossChart,
     DiversificationCard,

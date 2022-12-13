@@ -27,6 +27,7 @@
 
       <router-view></router-view>
     </main>
+    
 
   </article>
 </template>
@@ -153,6 +154,11 @@ export default {
 
 .websiteWrapperMain {
   min-height: 100vh;
+}
+
+.u-link {
+  color: var(--clr-blue);
+  text-decoration: underline;
 }
 
 * {
