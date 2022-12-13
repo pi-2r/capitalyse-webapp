@@ -41,6 +41,7 @@
       :chartGainProps="holdingAnalytics.holdingProfitLossChart"
       :chartStockPricesProps="holdingAnalytics.holdingStockPricesChart"
       :chartStockCountProps="holdingAnalytics.holdingStockCountChart"
+      :chartHoldingValueProps="holdingAnalytics.holdingValueChart"
     />
 
     <HoldingInfoCards

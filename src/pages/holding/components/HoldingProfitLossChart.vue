@@ -57,6 +57,7 @@
             v-model="selectedChartType"
           >
             <option value="profitLoss">Profit/Loss</option>
+            <option value="value">Value</option>
             <option value="stockPrices">Stock Price</option>
             <option value="stockCount">Stock Quantity</option>
           </select>
@@ -68,7 +69,10 @@
 
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
-            <span class="chartResultValue" v-if="selectedChartType !== 'stockCount'">
+            <span
+              class="chartResultValue"
+              v-if="selectedChartType !== 'stockCount'"
+            >
               {{
                 Intl.NumberFormat("nl-nl", {
                   style: "currency",
@@ -78,9 +82,7 @@
             </span>
             <span class="chartResultValue" v-else>
               {{ chartResultValue }}
-              {{
-                Intl.NumberFormat("nl-nl").format(totalGain)
-              }} shares
+              {{ Intl.NumberFormat("nl-nl").format(totalGain) }} shares
             </span>
             <span
               class="chartAverageResultValue"
@@ -133,6 +135,10 @@ export default {
       required: true,
     },
     chartStockCountProps: {
+      default: null,
+      required: true,
+    },
+    chartHoldingValueProps: {
       default: null,
       required: true,
     },
@@ -211,15 +217,11 @@ export default {
                 this.chartData.datasets[0].data.length - 1
               ];
             }
-          } else if (this.selectedChartType === "stockPrices") {
+          } else if (this.selectedChartType === "stockPrices" || this.selectedChartType === "stockCount" || this.selectedChartType === "value") {
             return this.chartData.datasets[0].data[
               this.chartData.datasets[0].data.length - 1
             ];
-          } else if (this.selectedChartType === "stockCount") {
-            return this.chartData.datasets[0].data[
-              this.chartData.datasets[0].data.length - 1
-            ];
-          }
+          } 
         } catch (e) {
           return 0;
         }
@@ -285,6 +287,8 @@ export default {
         this.getStockPrices();
       } else if (this.selectedChartType === "stockCount") {
         this.getStockCount();
+      } else if (this.selectedChartType === "value") {
+        this.getHoldingValue();
       }
     },
     getGain() {
@@ -341,6 +345,27 @@ export default {
           );
           this.chartData.datasets[0].data = JSON.parse(
             JSON.stringify(this.chartStockCountProps.data)
+          );
+        } catch (e) {
+          this.chartData.labels = [];
+          this.chartData.datasets[0].data = [];
+        }
+
+        this.chartErrorMsg = null;
+      }
+    },
+    getHoldingValue() {
+      if (this.chartHoldingValueProps === false) {
+        this.chartData.labels = [];
+        this.chartData.datasets[0].data = [];
+        this.chartErrorMsg = "No results";
+      } else {
+        try {
+          this.chartData.labels = JSON.parse(
+            JSON.stringify(this.chartHoldingValueProps.labels)
+          );
+          this.chartData.datasets[0].data = JSON.parse(
+            JSON.stringify(this.chartHoldingValueProps.data)
           );
         } catch (e) {
           this.chartData.labels = [];
