@@ -44,7 +44,6 @@ export default {
         state.portfolios = [];
     },
     deletePortfolio(state, id) {
-        console.log(id);
         state.portfolios = state.portfolios.filter(p => p.id !== id);
         state.analytics = state.analytics.filter(p => !Object.keys(p).includes(id));
     },

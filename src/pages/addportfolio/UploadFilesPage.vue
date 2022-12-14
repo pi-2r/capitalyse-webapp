@@ -564,9 +564,7 @@ export default {
       fileAge = fileAge.split("-").reverse().join("-");
 
       if (whichFile !== "portfolio") {
-        console.log(fileAge);
         fileAge = new Date(fileAge);
-        console.log("fileage", fileAge);
         const today = new Date();
 
         const diffTime = Math.abs(today - fileAge);
