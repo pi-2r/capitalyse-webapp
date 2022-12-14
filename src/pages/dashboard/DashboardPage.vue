@@ -31,34 +31,43 @@
         </section>
       </section>
 
-      <section class="head__rightSection">
-        <section class="header__rightSection-dates">
-          <!-- <Icon
-            icon="ic:outline-info"
-            height="25"
-            class="head__rightSection-icon"
-            @mouseenter="toggleInfoDropDown"
-            @mouseleave="toggleInfoDropDown"
-          /> -->
+      <section class="head__rightSection" v-if="!isPublic">
+         
           <Tooltip height="25px" color="var(--clr-grey)" icon="ic:outline-info">
             Uploaded on:
             {{ portfolioInfo.addedAt ? portfolioInfo.addedAt : "--/--/--" }}
-            <br/><br/>
-            We automatically update stock prices, dividends & recalibrate diversification daily 2-3 hours after market close.
+            <br /><br />
+            We automatically update stock prices, dividends & recalibrate
+            diversification daily 2-3 hours after market close.
           </Tooltip>
-        </section>
 
-        <section v-if="!isPublic">
+          <!-- <router-link :to="'/portfolios/' + this.$route.params.id + '/update'">
+            <Tooltip
+              height="25px"
+              color="var(--clr-grey)"
+              icon="material-symbols:add-circle-outline-rounded"
+            >
+              Update transactions, fees, deposits & untrackable dividends
+            </Tooltip>
+          </router-link> -->
+
           <router-link
-            :to="'/dashboard/' + this.$route.params.id + '/settings'"
-          >
+            :to="'/portfolios/' + this.$route.params.id + '/update'">
+            <Icon
+              icon="material-symbols:add-circle-outline-rounded"
+              height="25"
+              class="head__rightSection-icon"
+            />
+          </router-link>
+
+          <router-link
+            :to="'/dashboard/' + this.$route.params.id + '/settings'">
             <Icon
               icon="ci:settings"
               height="25"
               class="head__rightSection-icon"
             />
           </router-link>
-        </section>
       </section>
     </section>
 
@@ -75,6 +84,7 @@
         :totalInvestedPercentage="homeAnalytics.totalInvestedPercentage"
         :totalBalance="homeAnalytics.totalBalance"
       />
+
       <!-- 
       <section class="holdingsContainer">
         <HoldingsPieChartCards
@@ -132,13 +142,12 @@
     </section>
 
     <Footer />
-<!-- 
+    <!-- 
     <NotificationBar type="info" message="">
 
       Please consider <a class="u-link" target="_blank" href="https://capitalyse.app/plans">donating</a> to keep Capitalyse up and running!
       
     </NotificationBar> -->
-
   </section>
   <LoadingOverlay
     text="Loading analytics.. This might take a few seconds."
@@ -391,6 +400,12 @@ export default {
 </script>
 
 <style scoped>
+.privateBtns {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
 .header__rightSection-dates {
   display: flex;
   align-items: center;

@@ -30,6 +30,9 @@ export default {
     setUploadingState(context, uploadingState) {
         context.commit('setUploadingState', uploadingState);
     },
+    deletePortfolioMutation(context, id) {
+        context.commit('deletePortfolio', id);
+    },
     async createNewPortfolio(context, payload) {
         const API_URL = '/api/portfolios/new'
 
@@ -245,5 +248,38 @@ export default {
                 console.log(e);
             })
     },
+    async updatePortfolioFiles(context, payload) {
+        const API_URL = `/api/portfolios/${payload.id}/update`
 
+        // files and portfolio name
+        const token = context.rootGetters.token
+        const tFile = payload.transactionsFile
+        const aFile = payload.accountFile
+        const pFile = payload.portfolioFile
+
+        // formdata
+        var formData = new FormData();
+        formData.append("uploadCsv", tFile);
+        formData.append("uploadCsv", pFile);
+        formData.append("uploadCsv", aFile);
+
+        // request
+        var request = new XMLHttpRequest();
+        request.open("PUT", API_BASE + API_URL, true);
+        // request.setRequestHeader("Content-type", "multipart/form-data"); //----(*)
+        request.setRequestHeader("Authorization", 'Bearer ' + token);
+        request.onreadystatechange = function () {
+            if (
+                request.readyState === XMLHttpRequest.DONE &&
+                request.status === 200
+            ) {
+                context.commit("setUploadingState", "success");
+            } else if (request.status !== 200) {
+                console.log(request.status, JSON.parse(request.responseText));
+                context.commit("setUploadingState", "error");
+            }
+        };
+
+        request.send(formData);
+    },
 };

@@ -29,6 +29,11 @@ const router = createRouter({
             meta: { requiresAuth: true },
         },
         {
+            path: "/portfolios/:id/update",
+            component: () => import("./pages/addportfolio/UploadFilesPage.vue"),
+            meta: { requiresAuth: true },
+        },
+        {
             path: "/dashboard/:id",
             component: () => import("./pages/dashboard/DashboardPage.vue"),
             meta: { requiresAuth: true },

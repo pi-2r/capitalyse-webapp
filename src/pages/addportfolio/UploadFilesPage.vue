@@ -1,16 +1,15 @@
 <template>
-  <ConfirmModal
-    v-if="showModal"
-  >
+  <ConfirmModal v-if="showModal">
     <h1>Warning</h1>
-    Make sure you've selected all events in DEGRIO by adjusting the start date. The file you're trying to upload only has one month worth of data. 
+    Make sure you've selected all events in DEGRIO by adjusting the start date.
+    The file you're trying to upload only has one month worth of data.
     <Button class="modalButton" @click="showModal = false">OK</Button>
   </ConfirmModal>
   <Header />
   <section class="container">
     <section class="titleAndBackButtonContainer">
       <BackButton />
-      <h1 class="uploadFilesTitle">Add Portfolio</h1>
+      <h1 class="uploadFilesTitle">{{ uploadFilesTitle }}</h1>
     </section>
 
     <transition name="bttIn" appear>
@@ -145,14 +144,12 @@
                   </section>
                 </section>
 
-                <section class="portfolioName">
+                <section class="portfolioName" v-if="!isUpdatingFiles">
                   <section class="portfolioName__heading">
                     <label for="portfolioName"
                       >Portfolio name
-                      <span class="portfolioName__optional"
-                        >(optional)</span
-                      ></label
-                    >
+                      <span class="portfolioName__optional">(optional)</span>
+                    </label>
 
                     <ToggleButton
                       :isOn="isPortfolioNameInputVisible"
@@ -178,7 +175,7 @@
                     <section v-if="isLoading">
                       <Spinner class="spinner" :btnSpinner="true" />
                     </section>
-                    <section v-else>Add Portfolio</section>
+                    <section v-else>{{ uploadFilesBtnText }}</section>
                   </Button>
                   <transition mode="out-in" name="slide-fade">
                     <section
@@ -233,7 +230,7 @@ import BackButton from "@/components/ui/BackButton.vue";
 import ToggleButton from "@/components/ui/ToggleButton.vue";
 import ExportFilesStep from "./components/ExportFilesStep.vue";
 import ConfirmModal from "@/components/ui/ConfirmModal.vue";
-import Button from '../../components/ui/Button.vue';
+import Button from "../../components/ui/Button.vue";
 
 export default {
   mixins: [csvToArrayMixin, includesFromArrayMixin],
@@ -278,6 +275,10 @@ export default {
         portfolioFileInvalid: "Missing Portfolio.csv file",
       },
       currentErrorMsgs: [],
+      portfolioInfo: {
+        portfolioName: "",
+        portfolioId: "",
+      },
     };
   },
   watch: {
@@ -286,9 +287,15 @@ export default {
       // als de uploadingstate succesvol is, ga dan naar de portfolio page
       if (this.uploadingState === "success") {
         this.$store.dispatch("files/setUploadingState", "none");
-        this.$store.dispatch("files/fetchAllPortfolios");
         this.isLoading = false;
-        this.$router.push({ path: "/portfolios" });
+        if (this.isUpdatingFiles) {
+          this.$store.dispatch("files/deletePortfolioMutation", this.$route.params.id);
+          this.$store.dispatch("files/fetchAllPortfolios");
+          this.$router.push({ path: `/dashboard/${this.portfolioId}` });
+        } else {
+          this.$store.dispatch("files/fetchAllPortfolios");
+          this.$router.push({ path: "/portfolios" });
+        }
       } else if (this.uploadingState === "error") {
         this.$store.dispatch("files/setUploadingState", "none");
         this.isLoading = false;
@@ -296,6 +303,24 @@ export default {
     },
   },
   computed: {
+    isUpdatingFiles() {
+      // retourneert true als de user files aan het updaten is
+      return this.$route.params.id ? true : false;
+    },
+    uploadFilesTitle() {
+      if (this.isUpdatingFiles) {
+        return "Update " + this.portfolioInfo.portfolioName;
+      } else {
+        return "Add Portfolio";
+      }
+    },
+    uploadFilesBtnText() {
+      if (this.isUpdatingFiles) {
+        return "Update";
+      } else {
+        return "Add Portfolio";
+      }
+    },
     inputText() {
       // retourneert de text voor de file input
       // geeft de hoeveelheid geuploadde files mee
@@ -394,8 +419,23 @@ export default {
 
       return `https://trader.degiro.nl/staging-trader/#/transactions?fromDate=2000-01-01&toDate=${date}&aggregateCashFunds=true&currency=Alle`;
     },
+    portfolioId() {
+      return this.$route.params.id;
+    },
   },
   methods: {
+    getPortfolioInfo() {
+      if (this.portfolioId) {
+        const portfolios = this.$store.getters["files/getPortfolios"];
+        if (portfolios.length > 0) {
+          for (let i = 0; i < portfolios.length; i++) {
+            if (portfolios[i].id === this.portfolioId) {
+              this.portfolioInfo = portfolios[i];
+            }
+          }
+        }
+      }
+    },
     nextStep() {
       this.exportFilesStepDone = true;
     },
@@ -460,7 +500,7 @@ export default {
         this.currentErrorMsgs.push(this.errorMsgs.portfolioFileInvalid);
       }
     },
-    submitForm() {
+    async submitForm() {
       // callt get portfolios
       // om een of andere rede moet getPortfolios aangeroepen worden
       // anders als je naar portfolios gaat, wordt de nieuwe niet opgehaald
@@ -469,13 +509,22 @@ export default {
       this.setErrorMsgs();
       if (this.formIsValid) {
         this.isLoading = true;
-        this.$store.dispatch("files/createNewPortfolio", {
-          portfolioName: this.portfolioName,
-          transactionsFile: this.transactionsFile,
-          accountFile: this.accountFile,
-          portfolioFile: this.portfolioFile,
-          addedAt: new Date(),
-        });
+        if (!this.isUpdatingFiles) {
+          this.$store.dispatch("files/createNewPortfolio", {
+            portfolioName: this.portfolioName,
+            transactionsFile: this.transactionsFile,
+            accountFile: this.accountFile,
+            portfolioFile: this.portfolioFile,
+            addedAt: new Date(),
+          });
+        } else {
+          await this.$store.dispatch("files/updatePortfolioFiles", {
+            transactionsFile: this.transactionsFile,
+            accountFile: this.accountFile,
+            portfolioFile: this.portfolioFile,
+            id: this.portfolioId,
+          });
+        }
       } else {
         this.isLoading = false;
       }
@@ -493,7 +542,8 @@ export default {
         const accountValid =
           fileAsArray[0].length === 12 && fileAsArray.length !== 0;
         const portfolioValid =
-          (fileAsArray[0].length === 6 && fileAsArray.length !== 0) || (fileAsArray[0].length === 1);
+          (fileAsArray[0].length === 6 && fileAsArray.length !== 0) ||
+          fileAsArray[0].length === 1;
 
         if (transactionsValid) {
           this.checkPortfolioFilesAges("transactions", e);
@@ -504,7 +554,6 @@ export default {
         } else {
           this.checkPortfolioFilesAges("invalid", e);
         }
-        
       };
       reader.readAsText(e);
     },
@@ -514,10 +563,10 @@ export default {
       let fileAge = fileAsArray[fileAsArray.length - 2][0];
       fileAge = fileAge.split("-").reverse().join("-");
 
-      if(whichFile !== 'portfolio') {
+      if (whichFile !== "portfolio") {
         console.log(fileAge);
         fileAge = new Date(fileAge);
-        console.log('fileage', fileAge);
+        console.log("fileage", fileAge);
         const today = new Date();
 
         const diffTime = Math.abs(today - fileAge);
@@ -528,7 +577,6 @@ export default {
           // file too young
           this.whichFileWasUploaded = "invalid";
           this.showModal = true;
-
         } else {
           this.whichFileWasUploaded = whichFile;
         }
@@ -551,10 +599,9 @@ export default {
       for (let i = 0; i < file.length; i++) {
         const valid =
           (file[i].size > 0 &&
-          file[i].size < maxFileSizeKB * 1024 &&
-          file[i].type.includes("csv")) || (
-            file[i].size === 0 && file[i].name.includes('ortfolio')
-          );
+            file[i].size < maxFileSizeKB * 1024 &&
+            file[i].type.includes("csv")) ||
+          (file[i].size === 0 && file[i].name.includes("ortfolio"));
 
         // als valide is voeg de file toe aan de juiste data() waarde
         // als niet valide, geef een error melding op de plek van de file soort
@@ -630,6 +677,7 @@ export default {
     // en zet de portfolio name op default
     this.$store.dispatch("files/setUploadingState", "none");
     this.setPortfolioName();
+    this.getPortfolioInfo();
   },
 };
 </script>
