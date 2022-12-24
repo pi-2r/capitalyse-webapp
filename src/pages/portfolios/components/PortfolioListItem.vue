@@ -10,21 +10,28 @@
       />
     </router-link>
   </td>
-  <td align='right' class="dateAdded">
+  <td align="right" class="dateAdded">
     {{ dateToWords(portfolio.addedAt) }}
   </td>
-  <td align='right' class="fileSize">{{ totalFileSize }} KB</td>
-  <!-- <td class="actionsTd"> -->
+  <td align="right" class="fileSize">{{ totalFileSize }} KB</td>
+  <td class="actionsTd">
     <!-- update and edit -->
-    <!-- <Icon icon="fluent:new-16-filled" color="var(--clr-blue)" height="22" class="actionBtn"/> -->
+    <router-link :to="'/portfolios/' + portfolio.id + '/update'">
+      <Icon
+        icon="material-symbols:add-circle-outline-rounded"
+        color="var(--clr-medium-light-grey-2)"
+        height="20"
+        class="actionBtn"
+      />
+    </router-link>
     <!-- <Icon icon="ci:edit"  height="22" color="orange" class="actionBtn"/> -->
-<!-- 
+    <!-- 
     <Icon
       icon="bxs:trash"
       height="20"
       class="actionBtn"
     /> -->
-  <!-- </td> -->
+  </td>
 </template>
 
 <script>
@@ -84,14 +91,23 @@ export default {
   justify-content: flex-end;
   align-items: center;
   margin: 0;
-  padding-left: 2rem;
+  padding-left: 0rem;
+}
+
+.actionsTd a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .actionBtn {
   margin-left: 0.5rem;
-  color: var(--clr-medium-light-grey);
   transition: 0.3s all;
   border-radius: 1000rem;
+}
+.actionsTd:hover .actionBtn {
+  cursor: pointer;
+  color: var(--clr-blue);
 }
 
 .dateAdded {
