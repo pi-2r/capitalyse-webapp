@@ -125,6 +125,9 @@ export default {
                         if (response.status === 401) {
                             this.dispatch('logout')
                         }
+                        if (response.status === 404) {
+                            return response.status
+                        }
                     }
                     return response.json()
                 })

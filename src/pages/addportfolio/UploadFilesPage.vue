@@ -309,7 +309,7 @@ export default {
     },
     uploadFilesTitle() {
       if (this.isUpdatingFiles) {
-        return "Update " + this.portfolioInfo.portfolioName;
+        return "Update '" + this.portfolioInfo.portfolioName + "'";
       } else {
         return "Add Portfolio";
       }

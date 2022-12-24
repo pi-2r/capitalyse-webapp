@@ -121,6 +121,12 @@ export default {
     },
     isAuth() {
       if (this.isAuth) {
+        // get localstorage last portfolio id
+        const lastPortfolioId = localStorage.getItem("lastPortfolioId");
+        if (lastPortfolioId) {
+          this.$router.replace(`/dashboard/${lastPortfolioId}`);
+          return;
+        }
         this.$router.replace("/portfolios");
       }
     },

@@ -15,16 +15,16 @@
           "
           :secondLinkName="
             this.isPublic
-              ? homeAnalytics.portfolioMetadata.portfolioName
-              : portfolioInfo.portfolioName || 'Portfolio'
+              ? homeAnalytics?.portfolioMetadata?.portfolioName
+              : portfolioInfo?.portfolioName || 'Portfolio'
           "
         />
         <section>
           <section class="titleAndBackButtonContainer">
             <h1>
               {{
-                portfolioInfo.portfolioName ||
-                homeAnalytics.portfolioMetadata.portfolioName
+                portfolioInfo?.portfolioName ||
+                homeAnalytics?.portfolioMetadata?.portfolioName
               }}
             </h1>
           </section>
@@ -112,7 +112,7 @@
         class="dividendChartDashboard"
         :isPublic="isPublic"
         :showTooltip="true"
-        title="Past 12 mo. dividends"
+        title="Past year dividends"
         tooltipText="Dividend payments are automatically added the day of payout. If you think there's missing payments, please add a portfolio with new files."
       />
 
@@ -227,6 +227,7 @@ export default {
         pieChartCurrencies: null,
         pieChartHoldings: null,
         startDate: null,
+        portfolioNotFound: false,
       },
     };
   },
@@ -317,6 +318,8 @@ export default {
     },
     // wanneer de route veranderd, laad opnieuw data in
     $route() {
+      if(this.$route.params.id === undefined) return;
+
       this.loadData();
     },
   },
@@ -371,7 +374,11 @@ export default {
               portfolioId: this.$route.params.id,
             })
             .then(() => {
+              this.sendTo404IfNotExists()
               this.isLoading = false;
+            }).catch(e => {
+              console.log("error");
+              console.log(e);
             });
         }
       } else if (this.isPublic) {
@@ -386,15 +393,26 @@ export default {
               portfolioId: this.$route.params.pid,
             })
             .then(() => {
+              this.sendTo404IfNotExists()
               this.isLoading = false;
             });
         }
       }
     },
+    sendTo404IfNotExists() {
+      if (this.hasHomeAnalytics === false) {
+        this.$router.replace('/404');
+      }
+    },
+    setLatestPortfolioId() {
+      // to local storage
+      localStorage.setItem("lastPortfolioId", this.$route.params.id);
+    },
   },
   created() {
     this.isLoading = true;
     this.loadData();
+    this.setLatestPortfolioId()
   },
 };
 </script>
