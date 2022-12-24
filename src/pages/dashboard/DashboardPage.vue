@@ -377,7 +377,6 @@ export default {
               this.sendTo404IfNotExists()
               this.isLoading = false;
             }).catch(e => {
-              console.log("error");
               console.log(e);
             });
         }
