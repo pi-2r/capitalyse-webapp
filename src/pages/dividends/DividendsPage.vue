@@ -29,6 +29,13 @@
         class="dividendChartDashboard"
       />
 
+        <DiversificationCard
+      title="Dividend diversity"
+      :pieChartData="dividendsAnalytics.dividendsPieChart"
+      listItemNrType="amountAndPercent"
+      disclaimer="Dividends are gross, before taxes and fees"
+    />  
+
     <section class="cardsContainer">
       <ResultCard
         title="Total dividends"
@@ -48,14 +55,16 @@
       
       <ResultCard
         :showTooltip="true"
-        tooltipText="Yield to date is the total of received dividends as a percentage of your total investments. (total dividends ÷ total invested × 100)"
-        title="Yield to date"
+        tooltipText="The total of received dividends as a percentage of your total investments. (total dividends ÷ total invested × 100)"
+        title="Dividends to investments"
         :isPercentage="true"
         :resultValue="dividendsAnalytics.dividendYieldToDate"
         :withBtn="false"
       />
 
     </section>
+
+  
 
     <DividendsList
       :dividendsList="dividendsAnalytics.dividendsList"
@@ -75,12 +84,13 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 import BackButton from "@/components/ui/BackButton.vue";
 import DividendsList from "@/components/ui/DividendsList.vue";
-
+import DiversificationCard from "@/components/ui/DiversificationCard.vue";
 // import FeesChart from './components/FeesChart.vue';
 
 export default {
   components: {
     Breadcrumbs,
+    DiversificationCard,
     ResultCard,
     DividendsList,
     DividendChart,
@@ -103,6 +113,10 @@ export default {
         chartDividends: null,
         averageDividendsPerMonth: 0,
         dividendsList: null,
+        dividendsPieChart: {
+          labels: [],
+          data: [],
+        },
       },
       portfolioInfo: {
         portfolioName: null,

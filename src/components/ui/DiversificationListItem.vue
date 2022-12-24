@@ -1,13 +1,14 @@
 <template>
   <section class="listSection__itemContent">
-    <section class="weightBar" :style="[{ width: dynamicWidth + '%' }, { backgroundColor: bgColor}]"></section>
+    <section
+      class="weightBar"
+      :style="[{ width: dynamicWidth + '%' }, { backgroundColor: bgColor }]"
+    ></section>
     <section class="name cutText">
       {{ name }}
     </section>
     <section class="perc">
-    {{
-      Intl.NumberFormat("nl-nl").format(((amount/diversificationTotal).toFixed(4)) * 100)
-    }}%
+      {{ listItemNumber }}
     </section>
   </section>
 </template>
@@ -34,8 +35,43 @@ export default {
       type: Number,
       required: true,
     },
+    listItemNrType: {
+      type: String,
+      required: true,
+      default: "percent",
+    },
   },
   computed: {
+    listItemNumber() {
+      console.log(this.listItemNrType);
+      if (this.listItemNrType === "percent") {
+        return Intl.NumberFormat("nl-nl", {
+          style: "percent",
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(this.amount / this.diversificationTotal);
+      } else if (this.listItemNrType === "amount") {
+        return Intl.NumberFormat("nl-nl", {
+          style: "currency",
+          currency: "EUR",
+        }).format(this.amount);
+      } else if (this.listItemNrType === "amountAndPercent") {
+        return (
+          Intl.NumberFormat("nl-nl", {
+            style: "percent",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }).format(this.amount / this.diversificationTotal) +
+          " (" +
+          Intl.NumberFormat("nl-nl", {
+            style: "currency",
+            currency: "EUR",
+          }).format(this.amount) +
+          ")"
+        );
+      }
+      return 0;
+    },
     diversificationTotal() {
       let tot = 0;
       for (let i = 0; i < this.dataset.datasets[0].data.length; i++) {
@@ -54,14 +90,14 @@ export default {
       return perc.toFixed(2);
     },
     bgColor() {
-      return this.dataset.datasets[0].backgroundColor[this.index] + '45'
-    }
+      return this.dataset.datasets[0].backgroundColor[this.index] + "45";
+    },
   },
 };
 </script>
 <style scoped>
 .perc {
-  color: var(--clr-grey)
+  color: var(--clr-grey);
 }
 .name {
   padding-left: 0.4rem;

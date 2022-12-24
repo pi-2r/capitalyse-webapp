@@ -31,15 +31,28 @@
   <td class="number" v-else-if="dividend.dividendTax === 0 || dividend.dividendTax == null"></td>
 
    <td class="number">
+    <!-- - dividend tax omdat localtotal al zonder dividend tax is, dus weer erbij -->
+    <span>
     {{
       Intl.NumberFormat("nl-nl", {
         style: "currency",
         currency: dividend.localCurrency,
       }).format(dividend.localTotal - dividend.dividendTax)
     }}
+    </span>
+    <br />
+    <span class="secondary" v-if="dividend.localCurrency !== 'EUR'">
+      <!-- calculates exchange rate  -->
+       {{
+        Intl.NumberFormat("nl-nl", {
+          style: "currency",
+          currency: dividend.currency,
+        }).format(dividend.total - (dividend.dividendTax / (dividend.localTotal / dividend.total)))
+      }}
+    </span>
   </td>
  
-  <td class="number" v-if="dividend.total !== 0">
+  <td class="number" v-if="dividend.total !== 0 && dividend.dividendTax !== 0">
     <span :class="{ buyGreenNumber: isBuy, sellRedNumber: !isBuy }">
       {{
         Intl.NumberFormat("nl-nl", {
@@ -58,7 +71,7 @@
       }}
     </span>
   </td>
-  <td class="number" v-if="dividend.total === 0"> </td>
+  <td class="number" v-if="dividend.total === 0 || dividend.dividendTax === 0"> </td>
 </template>
 <script>
 export default {

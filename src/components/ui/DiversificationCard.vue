@@ -27,6 +27,7 @@
           class="listSection__item"
         >
           <DiversificationListItem
+            :listItemNrType="listItemNrType"
             :name="item"
             :index="index"
             :amount="diversificationChartData.datasets[0].data[index]"
@@ -146,6 +147,9 @@ export default {
     showBtn: {
       default: false,
     },
+    listItemNrType: {
+      type: String,
+    }
   },
   components: {
     Doughnut,
