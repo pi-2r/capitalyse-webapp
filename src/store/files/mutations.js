@@ -49,6 +49,7 @@ export default {
     },
     resetDataState(state) {
         state.portfolios = [];
+        state.analytics = [];
         state.currentPortfolio = null;
         state.uploadingState = null;
     },

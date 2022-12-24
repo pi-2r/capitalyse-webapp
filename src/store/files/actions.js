@@ -183,7 +183,7 @@ export default {
                     if (response.status === 401) {
                         this.dispatch('logout')
                     }
-                }
+                }   
                 return response.json()
             }).catch((e) => {
                     console.log(e);

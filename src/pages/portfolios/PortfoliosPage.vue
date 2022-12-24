@@ -12,10 +12,10 @@
         />
         <h1>Portfolios</h1>
       </section>
-      <Button class="addPortfolioBtn" @click="addPortfolio">
+      <Button class="addPortfolioBtn" mode="secondary" @click="addPortfolio">
         <Icon
           icon="fluent:add-square-multiple-16-filled"
-          color="var(--clr-white)"
+          color="var(--clr-blue)"
           height="20"
         />
         Add Portfolio
@@ -48,7 +48,7 @@
                   get started.
                 </p>
 
-                <Button class="addPortfolioBtn" @click="addPortfolio">
+                <Button class="addPortfolioBtn" mode="secondary" @click="addPortfolio">
                   <Icon
                     icon="fluent:add-square-multiple-16-filled"
                     height="18"
@@ -248,6 +248,7 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  background-color: rgba(0, 149, 255, 0.03);
   padding: var(--btn-small-padding);
   font-size: 1rem;
 }
