@@ -407,7 +407,9 @@ export default {
     },
     setLatestPortfolioId() {
       // to local storage
-      localStorage.setItem("lastPortfolioId", this.$route.params.id);
+      if(!this.isPublic) {
+        localStorage.setItem("lastPortfolioId", this.$route.params.id);
+      }
     },
   },
   created() {
