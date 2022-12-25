@@ -27,7 +27,7 @@
         <thead>
           <tr>
             <th>Portfolio</th>
-            <th class="alignRight">Date added</th>
+            <th class="alignRight">Last files upload</th>
             <th class="fileSize alignRight">Portfolio size</th>
             <th></th>
           </tr>

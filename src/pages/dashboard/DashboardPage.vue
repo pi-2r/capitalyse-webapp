@@ -33,11 +33,10 @@
 
       <section class="head__rightSection" v-if="!isPublic">
         <Tooltip height="25px" color="var(--clr-grey)" icon="ic:outline-info">
-          Uploaded on:
+          Last files upload:
           {{ portfolioInfo.addedAt ? portfolioInfo.addedAt : "--/--/--" }}
-          <br /><br />
-          We automatically update stock prices, dividends & recalibrate
-          diversification daily 2-3 hours after market close.
+          <br />
+          Stock prices, dividends & diversification get updated after market close.
         </Tooltip>
 
         <!-- <router-link :to="'/portfolios/' + this.$route.params.id + '/update'">
