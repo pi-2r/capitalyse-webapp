@@ -43,7 +43,6 @@ export default {
   },
   computed: {
     listItemNumber() {
-      console.log(this.listItemNrType);
       if (this.listItemNrType === "percent") {
         return Intl.NumberFormat("nl-nl", {
           style: "percent",

@@ -23,7 +23,7 @@ export default {
         message: {
             type: String,
             required: true,
-            default: 'No message provided',
+            default: '',
         },
         type: {
             type: String,
@@ -48,6 +48,12 @@ export default {
     background-color: var(--clr-light-blue);
     border: 2px solid var(--clr-blue);
     color: var(--clr-blue);
+}
+
+.warning {
+    background-color: var(--clr-white);
+    border: 2px solid orange;
+    color: orange;
 }
 
 .success {

@@ -32,16 +32,15 @@
       </section>
 
       <section class="head__rightSection" v-if="!isPublic">
-         
-          <Tooltip height="25px" color="var(--clr-grey)" icon="ic:outline-info">
-            Uploaded on:
-            {{ portfolioInfo.addedAt ? portfolioInfo.addedAt : "--/--/--" }}
-            <br /><br />
-            We automatically update stock prices, dividends & recalibrate
-            diversification daily 2-3 hours after market close.
-          </Tooltip>
+        <Tooltip height="25px" color="var(--clr-grey)" icon="ic:outline-info">
+          Uploaded on:
+          {{ portfolioInfo.addedAt ? portfolioInfo.addedAt : "--/--/--" }}
+          <br /><br />
+          We automatically update stock prices, dividends & recalibrate
+          diversification daily 2-3 hours after market close.
+        </Tooltip>
 
-          <!-- <router-link :to="'/portfolios/' + this.$route.params.id + '/update'">
+        <!-- <router-link :to="'/portfolios/' + this.$route.params.id + '/update'">
             <Tooltip
               height="25px"
               color="var(--clr-grey)"
@@ -51,23 +50,21 @@
             </Tooltip>
           </router-link> -->
 
-          <router-link
-            :to="'/portfolios/' + this.$route.params.id + '/update'">
-            <Icon
-              icon="material-symbols:add-circle-outline-rounded"
-              height="25"
-              class="head__rightSection-icon"
-            />
-          </router-link>
+        <router-link :to="'/portfolios/' + this.$route.params.id + '/update'">
+          <Icon
+            icon="material-symbols:add-circle-outline-rounded"
+            height="25"
+            class="head__rightSection-icon"
+          />
+        </router-link>
 
-          <router-link
-            :to="'/dashboard/' + this.$route.params.id + '/settings'">
-            <Icon
-              icon="ci:settings"
-              height="25"
-              class="head__rightSection-icon"
-            />
-          </router-link>
+        <router-link :to="'/dashboard/' + this.$route.params.id + '/settings'">
+          <Icon
+            icon="ci:settings"
+            height="25"
+            class="head__rightSection-icon"
+          />
+        </router-link>
       </section>
     </section>
 
@@ -139,15 +136,18 @@
         :showBtn="true"
         :isPublic="isPublic"
       />
+     
     </section>
 
     <Footer />
-    <!-- 
-    <NotificationBar type="info" message="">
 
-      Please consider <a class="u-link" target="_blank" href="https://capitalyse.app/plans">donating</a> to keep Capitalyse up and running!
-      
-    </NotificationBar> -->
+     <NotificationBar
+        type="warning"
+        v-if="homeAnalytics.unsupportedHoldingsAmount > 0"
+      >
+        {{homeAnalytics.unsupportedHoldingsAmount}} unsupported {{ homeAnalytics.unsupportedHoldingsAmount > 1 ? 'holdings' : 'holding' }} found. 
+        All unsupported holdings are excluded from calculations.
+      </NotificationBar>
   </section>
   <LoadingOverlay
     text="Loading analytics.. This might take a few seconds."
@@ -171,13 +171,13 @@ import PortfolioCards from "./components/PortfolioCards.vue";
 import HoldingsList from "./components/HoldingsList.vue";
 import RealisedHoldingsList from "./components/RealisedHoldingsList.vue";
 import Tooltip from "@/components/ui/Tooltip.vue";
-// import NotificationBar from "@/components/ui/NotificationBar.vue";
+import NotificationBar from "@/components/ui/NotificationBar.vue";
 // import TotalProfitLossChart from "./components/TotalProfitLossChart.vue";
 
 export default {
   name: "Dashboard",
   components: {
-    // NotificationBar,
+    NotificationBar,
     DividendChart,
     // TotalProfitLossChart,
     DiversificationCard,
@@ -228,6 +228,7 @@ export default {
         pieChartHoldings: null,
         startDate: null,
         portfolioNotFound: false,
+        hasAnyUnsupportedHoldings: false,
       },
     };
   },
@@ -318,7 +319,7 @@ export default {
     },
     // wanneer de route veranderd, laad opnieuw data in
     $route() {
-      if(this.$route.params.id === undefined) return;
+      if (this.$route.params.id === undefined) return;
 
       this.loadData();
     },
@@ -374,9 +375,10 @@ export default {
               portfolioId: this.$route.params.id,
             })
             .then(() => {
-              this.sendTo404IfNotExists()
+              this.sendTo404IfNotExists();
               this.isLoading = false;
-            }).catch(e => {
+            })
+            .catch((e) => {
               console.log(e);
             });
         }
@@ -392,7 +394,7 @@ export default {
               portfolioId: this.$route.params.pid,
             })
             .then(() => {
-              this.sendTo404IfNotExists()
+              this.sendTo404IfNotExists();
               this.isLoading = false;
             });
         }
@@ -400,7 +402,7 @@ export default {
     },
     sendTo404IfNotExists() {
       if (this.hasHomeAnalytics === false) {
-        this.$router.replace('/404');
+        this.$router.replace("/404");
       }
     },
     setLatestPortfolioId() {
@@ -411,7 +413,7 @@ export default {
   created() {
     this.isLoading = true;
     this.loadData();
-    this.setLatestPortfolioId()
+    this.setLatestPortfolioId();
   },
 };
 </script>
