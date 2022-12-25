@@ -145,8 +145,8 @@
         type="warning"
         v-if="homeAnalytics.unsupportedHoldingsAmount > 0"
       >
-        {{homeAnalytics.unsupportedHoldingsAmount}} unsupported {{ homeAnalytics.unsupportedHoldingsAmount > 1 ? 'holdings' : 'holding' }} found. 
-        All unsupported holdings are excluded from calculations.
+        {{homeAnalytics.unsupportedHoldingsAmount}} unsupported {{ homeAnalytics.unsupportedHoldingsAmount > 1 ? 'securities' : 'security' }} found. 
+        All unsupported securities are excluded from calculations.
       </NotificationBar>
   </section>
   <LoadingOverlay
