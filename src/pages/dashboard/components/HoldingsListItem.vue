@@ -1,7 +1,16 @@
 <template>
-  <td>
+  <td v-if="holding.error !== undefined">
+     <span class="cutText">
+        Unsupported holding
+    </span>
+    <br />
+    <span class="secondary">
+    {{ holding.isin }}
+    </span>
+  </td>
+  <td v-if="holding.error === undefined">
     <span class="holdingName cutText">
-        {{ holding.name }}
+        {{ holding.name }} 
         <Icon
           class="holdingName__icon"
           icon="fa6-solid:arrow-right"
@@ -14,11 +23,11 @@
     {{ holding.isin }}  &#183; {{ holding.exchange }} &#183; {{ holding.code}}  &#183; {{ holding.type }}
     </span>
   </td>
-  <td class="number">
+  <td class="number"  v-if="holding.error === undefined">
     {{ holding.count }}
   </td>
   
-  <td class="number">
+  <td class="number"  v-if="holding.error === undefined">
     <span>
       {{
         Intl.NumberFormat("nl-nl", {
@@ -37,7 +46,7 @@
       }}
     </span>
   </td>
-  <td class="number">
+  <td class="number"  v-if="holding.error === undefined">
     <span>
       {{
         Intl.NumberFormat("nl-nl", {
@@ -59,6 +68,7 @@
   <td
     class="number"
     :class="{ sellRedNumber: !isGain, buyGreenNumber: isGain }"
+     v-if="holding.error === undefined"
   >
     <span>
       {{
@@ -84,7 +94,7 @@
     </span>
   </td>
 
-  <td class="number">
+  <td class="number"  v-if="holding.error === undefined">
     <span :class="{ buyGreenNumber: hasDividend }">
       {{
         Intl.NumberFormat("nl-nl", {
@@ -95,7 +105,7 @@
     </span>
   </td>
 
-  <td class="number">
+  <td class="number"  v-if="holding.error === undefined">
     <span>
       {{
         Intl.NumberFormat("nl-nl", {

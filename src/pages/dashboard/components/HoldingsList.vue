@@ -24,7 +24,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr :key="holding.id" v-for="(holding, index) in holdingsList" class="tableRow"  @click="goToHoldingPage(holding.isin)">
+          <tr :key="holding.id" v-for="(holding, index) in holdingsList" class="tableRow"  @click="goToHoldingPage(holding.isin, holding.error)">
             <HoldingsListItem v-if="index < currentExpandAmount" :holding="holding" :isPublic="isPublic"/>
           </tr>
           <section v-if="holdingsList !== null">
@@ -88,8 +88,10 @@ export default {
     };
   },
   methods: {
-    goToHoldingPage(isin) {
-      let link
+    goToHoldingPage(isin, error) {
+      if(error === undefined) {
+
+        let link
       if (!this.isPublic) {
         link = `/dashboard/${this.$route.params.id}/holdings/${isin}`;
       } else {
@@ -97,6 +99,7 @@ export default {
       }
       
       this.$router.push(link);
+      }
     },
     handleScroll1() {
       if (this.scrolling) {
