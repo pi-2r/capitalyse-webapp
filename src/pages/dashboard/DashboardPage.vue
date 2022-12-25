@@ -401,8 +401,8 @@ export default {
       }
     },
     sendTo404IfNotExists() {
-      if (this.hasHomeAnalytics === false) {
-        this.$router.replace("/404");
+      if (this.hasHomeAnalytics === false && this.hasSharedHomeAnalytics === false) {
+        this.$router.push("/404");
       }
     },
     setLatestPortfolioId() {
