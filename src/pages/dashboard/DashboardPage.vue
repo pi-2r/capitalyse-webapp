@@ -393,16 +393,18 @@ export default {
               portfolioId: this.$route.params.pid,
             })
             .then(() => {
-              this.sendTo404IfNotExists();
-              this.isLoading = false;
+              setTimeout(() => {
+                this.sendTo404IfNotExists();
+                this.isLoading = false;
+              }, 1);
             });
         }
       }
     },
     sendTo404IfNotExists() {
-      if (this.hasHomeAnalytics === false && this.hasSharedHomeAnalytics === false) {
-        this.$router.push("/404");
-      }
+      // if (this.hasHomeAnalytics === false && this.hasSharedHomeAnalytics === false) {
+      //   this.$router.push("/404");
+      // }
     },
     setLatestPortfolioId() {
       // to local storage
