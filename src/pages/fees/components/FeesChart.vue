@@ -142,7 +142,18 @@
     <Card class="feesChartWrapper">
       <section class="feesChartHeading">
         <h2>
-          Fees <Tooltip v-if="showTooltip">{{ tooltipText }}</Tooltip>
+          Fees
+          <span class="selectedFiltersHeader" v-for="(filter, index) in filtersSelected" :key="filter">
+            <span v-if="index === 0">(</span>
+            <span class="selectedFilterHeader">
+              {{ filter }}
+            </span>
+            <span v-if="filtersSelected.length > 1 && index !== filtersSelected.length - 1">
+              ,
+            </span>
+            <span v-if="index === filtersSelected.length - 1">)</span>
+          </span> 
+          <Tooltip v-if="showTooltip">{{ tooltipText }}</Tooltip>
         </h2>
         <transition name="slide-fade" mode="out-in">
           <p :key="selectedTimeFrame">
@@ -266,6 +277,15 @@ export default {
     },
     isAnyFilterSelected() {
       return this.isShowingTransactionFees || this.isShowingExchangeFees || this.isShowingFTTFees || this.isShowingStampDutyFees || this.isShowingADRFees
+    },
+    filtersSelected() {
+      let filters = []
+      this.isShowingTransactionFees ? filters.push("Transaction fees") : null;
+      this.isShowingExchangeFees ? filters.push("Exchange fees") : null;
+      this.isShowingFTTFees ? filters.push("FTT fees") : null;
+      this.isShowingStampDutyFees ? filters.push("Stamp duty fees") : null;
+      this.isShowingADRFees ? filters.push("ADR/GDR fees") : null;
+      return filters
     },
     toLink() {
       if (this.isPublic === true) {
@@ -553,6 +573,17 @@ export default {
 </script>
 
 <style scoped>
+.selectedFiltersHeader {
+  margin-left: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.selectedFiltersHeader > * {
+  color: var(--clr-medium-light-grey-2);
+  font-size: 0.8rem;
+}
+
 .filterAmountSelected {
   min-width: 18px;
   line-height: 18px;
