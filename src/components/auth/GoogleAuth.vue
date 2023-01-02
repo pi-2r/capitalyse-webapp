@@ -58,7 +58,6 @@ export default {
             result: result,
           });
         } else {
-          console.log(result);
           this.isLoading = false;
         }
       })

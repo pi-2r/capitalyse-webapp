@@ -11,7 +11,7 @@
 
           <p class="subTitle">Please choose your preferred sign up method.</p>
 
-          <GoogleAuth btnText="Sign up with Google"/>
+          <GoogleAuth btnText="Sign up with Google" />
 
           <p class="textWithLine"><span class="line">or</span></p>
 
@@ -66,9 +66,23 @@
               />
             </section>
 
+            <!-- accept terms and conditions  -->
+            <section class="acceptTermsAndConditions">
+            
+                By signing up you accept our
+               
+                <a
+                  href="https://capitalyse.app/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >privacy policy</a
+                >
+          
+            </section>
+
             <Button class="button">
               <section v-if="isLoading">
-                <Spinner class="spinner" :btnSpinner="true"/>
+                <Spinner class="spinner" :btnSpinner="true" />
               </section>
               <span v-else>Sign up</span>
             </Button>
@@ -78,13 +92,12 @@
                 Log in
               </router-link>
             </span>
-
           </form>
         </section>
       </section>
     </section>
     <AuthImageSection underlinedText="freedom" imgName="login-bg.webp">
-      Less finance, more 
+      Less finance, more
     </AuthImageSection>
   </section>
 </template>
@@ -92,7 +105,7 @@
 <script>
 import AuthImageSection from "@/components/auth/AuthImageSection.vue";
 
-import GoogleAuth from '@/components/auth/GoogleAuth.vue';
+import GoogleAuth from "@/components/auth/GoogleAuth.vue";
 import Logo from "@/components/ui/Logo.vue";
 // import BackButton from '@/components/ui/BackButton.vue';
 
@@ -217,9 +230,11 @@ export default {
       this.repeatPasswordErrorMessage = "";
     },
     setErrorMessage(error) {
-      if (error.includes("auth/email-already-in-use") 
-      || error.includes("auth/email-already-exists")
-      || error.includes('internal-error')) {
+      if (
+        error.includes("auth/email-already-in-use") ||
+        error.includes("auth/email-already-exists") ||
+        error.includes("internal-error")
+      ) {
         this.emailErrorMsg = "E-mail already in use";
         this.emailFormControl = "invalid";
       } else if (error.includes("auth/weak-password")) {
@@ -232,6 +247,7 @@ export default {
 </script>
 
 <style scoped>
+
 .toOtherAuth {
   font-size: 0.9rem;
   color: var(--clr-grey);
@@ -244,18 +260,18 @@ export default {
   margin-bottom: 2rem;
 }
 .textWithLine {
-  width: 100%; 
-   text-align: center; 
-   border-bottom: 1px solid var(--clr-medium-light-grey); 
-   line-height: 0.1em;
-   margin: 10px 0 20px;
-   color: var(--clr-grey); 
-   margin-bottom: 2.5rem;
-   margin-top: 2.5rem;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid var(--clr-medium-light-grey);
+  line-height: 0.1em;
+  margin: 10px 0 20px;
+  color: var(--clr-grey);
+  margin-bottom: 2.5rem;
+  margin-top: 2.5rem;
 }
 .line {
-  background:var(--clr-white); 
-  padding:0 10px;
+  background: var(--clr-white);
+  padding: 0 10px;
 }
 
 .linkToMainSite {
@@ -369,7 +385,7 @@ select:-webkit-autofill:focus {
 /* input[type="password"]:-webkit-autofill, */
 /* input[type="password"]:-webkit-autofill:hover, */
 /* input[type="password"]:-webkit-autofill:focus { */
-  /* letter-spacing: 0.25rem; */
+/* letter-spacing: 0.25rem; */
 /* } */
 
 .contentWrapper {
@@ -379,7 +395,6 @@ select:-webkit-autofill:focus {
   align-items: center;
   height: 100vh;
   overflow-y: scroll;
-
 }
 
 .invalid {
@@ -421,7 +436,19 @@ label {
   margin-bottom: 0.15rem;
 }
 
-input {
+.acceptTermsAndConditions {
+  color: var(--clr-grey) !important;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+a {
+  text-decoration: none;
+  color: var(--clr-blue);
+}
+
+input[type="email"], input[type="password"] {
   font-size: 16px;
   padding: 1rem;
   background-color: var(--clr-white);
