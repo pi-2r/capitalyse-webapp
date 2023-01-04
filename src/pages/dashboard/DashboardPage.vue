@@ -119,9 +119,14 @@
           :isPublic="isPublic"
           :totalDeposits="homeAnalytics.totalDeposits"
         />
-        <TransFeesCard
+        <ResultCard
+          title="Total fees"
           :isPublic="isPublic"
-          :totalTransactionFees="homeAnalytics.totalTransactionFees"
+          :showTooltip="true"
+          tooltipText="Sum of transaction fees, exchange connection fees, stamp duty fees, FTT fees & ADR/GDR fees."
+          :withBtn="true"
+          btnText="Fees details"
+          :resultValue="homeAnalytics.totalFees"
         />
         <TradeCountCard
           :isPublic="isPublic"
@@ -159,7 +164,7 @@ import { Icon } from "@iconify/vue";
 
 import Header from "@/components/layout/Header.vue";
 import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
-import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
+// import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
 // import BackButton from "@/components/ui/BackButton.vue";
 import DiversificationCard from "@/components/ui/DiversificationCard.vue";
 import DividendChart from "@/components/ui/DividendChart.vue";
@@ -171,6 +176,7 @@ import HoldingsList from "./components/HoldingsList.vue";
 import RealisedHoldingsList from "./components/RealisedHoldingsList.vue";
 import Tooltip from "@/components/ui/Tooltip.vue";
 import NotificationBar from "@/components/ui/NotificationBar.vue";
+import ResultCard from "@/components/dashboard/ResultCard.vue"
 // import TotalProfitLossChart from "./components/TotalProfitLossChart.vue";
 
 export default {
@@ -184,7 +190,8 @@ export default {
     RealisedHoldingsList,
     DepositsCard,
     TradeCountCard,
-    TransFeesCard,
+    // TransFeesCard,
+    ResultCard,
     Header,
     Breadcrumbs,
     // BackButton,
@@ -217,7 +224,7 @@ export default {
         totalBalance: 0,
         totalCash: 0,
         totalTradeCount: 0,
-        totalTransactionFees: 0,
+        totalFees: 0,
         chartDividends: null,
         holdingsList: {
           holdings: [],
