@@ -125,6 +125,9 @@
           :showTooltip="true"
           tooltipText="Sum of transaction fees, exchange connection fees, stamp duty fees, FTT fees & ADR/GDR fees."
           :withBtn="true"
+          :to="
+          isPublic === true ? '/shared/' + this.$route.params.uid + '/' + this.$route.params.pid + '/fees' :
+          '/dashboard/' + this.$route.params.id + '/fees'"
           btnText="Fees details"
           :resultValue="homeAnalytics.totalFees"
         />

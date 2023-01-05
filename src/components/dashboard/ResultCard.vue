@@ -69,6 +69,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isPublic: {
+      type: Boolean,
+      default: false,
+    },
     title: {
       type: String,
       default: "Title",
@@ -80,6 +84,10 @@ export default {
       type: String,
     },
     to: {
+      type: String,
+      default: "/",
+    },
+    toPublic: {
       type: String,
       default: "/",
     },
