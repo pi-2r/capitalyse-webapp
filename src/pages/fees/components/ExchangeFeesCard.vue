@@ -2,7 +2,7 @@
   <ResultCard
     :showTooltip="true"
     tooltipText="Total amount paid in DEGIRO exchange connection fees."
-    title="Exchange fees"
+    title="Exchange connection fees"
     :resultValue="totalExchangeFees"
     :withBtn="false"
   />

@@ -67,6 +67,8 @@
         :withBtn="false"
       />
     </section>
+
+    <FeesList :feesList="feesAnalytics.feesList"/>
   </section>
 
   <section v-else>
@@ -80,13 +82,14 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs.vue";
 import Header from "@/components/layout/Header.vue";
 import TransFeesCard from "@/components/dashboard/TransFeesCard.vue";
 import BackButton from "@/components/ui/BackButton.vue";
-
+import FeesList from './components/FeesList.vue'
 import ExchangeFeesCard from "./components/ExchangeFeesCard.vue";
 import FeesChart from "./components/FeesChart.vue";
 
 export default {
   components: {
     Breadcrumbs,
+    FeesList,
     ResultCard,
     Header,
     BackButton,
@@ -106,6 +109,7 @@ export default {
       feesAnalytics: {
         totalExchangeFees: 0,
         totalTransactionFees: 0,
+        feesList: [],
         chartFees: [],
       },
       portfolioInfo: {
