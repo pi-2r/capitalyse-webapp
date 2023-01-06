@@ -438,7 +438,7 @@ label {
 
 .acceptTermsAndConditions {
   color: var(--clr-grey) !important;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
