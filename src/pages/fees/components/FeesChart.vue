@@ -4,6 +4,22 @@
     <section class="timeFrame" v-if="!hideTimeFrameBtns">
       <!-- radios -->
       <section class="timeFrame__buttons">
+         <button
+          @click="timeFrameChange"
+          :class="{
+            btnActive: selectedTimeFrame == timeFrameOptions.twoYearsAgo,
+          }"
+          class="timeFrame__btn"
+        >
+          {{ timeFrameOptions.twoYearsAgo }}
+        </button>
+        <button
+          @click="timeFrameChange"
+          :class="{ btnActive: selectedTimeFrame == timeFrameOptions.lastYear }"
+          class="timeFrame__btn"
+        >
+          {{ timeFrameOptions.lastYear }}
+        </button>
         <button
           @click="timeFrameChange"
           :class="{
@@ -258,6 +274,8 @@ export default {
         oneYear: "1Y",
         threeYears: "3Y",
         fiveYears: "5Y",
+        lastYear: String(new Date().getFullYear() - 1),
+        twoYearsAgo: String(new Date().getFullYear() - 2),
       },
       chartData: {
         labels: [],
@@ -517,6 +535,10 @@ export default {
         this.setYears(3);
       } else if (this.selectedTimeFrame === this.timeFrameOptions.fiveYears) {
         this.setYears(5);
+      } else if (this.selectedTimeFrame === this.timeFrameOptions.lastYear) {
+        this.setYear(this.timeFrameOptions.lastYear);
+      } else if (this.selectedTimeFrame === this.timeFrameOptions.twoYearsAgo) {
+        this.setYear(this.timeFrameOptions.twoYearsAgo);
       }
     },
     setYearToDate() {
@@ -553,6 +575,21 @@ export default {
           let labelDate = new Date(labelYear, labelMonth - 1);
 
           if (labelDate < yearAgo || labelDate < yearAgo + 1) {
+            this.feesArray[i].fees.splice(j, 1);
+            this.feesArray[i].datesList.splice(j, 1);
+            this.feesArray[i].feesList.splice(j, 1);
+            j--;
+          }
+        }
+      }
+    },
+    setYear(year) {
+      // delete all months before year
+      for (let i = 0; i < this.feesArray.length; i++) {
+        for (let j = 0; j < this.feesArray[i].fees.length; j++) {
+          let feeYear = this.feesArray[i].datesList[j].split("-")[1];
+          
+          if (feeYear !== year) {
             this.feesArray[i].fees.splice(j, 1);
             this.feesArray[i].datesList.splice(j, 1);
             this.feesArray[i].feesList.splice(j, 1);

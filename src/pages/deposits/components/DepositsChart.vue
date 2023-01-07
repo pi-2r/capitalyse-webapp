@@ -4,7 +4,22 @@
     <section class="timeFrame">
       <!-- radios -->
       <section class="timeFrame__buttons">
-      
+        <button
+          @click="timeFrameChange"
+          :class="{
+            btnActive: selectedTimeFrame == timeFrameOptions.twoYearsAgo,
+          }"
+          class="timeFrame__btn"
+        >
+          {{ timeFrameOptions.twoYearsAgo }}
+        </button>
+        <button
+          @click="timeFrameChange"
+          :class="{ btnActive: selectedTimeFrame == timeFrameOptions.lastYear }"
+          class="timeFrame__btn"
+        >
+          {{ timeFrameOptions.lastYear }}
+        </button>
         <button
           @click="timeFrameChange"
           :class="{
@@ -39,7 +54,7 @@
         >
           {{ timeFrameOptions.fiveYears }}
         </button>
-          <button
+        <button
           @click="timeFrameChange"
           :class="{ btnActive: selectedTimeFrame == timeFrameOptions.allTime }"
           class="timeFrame__btn"
@@ -60,7 +75,7 @@
               >{{
                 Intl.NumberFormat("nl-nl", {
                   style: "currency",
-                  currency: 'EUR',
+                  currency: "EUR",
                 }).format(totalDeposits)
               }}
             </span>
@@ -69,8 +84,8 @@
               {{
                 Intl.NumberFormat("nl-nl", {
                   style: "currency",
-                  currency: 'EUR',
-                }).format(averageDepositsPerMonth * 30.44) 
+                  currency: "EUR",
+                }).format(averageDepositsPerMonth * 30.44)
               }}/mo</span
             >
             <!-- average days in month 30.44 -->
@@ -133,6 +148,8 @@ export default {
         oneYear: "1Y",
         threeYears: "3Y",
         fiveYears: "5Y",
+        lastYear: String(new Date().getFullYear() - 1),
+        twoYearsAgo: String(new Date().getFullYear() - 2),
       },
       chartData: {
         labels: [],
@@ -175,11 +192,11 @@ export default {
             this.chartData.datasets[0].data[
               this.chartData.datasets[0].data.length - 1
             ] - this.chartDepositsProps.data[firstMonthIndex - 1]
-          );
+          ) || 0;
         } else {
           return this.chartData.datasets[0].data[
             this.chartData.datasets[0].data.length - 1
-          ];
+          ] || 0;
         }
       }
       return 0;
@@ -188,6 +205,8 @@ export default {
       if (this.chartDepositsProps != false) {
         let total = this.totalDeposits;
         let average = total / this.chartData.labels.length;
+
+        if(isNaN(average)) return 0;
         return average;
       }
       return 0;
@@ -261,6 +280,10 @@ export default {
         this.setYears(3);
       } else if (this.selectedTimeFrame === this.timeFrameOptions.fiveYears) {
         this.setYears(5);
+      } else if (this.selectedTimeFrame === this.timeFrameOptions.lastYear) {
+        this.setYear(this.timeFrameOptions.lastYear);
+      } else if (this.selectedTimeFrame === this.timeFrameOptions.twoYearsAgo) {
+        this.setYear(this.timeFrameOptions.twoYearsAgo);
       }
     },
     setYearToDate() {
@@ -310,6 +333,30 @@ export default {
           break loop1;
         }
       }
+    },
+    setYear(year) {
+      // big-O: 1n
+      beforeLoop: for (let i = 0; i < this.chartData.labels.length; i++) {
+        const chartDataYear = this.chartData.labels[i].split("-")[2];
+
+        if (chartDataYear == year) {
+          this.chartData.labels = this.chartData.labels.slice(i);
+          this.chartData.datasets[0].data =
+            this.chartData.datasets[0].data.slice(i);
+          break beforeLoop;
+        }
+      }
+
+      afterLoop: for (let j = 0; j < this.chartData.labels.length; j++) {
+        const chartDataYear2 = this.chartData.labels[j].split("-")[2];
+        if (chartDataYear2 > year) {
+          this.chartData.labels = this.chartData.labels.slice(0, j);
+          this.chartData.datasets[0].data =
+            this.chartData.datasets[0].data.slice(0, j);
+          break afterLoop;
+        }
+      }
+
     },
   },
   created() {

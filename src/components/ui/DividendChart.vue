@@ -6,6 +6,20 @@
       <!-- radios -->
       <section class="timeFrame__buttons">
        
+          <button
+          @click="timeFrameChange"
+          :class="{ btnActive: selectedTimeFrame == timeFrameOptions.twoYearsAgo }"
+          class="timeFrame__btn"
+        >
+          {{ timeFrameOptions.twoYearsAgo }}
+        </button>
+         <button
+          @click="timeFrameChange"
+          :class="{ btnActive: selectedTimeFrame == timeFrameOptions.lastYear }"
+          class="timeFrame__btn"
+        >
+          {{ timeFrameOptions.lastYear }}
+        </button>
         <button
           @click="timeFrameChange"
           :class="{
@@ -154,6 +168,8 @@ export default {
         oneYear: "1Y",
         threeYears: "3Y",
         fiveYears: "5Y",
+        lastYear: String(new Date().getFullYear() - 1),
+        twoYearsAgo: String(new Date().getFullYear() - 2),
       },
       chartData: {
         labels: [],
@@ -195,6 +211,7 @@ export default {
           2
         );
 
+        if (isNaN(average)) return 0;
         return average;
       } else {
         return 0;
@@ -363,6 +380,10 @@ export default {
         this.setYears(3);
       } else if (this.selectedTimeFrame === this.timeFrameOptions.fiveYears) {
         this.setYears(5);
+      } else if (this.selectedTimeFrame === this.timeFrameOptions.lastYear) {
+        this.setYear(this.timeFrameOptions.lastYear);
+      } else if (this.selectedTimeFrame === this.timeFrameOptions.twoYearsAgo) {
+        this.setYear(this.timeFrameOptions.twoYearsAgo);
       }
     },
     setYearToDate() {
@@ -407,6 +428,23 @@ export default {
         }
       }
     },
+    setYear(year) {
+      // delete all months before year
+      for (let i = 0; i < this.dividendsArray.length; i++) {
+        for (let j = 0; j < this.dividendsArray[i].dividend.length; j++) {
+          let dividendYear = parseFloat(
+            this.dividendsArray[i].dividend[j].date.split("-")[1]
+          );
+
+          if (dividendYear < year || dividendYear > year) {
+            this.dividendsArray[i].dividend.splice(j, 1);
+            this.dividendsArray[i].datesList.splice(j, 1);
+            this.dividendsArray[i].dividendsList.splice(j, 1);
+            j--;
+          }
+        }
+      }
+    },
   },
   created() {
     // laad data als deze al is gefetcht
@@ -419,6 +457,11 @@ export default {
 </script>
 
 <style scoped>
+.verticalButtonSeperationLine {
+  width: 0.1rem;
+  background-color: var(--clr-light-grey);
+  margin: 0rem 0.9rem 0rem 0.5rem;
+}
 .cardBtnArrow__dividendChart {
   margin-top: 0;
   width: 20rem;
