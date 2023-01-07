@@ -878,9 +878,6 @@ h2 {
   .cardBtnArrow__feesChart {
     width: 100%;
   }
-}
-
-@media screen and (max-width: 400px) {
   .timeFrame__buttons {
     overflow-x: scroll;
   }

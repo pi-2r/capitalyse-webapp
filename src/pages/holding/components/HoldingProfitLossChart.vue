@@ -7,6 +7,22 @@
         <button
           @click="timeFrameChange"
           :class="{
+            btnActive: selectedTimeFrame == timeFrameOptions.twoYearsAgo,
+          }"
+          class="timeFrame__btn"
+        >
+          {{ timeFrameOptions.twoYearsAgo }}
+        </button>
+        <button
+          @click="timeFrameChange"
+          :class="{ btnActive: selectedTimeFrame == timeFrameOptions.lastYear }"
+          class="timeFrame__btn"
+        >
+          {{ timeFrameOptions.lastYear }}
+        </button>
+        <button
+          @click="timeFrameChange"
+          :class="{
             btnActive: selectedTimeFrame == timeFrameOptions.yearToDate,
           }"
           class="timeFrame__btn"
@@ -167,6 +183,8 @@ export default {
         oneYear: "1Y",
         threeYears: "3Y",
         fiveYears: "5Y",
+        lastYear: String(new Date().getFullYear() - 1),
+        twoYearsAgo: String(new Date().getFullYear() - 2),
       },
       selectedChartType: "profitLoss",
       chartData: {
@@ -210,18 +228,26 @@ export default {
               return (
                 this.chartData.datasets[0].data[
                   this.chartData.datasets[0].data.length - 1
-                ] - this.chartGainProps.data[firstMonthIndex - 1]
+                ] - this.chartGainProps.data[firstMonthIndex - 1] || 0
               );
             } else {
-              return this.chartData.datasets[0].data[
-                this.chartData.datasets[0].data.length - 1
-              ];
+              return (
+                this.chartData.datasets[0].data[
+                  this.chartData.datasets[0].data.length - 1
+                ] || 0
+              );
             }
-          } else if (this.selectedChartType === "stockPrices" || this.selectedChartType === "stockCount" || this.selectedChartType === "value") {
-            return this.chartData.datasets[0].data[
-              this.chartData.datasets[0].data.length - 1
-            ];
-          } 
+          } else if (
+            this.selectedChartType === "stockPrices" ||
+            this.selectedChartType === "stockCount" ||
+            this.selectedChartType === "value"
+          ) {
+            return (
+              this.chartData.datasets[0].data[
+                this.chartData.datasets[0].data.length - 1
+              ] || 0
+            );
+          }
         } catch (e) {
           return 0;
         }
@@ -232,6 +258,7 @@ export default {
       if (this.chartGainProps != false) {
         let total = this.totalGain;
         let average = total / this.chartData.labels.length;
+        if (isNaN(average)) return 0;
         return average;
       }
       return 0;
@@ -376,6 +403,7 @@ export default {
       }
     },
     timeFrameDataUpdate() {
+      console.log(this.selectedTimeFrame);
       // timeframes other than All-time
       if (this.selectedTimeFrame === this.timeFrameOptions.yearToDate) {
         this.setYearToDate();
@@ -385,6 +413,10 @@ export default {
         this.setYears(3);
       } else if (this.selectedTimeFrame === this.timeFrameOptions.fiveYears) {
         this.setYears(5);
+      } else if (this.selectedTimeFrame === this.timeFrameOptions.lastYear) {
+        this.setYear(this.timeFrameOptions.lastYear);
+      } else if (this.selectedTimeFrame === this.timeFrameOptions.twoYearsAgo) {
+        this.setYear(this.timeFrameOptions.twoYearsAgo);
       }
     },
     setYearToDate() {
@@ -432,6 +464,30 @@ export default {
           this.chartData.datasets[0].data =
             this.chartData.datasets[0].data.slice(i);
           break loop1;
+        }
+      }
+    },
+    setYear(year) {
+      // delete all months before year
+      for (let i = 0; i < this.chartData.labels.length; i++) {
+        let dataYear = this.chartData.labels[i].split("-")[2];
+
+        if (dataYear == year) {
+          this.chartData.labels = this.chartData.labels.slice(i);
+          this.chartData.datasets[0].data =
+            this.chartData.datasets[0].data.slice(i);
+          break;
+        }
+      }
+
+      for (let i = 0; i < this.chartData.labels.length; i++) {
+        let dataYear = this.chartData.labels[i].split("-")[2];
+
+        if (dataYear != year) {
+          this.chartData.labels = this.chartData.labels.slice(0, i);
+          this.chartData.datasets[0].data =
+            this.chartData.datasets[0].data.slice(0, i);
+          break;
         }
       }
     },
