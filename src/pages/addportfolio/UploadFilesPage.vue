@@ -1,8 +1,11 @@
 <template>
   <ConfirmModal v-if="showModal">
-    <h1>Warning</h1>
-    Make sure you've selected all events in DEGRIO by adjusting the start date.
-    The file you're trying to upload only has one month worth of data.
+    <h1>File warning</h1>
+    The file you are trying to upload only has <b>one month or less worth of data</b>.
+    Make sure you have selected all events in DEGRIO by <b>adjusting the start date</b>.
+    <br/><br>
+    If you you have been investing
+    for less than a month you can ignore this message.
     <Button class="modalButton" @click="showModal = false">OK</Button>
   </ConfirmModal>
   <Header />
@@ -573,14 +576,12 @@ export default {
 
         if (diffDays < 32) {
           // file too young
-          this.whichFileWasUploaded = "invalid";
           this.showModal = true;
-        } else {
-          this.whichFileWasUploaded = whichFile;
         }
-      } else {
-        this.whichFileWasUploaded = whichFile;
       }
+
+      this.whichFileWasUploaded = whichFile;
+ 
     },
     uploadFile(event) {
       this.checkFileValidity(event.target.files);
